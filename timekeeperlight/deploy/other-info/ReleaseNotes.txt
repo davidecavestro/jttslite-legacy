@@ -1,3 +1,6 @@
+2.5.2.1
+- BUG# 1910579 fixed
+
 2.5.2.0
 - Completed English version of help
 - Some cosmetic enhancements

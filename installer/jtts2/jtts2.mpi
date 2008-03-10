@@ -48,7 +48,7 @@ DefaultLanguage
 English
 
 Ext
-{}
+.exe
 
 ExtractSolidArchivesOnStartup
 No
@@ -66,7 +66,7 @@ InstallPassword
 {}
 
 InstallVersion
-2.5.2.0
+2.5.2.1
 
 Language,de
 Yes
@@ -160,7 +160,7 @@ UpgradeApplicationID
 {}
 
 Version
-2.5.2
+2.5.2.1
 
 ViewReadme
 Yes
@@ -244,6 +244,7 @@ File ::51C56B5A-BE2C-4A63-AE4F-0AD2A4825A70 -type dir -name CVS -active 0 -paren
 File ::9CC48A9B-8131-E6F5-7DB7-8B82D056277A -name Entries -parent 51C56B5A-BE2C-4A63-AE4F-0AD2A4825A70
 File ::A71B2B7D-3BCF-D6F7-B4B1-753D98F42ECE -name Repository -parent 51C56B5A-BE2C-4A63-AE4F-0AD2A4825A70
 File ::A2C5E147-5DBB-3470-FE19-6E95FE2D93A0 -name Root -parent 51C56B5A-BE2C-4A63-AE4F-0AD2A4825A70
+File ::36362DA8-CC13-B421-53C2-ABD729CC225E -name .LCKReleaseNotes.txt~ -active 0 -parent E95933A5-3127-F7B8-E228-0DB29E67A819
 File ::E89E9A26-C014-4250-6D33-A5238D0F223E -name /home/davide/devel/jtts2/timekeeperlight/deploy/other-info/README.txt -parent F96500F4-F736-69E5-40A4-4F828D0D1F5E
 File ::69506496-E9C9-D53E-9116-B9D2D8D30EEA -name /home/davide/devel/jtts2/timekeeperlight/deploy/license-contents/license/LICENSE.txt -parent F96500F4-F736-69E5-40A4-4F828D0D1F5E
 File ::0DE86119-9665-E1D8-6932-8D85ECA4869C -type dir -name /home/davide/devel/jtts2/timekeeperlight/deploy/icons -parent F96500F4-F736-69E5-40A4-4F828D0D1F5E
@@ -1587,7 +1588,7 @@ F96500F4-F736-69E5-40A4-4F828D0D1F5E,Name
 {Program Files}
 
 F96500F4-F736-69E5-40A4-4F828D0D1F5E,Size
-12303262
+11913676
 
 FB6532FF-A351-580D-17AC-441965E21296,BackButton,subst
 1

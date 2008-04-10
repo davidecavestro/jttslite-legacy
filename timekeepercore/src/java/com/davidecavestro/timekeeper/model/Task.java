@@ -97,6 +97,20 @@ public interface Task {
 	void setName (String n);
 	
 	/**
+	 * Ritorna la descrizione di questo nodo.
+	 *
+	 * @return la descrizione.
+	 */
+	String getDescription ();
+	
+	/**
+	 * Cambia la descrizione di questo nodo.
+	 * @param d la nuova descrizione.
+	 */
+	void setDescription (String d);
+	
+	
+	/**
 	 * Ritorna il numero di figli di questo nodo.
 	 *
 	 * @return il numero dei figli.
@@ -162,8 +176,6 @@ public interface Task {
 //	void restore (TaskBackup t);
 
 	String getCode ();
-
-	String getDescription ();
 
 	String getNotes ();
 	

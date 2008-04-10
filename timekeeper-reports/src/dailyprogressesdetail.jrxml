@@ -47,6 +47,7 @@
 	<field name="progressEffort" class="java.lang.Long"/>
 	<field name="periodStart" class="java.sql.Timestamp"/>
 	<field name="progressDescription" class="java.lang.String"/>
+	<field name="taskDescription" class="java.lang.String"/>
 
 	<sortField name="periodID" />
 	<sortField name="taskName" />
@@ -118,14 +119,14 @@
 		<group  name="taskID" >
 			<groupExpression><![CDATA[$F{taskID}]]></groupExpression>
 			<groupHeader>
-			<band height="52"  isSplitAllowed="false" >
+			<band height="62"  isSplitAllowed="false" >
 				<rectangle>
 					<reportElement
 						mode="Opaque"
 						x="0"
 						y="0"
 						width="535"
-						height="52"
+						height="62"
 						forecolor="#8080FF"
 						backcolor="#CFC8F0"
 						key="rectangle"/>
@@ -135,7 +136,7 @@
 					<reportElement
 						mode="Transparent"
 						x="0"
-						y="20"
+						y="13"
 						width="429"
 						height="19"
 						forecolor="#000000"
@@ -169,7 +170,7 @@
 						x="0"
 						y="0"
 						width="429"
-						height="17"
+						height="14"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="textField-5"/>
@@ -182,7 +183,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="337"
-						y="40"
+						y="50"
 						width="33"
 						height="12"
 						forecolor="#000000"
@@ -198,7 +199,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="399"
-						y="40"
+						y="50"
 						width="33"
 						height="12"
 						forecolor="#000000"
@@ -214,7 +215,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="190"
-						y="39"
+						y="49"
 						width="33"
 						height="12"
 						forecolor="#000000"
@@ -230,7 +231,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="318"
-						y="42"
+						y="52"
 						width="0"
 						height="10"
 						key="line-4"/>
@@ -239,7 +240,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="382"
-						y="42"
+						y="52"
 						width="0"
 						height="10"
 						key="line-5"/>
@@ -248,12 +249,28 @@
 				<line direction="TopDown">
 					<reportElement
 						x="446"
-						y="42"
+						y="52"
 						width="0"
 						height="10"
 						key="line-6"/>
 					<graphicElement stretchType="NoStretch"/>
 				</line>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Transparent"
+						x="1"
+						y="33"
+						width="429"
+						height="14"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-12"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font pdfFontName="Helvetica" size="11" isBold="false" isItalic="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{taskDescription}]]></textFieldExpression>
+				</textField>
 			</band>
 			</groupHeader>
 			<groupFooter>

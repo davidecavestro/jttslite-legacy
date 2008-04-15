@@ -18,6 +18,7 @@ import javax.swing.event.EventListenerList;
 
 /**
  * Azione di trasferimento dati (da usare per i widget di cut/copy&paste).
+ * E' possibile usarla anche per utilizzare un'azione diversa in funzione di altre variabili (costruttore con nome).
  *
  * @author Davide Cavestro
  */

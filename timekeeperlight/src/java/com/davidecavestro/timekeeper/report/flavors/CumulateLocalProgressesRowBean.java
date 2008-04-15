@@ -317,6 +317,27 @@ public class CumulateLocalProgressesRowBean extends Object implements Serializab
 		this.progressDescription = progressDescription;
 	}
 
+	/**
+	 * Holds value of property taskDescription.
+	 */
+	private String taskDescription;
+
+	/**
+	 * Getter for property taskDescription.
+	 * @return Value of property taskDescription.
+	 */
+	public String getTaskDescription () {
+		return this.taskDescription;
+	}
+
+	/**
+	 * Setter for property taskDescription.
+	 * @param taskDescription New value of property taskDescription.
+	 */
+	public void setTaskDescription (String taskDescription) {
+		this.taskDescription = taskDescription;
+	}
+
 
 	
 }

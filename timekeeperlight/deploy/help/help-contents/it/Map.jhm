@@ -92,6 +92,8 @@
 
 <mapID target="html.userinterface_Finestra Principale|outline" url="html/userinterface.html#Finestra Principale|outline"/>
 
+<mapID target="html.task_edit_task_properties" url="html/task.html#edit_task_properties"/>
+
 <mapID target="images.popup" url="images/popup.gif"/>
 
 <mapID target="html.images.statusbar" url="html/images/statusbar.gif"/>

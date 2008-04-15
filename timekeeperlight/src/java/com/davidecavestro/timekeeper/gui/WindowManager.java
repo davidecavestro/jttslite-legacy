@@ -203,6 +203,20 @@ public class WindowManager implements ActionListener, DialogListener {
 		return this._optionsDialog;
 	}
 	
+	private TaskEditDialog _taskEditDialog;	
+	/**
+	 * Ritorna la dialog di modifica task.
+	 * 
+	 * @return la dialog di modifica task.
+	 */
+	public TaskEditDialog showTaskEditDialog (final Task t){
+		if (_taskEditDialog==null){
+			_taskEditDialog = new TaskEditDialog (_context);
+		}
+		_taskEditDialog.show (t);
+		return _taskEditDialog;
+	}
+	
 	public void dialogChanged (com.davidecavestro.common.gui.dialog.DialogEvent e) {
 		if (e.getSource ()==this._mewTaskDialog){
 			if (e.getType ()==JOptionPane.OK_OPTION){
@@ -236,6 +250,7 @@ public class WindowManager implements ActionListener, DialogListener {
 			
 		} else if (e.getSource ()==_startPOWDialog){
 			if (e.getType ()==JOptionPane.OK_OPTION){
+				getMainWindow ().stopAdvancing ();
 				_context.getLogger ().debug (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Starting_new_action..."));
 				final ProgressItem t = (ProgressItem)_startPOWDialog.getTask ();
 				final Progress p = new Progress (

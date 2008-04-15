@@ -1,7 +1,7 @@
 /*
- * CumulateLocalProgresses.java
+ * TaskListExtractor.java
  *
- * Created on 04 aprile 2005, 19.45
+ * Created on 25 marzo 2008, 19.41
  */
 
 package com.davidecavestro.timekeeper.report.flavors;
@@ -24,11 +24,11 @@ import java.text.DecimalFormat;
 import java.util.*;
 
 /**
- * Estrae i deti per il report degli avanzamenti cumulati locali al nodo radice ed al sottoalbero.
+ * Estrae i deti per il report "lista attivit&agrave;".
  *
  * @author  davide
  */
-public final class CumulateLocalProgresses extends AbstractDataExtractor {
+public final class TaskListExtractor extends AbstractDataExtractor {
 	/**
 	 * Identificatore dell'attributo <TT>FROM</TT> in qualita' di obiettivo di un filtro.
 	 */
@@ -66,7 +66,7 @@ public final class CumulateLocalProgresses extends AbstractDataExtractor {
 	 * @param filters i filtri da applicare.
 	 * @param subtreeRoot la radice del sottoalbero di interesse per il report.
 	 */
-	public CumulateLocalProgresses (final ApplicationContext context, final Task subtreeRoot, final TargetedFilterContainer[] filters, final Date date, final int periodLength, final int periodCount) {
+	public TaskListExtractor (final ApplicationContext context, final Task subtreeRoot, final TargetedFilterContainer[] filters, final Date date, final int periodLength, final int periodCount) {
 		super (filters);
 		this._subtreeRoot = subtreeRoot;
 		this._date=date;
@@ -111,22 +111,9 @@ public final class CumulateLocalProgresses extends AbstractDataExtractor {
 		now.add (Calendar.DAY_OF_YEAR, 1*_periodLength*_periodCount);
 		final Date periodFinishDate = new Date (now.getTime ().getTime ());
 		
-		final TimeCumulationScale map = new TimeCumulationScale (periodStartDate, periodFinishDate, _periodLength);
+		final CumulationPeriod cumulationPeriod = new CumulationPeriod (periodStartDate, periodFinishDate);
 		
-		//		Date currentPeriodStartDate = periodStartDate;
-		//		Calendar c = new GregorianCalendar ();
-		//		c.set (Calendar.HOUR_OF_DAY, 0);
-		//		c.set (Calendar.MINUTE, 0);
-		//		c.set (Calendar.SECOND, 0);
-		//		c.set (Calendar.MILLISECOND, 0);
-		
-		//		final int step = 1;
-		//		c.roll (Calendar.DATE, step);
-		//		Date currentPeriodFInishDate = new Date (c.getTime ().getTime ());
-		
-		//		CumulationPeriod currentCumulationPeriod;
 		final Task root = this._subtreeRoot;
-		//		boolean jumpToNextPeriod = false;
 		
 		for (final Iterator it = root.getSubtreeProgresses ().iterator ();it.hasNext ();){
 			final Progress progress = (Progress)it.next ();
@@ -134,44 +121,15 @@ public final class CumulateLocalProgresses extends AbstractDataExtractor {
 			if (match (PROGRESS_FROM, progress.getFrom ()) 
 				&& match (PROGRESS_TO, progress.getTo ())){
 				/* filtri superati */
-				map.addDuration (progress);
+				cumulationPeriod.computeProgress (progress);
 			}
 		}
 		
-		final Collection<CumulateLocalProgressesRowBean> data = new ArrayList<CumulateLocalProgressesRowBean> ();
+		final Collection<TaskListRowBean> data = new ArrayList<TaskListRowBean> ();
 		
 		
 		
-		final IdentificatorAssigner ia = new IdentificatorAssigner ();
-//		try {
-//		final CsvWriter csvw = new CsvWriter ("/tmp/prova.csv");
-//		csvw.setDelimiter (';');
-//			csvw.writeRecord (
-//				new String[] {
-//				"periodID",
-//				"periodName",
-//				"periodStart",
-//				"periodTotalEffort",
-//				"progressDescription",
-//				"progressEffort",
-//				"progressEnd",
-//				"progressNotes",
-//				"progressStart",
-//				"taskHierarchy",
-//				"taskID",
-//				"taskName",
-//				"taskTotalEffort"
-//				}
-//				);
-		/*
-		 *
-		 * per ogni peridodo
-		 */
-		for (final Iterator<CumulationPeriod> periodIterator = map.iterateCumulationPeriod ();periodIterator.hasNext ();){
-			final CumulationPeriod cumulationPeriod = periodIterator.next ();
 			
-			
-			final int periodID = ia.assignPeriodID ();
 			final String periodName = CalendarUtils.getTimestamp (cumulationPeriod.getFrom (), java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("date_format_short"));
 			
 //			System.out.println ("processing period "+periodName);
@@ -179,22 +137,9 @@ public final class CumulateLocalProgresses extends AbstractDataExtractor {
 			final Timestamp periodStart = new Timestamp (cumulationPeriod.getFrom ().getTime ());
 //			final String periodName = CalendarUtils.getTimestamp (cumulationPeriod.getFrom (), "MM/dd");
 
-			double periodDuration = 0;
-			/* 
-			 * qui si duplica l'iterazione per calcolare la durata del periodo (abbstanza osceno, pardon)
-			 * @todo ottimizzare
-			 */
 			for (final Iterator<Task> nodeIterator = cumulationPeriod.iterateProgressItems ();nodeIterator.hasNext ();){
 				final Task progressItem = nodeIterator.next ();
 				final NodeProgresses detail = cumulationPeriod.getDetail (progressItem);
-				periodDuration += detail.getDuration ();
-			}
-			final long periodTotalEffort = (long)periodDuration;
-			
-			for (final Iterator<Task> nodeIterator = cumulationPeriod.iterateProgressItems ();nodeIterator.hasNext ();){
-				final Task progressItem = nodeIterator.next ();
-				final NodeProgresses detail = cumulationPeriod.getDetail (progressItem);
-				final double duration = detail.getDuration ();
 				
 //			System.out.println ("processing task "+progressItem.getName ());
 
@@ -202,7 +147,6 @@ public final class CumulateLocalProgresses extends AbstractDataExtractor {
 				
 				final String taskName = progressItem.getName ();
 				final String taskDescription = progressItem.getDescription ();
-				final int taskID = ia.getTaskID (progressItem);
 				
 				/* Gerarchia */
 				final StringBuffer hierarchyData = new StringBuffer ();
@@ -214,70 +158,40 @@ public final class CumulateLocalProgresses extends AbstractDataExtractor {
 					if (code!=null && code.length ()>0){
 						ancestorData.append (code).append (" - ");
 					}
-					ancestorData.append (parent.getName ()).append (" ");
+					ancestorData.append (parent.getName ());
 					hierarchyData.insert (0, ancestorData);
 					parent = parent.getParent ();
 				}
 
 				final String taskHierarchy = hierarchyData.toString ();
 				
+				final TaskListRowBean row = new TaskListRowBean ();
+
+				data.add (row);
+
+				row.setDuration (taskTotalEffort);
+
+				row.setTaskHierarchy (taskHierarchy);
+				row.setTaskName (taskName);
+				row.setTaskDescription (taskName);
+					
 				for (final Iterator<CumulationPeriodNodeProgress> detailIterator = detail.iterateProgresses ();detailIterator.hasNext ();){
 					final CumulationPeriodNodeProgress nodeProgress = detailIterator.next ();
 					final Progress progress = nodeProgress.getProgress ();
 
 					final LocalizedPeriod periodOfInterest = nodeProgress.getPeriodOfInterest ();
 					
-					final CumulateLocalProgressesRowBean row = new CumulateLocalProgressesRowBean ();
-
-					data.add (row);
 					
-					row.setProgressStart (new Timestamp (periodOfInterest.getFrom ().getTime ()));
-					row.setProgressEnd (new Timestamp (periodOfInterest.getTo ().getTime ()));
+					if (progress.getDescription ()!=null && progress.getDescription ().length ()>0) {
+						row.setActionsNotes ((row.getActionsNotes ()!=null?row.getActionsNotes () + "\n":"") + progress.getDescription ());
+					}
 					
-					row.setProgressEffort (periodOfInterest.getDuration ().getTime ());
-					row.setProgressDescription (progress.getDescription ());
-					row.setProgressNotes (progress.getNotes ());
-					
-//					System.out.println ("processing progress "+progress);
-					
-					row.setPeriodID (periodID);
-					
-					row.setTaskHierarchy (taskHierarchy);
-					row.setTaskName (taskName);
-					row.setTaskDescription (taskDescription);
-					row.setTaskTotalEffort (taskTotalEffort);
-					row.setPeriodTotalEffort (periodTotalEffort);
-					row.setPeriodStart (periodStart);
-					row.setPeriodName (periodName);
-					row.setTaskID (taskID);
-					
-//					csvw.writeRecord (
-//						new String[] {
-//						Integer.toString (row.getPeriodID ()),
-//						row.getPeriodName (),
-//						row.getPeriodStart ()!=null?row.getPeriodStart ().toString ():null,
-//						row.getPeriodTotalEffort ()!=null?row.getPeriodTotalEffort ().toString ():null,
-//						row.getProgressDescription (),
-//						row.getProgressEffort ()!=null?row.getProgressEffort ().toString ():null,
-//						row.getProgressEnd ()!=null?row.getProgressEnd ().toString ():null,
-//						row.getProgressNotes (),
-//						row.getProgressStart ()!=null?row.getProgressStart ().toString ():null,
-//						row.getTaskHierarchy (),
-//						Integer.toString (row.getTaskID ()),
-//						row.getTaskName (),
-//						row.getTaskTotalEffort ()!=null?row.getTaskTotalEffort ().toString ():null
-//						}
-//						);
 					
 				}
 
 				
 			}
-		}
-//			csvw.flush ();
-//		} catch (IOException ioe) {
-//			throw new RuntimeException (ioe);
-//		}
+		
 		return data;
 	}
 	
@@ -307,38 +221,6 @@ public final class CumulateLocalProgresses extends AbstractDataExtractor {
 		return sb.toString ();
 	}
 	
-	
-	private final class TimeCumulationScale {
-		
-		private SortedSet<CumulationPeriod> _set = new TreeSet<CumulationPeriod> ();
-		
-		public TimeCumulationScale (final Date from, final Date to, final int step){
-			Date current = from;
-			while (!current.after (to)){
-				final Date currentEnd = new Date (current.getTime ()+step*Duration.MILLISECONDS_PER_DAY);
-				_set.add (new CumulationPeriod (current, currentEnd));
-				current = currentEnd;
-			}
-		}
-		
-		public Iterator<CumulationPeriod> iterateCumulationPeriod (){
-			return _set.iterator ();
-		}
-		
-		public void addDuration (final Progress progress){
-			
-			/*
-			 * @todo diminuire complessita' algoritmo di ricerca, magari usando la TreeMap come dio comanda (adesso no, ho sonno)
-			 */
-			//			final Map subMap = _map.subMap (from, to);
-			final Set subSet = _set;
-			for (final Iterator<CumulationPeriod> it = subSet.iterator ();it.hasNext ();){
-				final CumulationPeriod cumulationPeriod = it.next ();
-				cumulationPeriod.computeProgress (progress);
-			}
-		}
-		
-	}
 	
 	/**
 	 * Un periodo.
@@ -383,7 +265,17 @@ public final class CumulateLocalProgresses extends AbstractDataExtractor {
 		 * @return l'iteratore sui nodi implicati.
 		 */
 		public Iterator<Task> iterateProgressItems (){
-			return _map.keySet ().iterator ();
+			final List<Task> l = new ArrayList<Task> ();
+			l.addAll (_map.keySet ());
+			Collections.sort (l, new java.util.Comparator<Task> () {
+				public int compare (Task o1, Task o2) {
+					return o1.getName ().compareToIgnoreCase (o2.getName ());
+				}
+				public boolean equals (Object object) {
+					return this==object;
+				}
+			});
+			return l.iterator ();
 		}
 		
 		public NodeProgresses getDetail (final Task progressItem){
@@ -470,4 +362,5 @@ public final class CumulateLocalProgresses extends AbstractDataExtractor {
 			}
 		}
 	}
+	
 }

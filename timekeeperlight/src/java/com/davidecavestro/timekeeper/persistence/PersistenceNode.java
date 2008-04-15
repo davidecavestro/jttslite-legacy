@@ -173,7 +173,9 @@ public class PersistenceNode {
 		if (_pm.currentTransaction ().isActive ()){
 			_pm.currentTransaction ().commit ();
 		}
+		
 		_pm.currentTransaction ().setOptimistic (false);
+		_pm.setMultithreaded (true);
 	}
 	
 	/**

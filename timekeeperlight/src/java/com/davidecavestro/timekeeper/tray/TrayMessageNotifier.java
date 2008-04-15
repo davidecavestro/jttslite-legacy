@@ -11,6 +11,7 @@ import com.davidecavestro.timekeeper.ApplicationContext;
 import com.davidecavestro.timekeeper.gui.*;
 import java.util.Timer;
 import java.util.TimerTask;
+import javax.swing.SwingUtilities;
 
 /**
  * Notifica eventi alla tray icon tramite un timer configurabile.
@@ -56,7 +57,13 @@ public abstract class TrayMessageNotifier {
 		final TimerTask task = 
 			new TimerTask () {
 				public void run() {
-					notifyTray (_traySupport);
+					SwingUtilities.invokeLater (new Runnable () {
+						public void run () {
+							/*
+							 * @workaround invoca in modo asincrono la modifica tooltip
+							 */
+							notifyTray (_traySupport);
+						}});
 				}
 			};
 			

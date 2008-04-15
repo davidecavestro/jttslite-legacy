@@ -389,9 +389,9 @@ public class UndoableTaskTreeModel extends TaskTreeModelImpl {
 	}
 	
 	@Override
-	public void updateTask (final Task t, final String name) {
+	public void updateTask (final Task t, final String name, final String description) {
 		final String oldName = t.getName ();
-		super.updateTask (t, name);
+		super.updateTask (t, name, description);
 
 		fireUndoableEditEvent (new AbstractUndoableEdit () {
 			
@@ -403,14 +403,14 @@ public class UndoableTaskTreeModel extends TaskTreeModelImpl {
 			public void undo () throws CannotUndoException {
 				super.undo ();
 				
-				UndoableTaskTreeModel.super.updateTask (t, oldName);
+				UndoableTaskTreeModel.super.updateTask (t, oldName, description);
 			}
 			
 			
 			public void redo () throws CannotUndoException {
 				super.redo ();
 				
-				UndoableTaskTreeModel.super.updateTask (t, name);
+				UndoableTaskTreeModel.super.updateTask (t, name, description);
 			}
 		});
 		

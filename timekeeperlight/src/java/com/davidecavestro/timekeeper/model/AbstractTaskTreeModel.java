@@ -1287,11 +1287,12 @@ public abstract class AbstractTaskTreeModel implements TaskTreeModel, WorkAdvanc
 		_insertPiecesOfWorkInto (l, target, position, false);
 	}
 	
-	public void updateTask (final Task t, final String name) {
+	public void updateTask (final Task t, final String name, final String description) {
 		final Transaction tx = getTransaction ();
 		tx.begin ();
 		try {
 			t.setName (name);
+			t.setDescription (description);
 			
 			tx.commit ();
 		} catch (final Exception e) {

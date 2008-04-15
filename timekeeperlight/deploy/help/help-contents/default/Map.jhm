@@ -22,6 +22,8 @@
 
 <mapID target="html.maintoolbar" url="html/maintoolbar.html"/>
 
+<mapID target="html.task_DDE_LINK" url="html/task.html#DDE_LINK"/>
+
 <mapID target="html.task_rename_a_task" url="html/task.html#rename_a_task"/>
 
 <mapID target="html.action_delete_an_action" url="html/action.html#delete_an_action"/>
@@ -77,6 +79,8 @@
 <mapID target="html.index" url="html/index.html"/>
 
 <mapID target="html.statusbar" url="html/statusbar.html"/>
+
+<mapID target="html.task_edit_task_properties" url="html/task.html#edit_task_properties"/>
 
 <mapID target="html.images.statusbar" url="html/images/statusbar.gif"/>
 

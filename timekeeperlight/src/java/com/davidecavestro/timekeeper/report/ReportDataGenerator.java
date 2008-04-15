@@ -35,7 +35,7 @@ public final class ReportDataGenerator {
 	 * @param jasperBindings le impostazioni...
 	 * @return il report.
 	 */
-	public void generate ( final DataExtractor extractor, final ReportPreferences prefs, final JRBindings jasperBindings){
+	public void generate ( final DataExtractor extractor, final ReportPreferences prefs, final JRBindings jasperBindings, final ReportLaunchAction rla){
 		_context.getLogger ().debug (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Starting_report_generation_process"));
 		
 		final StringBuffer logBuffer = new StringBuffer ();
@@ -60,7 +60,7 @@ public final class ReportDataGenerator {
 				prefs.getParams (),
 				dataSource);
 			
-			ReportViewer.viewReport (print);
+			rla.execute (_context.getWindowManager ().getMainWindow (), print);
 		} catch (final Exception e){
 			throw new RuntimeException (e);
 		}

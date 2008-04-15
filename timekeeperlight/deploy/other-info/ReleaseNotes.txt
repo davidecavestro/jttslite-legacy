@@ -1,3 +1,13 @@
+2.5.3.1
+- BUG# 1942750: fixed severe concurrency problem
+
+2.5.3
+- RFE# 1910623: added csv friendly report to ease custom processing
+- RFE# 1913679: added "description" field to tasks
+- RFE# 1913684: added autostop feature to start a new action without stopping the current one
+- RFE# 1927889: added UK dates support (added en_GB localization)
+- BUG# 1939177: fixed problem on workspace export 
+
 2.5.2.1
 - BUG# 1910579 fixed
 

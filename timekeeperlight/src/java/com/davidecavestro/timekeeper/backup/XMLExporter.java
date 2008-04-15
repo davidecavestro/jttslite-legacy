@@ -55,8 +55,8 @@ public class XMLExporter {
 			
 			addContent (new NullableSingleValueElement (XMLResources.CODE_PROPERTY, progressItem.getCode ()));
 			addContent (new NullableSingleValueElement (XMLResources.NAME_PROPERTY, progressItem.getName ()));
-			addContent (new NullableSingleValueElement (XMLResources.DESCRIPTION_PROPERTY, progressItem.getName ()));
-			addContent (new NullableSingleValueElement (XMLResources.NOTES_PROPERTY, progressItem.getName ()));
+			addContent (new NullableSingleValueElement (XMLResources.DESCRIPTION_PROPERTY, progressItem.getDescription ()));
+			addContent (new NullableSingleValueElement (XMLResources.NOTES_PROPERTY, progressItem.getNotes ()));
 			
 			for (final Iterator it = progressItem.getChildren ().iterator ();it.hasNext ();){
 				final Task child = (Task)it.next ();

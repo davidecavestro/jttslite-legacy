@@ -23,6 +23,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.text.MessageFormat;
 import java.util.Date;
+import javax.swing.SwingUtilities;
 
 /**
  * Fornisce metodi di utilit&agrave; per la gestione della tray icon.
@@ -171,17 +172,24 @@ public class SystemTraySupport {
 	}
 	
 	private void refreshTooltip () {
-		final PieceOfWork pow = getRunningAction ();
-		if (pow!=null) {
-			setTooltip (MessageFormat.format (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("TrayIcon/Tooltip/Working"), pow.getTask ().getName (), DurationUtils.format (new Duration (pow.getFrom (), new Date ()))));
-		} else {
-			final Task selectedTask = getSelectedTask ();
-			if (selectedTask!=null) {
-				setTooltip (MessageFormat.format (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("TrayIcon/Tooltip/Pause_on_task"), selectedTask.getName ()));
-			} else {
-				setTooltip (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("TrayIcon/Tooltip/Pause"));
+		SwingUtilities.invokeLater (new Runnable () {
+			public void run () {
+				/*
+				 * @workaround invoca in modo asincrono la modifica tooltip
+				 */
+				final PieceOfWork pow = getRunningAction ();
+				if (pow!=null) {
+					setTooltip (MessageFormat.format (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("TrayIcon/Tooltip/Working"), pow.getTask ().getName (), DurationUtils.format (new Duration (pow.getFrom (), new Date ()))));
+				} else {
+					final Task selectedTask = getSelectedTask ();
+					if (selectedTask!=null) {
+						setTooltip (MessageFormat.format (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("TrayIcon/Tooltip/Pause_on_task"), selectedTask.getName ()));
+					} else {
+						setTooltip (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("TrayIcon/Tooltip/Pause"));
+					}
+				}
 			}
-		}
+		});
 	}
 	
 	

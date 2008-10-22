@@ -18,9 +18,7 @@ import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
-import net.sf.jasperreports.engine.export.JRCsvExporterParameter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
-import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 
 
 /**
@@ -142,6 +140,9 @@ public enum ReportExportAction implements ReportLaunchAction {
 				}
 			}
 			export (print, f);
+			
+			JOptionPane.showMessageDialog (parent, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("ReportExportMessageDialog/Exporting_completed"));
+			
 		}
 	}
 

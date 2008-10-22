@@ -11,7 +11,6 @@ import com.davidecavestro.common.log.Logger;
 import com.davidecavestro.timekeeper.conf.ApplicationOptions;
 import com.davidecavestro.timekeeper.persistence.PersistenceManager;
 import com.davidecavestro.timekeeper.persistence.PersistenceNode;
-import com.davidecavestro.timekeeper.persistence.PersistenceNodeException;
 import com.davidecavestro.timekeeper.persistence.Transaction;
 import java.util.Collection;
 
@@ -54,6 +53,7 @@ public class PersistentWorkSpaceModel extends WorkSpaceModelImpl {
 	 * <P>
 	 * Scavalcare questo metodo per fornire una adeguata implementazione di Transactionse necessario (ad esempio una transazione JDO).
 	 */
+	@Override
 	protected Transaction getTransaction () {
 		if (null == _tx) {
 			_tx = new Transaction () {
@@ -80,6 +80,7 @@ public class PersistentWorkSpaceModel extends WorkSpaceModelImpl {
 	 * <P>
 	 * Scavalcare questo metodo per fornire una adeguata implementazione di PersistenceManager se necessario (ad esempio un PersistenceManager JDO).
 	 */
+	@Override
 	protected PersistenceManager getPersistenceManager () {
 		if (null == _pm) {
 			_pm = new PersistenceManager () {

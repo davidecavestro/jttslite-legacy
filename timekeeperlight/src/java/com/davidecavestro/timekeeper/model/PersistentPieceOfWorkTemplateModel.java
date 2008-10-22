@@ -1,7 +1,7 @@
 /*
- * PersistentTaskTreeModel.java
+ * PersistentPieceOfWorkTemplateModel.java
  *
- * Created on December 18, 2006, 11:55 PM
+ * Created on August 2, 2008, 5:00 PM
  *
  */
 
@@ -15,27 +15,35 @@ import com.davidecavestro.timekeeper.persistence.Transaction;
 import java.util.Collection;
 
 /**
- * Estensione al modello con supporto alla persistenza.
+ * Fornisce l'implementazione della persistenza.
  *
  * @author Davide Cavestro
  */
-public class PersistentTaskTreeModel extends UndoableTaskTreeModel {
+public class PersistentPieceOfWorkTemplateModel extends UndoablePieceOfWorkTemplateModel {
+	
 	
 	private final PersistenceNode _persistenceNode;
 	private final Logger _logger;
 	
+	
 	/**
 	 * Costruttore.
-	 * 
-	 * @param persistenceNode 
-	 * @param peh 
-	 * @param workSpace 
+	 *
+	 * @param persistenceNode the persistence delegate
 	 * @param applicationOptions le opzioni di configurazione.
+	 * @logger the logger
 	 */
-	public PersistentTaskTreeModel (final PersistenceNode persistenceNode, final ApplicationOptions applicationOptions, final Logger logger, final TaskTreeModelExceptionHandler peh, final WorkSpace workSpace) {
-		super (applicationOptions, peh, workSpace);
+	public PersistentPieceOfWorkTemplateModel (final PersistenceNode persistenceNode, final ApplicationOptions applicationOptions, final Logger logger) {
+		super ();
 		_persistenceNode = persistenceNode;
 		_logger = logger;
+	}
+	
+	/**
+	 * Initialize this model.
+	 */
+	public void init () {
+		init (_persistenceNode.getAvailableTemplates ());
 	}
 	
 	/**
@@ -47,6 +55,7 @@ public class PersistentTaskTreeModel extends UndoableTaskTreeModel {
 	 * <P>
 	 * Scavalcare questo metodo per fornire una adeguata implementazione di Transactionse necessario (ad esempio una transazione JDO).
 	 */
+	@Override
 	protected Transaction getTransaction () {
 		if (null == _tx) {
 			_tx = new Transaction () {
@@ -73,6 +82,7 @@ public class PersistentTaskTreeModel extends UndoableTaskTreeModel {
 	 * <P>
 	 * Scavalcare questo metodo per fornire una adeguata implementazione di PersistenceManager se necessario (ad esempio un PersistenceManager JDO).
 	 */
+	@Override
 	protected PersistenceManager getPersistenceManager () {
 		if (null == _pm) {
 			_pm = new PersistenceManager () {
@@ -92,5 +102,4 @@ public class PersistentTaskTreeModel extends UndoableTaskTreeModel {
 		}
 		return _pm;
 	}
-		
 }

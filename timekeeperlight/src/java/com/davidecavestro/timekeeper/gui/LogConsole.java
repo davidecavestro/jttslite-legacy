@@ -77,7 +77,7 @@ public class LogConsole extends javax.swing.JFrame implements PersistentComponen
     // End of variables declaration//GEN-END:variables
 	
 	private String prepareTitle (ApplicationContext context){
-		final StringBuffer sb = new StringBuffer ();
+		final StringBuilder sb = new StringBuilder ();
 		sb.append (context.getApplicationData ().getApplicationExternalName ()).append (" - Log console");
 		return sb.toString ();
 	}

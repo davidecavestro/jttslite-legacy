@@ -29,6 +29,7 @@ import com.davidecavestro.timekeeper.actions.ActionManager;
 import com.davidecavestro.timekeeper.conf.ApplicationOptions;
 import com.davidecavestro.timekeeper.conf.DefaultSettings;
 import com.davidecavestro.timekeeper.gui.Splash;
+import com.davidecavestro.timekeeper.model.PersistentPieceOfWorkTemplateModel;
 import com.davidecavestro.timekeeper.model.PersistentTaskTreeModel;
 import com.davidecavestro.timekeeper.model.PersistentWorkSpaceModel;
 import com.davidecavestro.timekeeper.model.TaskTreeModelExceptionHandler;
@@ -69,6 +70,7 @@ public class Application {
 		
 		
 		final RBUndoManager undoManager = new RBUndoManager ();
+		final RBUndoManager atUndoManager = new RBUndoManager ();
 		
 		final Properties releaseProps = new Properties ();
 		try {
@@ -95,7 +97,7 @@ public class Application {
 		final Properties p = new Properties ();
 		try {
 			p.load (new FileInputStream (new File (_env.getApplicationDirPath (), "helpmap.properties")));
-		} catch (IOException ioe){
+		} catch (final IOException ioe){
 //			System.out.println (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Missing_help_resources_mapping_file"));
 		}
 		
@@ -123,7 +125,7 @@ public class Application {
 		
 		final ProgressItem pi = new ProgressItem (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("New_workspace"));
 		final Project prj = new Project (pi.getName (), pi);
-		final PersistentTaskTreeModel model = new PersistentTaskTreeModel (_persistenceNode, undoManager, applicationOptions, _logger, peh, prj);
+		final PersistentTaskTreeModel model = new PersistentTaskTreeModel (_persistenceNode, applicationOptions, _logger, peh, prj);
 		model.addTaskTreeModelListener (new TaskTreeModelListener () {
 			public void treeNodesChanged (TaskTreeModelEvent e) {
 			}
@@ -141,6 +143,8 @@ public class Application {
 			}
 		});
 		final PersistentWorkSpaceModel wsModel = new PersistentWorkSpaceModel (_persistenceNode, applicationOptions, _logger);
+		final PersistentPieceOfWorkTemplateModel templateModel = new PersistentPieceOfWorkTemplateModel (_persistenceNode, applicationOptions, _logger);
+		
 		try {
 			_persistenceNode.init ();
 		} catch (final PersistenceNodeException pne) {
@@ -161,6 +165,7 @@ public class Application {
 		}
 		wsModel.init () ;
 		
+		templateModel.init ();
 		
 		_context = new ApplicationContext (
 			_env,
@@ -172,7 +177,9 @@ public class Application {
 			applicationData,
 			model,
 			wsModel,
+			templateModel,
 			undoManager,
+			atUndoManager,
 			new ActionManager (),
 			new HelpManager (new HelpResourcesResolver (p), "help-contents/JTTSlite.hs"),
 			peh,
@@ -180,6 +187,7 @@ public class Application {
 			);
 		
 		model.addUndoableEditListener (undoManager);
+		templateModel.addUndoableEditListener (atUndoManager);
 		
 		/**
 		 * Assicura la persistenza delle informazioni di configurazione del DB
@@ -214,8 +222,9 @@ public class Application {
 			splash.showInfo (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Preparing_main_window..."));
 			wm.getMainWindow ().addWindowListener (
 				new java.awt.event.WindowAdapter () {
-				public void windowClosing (java.awt.event.WindowEvent evt) {
-					exit ();
+				@Override
+				public void windowClosing (final java.awt.event.WindowEvent evt) {
+					processExitRequest (evt);
 				}
 			});
 			
@@ -241,17 +250,24 @@ public class Application {
 	 *	</UL>
 	 */
 	public void beforeExit (){
-		_persistenceNode.flushData ();
+		if (_persistenceNode!=null) {
+			_persistenceNode.flushData ();
+		}
 		
-		
-		_context.getUIPersisteer ().makePersistentAll ();
+		if (_context!=null) {
+			_context.getUIPersisteer ().makePersistentAll ();
+		}
 		
 		
 		/* Garantisce la chiusura del logger. */
-		_logger.close ();
+		if (_logger!=null) {
+			_logger.close ();
+		}
 		
 		/* Salva le preferenze utente */
-		_context.getUserSettings ().storeProperties ();
+		if (_context!=null) {
+			_context.getUserSettings ().storeProperties ();
+		}
 	}
 	
 	private WorkSpace prepareWorkSpace () {
@@ -311,11 +327,16 @@ public class Application {
 	/**
 	 * Termina l'applicazione.
 	 */
-	public final void exit (){
+	public final void processExitRequest (java.awt.event.WindowEvent evt){
+		if (!_context.getWindowManager ().getMainWindow ().canExit ()) {
+			return;
+		}
+		exit ();
+	}
+	private void exit () {
 		beforeExit ();
 		_context.getWindowManager ().disposeAllFrames ();
 		HungAwtExit.forceOtherFramesDispose (_context.getWindowManager ().getMainWindow ());
-		System.out.println ("Closing application...");
 	}
 	
 	private final class UserUIStorage implements PersistenceStorage {
@@ -337,6 +358,10 @@ public class Application {
 	public void bringToFront () {
 		_context.getWindowManager ().getMainWindow ().bringToFront ();		
 	}
+	
+	
+	
+
 	
 	
 }

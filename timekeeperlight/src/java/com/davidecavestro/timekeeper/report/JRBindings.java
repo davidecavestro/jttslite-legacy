@@ -40,7 +40,7 @@ public class JRBindings {
 	 * @return una stringa che rappresenta queste preferenze.
 	 */	
 	public String toString (){
-		final StringBuffer sb = new StringBuffer ();
+		final StringBuilder sb = new StringBuilder ();
 		sb.append (" reportDescriptor: ").append (this._reportDescriptor);
 		return sb.toString ();
 	}

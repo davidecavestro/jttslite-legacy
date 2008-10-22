@@ -80,7 +80,7 @@ public final class TargetedFilterContainer {
 	 * @return una stringa che rappresenta questo contenitore.
 	 */	
 	public String toString (){
-		final StringBuffer sb = new StringBuffer ();
+		final StringBuilder sb = new StringBuilder ();
 		sb.append ("target: ").append (this._target);
 		sb.append (" filter: ").append (this._filter);
 		return sb.toString ();

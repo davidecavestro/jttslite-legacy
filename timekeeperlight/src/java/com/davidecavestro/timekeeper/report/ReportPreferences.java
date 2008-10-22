@@ -78,7 +78,7 @@ public final class ReportPreferences {
 	 * @return una stringa che rappresenta queste preferenze.
 	 */	
 	public String toString (){
-		final StringBuffer sb = new StringBuffer ();
+		final StringBuilder sb = new StringBuilder ();
 		sb.append (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("_output:_")).append (this._output);
 		return sb.toString ();
 	}

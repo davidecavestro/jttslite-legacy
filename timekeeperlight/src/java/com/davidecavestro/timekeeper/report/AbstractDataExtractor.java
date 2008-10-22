@@ -95,7 +95,7 @@ public abstract class AbstractDataExtractor implements DataExtractor{
 	 * @return la stringa che rappresenta la durata specificata nel formato adatto all'estrazione dei dati.
 	 */	
 	protected final String getText (final Duration duration){
-		final StringBuffer sb = new StringBuffer ();
+		final StringBuilder sb = new StringBuilder ();
 
 //		final long days = duration.getDays();
 //
@@ -115,7 +115,7 @@ public abstract class AbstractDataExtractor implements DataExtractor{
 	}
 	
 	public String toString (){
-		final StringBuffer sb = new StringBuffer ();
+		final StringBuilder sb = new StringBuilder ();
 		sb.append ("filters: [");
 		if (_filters!=null){
 			for (int i=0;i<_filters.length;i++){

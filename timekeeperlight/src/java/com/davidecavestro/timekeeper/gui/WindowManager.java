@@ -119,26 +119,7 @@ public class WindowManager implements ActionListener, DialogListener {
 		getStartPieceOfWorkDialog ().showForTask (parent);
 	}
 	
-	
-	private NewTaskDialog _mewTaskDialog;	
-	/**
-	 * Ritorna la dialog di inserimento nuovo ytask.
-	 * @return la dialog di inserimento nuovo ytask.
-	 */
-	public NewTaskDialog getNewTaskDialog () {
-		synchronized (this) {
-		if (this._mewTaskDialog==null){
-			this._mewTaskDialog = new NewTaskDialog (getMainWindow (), true);
-			this._context.getUIPersisteer ().register (this._mewTaskDialog);
-			this._mewTaskDialog.addDialogListener (this);
-		}
-		}
-		return this._mewTaskDialog;
-	}
-	
-	public void showNewTaskDialog (final Task parent) {
-		getNewTaskDialog ().showForParent (parent);
-	}
+
 	
 	private OpenWorkSpaceDialog _openWSDialog;	
 	/**
@@ -217,22 +198,25 @@ public class WindowManager implements ActionListener, DialogListener {
 		return _taskEditDialog;
 	}
 	
+	
+	private ActionTemplatesDialog _actionTemplatesDialog;	
+	/**
+	 * Ritorna la dialog di gestione modelli di azione.
+	 * 
+	 * @return la dialog di gestionemodelli di azione.
+	 */
+	public ActionTemplatesDialog getActionTemplatesDialog (){
+		if (_actionTemplatesDialog==null){
+			_actionTemplatesDialog = new ActionTemplatesDialog (_context,getMainWindow (), true);
+			_context.getUIPersisteer ().register (_actionTemplatesDialog);
+		}
+		return _actionTemplatesDialog;
+	}
+	
+	
+	
 	public void dialogChanged (com.davidecavestro.common.gui.dialog.DialogEvent e) {
-		if (e.getSource ()==this._mewTaskDialog){
-			if (e.getType ()==JOptionPane.OK_OPTION){
-				final Task parent = this._mewTaskDialog.getParentTask ();
-				this._context.getModel ().insertNodeInto (
-					new ProgressItem (
-						_mewTaskDialog.getCodeText (), 
-						_mewTaskDialog.getNameText (), 
-						_mewTaskDialog.getDescriptionText (), 
-						_mewTaskDialog.getNotesText ()
-					),
-					parent, 
-					-1
-					);
-			}
-		} else if (e.getSource ()==_mewPOWDialog){
+		if (e.getSource ()==_mewPOWDialog){
 			if (e.getType ()==JOptionPane.OK_OPTION){
 				final ProgressItem t = (ProgressItem)_mewPOWDialog.getTask ();
 				final Progress p = new Progress (
@@ -327,7 +311,7 @@ public class WindowManager implements ActionListener, DialogListener {
 	 */
 	public SystemTraySupport getSystemTraySupport () {
 		if (_systemTray==null) {
-			_systemTray = new SystemTraySupport (_context);
+			_systemTray = new SystemTraySupport ();
 			try {
 				_systemTray.register (null, null);
 			} catch (final NoClassDefFoundError er) {
@@ -367,7 +351,6 @@ public class WindowManager implements ActionListener, DialogListener {
 							SwingUtilities.updateComponentTreeUI (getMainWindow ());
 							SwingUtilities.updateComponentTreeUI (getLogConsole ());
 							SwingUtilities.updateComponentTreeUI (getNewPieceOfWorkDialog ());
-							SwingUtilities.updateComponentTreeUI (getNewTaskDialog ());
 							SwingUtilities.updateComponentTreeUI (getOpenWorkSpaceDialog ());
 							SwingUtilities.updateComponentTreeUI (getOptionsDialog ());
 							SwingUtilities.updateComponentTreeUI (getReportDialog ());

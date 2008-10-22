@@ -6,13 +6,14 @@
 
 package com.davidecavestro.timekeeper.gui;
 
+import com.ost.timekeeper.util.DurationUtils;
 import com.davidecavestro.common.gui.CompositeIcon;
+import com.davidecavestro.common.gui.GUIUtils;
 import com.davidecavestro.common.gui.SwingWorker;
 import com.davidecavestro.common.gui.VTextIcon;
 import com.davidecavestro.common.gui.persistence.PersistenceUtils;
 import com.davidecavestro.common.gui.persistence.PersistentComponent;
 import com.davidecavestro.common.util.CalendarUtils;
-import com.davidecavestro.common.util.ExceptionUtils;
 import com.davidecavestro.common.util.IllegalOperationException;
 import com.davidecavestro.common.util.action.ActionNotifier;
 import com.davidecavestro.common.util.action.ActionNotifierImpl;
@@ -27,9 +28,11 @@ import com.davidecavestro.timekeeper.gui.dnd.ProgressTransferHandler;
 import com.davidecavestro.timekeeper.gui.dnd.TransferAction;
 import com.davidecavestro.timekeeper.gui.dnd.TransferActionListener;
 import com.davidecavestro.timekeeper.gui.dnd.TransferData;
+import com.davidecavestro.timekeeper.gui.tray.TrayMessageNotifier;
 import com.davidecavestro.timekeeper.help.HelpResources;
 import com.davidecavestro.timekeeper.model.TaskTreeModelImpl;
 import com.davidecavestro.timekeeper.model.PieceOfWork;
+import com.davidecavestro.timekeeper.model.PieceOfWorkTemplateModelImpl;
 import com.davidecavestro.timekeeper.model.Task;
 import com.davidecavestro.timekeeper.model.TaskTreePath;
 import com.davidecavestro.timekeeper.model.WorkSpace;
@@ -38,9 +41,9 @@ import com.davidecavestro.timekeeper.model.event.TaskTreeModelListener;
 import com.davidecavestro.timekeeper.model.event.WorkAdvanceModelEvent;
 import com.davidecavestro.timekeeper.model.event.WorkAdvanceModelListener;
 import com.davidecavestro.timekeeper.tray.SystemTraySupport;
-import com.davidecavestro.timekeeper.tray.TrayMessageNotifier;
 import com.ost.timekeeper.model.Progress;
 import com.ost.timekeeper.model.ProgressItem;
+import com.ost.timekeeper.model.ProgressTemplate;
 import com.ost.timekeeper.model.Project;
 import com.ost.timekeeper.util.Duration;
 import com.ost.timekeeper.util.LocalizedPeriod;
@@ -50,7 +53,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.MenuItem;
@@ -63,7 +65,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
@@ -98,7 +99,6 @@ import javax.swing.Action;
 import javax.swing.ActionMap;
 import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFormattedTextField;
@@ -109,8 +109,10 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTree;
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
+import javax.swing.event.CellEditorListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.PopupMenuEvent;
@@ -127,8 +129,6 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.text.DateFormatter;
 import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.JTextComponent;
-import javax.swing.text.html.HTML;
-import javax.swing.text.html.HTMLDocument;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreePath;
 import org.jdesktop.swingx.JXTable;
@@ -240,6 +240,7 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 		 */
 		tal.register (taskTree);
 		tal.register (progressesTable);
+
 		
 //		/*
 //		 * notifica la textarea del cambio di selezione, aggiornandola
@@ -251,24 +252,8 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 //		};
 //		progressesTable.getSelectionModel ().addListSelectionListener (l);
 //		progressesTable.getColumnModel ().getSelectionModel ().addListSelectionListener (l);
-		progressesTable.setDefaultEditor (Date.class, new DateCellEditor ());
-		progressesTable.setDefaultEditor (PieceOfWork.class, new DurationCellEditor ());
-		progressesTable.setDefaultEditor (Duration.class, new DurationCellEditor ());
-		progressesTable.setDefaultEditor (String.class, new DefaultCellEditor (new JTextField ()) {
-			
-			
-			/**
-			 * Editazione parte, in caso di evento del mouse, solo dopo doppio click
-			 */
-			@Override
-				public boolean isCellEditable (EventObject eo) {
-				if (eo instanceof MouseEvent) {
-					return ((MouseEvent)eo).getClickCount ()>1;
-				} else {
-					return super.isCellEditable (eo);
-				}
-			}
-		});
+		
+		initTableEditors();
 //		progressesTable.addHighlighter (AlternateRowHighlighter.beige);
 		progressesTable.addHighlighter (new AlternateRowHighlighter(Color.white, new Color(255, 252, 180), null, true));
 //		taskTree.addHighlighter (AlternateRowHighlighter.quickSilver);
@@ -289,6 +274,12 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 		
 		
 		
+		progressesTable.setAutoStartEditOnKeyStroke (false);
+		progressesTable.setTerminateEditOnFocusLost (false);
+//		
+//		
+//		taskTree.setAutoStartEditOnKeyStroke (false);
+//		taskTree.setTerminateEditOnFocusLost (true);
 		
 		
 		this._context.getModel ().addPropertyChangeListener (new PropertyChangeListener (){
@@ -360,36 +351,11 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 		/*
 		 * Rollover su elementi toolbar
 		 */
-		final Component[] tc = mainToolbar.getComponents ();
-		final Component[] tc1 = mainToolbar1.getComponents ();
-		final Component[] tc2 = mainToolbar2.getComponents ();
+		GUIUtils.addBorderRollover (mainToolbar.getComponents ());
+		GUIUtils.addBorderRollover (mainToolbar1.getComponents ());
+		GUIUtils.addBorderRollover (mainToolbar2.getComponents ());
 		
-		final Component[] alltc = new Component[tc.length+tc1.length+tc2.length];
-		System.arraycopy (tc, 0, alltc, 0, tc.length);
-		System.arraycopy (tc1, 0, alltc, tc.length, tc1.length);
-		System.arraycopy (tc2, 0, alltc, tc.length+tc1.length, tc2.length);
-		
-		for (int i=0;i<alltc.length;i++){
-			final Component c = alltc[i];
-			if (c instanceof JButton){
-				final JButton jb = (JButton)c;
-				jb.addMouseListener (new MouseAdapter (){
-					/**
-					 * Invoked when the mouse enters a component.
-					 */
-					public void mouseEntered (MouseEvent e) {
-						jb.setBorderPainted (true);
-					}
-					
-					/**
-					 * Invoked when the mouse exits a component.
-					 */
-					public void mouseExited (MouseEvent e) {
-						jb.setBorderPainted (false);
-					}
-				});
-			}
-		}
+
 		
 //		//disable internal dnd functionality, because we need our own implementation
 //		taskTree.setDragEnabled (false);
@@ -853,11 +819,40 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 			}
 		});		
 		
+		/*
+		 * Tabpane tooltips
+		 */
+		mainContentsTabbedPane.setToolTipTextAt (0, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("MainWindow/ProgressesPane/ProgressesTableTab/Tooltip"));
+		mainContentsTabbedPane.setToolTipTextAt (1, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("MainWindow/ProgressesPane/ChartsTab/Tooltip"));
+				
+		
+	}
+
+	private void initTableEditors () {
+		
+		progressesTable.setDefaultEditor (Date.class, new SmartCellEditor (new DateCellEditor ()));
+		progressesTable.setDefaultEditor (PieceOfWork.class, new SmartCellEditor (new DurationCellEditor ()));
+		progressesTable.setDefaultEditor (Duration.class, new SmartCellEditor (new DurationCellEditor ()));
+		progressesTable.setDefaultEditor (String.class, new SmartCellEditor (new DefaultCellEditor (new JTextField ()) {
+			
+			
+			/**
+			 * Editazione parte, in caso di evento del mouse, solo dopo doppio click
+			 */
+			@Override
+			public boolean isCellEditable (EventObject eo) {
+				if (eo instanceof MouseEvent) {
+					return ((MouseEvent)eo).getClickCount ()>1;
+				} else {
+					return super.isCellEditable (eo);
+				}
+			}
+		}));
 	}
 	
 	
 	private String prepareTitle (TaskTreeModelImpl model){
-		final StringBuffer sb = new StringBuffer ();
+		final StringBuilder sb = new StringBuilder ();
 		sb.append (_context.getApplicationData ().getApplicationExternalName ()).append (" - Workspace ").append (model.getRoot ().getName ());
 		return sb.toString ();
 	}
@@ -867,7 +862,8 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 	 * WARNING: Do NOT modify this code. The content of this method is
 	 * always regenerated by the Form Editor.
 	 */
-    private void initComponents() {//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
         borderLayout1 = new java.awt.BorderLayout();
@@ -892,6 +888,7 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
         startProgressClonePopupItem = new javax.swing.JMenuItem();
         continueProgressPopupItem = new javax.swing.JMenuItem();
         stopProgressMenuItem1 = new javax.swing.JMenuItem();
+        addToTemplatesMenuItem = new javax.swing.JMenuItem();
         jSeparator9 = new javax.swing.JSeparator();
         cutProgressesMenuItem1 = new javax.swing.JMenuItem();
         copyProgressesMenuItem1 = new javax.swing.JMenuItem();
@@ -916,7 +913,7 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
         mainContentsTabbedPane = new javax.swing.JTabbedPane();
         progressesTablePanel = new javax.swing.JPanel();
         progressesTableScrollPane = new javax.swing.JScrollPane();
-        progressesTable = new JXTable (){
+        progressesTable = new SmartJXTable (){
 
             public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
                 Component c = super.prepareRenderer( renderer, row, column);
@@ -967,6 +964,7 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
         jSeparator15 = new javax.swing.JSeparator();
         mainToolbar2 = new javax.swing.JToolBar();
         printButton = new javax.swing.JButton();
+        printButton1 = new javax.swing.JButton();
         helpButton = new javax.swing.JButton();
         statusPanel = new javax.swing.JPanel();
         appStatusLabel = new javax.swing.JLabel();
@@ -993,13 +991,10 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
         redoMenuItem = new javax.swing.JMenuItem();
         jSeparator4 = new javax.swing.JSeparator();
         getActionByName(DefaultEditorKit.cutAction).putValue (Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke (java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.CTRL_MASK));
-
         cutMenuItem = new javax.swing.JMenuItem();
         getActionByName(DefaultEditorKit.copyAction).putValue (Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke (java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
-
         copyMenuItem = new javax.swing.JMenuItem();
         getActionByName(DefaultEditorKit.pasteAction).putValue (Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke (java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.CTRL_MASK));
-
         pasteMenuItem = new javax.swing.JMenuItem();
         jSeparator8 = new javax.swing.JSeparator();
         getActionByName(DefaultEditorKit.deleteNextCharAction).putValue (Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke (java.awt.event.KeyEvent.VK_DELETE, 0));
@@ -1020,6 +1015,7 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
         toolsMenu = new javax.swing.JMenu();
         logConsoleMenuItem = new javax.swing.JMenuItem();
         optionsMenuItem = new javax.swing.JMenuItem();
+        templateMenuItem = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
         contentsMenuItem = new javax.swing.JMenuItem();
         contextHelpMenuItem = new javax.swing.JMenuItem();
@@ -1039,81 +1035,76 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 
         newTaskPopupItem.setAction(new NewTaskAction ());
         newTaskPopupItem.setFont(new java.awt.Font("Dialog", 0, 12));
-        newTaskPopupItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/file-new.png")));
-        newTaskPopupItem.setText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("New_task"));
+        newTaskPopupItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/file-new.png"))); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res"); // NOI18N
+        newTaskPopupItem.setText(bundle.getString("New_task")); // NOI18N
         newTaskPopupItem.setActionCommand("newTask");
         newTaskPopupItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 newTaskPopupItemActionPerformed(evt);
             }
         });
-
         treePopupMenu.add(newTaskPopupItem);
 
         newProgressPopupItem.setAction(new NewPieceOfWorkAction ());
         newProgressPopupItem.setFont(new java.awt.Font("Dialog", 0, 12));
-        newProgressPopupItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/add.png")));
-        org.openide.awt.Mnemonics.setLocalizedText(newProgressPopupItem, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("New_action"));
+        newProgressPopupItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/add.png"))); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(newProgressPopupItem, bundle.getString("New_action")); // NOI18N
         newProgressPopupItem.setActionCommand("newProgress");
         newProgressPopupItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 newProgressPopupItemActionPerformed(evt);
             }
         });
-
         treePopupMenu.add(newProgressPopupItem);
 
         startProgressPopupItem.setAction(new StartProgressAction ());
         startProgressPopupItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_MASK));
         startProgressPopupItem.setFont(new java.awt.Font("Dialog", 0, 12));
-        startProgressPopupItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/media-record.png")));
-        org.openide.awt.Mnemonics.setLocalizedText(startProgressPopupItem, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Start_action"));
+        startProgressPopupItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/media-record.png"))); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(startProgressPopupItem, bundle.getString("Start_action")); // NOI18N
         startProgressPopupItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 startProgressPopupItemActionPerformed(evt);
             }
         });
-
         treePopupMenu.add(startProgressPopupItem);
-
         treePopupMenu.add(jSeparator12);
 
         expandPopupItem.setAction(new ExpandTreeAction ());
         expandPopupItem.setFont(new java.awt.Font("Dialog", 0, 12));
-        expandPopupItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/transparent.png")));
-        expandPopupItem.setText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Expand"));
-        expandPopupItem.setToolTipText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Expands_subtree"));
+        expandPopupItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/transparent.png"))); // NOI18N
+        expandPopupItem.setText(bundle.getString("Expand")); // NOI18N
+        expandPopupItem.setToolTipText(bundle.getString("Expands_subtree")); // NOI18N
         treePopupMenu.add(expandPopupItem);
 
         collapsePopupItem.setAction(new CollapseTreeAction ());
         collapsePopupItem.setFont(new java.awt.Font("Dialog", 0, 12));
-        collapsePopupItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/transparent.png")));
-        collapsePopupItem.setText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Collapse"));
+        collapsePopupItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/transparent.png"))); // NOI18N
+        collapsePopupItem.setText(bundle.getString("Collapse")); // NOI18N
         treePopupMenu.add(collapsePopupItem);
-
         treePopupMenu.add(jSeparator6);
 
         cutTasksMenuItem.setAction(new TransferAction (TransferAction.Type.CUT, tal));
         cutTasksMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.CTRL_MASK));
         cutTasksMenuItem.setFont(new java.awt.Font("Dialog", 0, 12));
-        cutTasksMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/edit-cut.png")));
-        cutTasksMenuItem.setText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Cut"));
+        cutTasksMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/edit-cut.png"))); // NOI18N
+        cutTasksMenuItem.setText(bundle.getString("Cut")); // NOI18N
         treePopupMenu.add(cutTasksMenuItem);
 
         copyTasksMenuItem.setAction(new TransferAction (TransferAction.Type.COPY, tal));
         copyTasksMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
         copyTasksMenuItem.setFont(new java.awt.Font("Dialog", 0, 12));
-        copyTasksMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/edit-copy.png")));
-        copyTasksMenuItem.setText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Copy"));
+        copyTasksMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/edit-copy.png"))); // NOI18N
+        copyTasksMenuItem.setText(bundle.getString("Copy")); // NOI18N
         treePopupMenu.add(copyTasksMenuItem);
 
         pasteTasksMenuItem.setAction(new TransferAction (TransferAction.Type.PASTE, tal));
         pasteTasksMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.CTRL_MASK));
         pasteTasksMenuItem.setFont(new java.awt.Font("Dialog", 0, 12));
-        pasteTasksMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/edit-paste.png")));
-        pasteTasksMenuItem.setText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Paste"));
+        pasteTasksMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/edit-paste.png"))); // NOI18N
+        pasteTasksMenuItem.setText(bundle.getString("Paste")); // NOI18N
         treePopupMenu.add(pasteTasksMenuItem);
-
         treePopupMenu.add(jSeparator1);
 
         renameTaskPopupItem.setAction(new AbstractAction () {
@@ -1128,30 +1119,30 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 
             }
         });
+        renameTaskPopupItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
         renameTaskPopupItem.setFont(new java.awt.Font("Dialog", 0, 12));
-        renameTaskPopupItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/transparent.png")));
-        renameTaskPopupItem.setText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Rename"));
-        renameTaskPopupItem.setToolTipText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Rename_selected_task"));
+        renameTaskPopupItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/transparent.png"))); // NOI18N
+        renameTaskPopupItem.setText(bundle.getString("Rename")); // NOI18N
+        renameTaskPopupItem.setToolTipText(bundle.getString("Rename_selected_task")); // NOI18N
         renameTaskPopupItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 renameTaskPopupItemActionPerformed(evt);
             }
         });
-
         treePopupMenu.add(renameTaskPopupItem);
 
         deleteTaskPopupItem.setAction(new DeleteTasksAction ());
         deleteTaskPopupItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_DELETE, 0));
         deleteTaskPopupItem.setFont(new java.awt.Font("Dialog", 0, 12));
-        deleteTaskPopupItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/edit-delete.png")));
-        deleteTaskPopupItem.setText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Delete"));
+        deleteTaskPopupItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/edit-delete.png"))); // NOI18N
+        deleteTaskPopupItem.setText(bundle.getString("Delete")); // NOI18N
         deleteTaskPopupItem.setActionCommand("deleteTask");
         treePopupMenu.add(deleteTaskPopupItem);
 
         editTaskPopupItem.setAction(new StartTaskEditAction ());
         editTaskPopupItem.setFont(new java.awt.Font("Dialog", 0, 12));
-        editTaskPopupItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/transparent.png")));
-        editTaskPopupItem.setText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("MainWIndow/TaskTreePopupMenu/TaskProperties"));
+        editTaskPopupItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/transparent.png"))); // NOI18N
+        editTaskPopupItem.setText(bundle.getString("MainWIndow/TaskTreePopupMenu/TaskProperties")); // NOI18N
         treePopupMenu.add(editTaskPopupItem);
 
         tablePopupMenu.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -1167,107 +1158,110 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 
         newProgressPopupItem1.setAction(new NewPieceOfWorkAction ());
         newProgressPopupItem1.setFont(new java.awt.Font("Dialog", 0, 12));
-        newProgressPopupItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/add.png")));
-        org.openide.awt.Mnemonics.setLocalizedText(newProgressPopupItem1, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("New_action"));
-        newProgressPopupItem1.setToolTipText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Creates_a_new_action"));
+        newProgressPopupItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/add.png"))); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(newProgressPopupItem1, bundle.getString("New_action")); // NOI18N
+        newProgressPopupItem1.setToolTipText(bundle.getString("Creates_a_new_action")); // NOI18N
         newProgressPopupItem1.setActionCommand("newProgress");
         newProgressPopupItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 newProgressPopupItem1ActionPerformed(evt);
             }
         });
-
         tablePopupMenu.add(newProgressPopupItem1);
 
         startProgressPopupItem1.setAction(new StartProgressAction ());
         startProgressPopupItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         startProgressPopupItem1.setFont(new java.awt.Font("Dialog", 0, 12));
-        startProgressPopupItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/media-record.png")));
-        org.openide.awt.Mnemonics.setLocalizedText(startProgressPopupItem1, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Start_action"));
+        startProgressPopupItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/media-record.png"))); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(startProgressPopupItem1, bundle.getString("Start_action")); // NOI18N
         startProgressPopupItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 startProgressPopupItem1ActionPerformed(evt);
             }
         });
-
         tablePopupMenu.add(startProgressPopupItem1);
 
         startProgressClonePopupItem.setAction(new StartProgressCloneAction ());
         startProgressClonePopupItem.setFont(new java.awt.Font("Dialog", 0, 12));
-        startProgressClonePopupItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/transparent.png")));
-        org.openide.awt.Mnemonics.setLocalizedText(startProgressClonePopupItem, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Start_action_clone"));
-        startProgressClonePopupItem.setToolTipText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Start_a_new_action_having_the_same_description_of_the_selected_one"));
+        startProgressClonePopupItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/transparent.png"))); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(startProgressClonePopupItem, bundle.getString("Start_action_clone")); // NOI18N
+        startProgressClonePopupItem.setToolTipText(bundle.getString("Start_a_new_action_having_the_same_description_of_the_selected_one")); // NOI18N
         startProgressClonePopupItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 startProgressClonePopupItemActionPerformed(evt);
             }
         });
-
         tablePopupMenu.add(startProgressClonePopupItem);
 
         continueProgressPopupItem.setAction(new ContinueProgressAction ());
         continueProgressPopupItem.setFont(new java.awt.Font("Dialog", 0, 12));
-        continueProgressPopupItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/transparent.png")));
-        org.openide.awt.Mnemonics.setLocalizedText(continueProgressPopupItem, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Continue_action"));
-        continueProgressPopupItem.setToolTipText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Continue_previously_stopped_action"));
+        continueProgressPopupItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/transparent.png"))); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(continueProgressPopupItem, bundle.getString("Continue_action")); // NOI18N
+        continueProgressPopupItem.setToolTipText(bundle.getString("Continue_previously_stopped_action")); // NOI18N
         continueProgressPopupItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 continueProgressPopupItemActionPerformed(evt);
             }
         });
-
         tablePopupMenu.add(continueProgressPopupItem);
 
         stopProgressMenuItem1.setAction(new StopProgressAction ());
         stopProgressMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.CTRL_MASK));
         stopProgressMenuItem1.setFont(new java.awt.Font("Dialog", 0, 12));
-        stopProgressMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/media-stop.png")));
-        org.openide.awt.Mnemonics.setLocalizedText(stopProgressMenuItem1, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Stop"));
-        stopProgressMenuItem1.setToolTipText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Stop_current_action"));
+        stopProgressMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/media-stop.png"))); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(stopProgressMenuItem1, bundle.getString("Stop")); // NOI18N
+        stopProgressMenuItem1.setToolTipText(bundle.getString("Stop_current_action")); // NOI18N
         stopProgressMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 stopProgressMenuItem1ActionPerformed(evt);
             }
         });
-
         tablePopupMenu.add(stopProgressMenuItem1);
 
+        addToTemplatesMenuItem.setAction(new AddProgressToTemplatesAction ());
+        addToTemplatesMenuItem.setFont(new java.awt.Font("Dialog", 0, 12));
+        addToTemplatesMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/transparent.png"))); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(addToTemplatesMenuItem, bundle.getString("MainWIndow/ProgressesTableMenu/AddProgressToTemplates")); // NOI18N
+        addToTemplatesMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addToTemplatesMenuItemActionPerformed(evt);
+            }
+        });
+        tablePopupMenu.add(addToTemplatesMenuItem);
         tablePopupMenu.add(jSeparator9);
 
         cutProgressesMenuItem1.setAction(new TransferAction (TransferAction.Type.CUT, tal));
         cutProgressesMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.CTRL_MASK));
         cutProgressesMenuItem1.setFont(new java.awt.Font("Dialog", 0, 12));
-        cutProgressesMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/edit-cut.png")));
-        cutProgressesMenuItem1.setText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Cut"));
+        cutProgressesMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/edit-cut.png"))); // NOI18N
+        cutProgressesMenuItem1.setText(bundle.getString("Cut")); // NOI18N
         tablePopupMenu.add(cutProgressesMenuItem1);
 
         copyProgressesMenuItem1.setAction(new TransferAction (TransferAction.Type.COPY, tal));
         copyProgressesMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
         copyProgressesMenuItem1.setFont(new java.awt.Font("Dialog", 0, 12));
-        copyProgressesMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/edit-copy.png")));
-        copyProgressesMenuItem1.setText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Copy"));
+        copyProgressesMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/edit-copy.png"))); // NOI18N
+        copyProgressesMenuItem1.setText(bundle.getString("Copy")); // NOI18N
         tablePopupMenu.add(copyProgressesMenuItem1);
 
         pasteProgressesMenuItem1.setAction(new TransferAction (TransferAction.Type.PASTE, tal));
         pasteProgressesMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.CTRL_MASK));
         pasteProgressesMenuItem1.setFont(new java.awt.Font("Dialog", 0, 12));
-        pasteProgressesMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/edit-paste.png")));
-        pasteProgressesMenuItem1.setText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Paste"));
+        pasteProgressesMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/edit-paste.png"))); // NOI18N
+        pasteProgressesMenuItem1.setText(bundle.getString("Paste")); // NOI18N
         tablePopupMenu.add(pasteProgressesMenuItem1);
-
         tablePopupMenu.add(jSeparator10);
 
         deleteProgressPopupItem.setAction(new DeletePiecesOfWorkAction ());
         deleteProgressPopupItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_DELETE, 0));
         deleteProgressPopupItem.setFont(new java.awt.Font("Dialog", 0, 12));
-        deleteProgressPopupItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/edit-delete.png")));
-        org.openide.awt.Mnemonics.setLocalizedText(deleteProgressPopupItem, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Delete"));
+        deleteProgressPopupItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/edit-delete.png"))); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(deleteProgressPopupItem, bundle.getString("Delete")); // NOI18N
         deleteProgressPopupItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 deleteProgressPopupItemActionPerformed(evt);
             }
         });
-
         tablePopupMenu.add(deleteProgressPopupItem);
 
         openFileChooser.setCurrentDirectory(null);
@@ -1276,6 +1270,7 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
             new String []{"Properties files"}
         ));
         openFileChooser.setFont(new java.awt.Font("Dialog", 0, 12));
+
         saveFileChooser.setCurrentDirectory(null);
         saveFileChooser.setDialogType(javax.swing.JFileChooser.SAVE_DIALOG);
         saveFileChooser.setFileFilter(new CustomFileFilter (
@@ -1295,33 +1290,31 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
             new String []{FileUtils.xml},
             new String []{"XML files"}
         ));
+
         trayMenu.setLabel(_context.getApplicationData ().getApplicationExternalName ());
-        trayMenuShowMenuItem.setLabel(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("TrayIcon/MenuItem/Label/Show"));
+
+        trayMenuShowMenuItem.setLabel(bundle.getString("TrayIcon/MenuItem/Label/Show")); // NOI18N
         trayMenuShowMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 traMenuShowMenuItemActionPerformed(evt);
             }
         });
-
         trayMenu.add(trayMenuShowMenuItem);
-
         trayMenu.addSeparator();
-        trayMenuStartProgressMenuItem.setLabel(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("TrayIcon/MenuItem/Label/Start_action"));
+        trayMenuStartProgressMenuItem.setLabel(bundle.getString("TrayIcon/MenuItem/Label/Start_action")); // NOI18N
         bind (trayMenuStartProgressMenuItem, new StartProgressAction ());
         trayMenu.add(trayMenuStartProgressMenuItem);
 
-        trayMenuStopProgressMenuItem.setLabel(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("TrayIcon/MenuItem/Label/Stop_action"));
+        trayMenuStopProgressMenuItem.setLabel(bundle.getString("TrayIcon/MenuItem/Label/Stop_action")); // NOI18N
         bind (trayMenuStopProgressMenuItem, new StopProgressAction ());
         trayMenu.add(trayMenuStopProgressMenuItem);
-
         trayMenu.addSeparator();
-        trayMenuExitMenuItem.setLabel(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("TrayIcon/MenuItem/Label/Exit"));
+        trayMenuExitMenuItem.setLabel(bundle.getString("TrayIcon/MenuItem/Label/Exit")); // NOI18N
         trayMenuExitMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 trayMenuExitActionPerformed(evt);
             }
         });
-
         trayMenu.add(trayMenuExitMenuItem);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -1336,14 +1329,14 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 
         tree_table_splitPane.setMaximumSize(null);
         tree_table_splitPane.setOneTouchExpandable(true);
-        taskTreePanel.setLayout(new java.awt.BorderLayout());
 
         taskTreePanel.setAutoscrolls(true);
         taskTreePanel.setPreferredSize(new java.awt.Dimension(160, 354));
+        taskTreePanel.setLayout(new java.awt.BorderLayout());
+
         taskTree.setAutoStartEditOnKeyStroke(false);
         taskTree.setColumnControlVisible(true);
         taskTree.setDragEnabled(true);
-        taskTree.setFont(new java.awt.Font("Monospaced", 0, 12));
         taskTree.setHorizontalScrollEnabled(true);
         taskTree.setMaximumSize(null);
         taskTree.setMinimumSize(null);
@@ -1358,7 +1351,6 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
                 taskTreeMousePressed(evt);
             }
         });
-
         jScrollPane1.setViewportView(taskTree);
 
         taskTreePanel.add(jScrollPane1, java.awt.BorderLayout.CENTER);
@@ -1375,8 +1367,6 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
             }
         });
 
-        progressesTablePanel.setLayout(new java.awt.BorderLayout());
-
         progressesTablePanel.setBackground(javax.swing.UIManager.getDefaults().getColor("Table.background"));
         progressesTablePanel.setOpaque(false);
         progressesTablePanel.addComponentListener(new java.awt.event.ComponentAdapter() {
@@ -1392,21 +1382,22 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
                 progressesTablePanelFocusLost(evt);
             }
         });
+        progressesTablePanel.setLayout(new java.awt.BorderLayout());
 
         progressesTableScrollPane.setBackground(java.awt.Color.white);
         progressesTableScrollPane.setMaximumSize(null);
         progressesTableScrollPane.setOpaque(false);
         //jScrollPane3.getViewport ().setBackground (javax.swing.UIManager.getDefaults().getColor("Table.background"));
         progressesTableScrollPane.getViewport ().setBackground (Color.WHITE);
-        progressesTable.setComponentPopupMenu(tablePopupMenu);
+
         progressesTable.setModel(new ProgressesJTableModel (_context.getModel ()));
-        progressesTable.setAutoStartEditOnKeyStroke(false);
         progressesTable.setColumnControlVisible(true);
+        progressesTable.setComponentPopupMenu(tablePopupMenu);
         progressesTable.setDragEnabled(true);
-        progressesTable.setFont(new java.awt.Font("Monospaced", 0, 12));
         progressesTable.setHorizontalScrollEnabled(true);
         progressesTable.setOpaque(false);
         progressesTable.setPreferredSize(null);
+        progressesTable.setSurrendersFocusOnKeystroke(true);
 
         //progressesTable.setDefaultEditor (String.class, new ValueCellEditor ());
 
@@ -1435,7 +1426,7 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
                     setText (
                         com.davidecavestro.common.util.CalendarUtils.getTimestamp (
                             (Date)value,
-                            java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("from_to_format_long")
+                            CustomizableFormat.LONG_DATE.getValue (_context)
                         )
                     );
                 }
@@ -1497,15 +1488,13 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
                     progressesTableMousePressed(evt);
                 }
             });
-
             progressesTableScrollPane.setViewportView(progressesTable);
 
             progressesTablePanel.add(progressesTableScrollPane, java.awt.BorderLayout.CENTER);
 
             mainContentsTabbedPane.addTab(null, progressesTablePanel);
 
-            jPanel1.setLayout(new java.awt.GridBagLayout());
-
+            jPanel1.setToolTipText(bundle.getString("MainWindow/ProgressesPane/ChartsTab/Tooltip")); // NOI18N
             jPanel1.addComponentListener(new java.awt.event.ComponentAdapter() {
                 public void componentShown(java.awt.event.ComponentEvent evt) {
                     jPanel1ComponentShown(evt);
@@ -1519,13 +1508,13 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
                     jPanel1FocusLost(evt);
                 }
             });
+            jPanel1.setLayout(new java.awt.GridBagLayout());
 
             chartPanel.addComponentListener(new java.awt.event.ComponentAdapter() {
                 public void componentResized(java.awt.event.ComponentEvent evt) {
                     chartPanelComponentResized(evt);
                 }
             });
-
             gridBagConstraints = new java.awt.GridBagConstraints();
             gridBagConstraints.gridx = 0;
             gridBagConstraints.gridy = 1;
@@ -1536,9 +1525,15 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 
             jPanel4.setMinimumSize(new java.awt.Dimension(46, 20));
             jPanel4.setPreferredSize(new java.awt.Dimension(210, 20));
+            jPanel4.setLayout(new java.awt.GridBagLayout());
+
             jLabel3.setFont(new java.awt.Font("Dialog", 0, 12));
-            jLabel3.setText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("MainWindow/ControlLabel/Visible_chart_levels"));
-            jPanel4.add(jLabel3);
+            jLabel3.setText(bundle.getString("MainWindow/ControlLabel/Visible_chart_levels")); // NOI18N
+            gridBagConstraints = new java.awt.GridBagConstraints();
+            gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+            gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+            gridBagConstraints.insets = new java.awt.Insets(3, 3, 3, 3);
+            jPanel4.add(jLabel3, gridBagConstraints);
 
             chartDepthSlider.setMaximum(10);
             chartDepthSlider.setMinimum(1);
@@ -1559,8 +1554,12 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
                     chartDepthSliderStateChanged(evt);
                 }
             });
-
-            jPanel4.add(chartDepthSlider);
+            gridBagConstraints = new java.awt.GridBagConstraints();
+            gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+            gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+            gridBagConstraints.weightx = 1.0;
+            gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+            jPanel4.add(chartDepthSlider, gridBagConstraints);
 
             gridBagConstraints = new java.awt.GridBagConstraints();
             gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
@@ -1574,18 +1573,18 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 
             mainPanel.add(tree_table_splitPane, java.awt.BorderLayout.CENTER);
 
-            jPanel5.setLayout(new java.awt.GridBagLayout());
-
             jPanel5.setMinimumSize(new java.awt.Dimension(400, 28));
             jPanel5.setPreferredSize(new java.awt.Dimension(420, 28));
+            jPanel5.setLayout(new java.awt.GridBagLayout());
+
             mainToolbar.setFloatable(false);
             mainToolbar.setRollover(true);
             javax.help.CSH.setHelpIDString (mainToolbar, _context.getHelpManager ().getResolver ().resolveHelpID (HelpResources.MAIN_TOOLBAR ));
 
             jButton5.setAction(new NewWorkSpaceAction ());
             jButton5.setFont(new java.awt.Font("Dialog", 0, 12));
-            jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/folder-new.png")));
-            jButton5.setToolTipText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("New_workspace"));
+            jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/folder-new.png"))); // NOI18N
+            jButton5.setToolTipText(bundle.getString("New_workspace")); // NOI18N
             jButton5.setBorderPainted(false);
             jButton5.setMargin(null);
             jButton5.setMinimumSize(new java.awt.Dimension(28, 28));
@@ -1595,8 +1594,8 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 
             jButton1.setAction(new NewTaskAction ());
             jButton1.setFont(new java.awt.Font("Dialog", 0, 12));
-            jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/file-new.png")));
-            jButton1.setToolTipText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("New_task_(Ctrl+N)"));
+            jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/file-new.png"))); // NOI18N
+            jButton1.setToolTipText(bundle.getString("New_task_(Ctrl+N)")); // NOI18N
             jButton1.setBorderPainted(false);
             jButton1.setMargin(null);
             jButton1.setMinimumSize(new java.awt.Dimension(28, 28));
@@ -1606,8 +1605,8 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 
             jButton2.setAction(new OpenWorkSpaceAction ());
             jButton2.setFont(new java.awt.Font("Dialog", 0, 12));
-            jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/folder-open.png")));
-            jButton2.setToolTipText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Open_workspace_(Ctrl+O)"));
+            jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/folder-open.png"))); // NOI18N
+            jButton2.setToolTipText(bundle.getString("Open_workspace_(Ctrl+O)")); // NOI18N
             jButton2.setBorderPainted(false);
             jButton2.setMargin(null);
             jButton2.setMaximumSize(new java.awt.Dimension(28, 28));
@@ -1623,8 +1622,8 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 
             jButton4.setAction(new NewPieceOfWorkAction ());
             jButton4.setFont(new java.awt.Font("Dialog", 0, 12));
-            jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/add.png")));
-            jButton4.setToolTipText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("New_action"));
+            jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/add.png"))); // NOI18N
+            jButton4.setToolTipText(bundle.getString("New_action")); // NOI18N
             jButton4.setBorderPainted(false);
             jButton4.setMargin(null);
             jButton4.setMaximumSize(new java.awt.Dimension(28, 28));
@@ -1640,8 +1639,8 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 
             jButton3.setAction(new StartProgressAction ());
             jButton3.setFont(new java.awt.Font("Dialog", 0, 12));
-            jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/media-record.png")));
-            jButton3.setToolTipText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("<HTML>_Start_action_(Ctrl+S)_<BR>__<I>hold_SHIFT_key_pressed_for_options_dialog</I>_</HTML>"));
+            jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/media-record.png"))); // NOI18N
+            jButton3.setToolTipText(bundle.getString("<HTML>_Start_action_(Ctrl+S)_<BR>__<I>hold_SHIFT_key_pressed_for_options_dialog</I>_</HTML>")); // NOI18N
             jButton3.setBorderPainted(false);
             jButton3.setMargin(null);
             jButton3.setMaximumSize(new java.awt.Dimension(28, 28));
@@ -1652,8 +1651,8 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 
             jButton10.setAction(new StopProgressAction ());
             jButton10.setFont(new java.awt.Font("Dialog", 0, 12));
-            jButton10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/media-stop.png")));
-            jButton10.setToolTipText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Stop_action_(Ctrl+T)"));
+            jButton10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/media-stop.png"))); // NOI18N
+            jButton10.setToolTipText(bundle.getString("Stop_action_(Ctrl+T)")); // NOI18N
             jButton10.setBorderPainted(false);
             jButton10.setMargin(null);
             jButton10.setMaximumSize(new java.awt.Dimension(28, 28));
@@ -1678,8 +1677,8 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 
             jButton6.setAction(new TransferAction (TransferAction.Type.CUT, tal));
             jButton6.setFont(new java.awt.Font("Dialog", 0, 12));
-            jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/edit-cut.png")));
-            jButton6.setToolTipText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Cut_(Ctrl+X)"));
+            jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/edit-cut.png"))); // NOI18N
+            jButton6.setToolTipText(bundle.getString("Cut_(Ctrl+X)")); // NOI18N
             jButton6.setBorderPainted(false);
             jButton6.setMargin(null);
             jButton6.setMinimumSize(new java.awt.Dimension(28, 28));
@@ -1690,8 +1689,8 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 
             jButton7.setAction(new TransferAction (TransferAction.Type.COPY, tal));
             jButton7.setFont(new java.awt.Font("Dialog", 0, 12));
-            jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/edit-copy.png")));
-            jButton7.setToolTipText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Copy_(Ctrl+C)"));
+            jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/edit-copy.png"))); // NOI18N
+            jButton7.setToolTipText(bundle.getString("Copy_(Ctrl+C)")); // NOI18N
             jButton7.setBorderPainted(false);
             jButton7.setMargin(null);
             jButton7.setMinimumSize(new java.awt.Dimension(28, 28));
@@ -1702,8 +1701,8 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 
             jButton8.setAction(new TransferAction (TransferAction.Type.PASTE, tal));
             jButton8.setFont(new java.awt.Font("Dialog", 0, 12));
-            jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/edit-paste.png")));
-            jButton8.setToolTipText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Paste_(Ctrl+V)"));
+            jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/edit-paste.png"))); // NOI18N
+            jButton8.setToolTipText(bundle.getString("Paste_(Ctrl+V)")); // NOI18N
             jButton8.setBorderPainted(false);
             jButton8.setMargin(null);
             jButton8.setMinimumSize(new java.awt.Dimension(28, 28));
@@ -1714,8 +1713,8 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 
             undoButton.setAction(_context.getUndoManager ().getUndoAction());
             undoButton.setFont(new java.awt.Font("Dialog", 0, 12));
-            undoButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/edit-undo.png")));
-            undoButton.setToolTipText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Undo+SHORTCUT"));
+            undoButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/edit-undo.png"))); // NOI18N
+            undoButton.setToolTipText(bundle.getString("Undo+SHORTCUT")); // NOI18N
             undoButton.setBorderPainted(false);
             undoButton.setMargin(null);
             undoButton.setMaximumSize(new java.awt.Dimension(28, 28));
@@ -1729,8 +1728,8 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 
             redoButton.setAction(_context.getUndoManager ().getRedoAction());
             redoButton.setFont(new java.awt.Font("Dialog", 0, 12));
-            redoButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/edit-redo.png")));
-            redoButton.setToolTipText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Redo+SHORTCUT"));
+            redoButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/edit-redo.png"))); // NOI18N
+            redoButton.setToolTipText(bundle.getString("Redo+SHORTCUT")); // NOI18N
             redoButton.setBorderPainted(false);
             redoButton.setMargin(null);
             redoButton.setMaximumSize(new java.awt.Dimension(28, 28));
@@ -1757,8 +1756,8 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 
             _context.getHelpManager ().initialize (helpButton);
             printButton.setAction(new StartReportAction ());
-            printButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/document-print.png")));
-            printButton.setToolTipText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Print_(Ctrl+P)"));
+            printButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/document-print.png"))); // NOI18N
+            printButton.setToolTipText(bundle.getString("Print_(Ctrl+P)")); // NOI18N
             printButton.setBorderPainted(false);
             printButton.setOpaque(false);
             /* mantiene nascosto il testo  dell'action */
@@ -1767,8 +1766,26 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
             mainToolbar2.add(printButton);
 
             _context.getHelpManager ().initialize (helpButton);
-            helpButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/help-browser.png")));
-            helpButton.setToolTipText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Show_help"));
+            printButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/tag_blue.png"))); // NOI18N
+            printButton1.setToolTipText(bundle.getString("MainWIndow/Toolbar/ButtonTooltip/Templates")); // NOI18N
+            printButton1.setBorderPainted(false);
+            printButton1.setFocusable(false);
+            printButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+            printButton1.setOpaque(false);
+            printButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+            /* mantiene nascosto il testo  dell'action */
+            redoButton.setText (null);
+            redoButton.putClientProperty ("hideActionText", Boolean.TRUE);
+            printButton1.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    templateMenuItemActionPerformed(evt);
+                }
+            });
+            mainToolbar2.add(printButton1);
+
+            _context.getHelpManager ().initialize (helpButton);
+            helpButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/help-browser.png"))); // NOI18N
+            helpButton.setToolTipText(bundle.getString("Show_help")); // NOI18N
             helpButton.setBorderPainted(false);
             helpButton.setOpaque(false);
             /* mantiene nascosto il testo  dell'action */
@@ -1785,13 +1802,13 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 
             mainPanel.add(jPanel5, java.awt.BorderLayout.NORTH);
 
-            statusPanel.setLayout(new java.awt.GridBagLayout());
-
             statusPanel.setMinimumSize(new java.awt.Dimension(320, 20));
             statusPanel.setPreferredSize(new java.awt.Dimension(436, 20));
             javax.help.CSH.setHelpIDString (statusPanel, _context.getHelpManager ().getResolver ().resolveHelpID (HelpResources.STATUS_BAR));
+            statusPanel.setLayout(new java.awt.GridBagLayout());
+
             appStatusLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-            org.openide.awt.Mnemonics.setLocalizedText(appStatusLabel, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("IDLE"));
+            org.openide.awt.Mnemonics.setLocalizedText(appStatusLabel, bundle.getString("IDLE")); // NOI18N
             appStatusLabel.setToolTipText("Running status");
             appStatusLabel.setMinimumSize(new java.awt.Dimension(60, 19));
             appStatusLabel.setPreferredSize(new java.awt.Dimension(50, 19));
@@ -1814,25 +1831,25 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
             gridBagConstraints.weightx = 1.0;
             statusPanel.add(progressBar, gridBagConstraints);
 
+            jPanel2.setMinimumSize(new java.awt.Dimension(300, 20));
+            jPanel2.setPreferredSize(new java.awt.Dimension(300, 22));
             jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-            jPanel2.setMinimumSize(new java.awt.Dimension(250, 20));
-            jPanel2.setPreferredSize(new java.awt.Dimension(250, 22));
             jLabel1.setFont(new java.awt.Font("Dialog", 0, 12));
             jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-            jLabel1.setText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Task:"));
-            jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(-20, 0, 60, 20));
+            jLabel1.setText(bundle.getString("Task:")); // NOI18N
+            jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 70, 20));
 
             tableTaskNameLabel.setFont(new java.awt.Font("Monospaced", 0, 12));
-            jPanel2.add(tableTaskNameLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 0, 130, 20));
+            jPanel2.add(tableTaskNameLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 0, 150, 20));
 
             jLabel2.setFont(new java.awt.Font("Dialog", 0, 12));
-            jLabel2.setText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Actions:"));
-            jLabel2.setToolTipText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Progress_count"));
-            jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 0, -1, 20));
+            jLabel2.setText(bundle.getString("Actions:")); // NOI18N
+            jLabel2.setToolTipText(bundle.getString("Progress_count")); // NOI18N
+            jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 0, -1, 20));
 
             tableProgressCountLabel.setFont(new java.awt.Font("Monospaced", 0, 12));
-            jPanel2.add(tableProgressCountLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 0, 20, 20));
+            jPanel2.add(tableProgressCountLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 0, 20, 20));
 
             gridBagConstraints = new java.awt.GridBagConstraints();
             gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
@@ -1844,338 +1861,332 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
             getContentPane().add(mainPanel, java.awt.BorderLayout.CENTER);
 
             menuBar.setFont(new java.awt.Font("Dialog", 0, 12));
-            org.openide.awt.Mnemonics.setLocalizedText(fileMenu, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("&File"));
+
+            org.openide.awt.Mnemonics.setLocalizedText(fileMenu, bundle.getString("&File")); // NOI18N
             fileMenu.setFont(new java.awt.Font("Dialog", 0, 12));
+
             newWorkSpaceMenuItem.setAction(new NewWorkSpaceAction ());
             newWorkSpaceMenuItem.setFont(new java.awt.Font("Dialog", 0, 12));
-            newWorkSpaceMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/folder-new.png")));
-            org.openide.awt.Mnemonics.setLocalizedText(newWorkSpaceMenuItem, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("New_workspace"));
-            newWorkSpaceMenuItem.setToolTipText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Create_a_new_workspace"));
+            newWorkSpaceMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/folder-new.png"))); // NOI18N
+            org.openide.awt.Mnemonics.setLocalizedText(newWorkSpaceMenuItem, bundle.getString("New_workspace")); // NOI18N
+            newWorkSpaceMenuItem.setToolTipText(bundle.getString("Create_a_new_workspace")); // NOI18N
             newWorkSpaceMenuItem.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     newWorkSpaceMenuItemActionPerformed(evt);
                 }
             });
-
             fileMenu.add(newWorkSpaceMenuItem);
 
             newTaskMenuItem.setAction(new NewTaskAction ());
             newTaskMenuItem.setFont(new java.awt.Font("Dialog", 0, 12));
-            newTaskMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/file-new.png")));
-            org.openide.awt.Mnemonics.setLocalizedText(newTaskMenuItem, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("New_task"));
-            newTaskMenuItem.setToolTipText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Create_a_new_task"));
+            newTaskMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/file-new.png"))); // NOI18N
+            org.openide.awt.Mnemonics.setLocalizedText(newTaskMenuItem, bundle.getString("New_task")); // NOI18N
+            newTaskMenuItem.setToolTipText(bundle.getString("Create_a_new_task")); // NOI18N
             newTaskMenuItem.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     newTaskMenuItemActionPerformed(evt);
                 }
             });
-
             fileMenu.add(newTaskMenuItem);
-
             fileMenu.add(jSeparator2);
 
             openWorkSpaceMenuItem.setAction(new OpenWorkSpaceAction ());
             openWorkSpaceMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
             openWorkSpaceMenuItem.setFont(new java.awt.Font("Dialog", 0, 12));
-            openWorkSpaceMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/folder-open.png")));
-            org.openide.awt.Mnemonics.setLocalizedText(openWorkSpaceMenuItem, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Open_workspace"));
-            openWorkSpaceMenuItem.setToolTipText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Use_another_existing_workspace"));
+            openWorkSpaceMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/folder-open.png"))); // NOI18N
+            org.openide.awt.Mnemonics.setLocalizedText(openWorkSpaceMenuItem, bundle.getString("Open_workspace")); // NOI18N
+            openWorkSpaceMenuItem.setToolTipText(bundle.getString("Use_another_existing_workspace")); // NOI18N
             openWorkSpaceMenuItem.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     openWorkSpaceMenuItemActionPerformed(evt);
                 }
             });
-
             fileMenu.add(openWorkSpaceMenuItem);
 
             exportWorkSpaceMenuItem.setAction(new ExportWorkSpaceAction ());
             exportWorkSpaceMenuItem.setFont(new java.awt.Font("Dialog", 0, 12));
-            exportWorkSpaceMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/fileexport.png")));
-            org.openide.awt.Mnemonics.setLocalizedText(exportWorkSpaceMenuItem, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Export_workspace"));
-            exportWorkSpaceMenuItem.setToolTipText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Export_current_workspace_to_file"));
+            exportWorkSpaceMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/fileexport.png"))); // NOI18N
+            org.openide.awt.Mnemonics.setLocalizedText(exportWorkSpaceMenuItem, bundle.getString("Export_workspace")); // NOI18N
+            exportWorkSpaceMenuItem.setToolTipText(bundle.getString("Export_current_workspace_to_file")); // NOI18N
             exportWorkSpaceMenuItem.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     exportWorkSpaceMenuItemActionPerformed(evt);
                 }
             });
-
             fileMenu.add(exportWorkSpaceMenuItem);
 
             importWorkSpaceMenuItem.setAction(new ImportWorkSpaceAction ());
             importWorkSpaceMenuItem.setFont(new java.awt.Font("Dialog", 0, 12));
-            importWorkSpaceMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/fileimport.png")));
-            org.openide.awt.Mnemonics.setLocalizedText(importWorkSpaceMenuItem, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Import_workspace"));
-            importWorkSpaceMenuItem.setToolTipText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Import_a_workspace_from_external_file"));
+            importWorkSpaceMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/fileimport.png"))); // NOI18N
+            org.openide.awt.Mnemonics.setLocalizedText(importWorkSpaceMenuItem, bundle.getString("Import_workspace")); // NOI18N
+            importWorkSpaceMenuItem.setToolTipText(bundle.getString("Import_a_workspace_from_external_file")); // NOI18N
             importWorkSpaceMenuItem.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     importWorkSpaceMenuItemActionPerformed(evt);
                 }
             });
-
             fileMenu.add(importWorkSpaceMenuItem);
-
             fileMenu.add(jSeparator3);
 
             printMenuItem.setAction(new StartReportAction ());
             printMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
             printMenuItem.setFont(new java.awt.Font("Dialog", 0, 12));
-            printMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/document-print.png")));
-            printMenuItem.setText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Print"));
+            printMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/document-print.png"))); // NOI18N
+            printMenuItem.setText(bundle.getString("Print")); // NOI18N
             printMenuItem.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     printMenuItemActionPerformed(evt);
                 }
             });
-
             fileMenu.add(printMenuItem);
-
             fileMenu.add(jSeparator11);
 
             exitMenuItem.setFont(new java.awt.Font("Dialog", 0, 12));
-            exitMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/application-exit.png")));
-            org.openide.awt.Mnemonics.setLocalizedText(exitMenuItem, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("E&xit"));
-            exitMenuItem.setToolTipText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Exit_from_application"));
+            exitMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/application-exit.png"))); // NOI18N
+            org.openide.awt.Mnemonics.setLocalizedText(exitMenuItem, bundle.getString("E&xit")); // NOI18N
+            exitMenuItem.setToolTipText(bundle.getString("Exit_from_application")); // NOI18N
             exitMenuItem.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     exitMenuItemActionPerformed(evt);
                 }
             });
-
             fileMenu.add(exitMenuItem);
 
             menuBar.add(fileMenu);
 
-            org.openide.awt.Mnemonics.setLocalizedText(editMenu, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("&Edit"));
+            org.openide.awt.Mnemonics.setLocalizedText(editMenu, bundle.getString("&Edit")); // NOI18N
             editMenu.setFont(new java.awt.Font("Dialog", 0, 12));
+
             undoMenuItem.setAction(_context.getUndoManager ().getUndoAction());
             undoMenuItem.setFont(new java.awt.Font("Dialog", 0, 12));
-            undoMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/edit-undo.png")));
+            undoMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/edit-undo.png"))); // NOI18N
             undoMenuItem.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     undoMenuItemActionPerformed(evt);
                 }
             });
-
             editMenu.add(undoMenuItem);
 
             redoMenuItem.setAction(_context.getUndoManager ().getRedoAction());
             redoMenuItem.setFont(new java.awt.Font("Dialog", 0, 12));
-            redoMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/edit-redo.png")));
+            redoMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/edit-redo.png"))); // NOI18N
             editMenu.add(redoMenuItem);
-
             editMenu.add(jSeparator4);
 
             cutMenuItem.setAction(new TransferAction (TransferAction.Type.CUT, tal));
             cutMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.CTRL_MASK));
             cutMenuItem.setFont(new java.awt.Font("Dialog", 0, 12));
-            cutMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/edit-cut.png")));
+            cutMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/edit-cut.png"))); // NOI18N
             cutMenuItem.setMnemonic('X');
-            org.openide.awt.Mnemonics.setLocalizedText(cutMenuItem, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Cut"));
+            org.openide.awt.Mnemonics.setLocalizedText(cutMenuItem, bundle.getString("Cut")); // NOI18N
             editMenu.add(cutMenuItem);
 
             copyMenuItem.setAction(new TransferAction (TransferAction.Type.COPY, tal));
             copyMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
             copyMenuItem.setFont(new java.awt.Font("Dialog", 0, 12));
-            copyMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/edit-copy.png")));
+            copyMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/edit-copy.png"))); // NOI18N
             copyMenuItem.setMnemonic('C');
-            org.openide.awt.Mnemonics.setLocalizedText(copyMenuItem, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Copy"));
+            org.openide.awt.Mnemonics.setLocalizedText(copyMenuItem, bundle.getString("Copy")); // NOI18N
             copyMenuItem.setToolTipText("");
             editMenu.add(copyMenuItem);
 
             pasteMenuItem.setAction(new TransferAction (TransferAction.Type.PASTE, tal));
             pasteMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.CTRL_MASK));
             pasteMenuItem.setFont(new java.awt.Font("Dialog", 0, 12));
-            pasteMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/edit-paste.png")));
+            pasteMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/edit-paste.png"))); // NOI18N
             pasteMenuItem.setMnemonic('V');
-            org.openide.awt.Mnemonics.setLocalizedText(pasteMenuItem, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Paste"));
+            org.openide.awt.Mnemonics.setLocalizedText(pasteMenuItem, bundle.getString("Paste")); // NOI18N
             editMenu.add(pasteMenuItem);
-
             editMenu.add(jSeparator8);
 
             deleteMenuItem.setAction(new TransferAction ("delete", tal));
             deleteMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_DELETE, 0));
             deleteMenuItem.setFont(new java.awt.Font("Dialog", 0, 12));
-            deleteMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/edit-delete.png")));
-            org.openide.awt.Mnemonics.setLocalizedText(deleteMenuItem, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Delete"));
+            deleteMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/edit-delete.png"))); // NOI18N
+            org.openide.awt.Mnemonics.setLocalizedText(deleteMenuItem, bundle.getString("Delete")); // NOI18N
             editMenu.add(deleteMenuItem);
 
             propertiesMenuItem.setAction(new StartTaskEditAction ());
             propertiesMenuItem.setFont(new java.awt.Font("Dialog", 0, 12));
-            propertiesMenuItem.setText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("MainWindow/MainMenu/EditMenu/Properties"));
+            propertiesMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/transparent.png"))); // NOI18N
+            propertiesMenuItem.setText(bundle.getString("MainWindow/MainMenu/EditMenu/Properties")); // NOI18N
             editMenu.add(propertiesMenuItem);
 
             menuBar.add(editMenu);
 
-            viewMenu.setText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("/MainMenu/Menu/View"));
+            org.openide.awt.Mnemonics.setLocalizedText(viewMenu, bundle.getString("/MainMenu/Menu/View")); // NOI18N
             viewMenu.setFont(new java.awt.Font("Dialog", 0, 12));
+
             TabShowingChoiceButtonGroup.add(showActionsMenuItem);
             showActionsMenuItem.setFont(new java.awt.Font("Dialog", 0, 12));
             showActionsMenuItem.setSelected(true);
-            showActionsMenuItem.setText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("/MainMenu/MenuItem/Show_actions"));
+            showActionsMenuItem.setText(bundle.getString("/MainMenu/MenuItem/Show_actions")); // NOI18N
             showActionsMenuItem.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     showActionsMenuItemActionPerformed(evt);
                 }
             });
-
             viewMenu.add(showActionsMenuItem);
 
             TabShowingChoiceButtonGroup.add(showChartsMenuItem);
             showChartsMenuItem.setFont(new java.awt.Font("Dialog", 0, 12));
-            showChartsMenuItem.setText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("/MainMenu/MenuItem/Show_charts"));
+            showChartsMenuItem.setText(bundle.getString("/MainMenu/MenuItem/Show_charts")); // NOI18N
             showChartsMenuItem.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     showChartsMenuItemActionPerformed(evt);
                 }
             });
-
             viewMenu.add(showChartsMenuItem);
-
             viewMenu.add(jSeparator16);
 
             linkTableBackgroundMenuItem.setFont(new java.awt.Font("Dialog", 0, 12));
-            linkTableBackgroundMenuItem.setText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("/MainMenu/MenuItem/Show_chats_ghost_on_actions_table"));
+            linkTableBackgroundMenuItem.setText(bundle.getString("/MainMenu/MenuItem/Show_chats_ghost_on_actions_table")); // NOI18N
             linkTableBackgroundMenuItem.setSelected (_context.getApplicationOptions ().isChartGhostEnabled ());
-
             linkTableBackgroundMenuItem.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     linkTableBackgroundMenuItemActionPerformed(evt);
                 }
             });
-
             viewMenu.add(linkTableBackgroundMenuItem);
 
             menuBar.add(viewMenu);
 
-            org.openide.awt.Mnemonics.setLocalizedText(actionstMenu, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("&Actions"));
+            org.openide.awt.Mnemonics.setLocalizedText(actionstMenu, bundle.getString("&Actions")); // NOI18N
             actionstMenu.setFont(new java.awt.Font("Dialog", 0, 12));
+
             newProgressMenuItem.setAction(new NewPieceOfWorkAction ());
             newProgressMenuItem.setFont(new java.awt.Font("Dialog", 0, 12));
-            newProgressMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/add.png")));
-            org.openide.awt.Mnemonics.setLocalizedText(newProgressMenuItem, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("New_action"));
-            newProgressMenuItem.setToolTipText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Creates_a_new_action"));
+            newProgressMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/add.png"))); // NOI18N
+            org.openide.awt.Mnemonics.setLocalizedText(newProgressMenuItem, bundle.getString("New_action")); // NOI18N
+            newProgressMenuItem.setToolTipText(bundle.getString("Creates_a_new_action")); // NOI18N
             newProgressMenuItem.setActionCommand("newProgress");
             newProgressMenuItem.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     newProgressMenuItemActionPerformed(evt);
                 }
             });
-
             actionstMenu.add(newProgressMenuItem);
 
             startProgressMenuItem.setAction(new StartProgressAction ());
             startProgressMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
             startProgressMenuItem.setFont(new java.awt.Font("Dialog", 0, 12));
-            startProgressMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/media-record.png")));
-            org.openide.awt.Mnemonics.setLocalizedText(startProgressMenuItem, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Start_action"));
-            startProgressMenuItem.setToolTipText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("<HTML>_Start_action_(Ctrl+S)_<BR>__<I>hold_SHIFT_key_pressed_for_options_dialog</I>_</HTML>"));
+            startProgressMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/media-record.png"))); // NOI18N
+            org.openide.awt.Mnemonics.setLocalizedText(startProgressMenuItem, bundle.getString("Start_action")); // NOI18N
+            startProgressMenuItem.setToolTipText(bundle.getString("<HTML>_Start_action_(Ctrl+S)_<BR>__<I>hold_SHIFT_key_pressed_for_options_dialog</I>_</HTML>")); // NOI18N
             startProgressMenuItem.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     startProgressMenuItemActionPerformed(evt);
                 }
             });
-
             actionstMenu.add(startProgressMenuItem);
 
             startProgressCloneMenuItem.setAction(new StartProgressCloneAction ());
             startProgressCloneMenuItem.setFont(new java.awt.Font("Dialog", 0, 12));
-            startProgressCloneMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/transparent.png")));
-            org.openide.awt.Mnemonics.setLocalizedText(startProgressCloneMenuItem, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Start_action_clone"));
-            startProgressCloneMenuItem.setToolTipText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Start_a_new_action_having_the_same_description_of_the_selected_one"));
+            startProgressCloneMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/transparent.png"))); // NOI18N
+            org.openide.awt.Mnemonics.setLocalizedText(startProgressCloneMenuItem, bundle.getString("Start_action_clone")); // NOI18N
+            startProgressCloneMenuItem.setToolTipText(bundle.getString("Start_a_new_action_having_the_same_description_of_the_selected_one")); // NOI18N
             startProgressCloneMenuItem.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     startProgressCloneMenuItemActionPerformed(evt);
                 }
             });
-
             actionstMenu.add(startProgressCloneMenuItem);
 
             continueProgressMenuItem.setAction(new ContinueProgressAction ());
             continueProgressMenuItem.setFont(new java.awt.Font("Dialog", 0, 12));
-            continueProgressMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/transparent.png")));
-            org.openide.awt.Mnemonics.setLocalizedText(continueProgressMenuItem, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Continue_action"));
-            continueProgressMenuItem.setToolTipText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Continue_previously_stopped_action"));
+            continueProgressMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/transparent.png"))); // NOI18N
+            org.openide.awt.Mnemonics.setLocalizedText(continueProgressMenuItem, bundle.getString("Continue_action")); // NOI18N
+            continueProgressMenuItem.setToolTipText(bundle.getString("Continue_previously_stopped_action")); // NOI18N
             continueProgressMenuItem.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     continueProgressMenuItemActionPerformed(evt);
                 }
             });
-
             actionstMenu.add(continueProgressMenuItem);
-
             actionstMenu.add(jSeparator13);
 
             stopProgressMenuItem.setAction(new StopProgressAction ());
             stopProgressMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.CTRL_MASK));
             stopProgressMenuItem.setFont(new java.awt.Font("Dialog", 0, 12));
-            stopProgressMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/media-stop.png")));
-            org.openide.awt.Mnemonics.setLocalizedText(stopProgressMenuItem, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Stop_action"));
-            stopProgressMenuItem.setToolTipText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Stop_current_action"));
+            stopProgressMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/media-stop.png"))); // NOI18N
+            org.openide.awt.Mnemonics.setLocalizedText(stopProgressMenuItem, bundle.getString("Stop_action")); // NOI18N
+            stopProgressMenuItem.setToolTipText(bundle.getString("Stop_current_action")); // NOI18N
             stopProgressMenuItem.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     stopProgressMenuItemActionPerformed(evt);
                 }
             });
-
             actionstMenu.add(stopProgressMenuItem);
 
             menuBar.add(actionstMenu);
 
-            org.openide.awt.Mnemonics.setLocalizedText(toolsMenu, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("&Tools"));
+            org.openide.awt.Mnemonics.setLocalizedText(toolsMenu, bundle.getString("&Tools")); // NOI18N
             toolsMenu.setFont(new java.awt.Font("Dialog", 0, 12));
+
+            logConsoleMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.ALT_MASK));
             logConsoleMenuItem.setFont(new java.awt.Font("Dialog", 0, 12));
-            org.openide.awt.Mnemonics.setLocalizedText(logConsoleMenuItem, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Log_console"));
+            logConsoleMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/transparent.png"))); // NOI18N
+            org.openide.awt.Mnemonics.setLocalizedText(logConsoleMenuItem, bundle.getString("Log_console")); // NOI18N
             logConsoleMenuItem.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     logConsoleMenuItemActionPerformed(evt);
                 }
             });
-
             toolsMenu.add(logConsoleMenuItem);
 
+            optionsMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.ALT_MASK));
             optionsMenuItem.setFont(new java.awt.Font("Dialog", 0, 12));
-            org.openide.awt.Mnemonics.setLocalizedText(optionsMenuItem, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("&Options"));
+            optionsMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/cog.png"))); // NOI18N
+            org.openide.awt.Mnemonics.setLocalizedText(optionsMenuItem, bundle.getString("&Options")); // NOI18N
             optionsMenuItem.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     optionsMenuItemActionPerformed(evt);
                 }
             });
-
             toolsMenu.add(optionsMenuItem);
+
+            templateMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.ALT_MASK));
+            templateMenuItem.setFont(new java.awt.Font("Dialog", 0, 12));
+            templateMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/tag_blue.png"))); // NOI18N
+            org.openide.awt.Mnemonics.setLocalizedText(templateMenuItem, bundle.getString("&Templates")); // NOI18N
+            templateMenuItem.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    templateMenuItemActionPerformed(evt);
+                }
+            });
+            toolsMenu.add(templateMenuItem);
 
             menuBar.add(toolsMenu);
 
-            org.openide.awt.Mnemonics.setLocalizedText(helpMenu, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("&Help"));
+            org.openide.awt.Mnemonics.setLocalizedText(helpMenu, bundle.getString("&Help")); // NOI18N
             helpMenu.setFont(new java.awt.Font("Dialog", 0, 12));
+
             _context.getHelpManager ().initialize (contentsMenuItem);
             contentsMenuItem.setFont(new java.awt.Font("Dialog", 0, 12));
-            contentsMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/help-browser.png")));
-            contentsMenuItem.setText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Contents"));
+            contentsMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/help-browser.png"))); // NOI18N
+            contentsMenuItem.setText(bundle.getString("Contents")); // NOI18N
             contentsMenuItem.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     contentsMenuItemActionPerformed(evt);
                 }
             });
-
             helpMenu.add(contentsMenuItem);
 
             contextHelpMenuItem.setFont(new java.awt.Font("Dialog", 0, 12));
-            contextHelpMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/contexthelp.png")));
-            contextHelpMenuItem.setText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Item"));
+            contextHelpMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/contexthelp.png"))); // NOI18N
+            contextHelpMenuItem.setText(bundle.getString("Item")); // NOI18N
             contextHelpMenuItem.addActionListener (new CSH.DisplayHelpAfterTracking (_context.getHelpManager ().getMainHelpBroker ()));
             helpMenu.add(contextHelpMenuItem);
-
             helpMenu.add(jSeparator7);
 
             aboutMenuItem.setFont(new java.awt.Font("Dialog", 0, 12));
-            aboutMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/dialog-information.png")));
-            aboutMenuItem.setText(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("About"));
+            aboutMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/dialog-information.png"))); // NOI18N
+            aboutMenuItem.setText(bundle.getString("About")); // NOI18N
             aboutMenuItem.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     aboutMenuItemActionPerformed(evt);
                 }
             });
-
             helpMenu.add(aboutMenuItem);
 
             menuBar.add(helpMenu);
@@ -2184,7 +2195,7 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 
             java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
             setBounds((screenSize.width-802)/2, (screenSize.height-600)/2, 802, 600);
-        }//GEN-END:initComponents
+        }// </editor-fold>//GEN-END:initComponents
 
 	private void traMenuShowMenuItemActionPerformed (java.awt.event.ActionEvent evt) {//GEN-FIRST:event_traMenuShowMenuItemActionPerformed
 		bringToFront ();
@@ -2404,6 +2415,14 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 		 */
 		dispatchEvent (new WindowEvent (this, WindowEvent.WINDOW_CLOSING));
 	}//GEN-LAST:event_exitMenuItemActionPerformed
+
+private void templateMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_templateMenuItemActionPerformed
+	_context.getWindowManager ().getActionTemplatesDialog ().show ();
+}//GEN-LAST:event_templateMenuItemActionPerformed
+
+private void addToTemplatesMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addToTemplatesMenuItemActionPerformed
+// TODO add your handling code here:
+}//GEN-LAST:event_addToTemplatesMenuItemActionPerformed
 	
 	public String getPersistenceKey () {
 		return "mainwindow";
@@ -2421,6 +2440,7 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
     private javax.swing.ButtonGroup TabShowingChoiceButtonGroup;
     private javax.swing.JMenuItem aboutMenuItem;
     private javax.swing.JMenu actionstMenu;
+    private javax.swing.JMenuItem addToTemplatesMenuItem;
     private javax.swing.JLabel appStatusLabel;
     private java.awt.BorderLayout borderLayout1;
     private javax.swing.JSlider chartDepthSlider;
@@ -2504,6 +2524,7 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
     private javax.swing.JMenuItem pasteProgressesMenuItem1;
     private javax.swing.JMenuItem pasteTasksMenuItem;
     private javax.swing.JButton printButton;
+    private javax.swing.JButton printButton1;
     private javax.swing.JMenuItem printMenuItem;
     private javax.swing.JProgressBar progressBar;
     private org.jdesktop.swingx.JXTable progressesTable;
@@ -2529,6 +2550,7 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
     private javax.swing.JLabel tableTaskNameLabel;
     private org.jdesktop.swingx.JXTreeTable taskTree;
     private javax.swing.JPanel taskTreePanel;
+    private javax.swing.JMenuItem templateMenuItem;
     private javax.swing.JMenu toolsMenu;
     private java.awt.PopupMenu trayMenu;
     private java.awt.MenuItem trayMenuExitMenuItem;
@@ -2710,14 +2732,18 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 			java.util.ResourceBundle.getBundle ("com.davidecavestro.timekeeper.gui.res").getString ("table_header/Notes")
 		};
 		
+		@Override
 		public String getColumnName (int columnIndex) {
 			return _columnNames[columnIndex];
 		}
 		
 		
+		@Override
 		public boolean isCellEditable (int rowIndex, int columnIndex) {
 			return
+				//action terminata
 				!getPieceOfWork (rowIndex).isEndOpened ()
+				//oppure in progress, e allora esclude data fine e durata
 				|| (columnIndex!=DURATION_COL_INDEX && columnIndex!=END_COL_INDEX);
 		}
 		
@@ -2727,6 +2753,7 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 			Date.class,
 			String.class
 		};
+		@Override
 		public Class getColumnClass (int col) {
 			return _columnClasses[col];
 		}
@@ -2734,6 +2761,7 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 		/**
 		 * Imposta il valore nel modello della tabella, propagandolo al modello applicativo.
 		 */
+		@Override
 		public void setValueAt (Object aValue, int rowIndex, int columnIndex) {
 			switch (columnIndex) {
 				case DURATION_COL_INDEX:
@@ -3666,7 +3694,14 @@ com.davidecavestro.timekeeper.gui.MainWindow$TaskJTreeModel.checkForReload(MainW
 	private class DateCellEditor extends DefaultCellEditor implements TableCellEditor {
 
 		public DateCellEditor () {
-			super (new JFormattedTextField (new DateFormatter (new SimpleDateFormat (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("from_to_format_long")))));
+			super (new JFormattedTextField (new DateFormatter (new SimpleDateFormat (CustomizableFormat.LONG_DATE.getValue (_context)))));
+			final SimpleDateFormat sdf = (SimpleDateFormat)((DateFormatter)getComponent ().getFormatter ()).getFormat ();
+			CustomizableFormat.LONG_DATE.addPropertyChangeListener (new PropertyChangeListener () {
+
+				public void propertyChange (PropertyChangeEvent evt) {
+					sdf.applyPattern (CustomizableFormat.LONG_DATE.getValue (_context));
+				}
+			});
 			getComponent ().setHorizontalAlignment (JTextField.TRAILING);
 //			getComponent ().addFocusListener (new FocusListener () {
 //				public void focusGained (FocusEvent e) {
@@ -3711,6 +3746,7 @@ com.davidecavestro.timekeeper.gui.MainWindow$TaskJTreeModel.checkForReload(MainW
 	
 	/**
 	 * Editor per le durate.
+	 * Funziona usando PieceOfWork, e non Duration
 	 */
 	private class DurationCellEditor extends DefaultCellEditor implements TableCellEditor {
 		public DurationCellEditor () {
@@ -4118,6 +4154,7 @@ com.davidecavestro.timekeeper.gui.MainWindow$TaskJTreeModel.checkForReload(MainW
 	 */
 	private class StartProgressCloneAction extends AbstractAction implements ListSelectionListener, WorkAdvanceModelListener {
 		
+		private StopProgressAction _stopAction = new StopProgressAction ();
 		
 		/**
 		 * Costruttore.
@@ -4131,6 +4168,12 @@ com.davidecavestro.timekeeper.gui.MainWindow$TaskJTreeModel.checkForReload(MainW
 		}
 		
 		public void actionPerformed (java.awt.event.ActionEvent e) {
+			if (_stopAction.isEnabled ()) {
+				/*
+				 * ferma l'avanzamento in corso
+				 */
+				_stopAction.actionPerformed (e);
+			}
 			_context.getLogger ().debug ("Starting progress clone...");
 			final TaskTreeModelImpl m = _context.getModel ();
 			final ProgressItem parent = (ProgressItem)_candidateSource.getTask ();
@@ -4144,7 +4187,13 @@ com.davidecavestro.timekeeper.gui.MainWindow$TaskJTreeModel.checkForReload(MainW
 		private Progress _candidateSource;
 		
 		private boolean _isEnabled () {
-			return _candidateSource!=null && _context.getModel ().getAdvancing ().isEmpty ();
+			return _candidateSource!=null;
+			/*
+			 * condizione disabilitata, per consentire l'inizio di  una nuova azione che termina quella corrente.
+				
+				&& _context.getModel ().getAdvancing ().isEmpty ();
+			 * 
+			 */
 		}
 		
 		private void resetEnabled () {
@@ -4313,6 +4362,90 @@ com.davidecavestro.timekeeper.gui.MainWindow$TaskJTreeModel.checkForReload(MainW
 		}
 		
 	}
+	
+	/**
+	 * Aggiunge un avanzamento all'elenco dei template.
+	 *
+	 */
+	private class AddProgressToTemplatesAction extends AbstractAction implements ListSelectionListener, WorkAdvanceModelListener {
+		
+		
+		/**
+		 * Costruttore.
+		 */
+		public AddProgressToTemplatesAction () {
+			_context.getModel ().addWorkAdvanceModelListener (this);
+			progressesTable.getSelectionModel ().addListSelectionListener (this);
+			progressesTable.getColumnModel ().getSelectionModel ().addListSelectionListener (this);
+			
+			setEnabled (false);
+		}
+		
+		public void actionPerformed (java.awt.event.ActionEvent e) {
+			_context.getLogger ().debug ("Adding action to templates...");
+			final PieceOfWorkTemplateModelImpl m = _context.getTemplateModel ();
+			for (final Progress progress : _candidates ) {
+				final ProgressTemplate template = new ProgressTemplate ();
+				template.setName (MessageFormat.format (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("new.template.automatic.name"), progress.getTask ().getName (), ""));
+				template.setDuration (progress.getDuration ());
+				template.setNotes (progress.getDescription ());
+				m.addElement (template);
+			}
+			_context.getLogger ().debug ("Template added");
+		}
+		
+		private final List<Progress> _candidates = new ArrayList<Progress> ();
+		
+		private boolean _isEnabled () {
+			return !_candidates.isEmpty ();
+		}
+		
+		private void resetEnabled () {
+			_candidates.clear ();
+			setEnabled ();
+		}
+		
+		private void setEnabled () {
+			setEnabled (_isEnabled ());
+		}
+
+		
+		public void elementsInserted (WorkAdvanceModelEvent e) {
+			setEnabled (_isEnabled ());
+		}
+		
+		public void elementsRemoved (WorkAdvanceModelEvent e) {
+			setEnabled (_isEnabled ());
+		}
+		
+		public void valueChanged (ListSelectionEvent e) {
+			if (e.getValueIsAdjusting ()){
+				/* evento spurio */
+				return;
+			}
+
+			int[] rows = progressesTable.getSelectedRows ();
+			for (final int row : rows) {
+				if (row<0) {
+					resetEnabled ();
+					return;
+				}
+				
+				final int r = progressesTable.convertRowIndexToModel (row);
+				
+				if (r<0 || r>=progressesTable.getModel ().getRowCount ()) {
+					resetEnabled ();
+					return;
+				} 
+				_candidates.clear ();
+				_candidates.add ((Progress)progressesTable.getModel ().getValueAt (r, progressesTable.convertColumnIndexToModel (DURATION_COL_INDEX)));
+			}
+			
+			setEnabled ();
+		}
+		
+	}
+	
 	
 	/**
 	 * Crea un nuovo avanzamento.
@@ -4844,7 +4977,15 @@ com.davidecavestro.timekeeper.gui.MainWindow$TaskJTreeModel.checkForReload(MainW
 			
 			final List<Task> selected = getSelectedTasks ();
 			if (!selected.isEmpty ()) {
-				_context.getWindowManager ().showTaskEditDialog (selected.get(0));
+				SwingUtilities.invokeLater (new Runnable () {
+
+					/*
+					 * invocato in modo asincronoper evitare problemi con il focus in caso di chiamata da menu contestuale
+					 */
+					public void run () {
+						_context.getWindowManager ().showTaskEditDialog (selected.get(0));
+					}
+				});
 			}
 		}
 		
@@ -4930,7 +5071,7 @@ com.davidecavestro.timekeeper.gui.MainWindow$TaskJTreeModel.checkForReload(MainW
 			final boolean rootTarget = releaseTarget.getParent ()==null;
 			
 			final Object[] optionsArray = new Object[] {PasteMode.BEFORE, PasteMode.AFTER, PasteMode.AS_LAST_CHILD};
-			final StringBuffer sourceNames = new StringBuffer ();
+			final StringBuilder sourceNames = new StringBuilder ();
 			
 			for (int i = 0; i< progressItems.length; i++) {
 				if (progressItems[i]==releaseTarget) {
@@ -5372,7 +5513,7 @@ com.davidecavestro.timekeeper.gui.MainWindow$TaskJTreeModel.checkForReload(MainW
 			if (t.getDescription ()==null || 
 				t.getDescription ().trim ().length ()==0 || 
 				/*
-				 * non mostra tooltip se la descrizione Ë uguale al nome
+				 * non mostra tooltip se la descrizione ÔøΩ uguale al nome
 				 * (workaround per ovviare al BUG# 1939177)
 				 */
 				t.getDescription ().equals (t.getName ())) {
@@ -5390,7 +5531,7 @@ com.davidecavestro.timekeeper.gui.MainWindow$TaskJTreeModel.checkForReload(MainW
 			private String _name;
 			private String _descr;
 			
-			private final StringBuffer sb1 = new StringBuffer ()
+			private final StringBuilder sb1 = new StringBuilder ()
 			.append ("<HTML>")
 			.append ("<BODY>")
 			.append ("<TABLE>")
@@ -5398,7 +5539,7 @@ com.davidecavestro.timekeeper.gui.MainWindow$TaskJTreeModel.checkForReload(MainW
 			.append ("<TR>")
 			.append ("<TD><PRE>");
 
-			private final StringBuffer sb2 = new StringBuffer ()
+			private final StringBuilder sb2 = new StringBuilder ()
 			.append ("</PRE></TD>")
 			.append ("</TR>")
 			.append ("</THEAD>")
@@ -5406,7 +5547,7 @@ com.davidecavestro.timekeeper.gui.MainWindow$TaskJTreeModel.checkForReload(MainW
 			.append ("<TR>")
 			.append ("<TD><PRE>");
 
-			private final StringBuffer sb3 = new StringBuffer ()
+			private final StringBuilder sb3 = new StringBuilder ()
 			.append ("</PRE></TD>")
 			.append ("</TR>")
 			.append ("</TBODY>")
@@ -5525,6 +5666,9 @@ com.davidecavestro.timekeeper.gui.MainWindow$TaskJTreeModel.checkForReload(MainW
 										continue;
 									}
 									final BufferedImage i = (BufferedImage)chartPanel.createImage (w, h);
+									if (i==null) {
+										return;
+									}
 									final Graphics2D g = i.createGraphics ();
 									g.setComposite (ac);
 									g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
@@ -5632,5 +5776,69 @@ com.davidecavestro.timekeeper.gui.MainWindow$TaskJTreeModel.checkForReload(MainW
 			l.add ((Task) taskTree.getModel ().getValueAt (taskTree.convertRowIndexToModel (r), taskTree.convertColumnIndexToModel (TaskJTreeModel.TREE_COLUMN_INDEX)));
 		}		
 		return l;
+	}
+
+	public boolean canExit () {
+		if (!_context.getModel ().getAdvancing ().isEmpty ()) {
+			/*
+			 * Azione in corso.
+			 */
+			final int choice = JOptionPane.showOptionDialog (_context.getWindowManager ().getMainWindow (), 
+				java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("ApplicationExit/ActiveActionConfirm/AskUserChoice"), 
+				java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("ApplicationExit/ActiveActionConfirm/Title"), 
+				JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, ActiveActionExitChoice.values (), ActiveActionExitChoice.LEAVE);
+			
+			if (choice<0) {
+				return false;
+			} else {
+				return ActiveActionExitChoice.values ()[choice].process (this);
+			}
+		}
+		return true;
+	}
+	
+	
+	
+	
+		
+	/**
+	 *Scelta chiusura applicazione in presenza di azione in corso.
+	 */
+	private enum ActiveActionExitChoice {
+		LEAVE {
+			public String toString () {
+				return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("ConfirmDialog/ApplicationExitWIthActiveAction/Leave");
+			}
+			
+			public boolean process (final MainWindow mw) {
+				return true;
+			}
+		},
+		STOP {
+			public String toString () {
+				return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("ConfirmDialog/ApplicationExitWIthActiveAction/Stop");
+			}
+			
+			public boolean process (final MainWindow mw) {
+				mw.stopAdvancing ();
+				return true;
+			}
+		}/*,
+		CANCEL {
+			public String toString () {
+				return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("ConfirmDialog/ApplicationExitWIthActiveAction/Cancel");
+			}
+			
+			public boolean process (final MainWindow mw) {
+				return false;
+			}
+		}*/;
+		
+		
+		/**
+		 * Processa la scelta, e ritorna <tt>true</tt> se ilprocessodi chiusura dell'applicazione pu√≤ continuare.
+		 *
+		 */
+		public abstract boolean process  (MainWindow mw);
 	}
 }

@@ -17,6 +17,7 @@ import com.davidecavestro.timekeeper.conf.UserSettings;
 import com.davidecavestro.timekeeper.gui.WindowManager;
 import com.davidecavestro.timekeeper.actions.ActionManager;
 import com.davidecavestro.timekeeper.conf.ApplicationEnvironment;
+import com.davidecavestro.timekeeper.model.PieceOfWorkTemplateModelImpl;
 import com.davidecavestro.timekeeper.model.TaskTreeModelImpl;
 import com.davidecavestro.timekeeper.model.UndoableTaskTreeModel;
 import com.davidecavestro.timekeeper.model.WorkSpaceModelImpl;
@@ -40,7 +41,9 @@ public class ApplicationContext {
 	private final ApplicationEnvironment _env;
 	private final UndoableTaskTreeModel _ttm;
 	private final WorkSpaceModelImpl _wsm;
+	private final PieceOfWorkTemplateModelImpl _templateModel;
 	private final RBUndoManager _undoManager;
+	private final RBUndoManager _atUndoManager;
 	private ActionManager _actionManager;
 	private HelpManager _helpManager;
 	private final TaskTreeModelExceptionHandler _propsExceptionHandler;
@@ -64,7 +67,9 @@ public class ApplicationContext {
 		final ApplicationData applicationData,
 		final UndoableTaskTreeModel ttm,
 		final WorkSpaceModelImpl wsm,
+		final PieceOfWorkTemplateModelImpl templateModel,
 		final RBUndoManager undoManager,
+		final RBUndoManager atUndoManager,
 		final ActionManager actionManager,
 		final HelpManager helpManager,
 		final TaskTreeModelExceptionHandler propsExceptionHandler, 
@@ -80,7 +85,9 @@ public class ApplicationContext {
 		_uiPersister = uiPersister;
 		_ttm = ttm;
 		_wsm = wsm;
+		_templateModel = templateModel;
 		_undoManager = undoManager;
+		_atUndoManager = atUndoManager;
 		_actionManager = actionManager;
 		_helpManager = helpManager;
 		_propsExceptionHandler = propsExceptionHandler;
@@ -114,8 +121,16 @@ public class ApplicationContext {
 		return _wsm;
 	}	
 	
+	public PieceOfWorkTemplateModelImpl getTemplateModel () {
+		return _templateModel;
+	}	
+	
 	public RBUndoManager getUndoManager (){
 		return _undoManager;
+	}
+	
+	public RBUndoManager getActionTemplatesUndoManager (){
+		return _atUndoManager;
 	}
 	
 	public ActionManager getActionManager (){

@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.0" type="org.netbeans.modules.form.forminfo.JDialogFormInfo">
+<Form version="1.2" maxVersion="1.2" type="org.netbeans.modules.form.forminfo.JDialogFormInfo">
   <NonVisualComponents>
     <Component class="javax.swing.ButtonGroup" name="buttonGroup1">
     </Component>
   </NonVisualComponents>
   <Properties>
     <Property name="title" type="java.lang.String" value="About"/>
-    <Property name="name" type="java.lang.String" value="aboutDialog"/>
+    <Property name="name" type="java.lang.String" value="aboutDialog" noResource="true"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
   </SyntheticProperties>
   <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="2"/>
     <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
@@ -303,7 +306,7 @@
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                  <GridBagConstraints gridX="-1" gridY="-1" gridWidth="1" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="10" weightX="1.0" weightY="1.0"/>
+                  <GridBagConstraints gridX="-1" gridY="-1" gridWidth="1" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="10" weightX="1.0" weightY="1.0"/>
                 </Constraint>
               </Constraints>
 
@@ -352,6 +355,9 @@
               <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout"/>
               <SubComponents>
                 <Container class="javax.swing.JToolBar" name="jToolBar1">
+                  <Properties>
+                    <Property name="rollover" type="boolean" value="true"/>
+                  </Properties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
                       <GridBagConstraints gridX="-1" gridY="-1" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="18" weightX="0.0" weightY="0.0"/>
@@ -360,7 +366,7 @@
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
                   <SubComponents>
-                    <Component class="javax.swing.JToggleButton" name="jToggleButton3">
+                    <Component class="javax.swing.JToggleButton" name="toggleButtonHost">
                       <Properties>
                         <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                           <ComponentRef name="buttonGroup1"/>
@@ -368,59 +374,62 @@
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                           <Font name="Dialog" size="12" style="0"/>
                         </Property>
-                        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                          <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Application" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
-                        </Property>
-                        <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                          <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="About/System/HostButton/tooltip" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
-                        </Property>
-                      </Properties>
-                      <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jToggleButton3ActionPerformed"/>
-                      </Events>
-                      <AuxValues>
-                        <AuxValue name="generateMnemonicsCode" type="java.lang.Boolean" value="true"/>
-                      </AuxValues>
-                    </Component>
-                    <Component class="javax.swing.JToggleButton" name="javaToggleButton">
-                      <Properties>
-                        <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-                          <ComponentRef name="buttonGroup1"/>
-                        </Property>
-                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                          <Font name="Dialog" size="12" style="0"/>
-                        </Property>
-                        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                          <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Java" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
-                        </Property>
-                        <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                          <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Java_properties_button_tooltip" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
-                        </Property>
-                      </Properties>
-                      <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="javaToggleButtonActionPerformed"/>
-                      </Events>
-                      <AuxValues>
-                        <AuxValue name="generateMnemonicsCode" type="java.lang.Boolean" value="true"/>
-                      </AuxValues>
-                    </Component>
-                    <Component class="javax.swing.JToggleButton" name="jToggleButton2">
-                      <Properties>
-                        <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-                          <ComponentRef name="buttonGroup1"/>
-                        </Property>
-                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                          <Font name="Dialog" size="12" style="0"/>
-                        </Property>
-                        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                          <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Host" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/computer.png"/>
                         </Property>
                         <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                           <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Host_env_button_tooltip" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
                         </Property>
+                        <Property name="opaque" type="boolean" value="false"/>
                       </Properties>
                       <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jToggleButton2ActionPerformed"/>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="toggleButtonHostActionPerformed"/>
+                      </Events>
+                      <AuxValues>
+                        <AuxValue name="generateMnemonicsCode" type="java.lang.Boolean" value="true"/>
+                      </AuxValues>
+                    </Component>
+                    <Component class="javax.swing.JToggleButton" name="toggleButtonJava">
+                      <Properties>
+                        <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                          <ComponentRef name="buttonGroup1"/>
+                        </Property>
+                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                          <Font name="Dialog" size="12" style="0"/>
+                        </Property>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/JavaCup16.png"/>
+                        </Property>
+                        <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                          <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Java_properties_button_tooltip" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
+                        </Property>
+                        <Property name="opaque" type="boolean" value="false"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="toggleButtonJavaActionPerformed"/>
+                      </Events>
+                      <AuxValues>
+                        <AuxValue name="generateMnemonicsCode" type="java.lang.Boolean" value="true"/>
+                      </AuxValues>
+                    </Component>
+                    <Component class="javax.swing.JToggleButton" name="toggleButtonApp">
+                      <Properties>
+                        <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                          <ComponentRef name="buttonGroup1"/>
+                        </Property>
+                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                          <Font name="Dialog" size="12" style="0"/>
+                        </Property>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/ktimer-16x16.png"/>
+                        </Property>
+                        <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                          <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="About/System/HostButton/tooltip" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
+                        </Property>
+                        <Property name="opaque" type="boolean" value="false"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="toggleButtonAppActionPerformed"/>
                       </Events>
                       <AuxValues>
                         <AuxValue name="generateMnemonicsCode" type="java.lang.Boolean" value="true"/>
@@ -440,7 +449,7 @@
                     </Constraint>
                   </Constraints>
 
-                  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
+                  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout"/>
                   <SubComponents>
                     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
                       <Properties>
@@ -452,8 +461,8 @@
                         </Property>
                       </Properties>
                       <Constraints>
-                        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
-                          <BorderConstraints direction="Center"/>
+                        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+                          <GridBagConstraints gridX="-1" gridY="-1" gridWidth="1" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="5" insetsBottom="0" insetsRight="0" anchor="10" weightX="1.0" weightY="1.0"/>
                         </Constraint>
                       </Constraints>
 
@@ -465,8 +474,7 @@
                           </Properties>
                           <AuxValues>
                             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new JXTable (proxyTableModel);"/>
-                            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="systemPropsTable.setDefaultRenderer (String.class, new DefaultTableCellRenderer () {&#xa;        public Component getTableCellRendererComponent(JTable table, Object value,&#xa;            boolean isSelected, boolean hasFocus, int row, int column) {&#xa;&#xa;            final JLabel label = (JLabel)super.getTableCellRendererComponent (table, value, isSelected, hasFocus, row, column);&#xa;            if (0 != column) {&#xa;                /* colonna valori */&#xa;&#x9;&#x9;&#x9;&#x9;label.setFont (valuesFont);&#xa;            }&#xa;            return label;&#xa;        }&#xa;&#xa;    });&#xa;"/>
-                            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="final Font valuesFont = new Font(&quot;monospaced&quot;, Font.PLAIN, 12);"/>
+                            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="systemPropsTable.setDefaultRenderer (String.class, new DefaultTableCellRenderer () {&#xa;&#x9;&#xa;&#x9;&#x9;private final Font valuesFont = new Font(&quot;monospaced&quot;, Font.PLAIN, 12);&#xa;&#x9;&#xa;        public Component getTableCellRendererComponent(JTable table, Object value,&#xa;            boolean isSelected, boolean hasFocus, int row, int column) {&#xa;&#xa;            final JLabel label = (JLabel)super.getTableCellRendererComponent (table, value, isSelected, hasFocus, row, column);&#xa;            if (0 != column) {&#xa;                /* colonna valori */&#xa;&#x9;&#x9;&#x9;&#x9;label.setFont (valuesFont);&#xa;            }&#xa;            return label;&#xa;        }&#xa;&#xa;    });&#xa;"/>
                           </AuxValues>
                         </Component>
                       </SubComponents>

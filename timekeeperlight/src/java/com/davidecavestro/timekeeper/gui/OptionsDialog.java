@@ -468,7 +468,11 @@ public class OptionsDialog extends javax.swing.JDialog {
 				sampleTextField.setText ("");
 				return;
 			}
-			sampleTextField.setText (new SimpleDateFormat (String.valueOf (getDateFormatTable ().getModel ().getValueAt (row, col))).format (date));
+			try {
+				sampleTextField.setText (new SimpleDateFormat (String.valueOf (getDateFormatTable ().getModel ().getValueAt (row, col))).format (date));
+			} catch (final IllegalArgumentException e) {
+				e.printStackTrace(System.err);
+			}
 
 		}
 	}

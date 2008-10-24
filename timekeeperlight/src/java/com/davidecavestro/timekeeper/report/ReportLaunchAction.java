@@ -5,6 +5,7 @@
 
 package com.davidecavestro.timekeeper.report;
 
+import com.davidecavestro.timekeeper.ApplicationContext;
 import java.awt.Component;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -15,5 +16,5 @@ import net.sf.jasperreports.engine.JasperPrint;
  * @author Davide Cavestro
  */
 public interface ReportLaunchAction {
-	void execute (final Component parent, final JasperPrint print) throws JRException;
+	void execute (final ApplicationContext context, final Component parent, final JasperPrint print) throws JRException;
 }

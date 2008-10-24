@@ -1398,7 +1398,6 @@
                   <SubComponents>
                     <Component class="org.jdesktop.swingx.JXTreeTable" name="taskTree">
                       <Properties>
-                        <Property name="autoStartEditOnKeyStroke" type="boolean" value="false"/>
                         <Property name="columnControlVisible" type="boolean" value="true"/>
                         <Property name="dragEnabled" type="boolean" value="true"/>
                         <Property name="horizontalScrollEnabled" type="boolean" value="true"/>
@@ -1414,6 +1413,7 @@
                         </Property>
                       </Properties>
                       <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="taskTreeMouseClicked"/>
                         <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="taskTreeMousePressed"/>
                       </Events>
                       <AuxValues>

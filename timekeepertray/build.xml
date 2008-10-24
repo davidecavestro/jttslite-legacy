@@ -2,8 +2,8 @@
 <!-- You may freely edit this file. See commented blocks below for -->
 <!-- some examples of how to customize the build. -->
 <!-- (If you delete it and reopen the project it will be recreated.) -->
-<project name="timekeepercore" default="default" basedir=".">
-    <description>Builds, tests, and runs the project timekeepercore.</description>
+<project name="timekeepertray" default="default" basedir=".">
+    <description>Builds, tests, and runs the project timekeepertray.</description>
     <import file="nbproject/build-impl.xml"/>
     <!--
 
@@ -54,7 +54,7 @@
 
     An example of overriding the target for project execution could look like this:
 
-        <target name="run" depends="timekeepercore-impl.jar">
+        <target name="run" depends="timekeepertray-impl.jar">
             <exec dir="bin" executable="launcher.exe">
                 <arg file="${dist.jar}"/>
             </exec>
@@ -66,44 +66,4 @@
     nbproject/build-impl.xml file. 
 
     -->
-    
-    <target name="-post-compile">
-
-	<!-- Ricompila SOLO i sorgenti che necessitano dell'enhancemente JDO. -->
-	<javac target="1.4" source="1.4" deprecation="true" destdir="${build.classes.dir}" classpath="${javac.classpath}" debug="true">
-	    <src>
-		<pathelement location="${src.java.dir}/com/ost/timekeeper/model"/>
-		<pathelement location="${src.java.dir}/com/ost/timekeeper/util"/>
-	    </src>
-	</javac>
-
-	<!-- Prepara le risorse per l'enhancer JDO. -->
-	<copy todir="${build.classes.dir}">
-	    <fileset dir="${src.java.dir}">
-		<include name="**/*.jdo"/>
-		<exclude name="**/*.java"/>
-	    </fileset>
-	</copy>
-
-	<!-- Imposta l'ambiente di esecuzione per l'enhancer JDO. -->
-	<path id="jdo.enhancer.classpath">
-	    <pathelement location="${file.reference.jdo.jar}"/>
-	    <pathelement location="${file.reference.jdori.jar}"/>
-	</path>
-
-	<!-- Esegue l'enhancement per il supporto JDO. Passo 1/4. -->
-	<java classname="com.sun.jdori.enhancer.EnhancerMain"
-	    fork="true"
-	    failonerror="true"
-	    maxmemory="128m"
-	    dir="${build.classes.dir}"
-	    classpathref="jdo.enhancer.classpath"
-	    >
-	    <arg line="-v -f "/>
-	    <arg line="-j ."/>
-	    <arg line="-s ."/>
-	    <arg line="-d ."/>
-	    <arg line="com/ost/timekeeper/model/ProgressItem com/ost/timekeeper/model/Period com/ost/timekeeper/model/Progress com/ost/timekeeper/model/Project com/ost/timekeeper/model/ProgressTemplate"/>
-	</java>
-    </target>
 </project>

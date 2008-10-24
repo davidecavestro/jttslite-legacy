@@ -5,11 +5,17 @@
 
 package com.davidecavestro.timekeeper.report;
 
+import com.davidecavestro.common.gui.SwingWorker;
 import com.davidecavestro.common.util.file.CustomFileFilter;
 import com.davidecavestro.common.util.file.FileUtils;
+import com.davidecavestro.timekeeper.ApplicationContext;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.io.File;
+import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import net.sf.jasperreports.engine.JRException;
@@ -125,24 +131,73 @@ public enum ReportExportAction implements ReportLaunchAction {
 		return getUIName ();
 	}
 	
-	public void execute (final Component parent, final JasperPrint print) throws JRException {
-		initFileChooser ();
-		final int result = _fileChooser.showSaveDialog (parent);
-		if (result==JFileChooser.APPROVE_OPTION) {
-			final File f = normalizeFile (_fileChooser.getSelectedFile ());
-			if (f.exists ()) {
-				if (JOptionPane.YES_OPTION!=JOptionPane.showConfirmDialog (
-					parent, 
-					MessageFormat.format (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("ReportDialog/JOptionPane/Confirm_overwrite_existing_file"), f.getPath ()),
-					java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("ReportDialog/JOptionPane/Title/Confirm_overwrite_existing_file"), 
-					JOptionPane.YES_NO_OPTION)) {
+	final Cursor waiting = new Cursor (Cursor.WAIT_CURSOR);
+	
+	public void execute (final ApplicationContext context, final Component parent, final JasperPrint print) throws JRException {
+		File tempFile = null;
+		try {
+
+			tempFile = File.createTempFile (print.getName(), "." + getExt ().toLowerCase ());
+		} catch (IOException ex) {
+			/*
+			 * 
+			 */
+		}
+		if (tempFile!=null) {
+			final Cursor original = parent.getCursor ();
+			parent.setCursor(waiting);
+				try {
+
+				final File fileToOpen = tempFile;
+				final SwingWorker sw = new SwingWorker () {
+
+					@Override
+					public Object construct() {
+						try {
+							export (print, fileToOpen);
+							return Boolean.valueOf (context.getWindowManager ().getDesktopSupport ().open (fileToOpen));
+						} catch (final Exception e) {
+							/*
+							 * Problema con l'helper application
+							 */
+						} catch (final NoClassDefFoundError e) {
+							/*
+							 * Problema con l'helper application
+							 */
+						}
+						return Boolean.FALSE;
+					}
+				};
+
+
+				sw.start();
+				final boolean opened = ((Boolean) sw.get ()).booleanValue();
+				if (opened) {
+					return;
+				}
+			} finally {
+				parent.setCursor (original);
+			}
+
+		}
+
+
+		initFileChooser();
+		final int result = _fileChooser.showSaveDialog(parent);
+		if (result == JFileChooser.APPROVE_OPTION) {
+			final File f = normalizeFile(_fileChooser.getSelectedFile());
+			if (f.exists()) {
+				if (JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog(parent, MessageFormat.format(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("ReportDialog/JOptionPane/Confirm_overwrite_existing_file"), f.getPath()), java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("ReportDialog/JOptionPane/Title/Confirm_overwrite_existing_file"), JOptionPane.YES_NO_OPTION)) {
 					return;
 				}
 			}
-			export (print, f);
-			
-			JOptionPane.showMessageDialog (parent, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("ReportExportMessageDialog/Exporting_completed"));
-			
+			if (tempFile != null && tempFile.exists()) {
+				tempFile.renameTo(f);
+			} else {
+				export(print, f);
+			}
+
+			JOptionPane.showMessageDialog(parent, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("ReportExportMessageDialog/Exporting_completed"));
 		}
 	}
 

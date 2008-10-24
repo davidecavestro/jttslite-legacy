@@ -48,6 +48,9 @@
 	<field name="periodStart" class="java.sql.Timestamp"/>
 	<field name="progressDescription" class="java.lang.String"/>
 	<field name="taskDescription" class="java.lang.String"/>
+	<field name="formattedPeriodStart" class="java.lang.String">
+		<fieldDescription><![CDATA[formattedPeriodStart]]></fieldDescription>
+	</field>
 
 	<sortField name="periodID" />
 	<sortField name="taskName" />
@@ -70,33 +73,33 @@
 						key="rectangle"/>
 					<graphicElement stretchType="NoStretch" pen="None"/>
 				</rectangle>
-				<textField isStretchWithOverflow="false" pattern="EEEEE dd MMMMM yyyy" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="89"
-						y="1"
+						y="0"
 						width="339"
-						height="23"
+						height="22"
 						forecolor="#FFFFFF"
 						backcolor="#FFFFFF"
 						key="textField"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement textAlignment="Center">
-						<font size="16"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="14"/>
 					</textElement>
-				<textFieldExpression   class="java.sql.Timestamp"><![CDATA[$F{periodStart}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{formattedPeriodStart}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="444"
-						y="2"
+						y="0"
 						width="84"
 						height="22"
 						forecolor="#FFFFFF"
 						backcolor="#FFFFFF"
 						key="textField-1"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement textAlignment="Right">
-						<font size="16"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="14"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[com.davidecavestro.timekeeper.gui.DurationUtils.formatDuration ($F{periodTotalEffort}.longValue ())]]></textFieldExpression>
 				</textField>
@@ -144,7 +147,7 @@
 						key="textField"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font size="16" isBold="false"/>
+						<font size="14" isBold="false"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{taskName}]]></textFieldExpression>
 				</textField>
@@ -160,7 +163,7 @@
 						key="textField-3"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Right">
-						<font size="16" isBold="false"/>
+						<font size="14" isBold="false"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[com.davidecavestro.timekeeper.gui.DurationUtils.formatDuration ($F{taskTotalEffort}.longValue ())]]></textFieldExpression>
 				</textField>
@@ -278,7 +281,7 @@
 				<line direction="BottomUp">
 					<reportElement
 						x="1"
-						y="4"
+						y="1"
 						width="534"
 						height="0"
 						key="line"/>
@@ -340,7 +343,7 @@
 						key="textField-6"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Center" verticalAlignment="Bottom">
-						<font pdfFontName="Helvetica-Bold" size="16" isBold="true"/>
+						<font pdfFontName="Helvetica-Bold" size="14" isBold="true"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$R{TaskBandHeader/Title/Task}]]></textFieldExpression>
 				</textField>
@@ -362,7 +365,7 @@
 						key="textField-8"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font pdfFontName="Helvetica-Bold" size="16" isBold="true"/>
+						<font pdfFontName="Helvetica-Bold" size="14" isBold="true"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$R{PageHeader/Title/Total}]]></textFieldExpression>
 				</textField>
@@ -470,7 +473,8 @@
 						y="0"
 						width="0"
 						height="49"
-						key="line-1"/>
+						key="line-1"
+						positionType="FixRelativeToBottom"/>
 					<graphicElement stretchType="NoStretch"/>
 				</line>
 				<line direction="TopDown">
@@ -479,7 +483,8 @@
 						y="0"
 						width="0"
 						height="49"
-						key="line-2"/>
+						key="line-2"
+						positionType="FixRelativeToBottom"/>
 					<graphicElement stretchType="NoStretch"/>
 				</line>
 				<line direction="TopDown">
@@ -488,7 +493,8 @@
 						y="0"
 						width="0"
 						height="49"
-						key="line-3"/>
+						key="line-3"
+						positionType="FixRelativeToBottom"/>
 					<graphicElement stretchType="NoStretch"/>
 				</line>
 			</band>

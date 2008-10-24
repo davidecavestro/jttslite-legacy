@@ -140,6 +140,12 @@ public class VTextIcon implements Icon, PropertyChangeListener {
      * painting, e.g. the foreground or background color.
      */
     public void paintIcon(Component c, Graphics g, int x, int y) {
+		if (c==null || g==null) {
+			/*
+			 *@workaround sometimes MAC L&F pass null variables
+			 */
+			return;
+		}
 		/*
 		 *@workaround (x=x-5) altrimenti il tab risulta troppo largo
 		 */

@@ -60,7 +60,7 @@ public final class ReportDataGenerator {
 				prefs.getParams (),
 				dataSource);
 			
-			rla.execute (_context.getWindowManager ().getMainWindow (), print);
+			rla.execute (_context, _context.getWindowManager ().getMainWindow (), print);
 		} catch (final Exception e){
 			throw new RuntimeException (e);
 		}

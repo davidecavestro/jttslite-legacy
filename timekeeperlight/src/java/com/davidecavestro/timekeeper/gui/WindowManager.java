@@ -9,6 +9,7 @@ package com.davidecavestro.timekeeper.gui;
 import com.davidecavestro.common.application.ApplicationData;
 import com.davidecavestro.common.gui.dialog.DialogListener;
 import com.davidecavestro.timekeeper.ApplicationContext;
+import com.davidecavestro.timekeeper.desktop.DesktopSupport;
 import com.davidecavestro.timekeeper.model.Task;
 import com.davidecavestro.timekeeper.model.WorkSpace;
 import com.davidecavestro.timekeeper.tray.SystemTraySupport;
@@ -328,6 +329,20 @@ public class WindowManager implements ActionListener, DialogListener {
 			
 		}
 		return _systemTray;
+	}
+	
+	private DesktopSupport _desktop;
+	
+	/**
+	 * Ritorna il supporto per il desktop support, con una inizializzazione lazy.
+	 *
+	 * @return il supporto per il desktop support.
+	 */
+	public DesktopSupport getDesktopSupport () {
+		if (_desktop==null) {
+			_desktop = new DesktopSupport ();
+		}
+		return _desktop;
 	}
 	
 	

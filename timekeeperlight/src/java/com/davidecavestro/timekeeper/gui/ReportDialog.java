@@ -570,7 +570,7 @@ public class ReportDialog extends javax.swing.JDialog implements PersistentCompo
 		
 		if (jRadioButton1.isSelected ()) {
 			new ReportDataGenerator (_context).generate (extractor, prefs, jrb, new ReportLaunchAction () {
-				public void execute (Component parent, JasperPrint print) throws JRException {
+				public void execute (ApplicationContext context, Component parent, JasperPrint print) throws JRException {
 					ReportViewer.viewReport (print);
 				}
 			});

@@ -53,6 +53,8 @@
 
   <tocitem text="continuare un'azione " target="html.action_continue_an_action"/>
 
+  <tocitem text="creare un modello di azione " target="html.actiontemplateseditor"/>
+
  </tocitem>
  <tocitem text="Licenza " target="html.index_license"/>
 

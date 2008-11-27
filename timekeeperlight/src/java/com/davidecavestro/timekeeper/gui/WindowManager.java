@@ -312,17 +312,17 @@ public class WindowManager implements ActionListener, DialogListener {
 	 */
 	public SystemTraySupport getSystemTraySupport () {
 		if (_systemTray==null) {
-			_systemTray = new SystemTraySupport ();
+			_systemTray = new SystemTraySupport (_context);
 			try {
 				_systemTray.register (null, null);
 			} catch (final NoClassDefFoundError er) {
 				/*
-				 * Eccezione silenziata inquanto è previsto che possa accadere, usando una versione di Java anteriore alla 6
+				 * Eccezione silenziata in quanto è previsto che possa accadere, usando una versione di Java anteriore alla 6
 				 */
 				//er.printStackTrace();
 			} catch (final ClassNotFoundException ex) {
 				/*
-				 * Eccezione silenziata inquanto è previsto che possa accadere, usando una versione di Java anteriore alla 6
+				 * Eccezione silenziata in quanto è previsto che possa accadere, usando una versione di Java anteriore alla 6
 				 */
 				//ex.printStackTrace();
 			}

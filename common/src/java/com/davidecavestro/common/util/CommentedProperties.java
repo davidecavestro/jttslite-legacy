@@ -274,7 +274,7 @@ public class CommentedProperties extends Hashtable<String, String> {
     public synchronized void load(InputStream inStream) throws IOException {
 		initialOrder.clear ();
         BufferedReader in = new BufferedReader(new InputStreamReader(inStream, "8859_1"));
-		final StringBuffer nextComment = new StringBuffer ();
+		final StringBuilder nextComment = new StringBuilder ();
 	while (true) {
             // Get next line
             String line = in.readLine();
@@ -382,7 +382,7 @@ public class CommentedProperties extends Hashtable<String, String> {
     private String loadConvert(String theString) {
         char aChar;
         int len = theString.length();
-        StringBuffer outBuffer = new StringBuffer(len);
+        final StringBuilder outBuffer = new StringBuilder(len);
 
         for (int x=0; x<len; ) {
             aChar = theString.charAt(x++);
@@ -437,7 +437,7 @@ public class CommentedProperties extends Hashtable<String, String> {
 			return null;
 		}
         int len = theString.length();
-        StringBuffer outBuffer = new StringBuffer(len*2);
+        final StringBuilder outBuffer = new StringBuilder(len*2);
 
         for(int x=0; x<len; x++) {
             char aChar = theString.charAt(x);

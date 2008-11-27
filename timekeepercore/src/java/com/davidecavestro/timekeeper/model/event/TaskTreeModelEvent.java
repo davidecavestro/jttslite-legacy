@@ -174,7 +174,7 @@ public class TaskTreeModelEvent extends java.util.EventObject {
 	 * @return la rappresentazione in formato stringa per questo evento.
 	 */
 	public String toString (){
-		final StringBuffer sb = new StringBuffer ();
+		final StringBuilder sb = new StringBuilder ();
 		
 		sb.append (getClass ().getName ())
 		.append (" path ").append (_parentElementPath)

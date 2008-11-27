@@ -9,6 +9,7 @@ package com.davidecavestro.timekeeper.report.flavors;
 import com.davidecavestro.common.application.ApplicationData;
 import com.davidecavestro.common.util.CalendarUtils;
 import com.davidecavestro.timekeeper.ApplicationContext;
+import com.davidecavestro.timekeeper.gui.CustomizableFormat;
 import com.davidecavestro.timekeeper.model.Task;
 import com.davidecavestro.timekeeper.report.AbstractDataExtractor;
 import com.davidecavestro.timekeeper.report.filter.Target;
@@ -126,71 +127,50 @@ public final class TaskListExtractor extends AbstractDataExtractor {
 		}
 		
 		final Collection<TaskListRowBean> data = new ArrayList<TaskListRowBean> ();
-		
-		
-		
 			
-			final String periodName = CalendarUtils.getTimestamp (cumulationPeriod.getFrom (), java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("date_format_short"));
-			
-//			System.out.println ("processing period "+periodName);
-			
-			final Timestamp periodStart = new Timestamp (cumulationPeriod.getFrom ().getTime ());
-//			final String periodName = CalendarUtils.getTimestamp (cumulationPeriod.getFrom (), "MM/dd");
+		for (final Iterator<Task> nodeIterator = cumulationPeriod.iterateProgressItems ();nodeIterator.hasNext ();){
+			final Task progressItem = nodeIterator.next ();
+			final NodeProgresses detail = cumulationPeriod.getDetail (progressItem);
 
-			for (final Iterator<Task> nodeIterator = cumulationPeriod.iterateProgressItems ();nodeIterator.hasNext ();){
-				final Task progressItem = nodeIterator.next ();
-				final NodeProgresses detail = cumulationPeriod.getDetail (progressItem);
-				
-//			System.out.println ("processing task "+progressItem.getName ());
+			final long taskTotalEffort = (long)detail.getDuration ();
 
-				final long taskTotalEffort = (long)detail.getDuration ();
-				
-				final String taskName = progressItem.getName ();
-				final String taskDescription = progressItem.getDescription ();
-				
-				/* Gerarchia */
-				final StringBuffer hierarchyData = new StringBuffer ();
-				Task parent = progressItem.getParent ();
-				while (parent!=null) {
-					final StringBuffer ancestorData = new StringBuffer ();
-					ancestorData.append ("/");
-					final String code = parent.getCode ();
-					if (code!=null && code.length ()>0){
-						ancestorData.append (code).append (" - ");
-					}
-					ancestorData.append (parent.getName ());
-					hierarchyData.insert (0, ancestorData);
-					parent = parent.getParent ();
+			final String taskName = progressItem.getName ();
+			/* Gerarchia */
+			final StringBuilder hierarchyData = new StringBuilder ();
+			Task parent = progressItem.getParent ();
+			while (parent!=null) {
+				final StringBuilder ancestorData = new StringBuilder ();
+				ancestorData.append ("/");
+				final String code = parent.getCode ();
+				if (code!=null && code.length ()>0){
+					ancestorData.append (code).append (" - ");
 				}
-
-				final String taskHierarchy = hierarchyData.toString ();
-				
-				final TaskListRowBean row = new TaskListRowBean ();
-
-				data.add (row);
-
-				row.setDuration (taskTotalEffort);
-
-				row.setTaskHierarchy (taskHierarchy);
-				row.setTaskName (taskName);
-				row.setTaskDescription (taskName);
-					
-				for (final Iterator<CumulationPeriodNodeProgress> detailIterator = detail.iterateProgresses ();detailIterator.hasNext ();){
-					final CumulationPeriodNodeProgress nodeProgress = detailIterator.next ();
-					final Progress progress = nodeProgress.getProgress ();
-
-					final LocalizedPeriod periodOfInterest = nodeProgress.getPeriodOfInterest ();
-					
-					
-					if (progress.getDescription ()!=null && progress.getDescription ().length ()>0) {
-						row.setActionsNotes ((row.getActionsNotes ()!=null?row.getActionsNotes () + "\n":"") + progress.getDescription ());
-					}
-					
-					
-				}
-
-				
+				ancestorData.append (parent.getName ());
+				hierarchyData.insert (0, ancestorData);
+				parent = parent.getParent ();
 			}
+
+			final String taskHierarchy = hierarchyData.toString ();
+
+			final TaskListRowBean row = new TaskListRowBean ();
+
+			data.add (row);
+
+			row.setDuration (taskTotalEffort);
+
+			row.setTaskHierarchy (taskHierarchy);
+			row.setTaskName (taskName);
+			row.setTaskDescription (taskName);
+
+			for (final Iterator<CumulationPeriodNodeProgress> detailIterator = detail.iterateProgresses ();detailIterator.hasNext ();){
+				final CumulationPeriodNodeProgress nodeProgress = detailIterator.next ();
+				final Progress progress = nodeProgress.getProgress ();
+
+				if (progress.getDescription ()!=null && progress.getDescription ().length ()>0) {
+					row.setActionsNotes ((row.getActionsNotes ()!=null?row.getActionsNotes () + "\n":"") + progress.getDescription ());
+				}
+			}
+		}
 		
 		return data;
 	}
@@ -201,7 +181,7 @@ public final class TaskListExtractor extends AbstractDataExtractor {
 	 * @return una stringa che rappresenta questo estrattore di dati.
 	 */
 	public String toString (){
-		final StringBuffer sb = new StringBuffer ();
+		final StringBuilder sb = new StringBuilder ();
 		sb.append (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("_subtree_root:_"));
 		sb.append (this._subtreeRoot);
 		return sb.toString ();
@@ -211,7 +191,7 @@ public final class TaskListExtractor extends AbstractDataExtractor {
 		if (duration==null){
 			duration = Duration.ZERODURATION;
 		}
-		final StringBuffer sb = new StringBuffer ();
+		final StringBuilder sb = new StringBuilder ();
 
 		sb.append (durationNumberFormatter.format (duration.getTotalHours ()))
 		.append (":")

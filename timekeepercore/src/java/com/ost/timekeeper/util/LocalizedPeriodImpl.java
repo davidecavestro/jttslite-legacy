@@ -199,7 +199,7 @@ public class LocalizedPeriodImpl extends Observable implements LocalizedPeriod {
 	 * @return una stringa che rappresenta questo periodo.
 	 */
 	public String toString (){
-		StringBuffer sb = new StringBuffer ();
+		final StringBuilder sb = new StringBuilder ();
 		sb.append ("from: ").append (CalendarUtils.toTSString (this._from))
 		.append (" to: ").append (CalendarUtils.toTSString (this._to));
 		return sb.toString ();
@@ -261,7 +261,7 @@ public class LocalizedPeriodImpl extends Observable implements LocalizedPeriod {
 	}
 	
 	public int hashCode (){
-		final StringBuffer sb = new StringBuffer ();
+		final StringBuilder sb = new StringBuilder ();
 		sb.append (this.getClass ().getName ()).append ("@@@");
 		sb.append (this._from);
 		sb.append ("@@@");

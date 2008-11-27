@@ -51,6 +51,7 @@ public final class SystemSettings extends AbstractSettings {
 	/**
 	 * Impostazione utente, nessun override previsto attualmente per il sistema.
 	 */
+	@Override
 	public String getJDOUserName () {
 		return null;
 	}
@@ -58,6 +59,7 @@ public final class SystemSettings extends AbstractSettings {
 	/**
 	 * Impostazione utente, nessun override previsto attualmente per il sistema.
 	 */
+	@Override
 	public String getJDOStorageName () {
 		return null;
 	}
@@ -65,6 +67,7 @@ public final class SystemSettings extends AbstractSettings {
 	/**
 	 * Impostazione utente, nessun override previsto attualmente per il sistema.
 	 */
+	@Override
 	public String getJDOStorageDirPath () {
 		return null;
 	}

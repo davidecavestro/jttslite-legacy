@@ -9,8 +9,6 @@ package com.ost.timekeeper.model;
 import com.davidecavestro.timekeeper.model.PieceOfWork;
 import com.davidecavestro.timekeeper.model.PieceOfWorkBackup;
 import com.davidecavestro.timekeeper.model.Task;
-import com.ost.timekeeper.util.Duration;
-import com.ost.timekeeper.util.LocalizedPeriod;
 import java.util.Date;
 
 /**
@@ -72,7 +70,7 @@ public class Progress extends Period implements PieceOfWork {
 	/**
 	 * Implementa il backup. Classe ad esclusivo uso interno, da non rendere persistente.
 	 *<P>
-	 * La classe &egrave; statica per evitare l'accesso involontarioalle variabili della classe che la contiene. Deve avere l'accesso solamente per estensione!
+	 * La classe &egrave; statica per evitare l'accesso involontario alle variabili della classe che la contiene. Deve avere l'accesso solamente per estensione!
 	 */
 	private static class PieceOfWorkBackupImpl extends Progress implements PieceOfWorkBackup {
 		private final Progress _source;

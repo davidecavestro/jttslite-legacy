@@ -6,6 +6,7 @@
 
 package com.davidecavestro.timekeeper.gui;
 
+import com.davidecavestro.common.util.settings.SettingsSupport;
 import com.davidecavestro.timekeeper.ApplicationContext;
 import com.davidecavestro.timekeeper.conf.ApplicationOptions;
 import java.awt.Component;
@@ -13,6 +14,8 @@ import java.awt.event.ActionEvent;
 import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.Date;
+import javax.swing.AbstractAction;
+import javax.swing.ButtonModel;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -131,6 +134,11 @@ public class OptionsDialog extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         sampleTextField = new javax.swing.JTextField();
+        jPanel2 = new javax.swing.JPanel();
+        trayIconCheckBox = new javax.swing.JCheckBox();
+        useHelperApplicationsCheckBox = new javax.swing.JCheckBox();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
 
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res"); // NOI18N
@@ -143,7 +151,7 @@ public class OptionsDialog extends javax.swing.JDialog {
         });
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
-        okButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        okButton.setFont(new java.awt.Font("Dialog", 0, 12));
         okButton.setText(bundle.getString("OptionsDialog/CloseButton/Text")); // NOI18N
         okButton.setMinimumSize(new java.awt.Dimension(80, 25));
         okButton.setPreferredSize(new java.awt.Dimension(80, 25));
@@ -160,7 +168,7 @@ public class OptionsDialog extends javax.swing.JDialog {
 
         jPanel3.setLayout(new java.awt.GridBagLayout());
 
-        jTabbedPane1.setFont(new java.awt.Font("Dialog", 0, 12));
+        jTabbedPane1.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
 
         jPanel4.setLayout(new java.awt.GridBagLayout());
 
@@ -230,6 +238,39 @@ public class OptionsDialog extends javax.swing.JDialog {
         java.util.ResourceBundle bundle1 = java.util.ResourceBundle.getBundle("com/davidecavestro/timekeeper/gui/res"); // NOI18N
         jTabbedPane1.addTab(bundle1.getString("OptionsDialog/DateFormatTab/Title"), jPanel4); // NOI18N
 
+        jPanel2.setLayout(new java.awt.GridBagLayout());
+
+        trayIconCheckBox.setAction(new ShowTrayIconAction ());
+        trayIconCheckBox.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        trayIconCheckBox.setText(bundle.getString("OptionsDialog/DesktopIntegration/ShowTrayIconCheckBox")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 7, 0, 0);
+        jPanel2.add(trayIconCheckBox, gridBagConstraints);
+
+        useHelperApplicationsCheckBox.setAction(new UseHelperApplicationsAction ());
+        useHelperApplicationsCheckBox.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        useHelperApplicationsCheckBox.setText(bundle.getString("OptionsDialog/DesktopIntegration/UseHelperApplicationsCheckBox")); // NOI18N
+        useHelperApplicationsCheckBox.setToolTipText(bundle.getString("OptionsDialog/DesktopIntegration/UseHelperApplicationsCheckBox/Tooltip")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 7, 0, 0);
+        jPanel2.add(useHelperApplicationsCheckBox, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        jPanel2.add(jLabel2, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weighty = 1.0;
+        jPanel2.add(jLabel3, gridBagConstraints);
+
+        jTabbedPane1.addTab(bundle.getString("OptionsDialog/DesktopIntegrationTab/Title"), jPanel2); // NOI18N
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
@@ -253,7 +294,7 @@ public class OptionsDialog extends javax.swing.JDialog {
         getContentPane().add(jPanel5, gridBagConstraints);
 
         java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-        setBounds((screenSize.width-605)/2, (screenSize.height-249)/2, 605, 249);
+        setBounds((screenSize.width-556)/2, (screenSize.height-267)/2, 556, 267);
     }// </editor-fold>//GEN-END:initComponents
 
 	private void formComponentShown (java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
@@ -268,7 +309,10 @@ public class OptionsDialog extends javax.swing.JDialog {
 	
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
@@ -277,6 +321,8 @@ public class OptionsDialog extends javax.swing.JDialog {
     private javax.swing.JTable jTable1;
     private javax.swing.JButton okButton;
     private javax.swing.JTextField sampleTextField;
+    private javax.swing.JCheckBox trayIconCheckBox;
+    private javax.swing.JCheckBox useHelperApplicationsCheckBox;
     // End of variables declaration//GEN-END:variables
 	
 	private final void confirm (){
@@ -291,6 +337,8 @@ public class OptionsDialog extends javax.swing.JDialog {
 	private LookAndFeelChoice _initialChoice;
 	
 	private void init (ApplicationOptions ao) {
+		trayIconCheckBox.getModel ().setSelected (_context.getApplicationOptions ().isTrayIconEnabled ());
+		useHelperApplicationsCheckBox.getModel ().setSelected (_context.getApplicationOptions ().isHelperApplicationIntegrationEnabled ());
 	}
 	
 	private void cancel (){
@@ -468,13 +516,25 @@ public class OptionsDialog extends javax.swing.JDialog {
 				sampleTextField.setText ("");
 				return;
 			}
-			try {
-				sampleTextField.setText (new SimpleDateFormat (String.valueOf (getDateFormatTable ().getModel ().getValueAt (row, col))).format (date));
-			} catch (final IllegalArgumentException e) {
-				e.printStackTrace(System.err);
-			}
+			sampleTextField.setText (new SimpleDateFormat (String.valueOf (getDateFormatTable ().getModel ().getValueAt (row, col))).format (date));
 
 		}
 	}
 	
+	
+	private class ShowTrayIconAction extends AbstractAction {
+
+		public void actionPerformed (ActionEvent e) {
+			SettingsSupport.setBooleanProperty (_context.getUserSettings ().getProperties (), "showTrayIcon", trayIconCheckBox.getModel ().isSelected ());
+		}
+		
+	}
+	
+	private class UseHelperApplicationsAction extends AbstractAction {
+
+		public void actionPerformed (ActionEvent e) {
+			SettingsSupport.setBooleanProperty (_context.getUserSettings ().getProperties (), "useHelperApplications", useHelperApplicationsCheckBox.getModel ().isSelected ());
+		}
+		
+	}
 }

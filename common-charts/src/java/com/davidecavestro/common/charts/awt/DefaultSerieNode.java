@@ -96,7 +96,7 @@ public class DefaultSerieNode implements SerieNode {
 	 * @return na stringa che rappresenta questo nodo.
 	 */	
 	public String toString (){
-		final StringBuffer sb = new StringBuffer ();
+		final StringBuilder sb = new StringBuilder ();
 		sb.append ("name: ").append (this._name)
 		.append (" value: ").append (this.getValue ())
 		.append (" childrenValue: ").append (this.getChildrenValue ())

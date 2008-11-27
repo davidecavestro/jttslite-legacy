@@ -1,3 +1,15 @@
+2.6 rc2
+- BUG# 2350102: Fixed severe issue on multiple task removal
+
+2.6 rc1
+- Introduced action templates (as per RFE# 1992724)
+- BUG# 2007446: Double click doesn't rename a node if it has children.
+- RFE# 1954462: Closing event management.
+- RFE# 1979504: Other date / time formats.
+- RFE# 2154550: Leave "Start action clone" enabled even when there is a running action
+- Added helper applications support for report export. Using Java 6, if you export a report to PDF format, your default PDF reader should start.
+- Minor UI restylings.
+
 2.5.3.1
 - BUG# 1942750: fixed severe concurrency problem
 

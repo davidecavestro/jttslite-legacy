@@ -138,6 +138,27 @@ public class TaskListRowBean extends Object implements Serializable {
 	}
 
 	
+	private java.sql.Timestamp startDate;
+	
+	public java.sql.Timestamp getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(java.sql.Timestamp startDate) {
+		this.startDate = startDate;
+	}
+
+	private java.sql.Timestamp finishDate;
+	
+	public java.sql.Timestamp getFinishDate() {
+		return finishDate;
+	}
+
+	public void setFinishDate(java.sql.Timestamp finishDate) {
+		this.finishDate = finishDate;
+	}
+
+	
 	/**
 	 * Crea una collezione di bean a scopo di test.
 	 */

@@ -297,6 +297,27 @@ public class CumulateLocalProgressesRowBean extends Object implements Serializab
 	}
 
 	/**
+	 * Holds value of property formattedPeriodStart.
+	 */
+	private String formattedPeriodStart;
+
+	/**
+	 * Getter for property periodStart.
+	 * @return Value of property formattedPeriodStart.
+	 */
+	public String getFormattedPeriodStart () {
+		return this.formattedPeriodStart;
+	}
+
+	/**
+	 * Setter for property formattedPeriodStart.
+	 * @param s New value of property formattedPeriodStart.
+	 */
+	public void setFormattedPeriodStart (String s) {
+		this.formattedPeriodStart = s;
+	}
+
+	/**
 	 * Holds value of property progressDescription.
 	 */
 	private String progressDescription;

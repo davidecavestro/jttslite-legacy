@@ -827,6 +827,25 @@ public class ReportDialog extends javax.swing.JDialog implements PersistentCompo
 				periodCount);
 			}
 			
+		},
+		ACTIONS_LIST {
+			public String getResource () {
+				return "/actionlist.jasper";
+			}
+			public String toString () {
+				return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("ReportDialog/ReportChoice/ActionList");
+			}
+			
+			public DataExtractor getExtractor (ApplicationContext context, Task t, TargetedFilterContainer[] targetedFilterContainer, Date startDate, int i, int periodCount) {
+				return new TaskListExtractor (
+				context,
+				t,
+				targetedFilterContainer,
+				startDate,
+				i,
+				periodCount);
+			}
+			
 		};
 		
 		

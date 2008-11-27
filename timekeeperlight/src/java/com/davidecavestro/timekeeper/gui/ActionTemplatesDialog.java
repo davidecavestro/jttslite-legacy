@@ -325,6 +325,7 @@ public class ActionTemplatesDialog extends javax.swing.JDialog implements Persis
 
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(453, 203));
         getTable ().setDefaultRenderer (Duration.class, new DefaultTableCellRenderer () {
 
             public Component getTableCellRendererComponent (final JTable table, final Object value, boolean isSelected, boolean hasFocus, final int row, final int column) {
@@ -368,6 +369,7 @@ public class ActionTemplatesDialog extends javax.swing.JDialog implements Persis
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 1);

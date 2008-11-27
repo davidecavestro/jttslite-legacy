@@ -9,6 +9,7 @@ package com.davidecavestro.timekeeper.report.flavors;
 import com.davidecavestro.common.application.ApplicationData;
 import com.davidecavestro.common.util.CalendarUtils;
 import com.davidecavestro.timekeeper.ApplicationContext;
+import com.davidecavestro.timekeeper.gui.CustomizableFormat;
 import com.davidecavestro.timekeeper.model.Task;
 import com.davidecavestro.timekeeper.report.AbstractDataExtractor;
 import com.davidecavestro.timekeeper.report.filter.Target;
@@ -172,11 +173,12 @@ public final class CumulateLocalProgresses extends AbstractDataExtractor {
 			
 			
 			final int periodID = ia.assignPeriodID ();
-			final String periodName = CalendarUtils.getTimestamp (cumulationPeriod.getFrom (), java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("date_format_short"));
+			final String periodName = CalendarUtils.getTimestamp (cumulationPeriod.getFrom (), CustomizableFormat.SHORT_DATE.getValue (_context));
 			
 //			System.out.println ("processing period "+periodName);
 			
 			final Timestamp periodStart = new Timestamp (cumulationPeriod.getFrom ().getTime ());
+			final String formattedPeriodStart = CalendarUtils.getTimestamp (cumulationPeriod.getFrom (), CustomizableFormat.EXTENDED_DATE.getValue (_context));
 //			final String periodName = CalendarUtils.getTimestamp (cumulationPeriod.getFrom (), "MM/dd");
 
 			double periodDuration = 0;
@@ -205,10 +207,10 @@ public final class CumulateLocalProgresses extends AbstractDataExtractor {
 				final int taskID = ia.getTaskID (progressItem);
 				
 				/* Gerarchia */
-				final StringBuffer hierarchyData = new StringBuffer ();
+				final StringBuilder hierarchyData = new StringBuilder ();
 				Task parent = progressItem.getParent ();
 				while (parent!=null) {
-					final StringBuffer ancestorData = new StringBuffer ();
+					final StringBuilder ancestorData = new StringBuilder ();
 					ancestorData.append ("/");
 					final String code = parent.getCode ();
 					if (code!=null && code.length ()>0){
@@ -248,6 +250,7 @@ public final class CumulateLocalProgresses extends AbstractDataExtractor {
 					row.setTaskTotalEffort (taskTotalEffort);
 					row.setPeriodTotalEffort (periodTotalEffort);
 					row.setPeriodStart (periodStart);
+					row.setFormattedPeriodStart (formattedPeriodStart);
 					row.setPeriodName (periodName);
 					row.setTaskID (taskID);
 					
@@ -287,7 +290,7 @@ public final class CumulateLocalProgresses extends AbstractDataExtractor {
 	 * @return una stringa che rappresenta questo estrattore di dati.
 	 */
 	public String toString (){
-		final StringBuffer sb = new StringBuffer ();
+		final StringBuilder sb = new StringBuilder ();
 		sb.append (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("_subtree_root:_"));
 		sb.append (this._subtreeRoot);
 		return sb.toString ();
@@ -297,7 +300,7 @@ public final class CumulateLocalProgresses extends AbstractDataExtractor {
 		if (duration==null){
 			duration = Duration.ZERODURATION;
 		}
-		final StringBuffer sb = new StringBuffer ();
+		final StringBuilder sb = new StringBuilder ();
 
 		sb.append (durationNumberFormatter.format (duration.getTotalHours ()))
 		.append (":")

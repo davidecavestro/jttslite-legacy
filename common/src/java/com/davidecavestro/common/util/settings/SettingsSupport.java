@@ -201,7 +201,7 @@ public final class SettingsSupport {
 	 * @param colorValue il valore della proprieta'.
 	 */	
 	public static void setColorProperty (Properties properties, String propertyName, Color colorValue){
-		final StringBuffer propertyValue = new StringBuffer ();
+		final StringBuilder propertyValue = new StringBuilder ();
 		if (colorValue==null){
 			propertyValue.append ("");
 		} else {
@@ -294,7 +294,7 @@ public final class SettingsSupport {
 	 * @param propertyName il nome della proprieta'.
 	 */	
 	public static void setPaths (Properties properties, String propertyName, String[] values, String delimiter){
-		final StringBuffer value = new StringBuffer ();
+		final StringBuilder value = new StringBuilder ();
 		for (int i =0;i<values.length;i++){
 			if (0!=i){
 				value.append (File.pathSeparator);

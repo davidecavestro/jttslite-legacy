@@ -26,7 +26,7 @@ public final class DefaultSettings implements ApplicationSettings {
 	public final static Integer DEFAULT_PLAINTEXTLOG_BUFFERSIZE = new Integer (8192);
 	
 	private static DefaultSettings _instance;
-	
+
 	private final ApplicationEnvironment _env;
 	
 	private final UserResources _user;
@@ -43,7 +43,7 @@ public final class DefaultSettings implements ApplicationSettings {
 	 * @return il percorso della directory contenente i file di log.
 	 */
 	public String getLogDirPath () {
-		final StringBuffer sb = new StringBuffer ();
+		final StringBuilder sb = new StringBuilder ();
 		sb.append (_user.getUserApplicationDirPath ());
 		sb.append ("/logs");
 		return sb.toString ();
@@ -200,4 +200,32 @@ public final class DefaultSettings implements ApplicationSettings {
 		sb.append ("/data");
 		return sb.toString ();		
 	}
+	
+	/**
+	 * Impostazione predefinita di abilitazione della trayicon.
+	 * 
+	 * @return sempre <tt>true</tt>.
+	 */
+	public static boolean isTrayIconEnabled () {
+		return true;
+	}
+
+	/**
+	 * Impostazione predefinita di abilitazione delle helper application.
+	 * 
+	 * @return sempre <tt>true</tt>.
+	 */
+	public static boolean isHelperApplicationIntegrationEnabled () {
+		return true;
+	}
+
+	public Boolean getTrayIconEnabled () {
+		return Boolean.valueOf (isTrayIconEnabled ());
+	}
+
+	public Boolean getHelperApplicationsEnabled () {
+		return Boolean.valueOf (isHelperApplicationIntegrationEnabled ());
+	}
+
+	
 }

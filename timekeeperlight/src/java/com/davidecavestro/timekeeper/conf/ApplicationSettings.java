@@ -27,6 +27,20 @@ public interface ApplicationSettings {
 	 * @return la dimensione del buffer per il logger di testo semplice.
 	 */
 	public Integer getPlainTextLogBufferSize ();
+
+	/**
+	 * Indica se la trayicon è abilitata.
+	 * 
+	 * @return <tt>true</tt> se la tray iconè abilitata.
+	 */
+	public Boolean getTrayIconEnabled ();
+	
+
+	/**
+	 * Indica se l'integrazione con il desktop per l'us odelle helper applications è abilitata.
+	 * @return <tt>true/tt> se l'integrazione con il desktop per l'uso delle helper applications è abilitata.
+	 */
+	public Boolean getHelperApplicationsEnabled ();
 	
 	/**
 	 * Ritorna il LookAndFeel.

@@ -70,7 +70,7 @@ public class TransferData<T> {
 	}
 
 	public String toString () {
-		final StringBuffer sb = new StringBuffer ();
+		final StringBuilder sb = new StringBuilder ();
 		sb.append ("data ").append (_data).append (" ");
 		sb.append ("action ").append (_action);
 		return sb.toString ();

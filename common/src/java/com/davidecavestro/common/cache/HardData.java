@@ -57,7 +57,7 @@ public class HardData implements Data {
 	 * @return un stringa che rappresenta questi dati.
 	 */	
 	public String toString (){
-		final StringBuffer sb = new StringBuffer ();
+		final StringBuilder sb = new StringBuilder ();
 		sb.append ("data: "+this._data);
 		sb.append (" isValid: "+true);
 		return sb.toString ();

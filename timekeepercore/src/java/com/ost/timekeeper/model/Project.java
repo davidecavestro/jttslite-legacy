@@ -94,7 +94,7 @@ public final class Project implements WorkSpace {
 	 * @return una stringa che rappresenta questo progetto.
 	 */	
 	public String toString (){
-		StringBuffer sb = new StringBuffer ();
+		final StringBuilder sb = new StringBuilder ();
 		sb.append ("name: ").append (this.name)
 		.append (" root: ").append (this.root);
 		return sb.toString();

@@ -135,50 +135,65 @@ public enum ReportExportAction implements ReportLaunchAction {
 	
 	public void execute (final ApplicationContext context, final Component parent, final JasperPrint print) throws JRException {
 		File tempFile = null;
-		try {
+		if (context.getApplicationOptions ().isHelperApplicationIntegrationEnabled ()) {
+			try {
 
-			tempFile = File.createTempFile (print.getName(), "." + getExt ().toLowerCase ());
-		} catch (IOException ex) {
-			/*
-			 * 
-			 */
-		}
-		if (tempFile!=null) {
-			final Cursor original = parent.getCursor ();
-			parent.setCursor(waiting);
-				try {
-
-				final File fileToOpen = tempFile;
-				final SwingWorker sw = new SwingWorker () {
-
-					@Override
-					public Object construct() {
-						try {
-							export (print, fileToOpen);
-							return Boolean.valueOf (context.getWindowManager ().getDesktopSupport ().open (fileToOpen));
-						} catch (final Exception e) {
-							/*
-							 * Problema con l'helper application
-							 */
-						} catch (final NoClassDefFoundError e) {
-							/*
-							 * Problema con l'helper application
-							 */
-						}
-						return Boolean.FALSE;
-					}
-				};
-
-
-				sw.start();
-				final boolean opened = ((Boolean) sw.get ()).booleanValue();
-				if (opened) {
-					return;
-				}
-			} finally {
-				parent.setCursor (original);
+				tempFile = File.createTempFile (print.getName(), "." + getExt ().toLowerCase ());
+			} catch (IOException ex) {
+				/*
+				 * 
+				 */
 			}
+			if (tempFile!=null) {
+				final Cursor original = parent.getCursor ();
+				parent.setCursor(waiting);
+					try {
 
+					final File fileToOpen = tempFile;
+					final SwingWorker sw = new SwingWorker () {
+
+						@Override
+						public Object construct() {
+							try {
+								export (print, fileToOpen);
+								
+								/*
+								 * @workaround disabilita temporaneamente, in modo che, se c'è un crash, al prossimo riavvio rimanga disabilitato
+								 * 
+								 */
+								context.getUserSettings ().setHelperApplicationsEnabled (Boolean.FALSE);
+								context.getUserSettings ().storeProperties ();
+								try {
+									return Boolean.valueOf (context.getWindowManager ().getDesktopSupport ().open (fileToOpen));
+								} finally {
+									/*
+									 * riabilita 
+									 */
+									context.getUserSettings ().setHelperApplicationsEnabled (Boolean.TRUE);
+								}
+								
+							} catch (final Exception e) {
+								/*
+								 * Problema con l'helper application
+								 */
+							} catch (final NoClassDefFoundError e) {
+								/*
+								 * Problema con l'helper application
+								 */
+							}
+							return Boolean.FALSE;
+						}
+					};
+
+					sw.start();
+					final boolean opened = ((Boolean) sw.get ()).booleanValue();
+					if (opened) {
+						return;
+					}
+				} finally {
+					parent.setCursor (original);
+				}
+			}
 		}
 
 

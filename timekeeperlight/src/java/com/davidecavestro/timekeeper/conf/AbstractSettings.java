@@ -6,12 +6,9 @@
 
 package com.davidecavestro.timekeeper.conf;
 
-import com.davidecavestro.common.log.NotificationUtils;
-import com.davidecavestro.common.util.ExceptionUtils;
 import com.davidecavestro.common.util.file.FileUtils;
 import com.davidecavestro.common.util.settings.SettingsSupport;
 import com.davidecavestro.timekeeper.Application;
-import java.awt.*;
 import java.io.*;
 import java.util.*;
 
@@ -201,5 +198,23 @@ public abstract class AbstractSettings implements CustomizableSettings {
 	public void setCharDepth (final Integer i) {
 		SettingsSupport.setIntegerProperty (getProperties (), PROPNAME_CHARTDEPTH, i);
 	}
+	
+	
+	public Boolean getTrayIconEnabled () {
+		return SettingsSupport.getBooleanProperty (getProperties (), PROPNAME_TRAYICONENABLED);
+	}
+
+	public void setTrayIconEnabled (final Boolean b) {
+		SettingsSupport.setBooleanProperty (getProperties (), PROPNAME_TRAYICONENABLED, b);
+	}
+
+	public Boolean getHelperApplicationsEnabled () {
+		return SettingsSupport.getBooleanProperty (getProperties (), PROPNAME_HELPERAPPSENABLED);
+	}
+
+	public void setHelperApplicationsEnabled (final Boolean b) {
+		SettingsSupport.setBooleanProperty (getProperties (), PROPNAME_HELPERAPPSENABLED, b);
+	}
+
 	
 }

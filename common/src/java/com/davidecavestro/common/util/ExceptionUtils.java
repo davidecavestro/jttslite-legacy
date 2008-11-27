@@ -9,6 +9,7 @@ package com.davidecavestro.common.util;
 import java.io.*;
 
 /**
+ * Utilities for exception handling.
  *
  * @author  davide
  */
@@ -29,7 +30,6 @@ public final class ExceptionUtils {
 	 * @return lo stack delle chiamate del thread che ha generato <TT>t</TT>.
 	 */
 	public static StringBuffer getStackTrace (Throwable t){
-//		final StringBuffer sb = new StringBuffer ();
 		final StringWriter sw = new StringWriter ();
 		t.printStackTrace (new PrintWriter (sw));
 		return sw.getBuffer ();
@@ -42,8 +42,8 @@ public final class ExceptionUtils {
 	 * @param nestedException l'eccezione.
 	 * @return lo stack delle chiamate del thread che ha generato <TT>nestedException</TT>.
 	 */
-	public static StringBuffer getStackTrace (final RuntimeException nestedException){
+	public static StringBuilder getStackTrace (final RuntimeException nestedException){
 		final Throwable rootCause = nestedException.getCause ();
-		return new StringBuffer ().append (getStackTrace ((Throwable)nestedException)).append ("\nRoot cause:\n").append (getStackTrace (rootCause));
+		return new StringBuilder ().append (getStackTrace ((Throwable)nestedException)).append ("\nRoot cause:\n").append (getStackTrace (rootCause));
 	}
 }

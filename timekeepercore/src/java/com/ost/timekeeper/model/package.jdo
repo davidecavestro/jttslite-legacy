@@ -44,5 +44,13 @@
       <field name="description"/>
       <field name="notes"/>
     </class>
+
+    <class name="ProgressTemplate" 
+           identity-type="datastore">
+      <field name="name"/>
+      <field name="milliseconds"/>
+      <field name="notes"/>
+    </class>
+
   </package>
 </jdo>

@@ -19,8 +19,12 @@ import java.awt.Toolkit;
 import java.awt.TrayIcon;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.text.MessageFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
 
 /**
@@ -36,10 +40,13 @@ public class SystemTraySupport {
 	private PieceOfWork _advancingPOW;
 	private Task _selectedTask;
 	
+	private final Object _context;
+	
 	/**
 	 * Costruttore.
 	 */
-	public SystemTraySupport () {
+	public SystemTraySupport (final Object context) {
+		_context = context;
 	}
 	
 	
@@ -72,7 +79,7 @@ public class SystemTraySupport {
 			try {
 				tray.add (getTrayIcon ());
 				getTrayIcon ().setToolTip ("foo");
-			} catch (AWTException e) {
+			} catch (final AWTException e) {
 				System.out.println ("TrayIcon is not supported.");
 				e.printStackTrace (System.out);
 			}
@@ -96,7 +103,7 @@ public class SystemTraySupport {
 			}
 		} catch (final NoClassDefFoundError ncdfe) {
 			/*
-			 * SUpporto java 5
+			 * Supporto java 5
 			 */
 			return;
 		}
@@ -350,6 +357,12 @@ public class SystemTraySupport {
 		return _selectedTask;
 	}
 	
+	private final static Object[] voidObjectArray = new Object[0];
+	private final static Class[] voidClassArray = new Class[0];
+	
+	private TrayIconConfigurationAccessor accessor;
+	private boolean accessorInitializationFailed = true;
+	
 	/**
 	 * Finche' si vuole supportare Java 5, e' necessario proteggere qualsiasi accesso a TrayIcon con un 
 	 * try {
@@ -357,7 +370,34 @@ public class SystemTraySupport {
 	 * } catch (NoClassDefFoundError )
 	 */
 	private TrayIcon getTrayIcon () throws NoClassDefFoundError {
-		return (TrayIcon)trayIcon;
+		
+		boolean isTrayIconEnabled = true;
+		
+		try {
+			if (accessor == null) {
+				accessor = new TrayIconConfigurationAccessor ();
+				accessorInitializationFailed = false;
+			}
+			if (!accessorInitializationFailed) {
+				isTrayIconEnabled = accessor.getValue ();
+			}
+		} catch (final IllegalAccessException ex) {
+			ex.printStackTrace (System.err);
+		} catch (final IllegalArgumentException ex) {
+			ex.printStackTrace (System.err);
+		} catch (final InvocationTargetException ex) {
+			ex.printStackTrace (System.err);
+		} catch (final NoSuchMethodException ex) {
+			ex.printStackTrace (System.err);
+		} catch (final SecurityException ex) {
+			ex.printStackTrace (System.err);
+		}
+		
+		if (isTrayIconEnabled) {
+			return (TrayIcon)trayIcon;
+		}
+		
+		return null;
 	}
 
 	/**
@@ -375,5 +415,33 @@ public class SystemTraySupport {
 //		}
 ////		getTrayIcon ().getPopupMenu ().dispatchEvent (new MouseEvent ());
 //	}
+	
+	/*
+	 * @workaround usa la reflection per rimuovere dipendenze di comilazione verso ApplicationOptions (progetto Java5 vs Java6)
+	 */
+	private class TrayIconConfigurationAccessor {
+		
+		private final Method applicationOptionsGetter;
+
+		private final Object applicationOptions;
+
+		private final Method trayIconEnabledGetter;
+			
+		public TrayIconConfigurationAccessor () throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, IllegalArgumentException, InvocationTargetException {
+			
+			applicationOptionsGetter = _context.getClass ().getMethod ("getApplicationOptions", voidClassArray);
+
+			applicationOptions = applicationOptionsGetter.invoke (_context, voidObjectArray);
+
+			trayIconEnabledGetter = applicationOptions.getClass ().getMethod ("isTrayIconEnabled", voidClassArray);
+		}
+		
+			
+		public boolean getValue () throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+
+			return ((Boolean)trayIconEnabledGetter.invoke (applicationOptions, voidObjectArray)).booleanValue ();
+			
+		}
+	}
 	
 }

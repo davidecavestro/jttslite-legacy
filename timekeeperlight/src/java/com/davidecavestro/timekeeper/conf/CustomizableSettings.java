@@ -6,7 +6,6 @@
 
 package com.davidecavestro.timekeeper.conf;
 
-import java.awt.*;
 import java.util.*;
 
 /**
@@ -14,7 +13,7 @@ import java.util.*;
  *
  * @author  davide
  */
-public interface CustomizableSettings extends ApplicationSettings{
+public interface CustomizableSettings extends ApplicationSettings {
 	
 	
 	/** Dimensione del buffer per il log di testo semplice. */
@@ -62,6 +61,14 @@ public interface CustomizableSettings extends ApplicationSettings{
 	public final static String PROPNAME_CHARTDEPTH = "chartdepth";
 	
 
+	/**
+	 * Nome del parametro relativo all'abilitazione della tray icon.
+	 */
+	public final static String PROPNAME_TRAYICONENABLED = "trayiconenabled";
+	/**
+	 * Nome del parametro per l'abilitazione delle helper applications.
+	 */
+	public final static String PROPNAME_HELPERAPPSENABLED = "helperappsenabled";
 		
 	/**
 	 * Ritorna il nome del file di preferenze associato a queste impostazioni.
@@ -148,5 +155,17 @@ public interface CustomizableSettings extends ApplicationSettings{
 	 * @param i il valore da impostare.
 	 */
 	void setCharDepth (Integer i);
+	
+	/**
+	 * Imposta la proprietà di abilitazione della tray icon.
+	 * @param b l'abilitazione della tray icon.
+	 */
+	void setTrayIconEnabled (Boolean b);
+	
+	/**
+	 * Imposta la proprietà di abilitazione delle helper application.
+	 * @param b l'abilitazione delle helper application.
+	 */
+	void setHelperApplicationsEnabled (Boolean b);
 	
 }

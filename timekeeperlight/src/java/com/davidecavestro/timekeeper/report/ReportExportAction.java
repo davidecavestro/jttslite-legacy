@@ -186,8 +186,9 @@ public enum ReportExportAction implements ReportLaunchAction {
 					};
 
 					sw.start();
-					final boolean opened = ((Boolean) sw.get ()).booleanValue();
-					if (opened) {
+					
+					final Boolean opened = (Boolean) sw.get ();
+					if (opened!=null && opened.booleanValue ()) {
 						return;
 					}
 				} finally {

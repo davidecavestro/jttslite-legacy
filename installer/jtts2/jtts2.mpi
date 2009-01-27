@@ -42,7 +42,7 @@ CompressionMethod
 zlib
 
 Copyright
-{Davide Cavestro 2008}
+{Davide Cavestro 2009}
 
 CreateDesktopShortcut
 Yes
@@ -75,7 +75,7 @@ InstallPassword
 {}
 
 InstallVersion
-2.6.0.2
+2.6.0.3
 
 Language,de
 Yes
@@ -187,7 +187,7 @@ UpgradeApplicationID
 {}
 
 Version
-2.6-RC2
+2.6-RC3
 
 ViewReadme
 Yes
@@ -306,7 +306,6 @@ File ::F4A5CDD0-212D-9244-56DE-BED05C3CB5C7 -name commons-collections.jar -paren
 File ::D5F9862E-EA13-96B6-8510-69190682A26C -name commons-logging-api.jar -parent 1FB15813-D983-BC90-80BD-493B78A9AC34
 File ::12E70CBD-1401-2B66-6511-F7C60B898932 -name commons-logging.jar -parent 1FB15813-D983-BC90-80BD-493B78A9AC34
 File ::41C87F62-A89C-30C8-0B9F-DB8847CC2305 -name itext-1.3.1.jar -parent 1FB15813-D983-BC90-80BD-493B78A9AC34
-File ::74190834-A3A0-2DF1-0ADF-FAF3F17488C2 -name jasperreports-1.2.8.jar -parent 1FB15813-D983-BC90-80BD-493B78A9AC34
 File ::2645AF0C-3D89-8941-95A5-8C4A720FC1B4 -name jdo.jar -parent 1FB15813-D983-BC90-80BD-493B78A9AC34
 File ::E946603F-0021-05A6-E621-D1B9B60DE027 -name jdom.jar -parent 1FB15813-D983-BC90-80BD-493B78A9AC34
 File ::ABF0B08D-963E-433C-61AB-D9E08F037FCB -name jdori.jar -parent 1FB15813-D983-BC90-80BD-493B78A9AC34
@@ -316,7 +315,6 @@ File ::D8217740-CF9D-9AB7-70A8-BBC6E0149E97 -name jsci-xtra.jar -parent 1FB15813
 File ::885231ED-09DF-6689-C263-E825F695FD1E -name looks-2.1.4.jar -parent 1FB15813-D983-BC90-80BD-493B78A9AC34
 File ::9A6E410D-36A2-69E6-4E3D-7B4247A97A79 -name org-openide-awt.jar -parent 1FB15813-D983-BC90-80BD-493B78A9AC34
 File ::CA55C93B-2A5E-8D29-0358-823A010D4586 -name org-openide-util.jar -parent 1FB15813-D983-BC90-80BD-493B78A9AC34
-File ::65C4DCEA-4E24-9D83-FA8A-3B9A799BEC7B -name poi-2.0-final-20040126.jar -parent 1FB15813-D983-BC90-80BD-493B78A9AC34
 File ::AD94CDC7-86E5-581C-0181-D9594586A6CA -name timekeeper-reports.jar -parent 1FB15813-D983-BC90-80BD-493B78A9AC34
 File ::4DE77EFD-1D4B-29DF-EF03-B61B0CB76BCC -name timekeepercore.jar -parent 1FB15813-D983-BC90-80BD-493B78A9AC34
 File ::9ADEBB4D-32D5-0156-3851-D99172991F16 -name timekeeperlight-icons.jar -parent 1FB15813-D983-BC90-80BD-493B78A9AC34
@@ -324,6 +322,8 @@ File ::257F1828-DC0C-DA00-75F5-EF23AE6627AC -name tinylaf.jar -parent 1FB15813-D
 File ::D16E5F97-59D8-92BA-3B6A-6B2C863AA85B -name antlr-2.7.5.jar -parent 1FB15813-D983-BC90-80BD-493B78A9AC34
 File ::3CACFD43-F77D-C06F-A903-F910A58D7F3C -name swingx-0.9.4.jar -parent 1FB15813-D983-BC90-80BD-493B78A9AC34
 File ::742D03FB-AEA9-6B14-9166-92E2CBF6B565 -name timekeepertray.jar -parent 1FB15813-D983-BC90-80BD-493B78A9AC34
+File ::FDAB1150-B6D4-B3EA-BCEC-358E387E6E9F -name poi-3.0.1-FINAL-20070705.jar -parent 1FB15813-D983-BC90-80BD-493B78A9AC34
+File ::C175B0FC-E3C3-E995-ED72-6C52B27CA48E -name jasperreports-3.0.0.jar -parent 1FB15813-D983-BC90-80BD-493B78A9AC34
 File ::029219CF-5531-F44F-3F8E-3BFAEC7966A0 -type dir -name /home/davide/devel/jtts2/timekeeperlight/deploy/other-info -parent F96500F4-F736-69E5-40A4-4F828D0D1F5E
 File ::61BC3781-E800-6256-F8FC-B9CA63B117FA -name README.txt -active 0 -parent 029219CF-5531-F44F-3F8E-3BFAEC7966A0
 File ::5C04D073-0EFD-3991-E5BF-A6E6214840C6 -name ReleaseNotes.txt -parent 029219CF-5531-F44F-3F8E-3BFAEC7966A0
@@ -409,11 +409,11 @@ InstallComponent 05A44F30-EDC2-A59A-6332-F5DB430609F5 -setup Install -type actio
 InstallComponent D767CE3E-1EAC-FB27-6528-4655F1F13FB3 -setup Install -type action -title {Execute Action} -component ExecuteAction -active Yes -parent F6935AEB-2AFC-A246-B759-8331C66EBFA7
 InstallComponent 3BB5B0C2-5948-DF48-B081-DA0F0AFFBC8F -setup Install -type action -title {Move Forward} -component MoveForward -active Yes -parent F6935AEB-2AFC-A246-B759-8331C66EBFA7
 InstallComponent 144820ED-0F53-A289-D20E-EDEF50A15A70 -setup Install -type pane -title {Setup Complete} -component SetupComplete -active Yes -parent StandardInstall
-InstallComponent 818BE488-3930-41EF-6068-683B7240DF39 -setup Install -type action -conditions {70CD3468-BE89-12F4-4130-6B3876AC64E2 CCA21308-836A-8C0D-41D8-02FFE45EC6D2 D7737023-3A66-96E7-3455-6E36A103E70C} -title {View Readme Checkbutton} -component AddWidget -command reorder -active Yes -parent 144820ED-0F53-A289-D20E-EDEF50A15A70
+InstallComponent 818BE488-3930-41EF-6068-683B7240DF39 -setup Install -type action -conditions {70CD3468-BE89-12F4-4130-6B3876AC64E2 CCA21308-836A-8C0D-41D8-02FFE45EC6D2 D7737023-3A66-96E7-3455-6E36A103E70C} -title {View Readme Checkbutton} -component AddWidget -command insert -active Yes -parent 144820ED-0F53-A289-D20E-EDEF50A15A70
 Condition 70CD3468-BE89-12F4-4130-6B3876AC64E2 -active Yes -parent 818BE488-3930-41EF-6068-683B7240DF39 -title {File Exists Condition} -component FileExistsCondition -TreeObject::id 70CD3468-BE89-12F4-4130-6B3876AC64E2
 Condition CCA21308-836A-8C0D-41D8-02FFE45EC6D2 -active Yes -parent 818BE488-3930-41EF-6068-683B7240DF39 -title {String Is Condition} -component StringIsCondition -TreeObject::id CCA21308-836A-8C0D-41D8-02FFE45EC6D2
 Condition D7737023-3A66-96E7-3455-6E36A103E70C -active Yes -parent 818BE488-3930-41EF-6068-683B7240DF39 -title {String Is Condition} -component StringIsCondition -TreeObject::id D7737023-3A66-96E7-3455-6E36A103E70C
-InstallComponent 420C84C7-EEE6-41A1-DC29-8AE7CBDF82DC -setup Install -type action -conditions {344D2C63-F199-2A71-67AC-D38C64DF13E3 8D31E1E3-8521-C8A0-FA6F-78D6B056510C 55332223-1DB5-5E73-058D-C862F102AA77} -title {View RealeaseNotes Checkbutton} -component AddWidget -command reorder -active Yes -parent 144820ED-0F53-A289-D20E-EDEF50A15A70
+InstallComponent 420C84C7-EEE6-41A1-DC29-8AE7CBDF82DC -setup Install -type action -conditions {344D2C63-F199-2A71-67AC-D38C64DF13E3 8D31E1E3-8521-C8A0-FA6F-78D6B056510C 55332223-1DB5-5E73-058D-C862F102AA77} -title {View RealeaseNotes Checkbutton} -component AddWidget -command insert -active Yes -parent 144820ED-0F53-A289-D20E-EDEF50A15A70
 Condition 344D2C63-F199-2A71-67AC-D38C64DF13E3 -active Yes -parent 420C84C7-EEE6-41A1-DC29-8AE7CBDF82DC -title {File Exists Condition} -component FileExistsCondition -TreeObject::id 70CD3468-BE89-12F4-4130-6B3876AC64E2
 Condition 8D31E1E3-8521-C8A0-FA6F-78D6B056510C -active Yes -parent 420C84C7-EEE6-41A1-DC29-8AE7CBDF82DC -title {String Is Condition} -component StringIsCondition -TreeObject::id CCA21308-836A-8C0D-41D8-02FFE45EC6D2
 Condition 55332223-1DB5-5E73-058D-C862F102AA77 -active Yes -parent 420C84C7-EEE6-41A1-DC29-8AE7CBDF82DC -title {String Is Condition} -component StringIsCondition -TreeObject::id D7737023-3A66-96E7-3455-6E36A103E70C
@@ -433,7 +433,7 @@ InstallComponent 51DBE955-FB8C-374A-DEAB-A4D4DF76BE12 -setup Install -type actio
 Condition 147E7678-34FB-F52B-701F-3BC4AB688750 -active Yes -parent 51DBE955-FB8C-374A-DEAB-A4D4DF76BE12 -title {File Exists Condition} -component FileExistsCondition -TreeObject::id 147E7678-34FB-F52B-701F-3BC4AB688750
 Condition 2D748366-B559-A419-74E7-AFDCEE3335E0 -active Yes -parent 51DBE955-FB8C-374A-DEAB-A4D4DF76BE12 -title {String Is Condition} -component StringIsCondition -TreeObject::id 2D748366-B559-A419-74E7-AFDCEE3335E0
 Condition 68A03847-23E1-634F-EDB8-6AFC0E37BD32 -active Yes -parent 51DBE955-FB8C-374A-DEAB-A4D4DF76BE12 -title {String Is Condition} -component StringIsCondition -TreeObject::id 68A03847-23E1-634F-EDB8-6AFC0E37BD32
-InstallComponent 84143C39-D8DA-4BBD-31F0-202501EB6D93 -setup Install -type action -conditions {28535C4B-24CB-C1FE-BBAC-136CB88C6D85 BC30FB95-AE3C-0073-65B0-68A7CEDC38C1 7B16E9F0-8D81-A782-799C-FB5002FD4A4A} -title {View RealeaseNotes Checkbutton} -component AddWidget -command reorder -active Yes -parent 73F7246A-6D22-7436-3510-CB30F40CA3D9
+InstallComponent 84143C39-D8DA-4BBD-31F0-202501EB6D93 -setup Install -type action -conditions {28535C4B-24CB-C1FE-BBAC-136CB88C6D85 BC30FB95-AE3C-0073-65B0-68A7CEDC38C1 7B16E9F0-8D81-A782-799C-FB5002FD4A4A} -title {View RealeaseNotes Checkbutton} -component AddWidget -command insert -active Yes -parent 73F7246A-6D22-7436-3510-CB30F40CA3D9
 Condition 28535C4B-24CB-C1FE-BBAC-136CB88C6D85 -active Yes -parent 84143C39-D8DA-4BBD-31F0-202501EB6D93 -title {File Exists Condition} -component FileExistsCondition -TreeObject::id 70CD3468-BE89-12F4-4130-6B3876AC64E2
 Condition BC30FB95-AE3C-0073-65B0-68A7CEDC38C1 -active Yes -parent 84143C39-D8DA-4BBD-31F0-202501EB6D93 -title {String Is Condition} -component StringIsCondition -TreeObject::id CCA21308-836A-8C0D-41D8-02FFE45EC6D2
 Condition 7B16E9F0-8D81-A782-799C-FB5002FD4A4A -active Yes -parent 84143C39-D8DA-4BBD-31F0-202501EB6D93 -title {String Is Condition} -component StringIsCondition -TreeObject::id D7737023-3A66-96E7-3455-6E36A103E70C
@@ -485,7 +485,7 @@ InstallComponent E39C0521-8052-2BE4-679F-446A493A7566 -setup Install -type actio
 Condition 38179EF2-3317-E080-3C81-CDE9DC9958DF -active Yes -parent E39C0521-8052-2BE4-679F-446A493A7566 -title {String Is Condition} -component StringIsCondition -TreeObject::id 38179EF2-3317-E080-3C81-CDE9DC9958DF
 Condition 13DAE8D5-1211-A980-0FA6-3B66403C753E -active Yes -parent E39C0521-8052-2BE4-679F-446A493A7566 -title {String Is Condition} -component StringIsCondition -TreeObject::id 13DAE8D5-1211-A980-0FA6-3B66403C753E
 Condition 81379BC6-5743-E273-3136-1659E1ABC01D -active Yes -parent E39C0521-8052-2BE4-679F-446A493A7566 -title {File Exists Condition} -component FileExistsCondition -TreeObject::id 81379BC6-5743-E273-3136-1659E1ABC01D
-InstallComponent 2BF6D1B6-13C5-345E-3749-7C447C5EEC5F -setup Install -type action -conditions {303C5A4D-BE54-CFBE-B656-6903A33273DA 6293C350-B86F-B04C-6A3D-444AE90603AA 38AB28CB-7E16-0380-0BE0-6FDEAAEDB5CA} -title {View ReleaseNotes Window} -component TextWindow -command reorder -active Yes -parent F3BBCB7D-78AE-3006-FE8B-A0EA8D789E32
+InstallComponent 2BF6D1B6-13C5-345E-3749-7C447C5EEC5F -setup Install -type action -conditions {303C5A4D-BE54-CFBE-B656-6903A33273DA 6293C350-B86F-B04C-6A3D-444AE90603AA 38AB28CB-7E16-0380-0BE0-6FDEAAEDB5CA} -title {View ReleaseNotes Window} -component TextWindow -command insert -active Yes -parent F3BBCB7D-78AE-3006-FE8B-A0EA8D789E32
 Condition 303C5A4D-BE54-CFBE-B656-6903A33273DA -active Yes -parent 2BF6D1B6-13C5-345E-3749-7C447C5EEC5F -title {String Is Condition} -component StringIsCondition -TreeObject::id 38179EF2-3317-E080-3C81-CDE9DC9958DF
 Condition 6293C350-B86F-B04C-6A3D-444AE90603AA -active Yes -parent 2BF6D1B6-13C5-345E-3749-7C447C5EEC5F -title {String Is Condition} -component StringIsCondition -TreeObject::id 13DAE8D5-1211-A980-0FA6-3B66403C753E
 Condition 38AB28CB-7E16-0380-0BE0-6FDEAAEDB5CA -active Yes -parent 2BF6D1B6-13C5-345E-3749-7C447C5EEC5F -title {File Exists Condition} -component FileExistsCondition -TreeObject::id 81379BC6-5743-E273-3136-1659E1ABC01D

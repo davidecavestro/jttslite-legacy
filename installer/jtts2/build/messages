@@ -8,11 +8,26 @@
 1D0BD5EF-5B64-6A7C-A7BC-5CB0B92B3FE2,Text
 <%CreateDesktopShortcutText%>
 
+2BF6D1B6-13C5-345E-3749-7C447C5EEC5F,Caption
+<%ApplicationReleaseNotesText%>
+
+2BF6D1B6-13C5-345E-3749-7C447C5EEC5F,CloseButton
+<%Close%>
+
+2BF6D1B6-13C5-345E-3749-7C447C5EEC5F,Message
+{}
+
+2BF6D1B6-13C5-345E-3749-7C447C5EEC5F,Title
+<%ApplicationReleaseNotesText%>
+
 32A31AAD-DD4E-3BB4-5234-C9C4FFE11E54,Text
 <%CreateDesktopShortcutText%>
 
 33760410-532F-C262-2B17-4719431C94E1,Description
 <%TypicalInstallDescription%>
+
+420C84C7-EEE6-41A1-DC29-8AE7CBDF82DC,Text
+<%ViewReleaseNotesText%>
 
 51DBE955-FB8C-374A-DEAB-A4D4DF76BE12,Text
 <%ViewReadmeText%>
@@ -25,6 +40,9 @@
 
 818BE488-3930-41EF-6068-683B7240DF39,Text
 <%ViewReadmeText%>
+
+84143C39-D8DA-4BBD-31F0-202501EB6D93,Text
+<%ViewReleaseNotesText%>
 
 8ADDE736-EA12-A029-DDFF-24DB10DD0612,Text
 <%CreateQuickLaunchShortcutText%>
@@ -211,7 +229,7 @@ D502F1E3-7A23-D438-C8CD-7C8519C91124,Message
 
 DADA0095-2EF5-AC06-6D94-3D7756A7B7B3,Text
 {
-Copyright (c) 2007, Davide Cavestro
+Copyright (c) 2008, Davide Cavestro
 All rights reserved.
 
 
@@ -238,6 +256,10 @@ ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 }
+
+DirectoryNameErrorText
+{A directory name cannot contain any of the following characters:
+        \ / : * ? " < > |}
 
 DirectoryPermissionText
 {You do not have permission to write to <%Dir%>.}
@@ -292,6 +314,9 @@ InstallApplicationText
 
 InstallCompleteText
 {File installation complete...}
+
+InstallErrorText
+{An error has occurred during installation.}
 
 InstallPassword,BackButton
 {< <%Back%>}
@@ -379,6 +404,9 @@ ProgramFilesDescription
 
 PromptForDirectoryMessage
 {Please choose a directory, then select OK.}
+
+PromptForDirectoryNewFolderText
+{Make New Folder}
 
 PromptForDirectoryTitle
 {Browse for Folder}

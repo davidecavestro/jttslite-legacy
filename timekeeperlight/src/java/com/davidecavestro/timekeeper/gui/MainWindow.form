@@ -37,6 +37,9 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="newTaskPopupItemActionPerformed"/>
           </Events>
+          <AuxValues>
+            <AuxValue name="generateMnemonicsCode" type="java.lang.Boolean" value="true"/>
+          </AuxValues>
         </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="newProgressPopupItem">
           <Properties>
@@ -67,7 +70,7 @@
               <Connection code="new StartProgressAction ()" type="code"/>
             </Property>
             <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-              <KeyStroke key="Ctrl+B"/>
+              <KeyStroke key="Ctrl+S"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="12" style="0"/>
@@ -106,6 +109,9 @@
               <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Expands_subtree" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
           </Properties>
+          <AuxValues>
+            <AuxValue name="generateMnemonicsCode" type="java.lang.Boolean" value="true"/>
+          </AuxValues>
         </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="collapsePopupItem">
           <Properties>
@@ -122,6 +128,9 @@
               <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Collapse" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
           </Properties>
+          <AuxValues>
+            <AuxValue name="generateMnemonicsCode" type="java.lang.Boolean" value="true"/>
+          </AuxValues>
         </MenuItem>
         <Component class="javax.swing.JSeparator" name="jSeparator6">
         </Component>
@@ -143,6 +152,9 @@
               <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Cut" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
           </Properties>
+          <AuxValues>
+            <AuxValue name="generateMnemonicsCode" type="java.lang.Boolean" value="true"/>
+          </AuxValues>
         </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="copyTasksMenuItem">
           <Properties>
@@ -162,6 +174,9 @@
               <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Copy" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
           </Properties>
+          <AuxValues>
+            <AuxValue name="generateMnemonicsCode" type="java.lang.Boolean" value="true"/>
+          </AuxValues>
         </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="pasteTasksMenuItem">
           <Properties>
@@ -181,22 +196,19 @@
               <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Paste" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
           </Properties>
+          <AuxValues>
+            <AuxValue name="generateMnemonicsCode" type="java.lang.Boolean" value="true"/>
+          </AuxValues>
         </MenuItem>
         <Component class="javax.swing.JSeparator" name="jSeparator1">
         </Component>
         <MenuItem class="javax.swing.JMenuItem" name="renameTaskPopupItem">
           <Properties>
             <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new AbstractAction () {&#xa;&#x9;public void actionPerformed (ActionEvent e) {&#xa;&#x9;&#x9;final int row = taskTree.getSelectedRow ();&#xa;&#x9;&#x9;taskTree.editCellAt (row, TaskJTreeModel.TREE_COLUMN_INDEX);&#xa;&#x9;&#x9;if (taskTree.getCellEditor () instanceof TreeTableCellEditor) {&#xa;&#x9;&#x9;&#x9;final JTextField editor = (JTextField)taskTree.getCellEditor ().getTableCellEditorComponent (taskTree, taskTree.getModel ().getValueAt (row, TaskJTreeModel.TREE_COLUMN_INDEX), true, row, TaskJTreeModel.TREE_COLUMN_INDEX);&#xa;&#x9;&#x9;&#x9;editor.requestFocusInWindow ();&#xa;&#x9;&#x9;&#x9;editor.selectAll ();&#xa;&#x9;&#x9;}&#xa;&#x9;&#x9;&#xa;&#x9;}&#xa;}" type="code"/>
-            </Property>
-            <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-              <KeyStroke key="Ctrl+R"/>
+              <Connection code="new RenameTaskAction ()" type="code"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="12" style="0"/>
-            </Property>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/transparent.png"/>
             </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Rename" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -204,10 +216,14 @@
             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Rename_selected_task" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
+            <Property name="actionCommand" type="java.lang.String" value="renameTask"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="renameTaskPopupItemActionPerformed"/>
           </Events>
+          <AuxValues>
+            <AuxValue name="generateMnemonicsCode" type="java.lang.Boolean" value="true"/>
+          </AuxValues>
         </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="deleteTaskPopupItem">
           <Properties>
@@ -228,6 +244,9 @@
             </Property>
             <Property name="actionCommand" type="java.lang.String" value="deleteTask"/>
           </Properties>
+          <AuxValues>
+            <AuxValue name="generateMnemonicsCode" type="java.lang.Boolean" value="true"/>
+          </AuxValues>
         </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="editTaskPopupItem">
           <Properties>
@@ -244,6 +263,9 @@
               <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainWIndow/TaskTreePopupMenu/TaskProperties" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
           </Properties>
+          <AuxValues>
+            <AuxValue name="generateMnemonicsCode" type="java.lang.Boolean" value="true"/>
+          </AuxValues>
         </MenuItem>
       </SubComponents>
     </Container>
@@ -602,7 +624,7 @@
         <Menu class="javax.swing.JMenu" name="fileMenu">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="&amp;File" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/FileMenu/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="12" style="0"/>
@@ -624,10 +646,10 @@
                   <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/folder-new.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="New_workspace" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/FileMenu/NewWorkspaceMenuItem/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Create_a_new_workspace" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/FileMenu/NewWorkspaceMenuItem/TooltipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
               <Events>
@@ -649,10 +671,10 @@
                   <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/file-new.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="New_task" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/FileMenu/NewTaskMenuItem/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Create_a_new_task" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/FileMenu/NewTaskMenuItem/TooltipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
               <Events>
@@ -679,10 +701,10 @@
                   <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/folder-open.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Open_workspace" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/FileMenu/OpenWorkspaceMenuItem/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Use_another_existing_workspace" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/FileMenu/OpenWorkspaceMenuItem/TooltipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
               <Events>
@@ -704,10 +726,10 @@
                   <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/fileexport.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Export_workspace" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/FileMenu/ExportWorkspaceMenuItem/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Export_current_workspace_to_file" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/FileMenu/ExportWorkspaceMenuItem/TooltipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
               <Events>
@@ -729,10 +751,10 @@
                   <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/fileimport.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Import_workspace" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/FileMenu/ImportWorkspaceMenuItem/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Import_a_workspace_from_external_file" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/FileMenu/ImportWorkspaceMenuItem/TooltipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
               <Events>
@@ -759,12 +781,15 @@
                   <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/document-print.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Print" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/FileMenu/ReportingMenuItem/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="printMenuItemActionPerformed"/>
               </Events>
+              <AuxValues>
+                <AuxValue name="generateMnemonicsCode" type="java.lang.Boolean" value="true"/>
+              </AuxValues>
             </MenuItem>
             <MenuItem class="javax.swing.JSeparator" name="jSeparator11">
             </MenuItem>
@@ -777,10 +802,10 @@
                   <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/application-exit.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="E&amp;xit" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/FileMenu/ExitMenuItem/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Exit_from_application" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/FileMenu/ExitMenuItem/TooltipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
               <Events>
@@ -795,7 +820,7 @@
         <Menu class="javax.swing.JMenu" name="editMenu">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="&amp;Edit" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/EditMenu/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="12" style="0"/>
@@ -820,6 +845,9 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="undoMenuItemActionPerformed"/>
               </Events>
+              <AuxValues>
+                <AuxValue name="generateMnemonicsCode" type="java.lang.Boolean" value="true"/>
+              </AuxValues>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="redoMenuItem">
               <Properties>
@@ -852,7 +880,7 @@
                 </Property>
                 <Property name="mnemonic" type="int" value="88"/>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Cut" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/EditMenu/CutMenuItem/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
               <AuxValues>
@@ -876,9 +904,8 @@
                 </Property>
                 <Property name="mnemonic" type="int" value="67"/>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Copy" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/EditMenu/CopyMenuItem/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
-                <Property name="toolTipText" type="java.lang.String" value=""/>
               </Properties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value="getActionByName(DefaultEditorKit.copyAction).putValue (Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke (java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));&#xa;"/>
@@ -901,7 +928,7 @@
                 </Property>
                 <Property name="mnemonic" type="int" value="86"/>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Paste" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/EditMenu/PasteMenuItem/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
               <AuxValues>
@@ -926,7 +953,7 @@
                   <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/edit-delete.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Delete" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/EditMenu/DeleteMenuItem/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
               <AuxValues>
@@ -934,28 +961,12 @@
                 <AuxValue name="generateMnemonicsCode" type="java.lang.Boolean" value="true"/>
               </AuxValues>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="propertiesMenuItem">
-              <Properties>
-                <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="new StartTaskEditAction ()" type="code"/>
-                </Property>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Dialog" size="12" style="0"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/transparent.png"/>
-                </Property>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainWindow/MainMenu/EditMenu/Properties" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
-                </Property>
-              </Properties>
-            </MenuItem>
           </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="viewMenu">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="/MainMenu/Menu/View" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/ViewMenu/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="12" style="0"/>
@@ -975,12 +986,15 @@
                 </Property>
                 <Property name="selected" type="boolean" value="true"/>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="/MainMenu/MenuItem/Show_actions" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/ViewMenu/ViewActionListMenuItem/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="showActionsMenuItemActionPerformed"/>
               </Events>
+              <AuxValues>
+                <AuxValue name="generateMnemonicsCode" type="java.lang.Boolean" value="true"/>
+              </AuxValues>
             </MenuItem>
             <MenuItem class="javax.swing.JRadioButtonMenuItem" name="showChartsMenuItem">
               <Properties>
@@ -991,12 +1005,15 @@
                   <Font name="Dialog" size="12" style="0"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="/MainMenu/MenuItem/Show_charts" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/ViewMenu/ViewChartMenuItem/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="showChartsMenuItemActionPerformed"/>
               </Events>
+              <AuxValues>
+                <AuxValue name="generateMnemonicsCode" type="java.lang.Boolean" value="true"/>
+              </AuxValues>
             </MenuItem>
             <MenuItem class="javax.swing.JSeparator" name="jSeparator16">
             </MenuItem>
@@ -1006,7 +1023,7 @@
                   <Font name="Dialog" size="12" style="0"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="/MainMenu/MenuItem/Show_chats_ghost_on_actions_table" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/ViewMenu/ShowChartShadowMenuItem/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
               <Events>
@@ -1014,6 +1031,63 @@
               </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="linkTableBackgroundMenuItem.setSelected (_context.getApplicationOptions ().isChartGhostEnabled ());&#xa;"/>
+                <AuxValue name="generateMnemonicsCode" type="java.lang.Boolean" value="true"/>
+              </AuxValues>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="tasksMenu">
+          <Properties>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/TasksMenu/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
+            </Property>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Dialog" size="12" style="0"/>
+            </Property>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="generateMnemonicsCode" type="java.lang.Boolean" value="true"/>
+          </AuxValues>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
+              <Properties>
+                <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="new RenameTaskAction ()" type="code"/>
+                </Property>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Dialog" size="12" style="0"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/transparent.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/TasksMenu/RenameTaskMenuItem/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
+                </Property>
+                <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Rename_selected_task" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
+                </Property>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="generateMnemonicsCode" type="java.lang.Boolean" value="true"/>
+              </AuxValues>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem2">
+              <Properties>
+                <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="new StartTaskEditAction ()" type="code"/>
+                </Property>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Dialog" size="12" style="0"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/transparent.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/TasksMenu/TaskPropertiesMenuItem/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
+                </Property>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="generateMnemonicsCode" type="java.lang.Boolean" value="true"/>
               </AuxValues>
             </MenuItem>
           </SubComponents>
@@ -1021,7 +1095,7 @@
         <Menu class="javax.swing.JMenu" name="actionstMenu">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="&amp;Actions" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/ActionsMenu/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="12" style="0"/>
@@ -1043,10 +1117,10 @@
                   <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/add.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="New_action" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/ActionsMenu/AddActionMenuItem/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Creates_a_new_action" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/ActionsMenu/AddActionMenuItem/TooltipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="actionCommand" type="java.lang.String" value="newProgress"/>
               </Properties>
@@ -1072,10 +1146,10 @@
                   <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/media-record.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Start_action" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/ActionsMenu/StartActionMenuItem/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="&lt;HTML&gt;_Start_action_(Ctrl+S)_&lt;BR&gt;__&lt;I&gt;hold_SHIFT_key_pressed_for_options_dialog&lt;/I&gt;_&lt;/HTML&gt;" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/ActionsMenu/StartActionMenuItem/TooltipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
               <Events>
@@ -1097,10 +1171,10 @@
                   <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/transparent.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Start_action_clone" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/ActionsMenu/StartActionCloneMenuItem/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Start_a_new_action_having_the_same_description_of_the_selected_one" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/ActionsMenu/StartActionCloneMenuItem/TooltipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
               <Events>
@@ -1122,10 +1196,10 @@
                   <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/transparent.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Continue_action" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/ActionsMenu/ContinueActionMenuItem/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Continue_previously_stopped_action" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/ActionsMenu/ContinueActionMenuItem/TooltipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
               <Events>
@@ -1152,10 +1226,10 @@
                   <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/media-stop.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Stop_action" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/ActionsMenu/StopActionMenuItem/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Stop_current_action" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/ActionsMenu/StopActionMenuItem/TooltipText" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
               <Events>
@@ -1170,7 +1244,7 @@
         <Menu class="javax.swing.JMenu" name="toolsMenu">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="&amp;Tools" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/ToolsMenu/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="12" style="0"/>
@@ -1192,7 +1266,7 @@
                   <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/transparent.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Log_console" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/ToolsMenu/LogMenuItem/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
               <Events>
@@ -1214,7 +1288,7 @@
                   <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/cog.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="&amp;Options" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/ToolsMenu/OptionsMenuItem/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
               <Events>
@@ -1236,7 +1310,7 @@
                   <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/tag_blue.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="&amp;Templates" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/ToolsMenu/TemplatesMenuItem/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
               <Events>
@@ -1251,7 +1325,7 @@
         <Menu class="javax.swing.JMenu" name="helpMenu">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="&amp;Help" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
+              <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/HelpMenu/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="12" style="0"/>
@@ -1270,7 +1344,7 @@
                   <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/help-browser.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Contents" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/HelpMenu/ContentsMenuItem/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
               <Events>
@@ -1278,6 +1352,7 @@
               </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="_context.getHelpManager ().initialize (contentsMenuItem);"/>
+                <AuxValue name="generateMnemonicsCode" type="java.lang.Boolean" value="true"/>
               </AuxValues>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="contextHelpMenuItem">
@@ -1289,11 +1364,12 @@
                   <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/contexthelp.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Item" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/HelpMenu/ContextualHelpMenuItem/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="contextHelpMenuItem.addActionListener (new CSH.DisplayHelpAfterTracking (_context.getHelpManager ().getMainHelpBroker ()));"/>
+                <AuxValue name="generateMnemonicsCode" type="java.lang.Boolean" value="true"/>
               </AuxValues>
             </MenuItem>
             <MenuItem class="javax.swing.JSeparator" name="jSeparator7">
@@ -1307,12 +1383,15 @@
                   <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/dialog-information.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="About" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/HelpMenu/AboutMenuItem/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="aboutMenuItemActionPerformed"/>
               </Events>
+              <AuxValues>
+                <AuxValue name="generateMnemonicsCode" type="java.lang.Boolean" value="true"/>
+              </AuxValues>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -1399,6 +1478,9 @@
                     <Component class="org.jdesktop.swingx.JXTreeTable" name="taskTree">
                       <Properties>
                         <Property name="columnControlVisible" type="boolean" value="true"/>
+                        <Property name="componentPopupMenu" type="javax.swing.JPopupMenu" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                          <ComponentRef name="treePopupMenu"/>
+                        </Property>
                         <Property name="dragEnabled" type="boolean" value="true"/>
                         <Property name="horizontalScrollEnabled" type="boolean" value="true"/>
                         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -1454,7 +1536,7 @@
                     <Container class="javax.swing.JPanel" name="progressesTablePanel">
                       <Properties>
                         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="ff" green="ff" id="Table.background" palette="3" red="ff" type="palette"/>
+                          <Color blue="ff" green="ff" id="white" palette="1" red="ff" type="palette"/>
                         </Property>
                         <Property name="opaque" type="boolean" value="false"/>
                       </Properties>
@@ -1508,6 +1590,9 @@
                                 <Property name="dragEnabled" type="boolean" value="true"/>
                                 <Property name="horizontalScrollEnabled" type="boolean" value="true"/>
                                 <Property name="opaque" type="boolean" value="false"/>
+                                <Property name="preferredScrollableViewportSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                                  <Dimension value="null"/>
+                                </Property>
                                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                   <Dimension value="null"/>
                                 </Property>
@@ -1517,7 +1602,7 @@
                                 <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="progressesTableMousePressed"/>
                               </Events>
                               <AuxValues>
-                                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new SmartJXTable (){&#xa;&#x9;&#xa;&#x9;public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {&#xa;&#x9;&#x9;Component c = super.prepareRenderer( renderer, row, column);&#xa;&#x9;&#x9;// We want renderer component to be transparent&#xa;&#x9;&#x9;// so background image is visible&#xa;&#x9;&#x9;if( c instanceof JComponent ) {&#xa;&#x9;&#x9;&#x9;//((JComponent)c).setOpaque(false);&#xa;&#x9;&#x9;&#x9;final Color oldColor = c.getBackground ();&#xa;&#x9;&#x9;&#x9;if (oldColor!=null) {&#xa;&#x9;&#x9;&#x9;&#x9;c.setBackground (ColorUtil.setAlpha (oldColor, 150));&#xa;&#x9;&#x9;&#x9;}&#xa;&#x9;&#x9;}&#xa;&#x9;&#x9;return c;&#xa;&#x9;}&#xa;&#x9;&#x9; &#xa;&#x9;&#x9; &#xa;&#x9;public void paint( Graphics g ) {&#xa;&#x9;&#x9;// First draw the background image - tiled &#xa;&#x9;&#x9;final Dimension d = getSize();&#xa;&#x9;&#x9;&#x9; &#xa;&#x9;&#x9;g.drawImage( ptbImage.getImage(), (d.width - ptbImageWidth)/2, (d.height - ptbImageHeight)/2, null, null );&#xa;&#x9;&#x9;// Now let the regular paint code do it&amp;apos;s work&#xa;&#x9;&#x9;super.paint(g);&#xa;&#x9;}&#xa;};&#xa;"/>
+                                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new SmartJXTable (){&#xa;&#x9;&#xa;&#x9;public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {&#xa;&#x9;&#x9;Component c = super.prepareRenderer( renderer, row, column);&#xa;&#x9;&#x9;// We want renderer component to be transparent&#xa;&#x9;&#x9;// so background image is visible&#xa;&#x9;&#x9;if( c instanceof JComponent ) {&#xa;&#x9;&#x9;&#x9;//((JComponent)c).setOpaque(false);&#xa;&#x9;&#x9;&#x9;final Color oldColor = c.getBackground ();&#xa;&#x9;&#x9;&#x9;if (oldColor!=null) {&#xa;&#x9;&#x9;&#x9;&#x9;c.setBackground (ColorUtil.setAlpha (oldColor, 150));&#xa;&#x9;&#x9;&#x9;}&#xa;&#x9;&#x9;}&#xa;&#x9;&#x9;return c;&#xa;&#x9;}&#xa;&#x9;&#x9; &#xa;&#x9;&#x9; &#xa;&#x9;public void paint( Graphics g ) {&#xa;&#x9;&#x9;// First draw the background image - tiled &#xa;&#x9;&#x9;final Dimension d = getSize();&#xa;&#xa;&#x9;&#x9;g.drawImage (ptbImage.getImage(), 0, jPanel4.getHeight () - getTableHeader ().getHeight (), null, null);&#xa;&#x9;&#x9;&#xa;&#x9;&#x9;/*&#xa;&#x9;&#x9; * immagine centrata, non va bene perch&#xe8; si vuole l&apos;esatta posizione del tab dedicata al grafico&#xa;&#x9;&#x9; */&#xa;&#x9;&#x9;//g.drawImage( ptbImage.getImage(), (d.width - ptbImageWidth)/2, (d.height - ptbImageHeight)/2, null, null );&#xa;&#x9;&#x9;/*&#xa;&#x9;&#x9; * Trova le dimensioni minime tra l&apos;immagine e la tabella&#xa;&#x9;&#x9; */&#xa;&#x9;&#x9;final int h = d.height &lt; ptbImageHeight ? d.height : ptbImageHeight;&#xa;&#x9;&#x9;final int w = d.width &lt; ptbImageWidth ? d.width : ptbImageWidth;&#xa;&#x9;&#x9;&#xa;&#x9;&#x9;/*&#xa;&#x9;&#x9; * Dato che il pannello contenente lo slider &#xe8; pi&#xe0; alto dello header della tabella&#xa;&#x9;&#x9; * si posiziona con un&apos;offset&#xa;&#x9;&#x9; */&#xa;&#x9;&#x9;//g.drawImage (ptbImage.getImage(), 0, d.height - ptbImageHeight, w, h, null, null);&#xa;&#x9;&#x9;&#xa;&#x9;&#x9;&#xa;&#x9;&#x9;super.paint(g);&#xa;&#x9;}&#xa;};&#xa;"/>
                                 <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="//progressesTable.setDefaultEditor (String.class, new ValueCellEditor ());&#xa;&#xa;/*&#xa; * editor (shortcut per cancellazione&#xa; */&#xa;progressesTable.addKeyListener (new KeyAdapter (){&#xa;&#x9; public void keyPressed(KeyEvent e) {&#xa;&#x9;&#x9; if (e.getKeyCode ()==KeyEvent.VK_DELETE){&#xa;&#x9;&#x9; }&#xa;&#x9; }&#xa;});&#xa;&#xa;javax.help.CSH.setHelpIDString (progressesTable, _context.getHelpManager ().getResolver ().resolveHelpID (HelpResources.PROGRESSES_TABLE ));&#xa;&#xa;progressesTable.setDefaultRenderer (java.util.Date.class, new DefaultTableCellRenderer (){&#xa;&#x9;&#xa;&#x9;public Component getTableCellRendererComponent (final JTable table, final Object value, boolean isSelected, boolean hasFocus, final int row, final int column) {&#xa;&#x9;&#x9;final Component c = super.getTableCellRendererComponent (table, value, isSelected, hasFocus, row, column);&#xa;&#x9;&#x9;&#xa;&#x9;&#x9;setHorizontalAlignment (TRAILING);&#xa;&#x9;&#x9;&#xa;&#x9;&#x9;return c;&#xa;&#x9;}&#xa;&#x9;public void setValue (Object value) {&#xa;&#x9;&#x9;setText (&#xa;&#x9;&#x9;&#x9;com.davidecavestro.common.util.CalendarUtils.getTimestamp (&#xa;&#x9;&#x9;&#x9;&#x9;(Date)value, &#xa;&#x9;&#x9;&#x9;&#x9;CustomizableFormat.LONG_DATE.getValue (_context)&#xa;&#x9;&#x9;&#x9;)&#xa;&#x9;&#x9;);&#xa;&#x9;}&#xa;});&#xa;&#xa;final ImageIcon runningIcon = new ImageIcon (getClass().getResource (&quot;/com/davidecavestro/timekeeper/gui/images/gears.gif&quot;));&#xa;final ImageIcon staticIcon = new ImageIcon ();&#xa;&#xa;&#xa;progressesTable.setDefaultRenderer (Duration.class, &#xa;&#x9;new DefaultTableCellRenderer () {&#xa;&#x9;&#x9;private Font _originalFont;&#xa;&#x9;&#x9;private Font _boldFont;&#xa;&#x9;&#x9;public Component getTableCellRendererComponent (final JTable table, final Object value, boolean isSelected, boolean hasFocus, final int row, final int column) {&#xa;&#xa;&#x9;&#x9;&#x9;final JLabel res = (JLabel)super.getTableCellRendererComponent ( table, value, isSelected, hasFocus, row, column);&#xa;&#x9;&#x9;&#x9;final PieceOfWork progress = (PieceOfWork)value;&#xa;&#xa;&#x9;&#x9;&#x9;final boolean progressing = progress.getTo ()==null;&#xa;&#x9;&#x9;&#x9;//final ImageIcon icon = progressing?runningIcon:staticIcon;&#xa;&#x9;&#x9;&#x9;//setIcon (icon);&#xa;&#xa;&#x9;&#x9;&#x9;if (null==_originalFont) {&#xa;&#x9;&#x9;&#x9;&#x9;_originalFont = res.getFont ();&#xa;&#x9;&#x9;&#x9;}&#xa;&#x9;&#x9;&#x9;if (null==_boldFont) {&#xa;&#x9;&#x9;&#x9;&#x9;_boldFont = _originalFont.deriveFont (Font.BOLD);&#xa;&#x9;&#x9;&#x9;}&#xa;&#x9;&#x9;&#x9;&#xa;&#x9;&#x9;&#x9;if (progressing){&#xa;&#x9;&#x9;&#x9;&#x9;res.setFont (_boldFont);&#xa;&#x9;&#x9;&#x9;&#x9;/*&#xa;&#x9;&#x9;&#x9;&#x9;icon.setImageObserver (new ImageObserver (){&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;public boolean imageUpdate (Image img, int flags, int x, int y, int w, int h) {&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;if ((flags &amp;amp; (FRAMEBITS | ALLBITS)) != 0) {&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Rectangle rect = table.getCellRect (row, column, false);&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;table.repaint (rect);&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;}&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;//&#x9;&#x9;&#x9;table.repaint ();&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;return (flags &amp;amp; (ALLBITS | ABORT)) == 0;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;}&#xa;&#x9;&#x9;&#x9;&#x9;});&#xa;&#x9;&#x9;&#x9;&#x9; **/&#xa;&#x9;&#x9;&#x9;} else {&#xa;&#x9;&#x9;&#x9;&#x9;res.setFont (_originalFont);&#xa;&#x9;&#x9;&#x9;}&#xa;&#x9;&#x9;&#x9;&#xa;&#x9;&#x9;&#x9;setHorizontalAlignment (TRAILING);&#xa;&#xa;&#x9;&#x9;&#x9;return res;&#xa;&#x9;&#x9;}&#xa;&#x9;&#x9;public void setValue (Object value) {&#xa;&#x9;&#x9;&#x9;final PieceOfWork progress = (PieceOfWork)value;&#xa;&#x9;&#x9;&#x9;setText (DurationUtils.formatDuration (progress.getTime ()));&#xa;&#x9;&#x9;}&#xa;&#x9;}&#xa;);"/>
                               </AuxValues>
                             </Component>
@@ -1549,6 +1634,11 @@
                       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout"/>
                       <SubComponents>
                         <Container class="javax.swing.JPanel" name="chartPanel">
+                          <Properties>
+                            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                              <Color blue="ff" green="ff" id="white" palette="1" red="ff" type="palette"/>
+                            </Property>
+                          </Properties>
                           <Events>
                             <EventHandler event="componentResized" listener="java.awt.event.ComponentListener" parameters="java.awt.event.ComponentEvent" handler="chartPanelComponentResized"/>
                           </Events>
@@ -1565,11 +1655,8 @@
                         </Container>
                         <Container class="javax.swing.JPanel" name="jPanel4">
                           <Properties>
-                            <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                              <Dimension value="[46, 20]"/>
-                            </Property>
                             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                              <Dimension value="[210, 20]"/>
+                              <Dimension value="[210, 30]"/>
                             </Property>
                           </Properties>
                           <Constraints>
@@ -1591,7 +1678,7 @@
                               </Properties>
                               <Constraints>
                                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                                  <GridBagConstraints gridX="-1" gridY="-1" gridWidth="1" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="3" insetsLeft="3" insetsBottom="3" insetsRight="3" anchor="17" weightX="0.0" weightY="0.0"/>
+                                  <GridBagConstraints gridX="-1" gridY="-1" gridWidth="1" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="3" insetsLeft="3" insetsBottom="3" insetsRight="3" anchor="16" weightX="0.0" weightY="0.0"/>
                                 </Constraint>
                               </Constraints>
                             </Component>
@@ -1610,7 +1697,7 @@
                               </AuxValues>
                               <Constraints>
                                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                                  <GridBagConstraints gridX="-1" gridY="-1" gridWidth="1" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="18" weightX="1.0" weightY="0.0"/>
+                                  <GridBagConstraints gridX="-1" gridY="-1" gridWidth="1" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="16" weightX="1.0" weightY="0.0"/>
                                 </Constraint>
                               </Constraints>
                             </Component>

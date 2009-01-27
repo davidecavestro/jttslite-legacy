@@ -1,3 +1,7 @@
+2.6.0
+- Removed multiple headers from CSV export dedicated reports
+- Other fixes for CSV export
+
 2.6 rc3
 - Fixed blocking issue at launch of "action list" report 
 - Fixed minor issues on CSV export output for reports

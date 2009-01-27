@@ -102,11 +102,6 @@ public final class CumulateLocalProgresses extends AbstractDataExtractor {
 		if (this._date!=null){
 			now.setTime (this._date);
 		}
-		now.set (Calendar.HOUR_OF_DAY, 0);
-		now.set (Calendar.MINUTE, 0);
-		now.set (Calendar.SECOND, 0);
-		now.set (Calendar.MILLISECOND, 0);
-		//		now.roll (Calendar.DATE, 1);
 		final Date periodStartDate = new Date (now.getTime ().getTime ());
 		
 		now.add (Calendar.DAY_OF_YEAR, 1*_periodLength*_periodCount);
@@ -317,7 +312,7 @@ public final class CumulateLocalProgresses extends AbstractDataExtractor {
 		
 		public TimeCumulationScale (final Date from, final Date to, final int step){
 			Date current = from;
-			while (!current.after (to)){
+			while (current.before (to)){
 				final Date currentEnd = new Date (current.getTime ()+step*Duration.MILLISECONDS_PER_DAY);
 				_set.add (new CumulationPeriod (current, currentEnd));
 				current = currentEnd;

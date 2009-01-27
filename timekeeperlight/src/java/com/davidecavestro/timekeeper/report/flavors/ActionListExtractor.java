@@ -10,6 +10,7 @@ import com.ost.timekeeper.model.Progress;
 import com.ost.timekeeper.util.Duration;
 import com.ost.timekeeper.util.LocalizedPeriod;
 import com.ost.timekeeper.util.LocalizedPeriodImpl;
+import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.util.*;
 
@@ -20,16 +21,6 @@ import java.util.*;
  */
 public final class ActionListExtractor extends AbstractDataExtractor {
 
-	/**
-	 * Identificatore dell'attributo <TT>FROM</TT> in qualita' di obiettivo di un filtro.
-	 */
-	public final static Target PROGRESS_FROM = new Target() {
-	};
-	/**
-	 * Identificatore dell'attributo <TT>TO</TT> in qualita' di obiettivo di un filtro.
-	 */
-	public final static Target PROGRESS_TO = new Target() {
-	};
 	/**
 	 * La radice del sottoalbero di interesse.
 	 */
@@ -84,8 +75,14 @@ public final class ActionListExtractor extends AbstractDataExtractor {
 
 		for (final Iterator it = root.getSubtreeProgresses().iterator(); it.hasNext();) {
 			final Progress progress = (Progress) it.next();
+			if (progress.isEndOpened()) {
+				/*
+				 * azione in corso, va esclusa
+				 */
+				continue;
+			}
 
-			if (match(PROGRESS_FROM, progress.getFrom()) && match(PROGRESS_TO, progress.getTo())) {
+			if (match(Target.PROGRESS_FROM, progress.getFrom()) && match(Target.PROGRESS_TO, progress.getTo())) {
 
 				/* filtri superati */
 				final String taskName = progress.getTask().getName();
@@ -111,6 +108,8 @@ public final class ActionListExtractor extends AbstractDataExtractor {
 				data.add(row);
 
 				row.setDuration(progress.getDuration().getTime());
+				row.setStartDate (new Timestamp (progress.getFrom ().getTime ()));
+				row.setFinishDate (new Timestamp (progress.getTo ().getTime ()));
 
 				row.setTaskHierarchy(taskHierarchy);
 				row.setTaskName(taskName);

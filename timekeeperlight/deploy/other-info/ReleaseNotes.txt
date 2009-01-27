@@ -1,3 +1,12 @@
+2.6 rc3
+- Fixed blocking issue at launch of "action list" report 
+- Fixed minor issues on CSV export output for reports
+- Fixed issue for reports' panel  temporal range filter
+- Upgraded reporting system to JasperReports 3.0
+- Minor enhancements for reports
+- BUG# 2007446: Double click doesn't rename a node if it has children: since the behaviour introduced with RC1 isn't good enough, it has been removed. 
+  By now you can rename a task using the CTRL-R accelerator.
+
 2.6 rc2
 - BUG# 2350102: Fixed severe issue on multiple task removal
 

@@ -30,15 +30,7 @@ import java.util.*;
  * @author  davide
  */
 public final class TaskListExtractor extends AbstractDataExtractor {
-	/**
-	 * Identificatore dell'attributo <TT>FROM</TT> in qualita' di obiettivo di un filtro.
-	 */
-	public final static Target PROGRESS_FROM = new Target (){};
-	
-	/**
-	 * Identificatore dell'attributo <TT>TO</TT> in qualita' di obiettivo di un filtro.
-	 */
-	public final static Target PROGRESS_TO = new Target (){};
+
 	
 	/**
 	 * La radice del sottoalbero di interesse.
@@ -102,14 +94,9 @@ public final class TaskListExtractor extends AbstractDataExtractor {
 		if (this._date!=null){
 			now.setTime (this._date);
 		}
-		now.set (Calendar.HOUR_OF_DAY, 0);
-		now.set (Calendar.MINUTE, 0);
-		now.set (Calendar.SECOND, 0);
-		now.set (Calendar.MILLISECOND, 0);
-		//		now.roll (Calendar.DATE, 1);
 		final Date periodStartDate = new Date (now.getTime ().getTime ());
 		
-		now.add (Calendar.DAY_OF_YEAR, 1*_periodLength*_periodCount);
+		now.add (Calendar.DAY_OF_YEAR, _periodLength*_periodCount);
 		final Date periodFinishDate = new Date (now.getTime ().getTime ());
 		
 		final CumulationPeriod cumulationPeriod = new CumulationPeriod (periodStartDate, periodFinishDate);
@@ -119,8 +106,15 @@ public final class TaskListExtractor extends AbstractDataExtractor {
 		for (final Iterator it = root.getSubtreeProgresses ().iterator ();it.hasNext ();){
 			final Progress progress = (Progress)it.next ();
 			
-			if (match (PROGRESS_FROM, progress.getFrom ()) 
-				&& match (PROGRESS_TO, progress.getTo ())){
+			if (progress.isEndOpened()) {
+				/*
+				 * azione in corso, va esclusa
+				 */
+				continue;
+			}
+
+			if (match (Target.PROGRESS_FROM, progress.getFrom ()) 
+				&& match (Target.PROGRESS_TO, progress.getTo ())){
 				/* filtri superati */
 				cumulationPeriod.computeProgress (progress);
 			}

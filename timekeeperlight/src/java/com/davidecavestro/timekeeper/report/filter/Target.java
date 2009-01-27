@@ -13,5 +13,13 @@ package com.davidecavestro.timekeeper.report.filter;
  */
 public interface Target {
 	
+	/**
+	 * Identificatore dell'attributo <TT>FROM</TT> in qualita' di obiettivo di un filtro.
+	 */
+	public final static Target PROGRESS_FROM = new Target (){};
 	
+	/**
+	 * Identificatore dell'attributo <TT>TO</TT> in qualita' di obiettivo di un filtro.
+	 */
+	public final static Target PROGRESS_TO = new Target (){};	
 }

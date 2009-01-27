@@ -29,8 +29,8 @@ proc ::InstallJammer::InitFiles {} {
     File ::1D0D5C7B-0A2E-C055-D362-56887C249483 -name ktimer-64x64.png -parent F96500F4-F736-69E5-40A4-4F828D0D1F5E -directory <%InstallDir%>/icons -size 7094 -mtime 1201073117 -permissions 00755 -filemethod 0
     File ::997D6D8D-E46D-5508-9748-664E920E0775 -name ktimer-128x128.png -parent F96500F4-F736-69E5-40A4-4F828D0D1F5E -directory <%InstallDir%>/icons -size 18977 -mtime 1222419568 -permissions 00644 -filemethod 0
     File ::69034D13-4E75-E414-89A4-2262EAD58878 -name dist -parent F96500F4-F736-69E5-40A4-4F828D0D1F5E -type dir -directory <%InstallDir%> -size 59 -mtime 1231326519 -permissions 040775 -filemethod 0
-    File ::A3D975B7-7859-3156-C0C1-7A827EA756D1 -name timekeeperlight.jar -parent F96500F4-F736-69E5-40A4-4F828D0D1F5E -directory <%InstallDir%> -size 1888720 -mtime 1231340618 -permissions 00664 -filemethod 0
-    File ::1FB15813-D983-BC90-80BD-493B78A9AC34 -name lib -parent F96500F4-F736-69E5-40A4-4F828D0D1F5E -type dir -directory <%InstallDir%>/lib -size 4096 -mtime 1231340618 -permissions 040775 -filemethod 0
+    File ::A3D975B7-7859-3156-C0C1-7A827EA756D1 -name timekeeperlight.jar -parent F96500F4-F736-69E5-40A4-4F828D0D1F5E -directory <%InstallDir%> -size 1888717 -mtime 1233050205 -permissions 00664 -filemethod 0
+    File ::1FB15813-D983-BC90-80BD-493B78A9AC34 -name lib -parent F96500F4-F736-69E5-40A4-4F828D0D1F5E -type dir -directory <%InstallDir%>/lib -size 4096 -mtime 1233050205 -permissions 040775 -filemethod 0
     File ::16E35E9A-F5A5-68C8-0BA7-5BB269315E34 -name AbsoluteLayout.jar -parent F96500F4-F736-69E5-40A4-4F828D0D1F5E -directory <%InstallDir%>/lib -size 2520 -mtime 1231326519 -permissions 00664 -filemethod 0
     File ::9E75B9FD-DBE9-EFBD-3EE4-256D9EFDA9A9 -name btree.jar -parent F96500F4-F736-69E5-40A4-4F828D0D1F5E -directory <%InstallDir%>/lib -size 189022 -mtime 1231326519 -permissions 00664 -filemethod 0
     File ::744A92A1-6D13-0E56-4DE2-1437115EB096 -name common-charts.jar -parent F96500F4-F736-69E5-40A4-4F828D0D1F5E -directory <%InstallDir%>/lib -size 9134 -mtime 1231326519 -permissions 00664 -filemethod 0
@@ -49,8 +49,8 @@ proc ::InstallJammer::InitFiles {} {
     File ::885231ED-09DF-6689-C263-E825F695FD1E -name looks-2.1.4.jar -parent F96500F4-F736-69E5-40A4-4F828D0D1F5E -directory <%InstallDir%>/lib -size 409708 -mtime 1231326519 -permissions 00664 -filemethod 0
     File ::9A6E410D-36A2-69E6-4E3D-7B4247A97A79 -name org-openide-awt.jar -parent F96500F4-F736-69E5-40A4-4F828D0D1F5E -directory <%InstallDir%>/lib -size 219148 -mtime 1231326519 -permissions 00664 -filemethod 0
     File ::CA55C93B-2A5E-8D29-0358-823A010D4586 -name org-openide-util.jar -parent F96500F4-F736-69E5-40A4-4F828D0D1F5E -directory <%InstallDir%>/lib -size 487480 -mtime 1231326519 -permissions 00664 -filemethod 0
-    File ::AD94CDC7-86E5-581C-0181-D9594586A6CA -name timekeeper-reports.jar -parent F96500F4-F736-69E5-40A4-4F828D0D1F5E -directory <%InstallDir%>/lib -size 259017 -mtime 1231326519 -permissions 00664 -filemethod 0
-    File ::4DE77EFD-1D4B-29DF-EF03-B61B0CB76BCC -name timekeepercore.jar -parent F96500F4-F736-69E5-40A4-4F828D0D1F5E -directory <%InstallDir%>/lib -size 116387 -mtime 1231340618 -permissions 00664 -filemethod 0
+    File ::AD94CDC7-86E5-581C-0181-D9594586A6CA -name timekeeper-reports.jar -parent F96500F4-F736-69E5-40A4-4F828D0D1F5E -directory <%InstallDir%>/lib -size 262054 -mtime 1233050205 -permissions 00644 -filemethod 0
+    File ::4DE77EFD-1D4B-29DF-EF03-B61B0CB76BCC -name timekeepercore.jar -parent F96500F4-F736-69E5-40A4-4F828D0D1F5E -directory <%InstallDir%>/lib -size 116387 -mtime 1233050205 -permissions 00644 -filemethod 0
     File ::9ADEBB4D-32D5-0156-3851-D99172991F16 -name timekeeperlight-icons.jar -parent F96500F4-F736-69E5-40A4-4F828D0D1F5E -directory <%InstallDir%>/lib -size 213653 -mtime 1231326519 -permissions 00664 -filemethod 0
     File ::257F1828-DC0C-DA00-75F5-EF23AE6627AC -name tinylaf.jar -parent F96500F4-F736-69E5-40A4-4F828D0D1F5E -directory <%InstallDir%>/lib -size 628665 -mtime 1231326519 -permissions 00664 -filemethod 0
     File ::D16E5F97-59D8-92BA-3B6A-6B2C863AA85B -name antlr-2.7.5.jar -parent F96500F4-F736-69E5-40A4-4F828D0D1F5E -directory <%InstallDir%>/lib -size 435563 -mtime 1231326519 -permissions 00664 -filemethod 0
@@ -59,7 +59,7 @@ proc ::InstallJammer::InitFiles {} {
     File ::FDAB1150-B6D4-B3EA-BCEC-358E387E6E9F -name poi-3.0.1-FINAL-20070705.jar -parent F96500F4-F736-69E5-40A4-4F828D0D1F5E -directory <%InstallDir%>/lib -size 909270 -mtime 1231326519 -permissions 00664 -filemethod 0
     File ::C175B0FC-E3C3-E995-ED72-6C52B27CA48E -name jasperreports-3.0.0.jar -parent F96500F4-F736-69E5-40A4-4F828D0D1F5E -directory <%InstallDir%>/lib -size 2008066 -mtime 1231326519 -permissions 00664 -filemethod 0
     File ::029219CF-5531-F44F-3F8E-3BFAEC7966A0 -name other-info -parent F96500F4-F736-69E5-40A4-4F828D0D1F5E -type dir -directory <%InstallDir%>/other-info -size 80 -mtime 1227694921 -permissions 040755 -filemethod 0
-    File ::5C04D073-0EFD-3991-E5BF-A6E6214840C6 -name ReleaseNotes.txt -parent F96500F4-F736-69E5-40A4-4F828D0D1F5E -directory <%InstallDir%>/other-info -size 3653 -mtime 1231151713 -permissions 00644 -filemethod 0
+    File ::5C04D073-0EFD-3991-E5BF-A6E6214840C6 -name ReleaseNotes.txt -parent F96500F4-F736-69E5-40A4-4F828D0D1F5E -directory <%InstallDir%>/other-info -size 3754 -mtime 1233050464 -permissions 00644 -filemethod 0
     File ::13A62B65-ABCF-0C31-5B28-44BD32A94DC8 -name html -parent 3359AE05-023E-A394-711C-61AEA17D5DF9 -type dir -directory <%InstallDir%>/help -size 4096 -mtime 1224676269 -permissions 040755 -filemethod 0
     File ::DCDB3EEC-350B-18FB-F46F-489080CF9460 -name action.html -parent 3359AE05-023E-A394-711C-61AEA17D5DF9 -directory <%InstallDir%>/help -size 6031 -mtime 1224405335 -permissions 00644 -filemethod 0
     File ::0FF98A26-D3DA-5ABF-2DBA-3619852D2EBE -name index.html -parent 3359AE05-023E-A394-711C-61AEA17D5DF9 -directory <%InstallDir%>/help -size 5084 -mtime 1224410329 -permissions 00644 -filemethod 0

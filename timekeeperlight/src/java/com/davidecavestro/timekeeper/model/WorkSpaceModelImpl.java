@@ -342,8 +342,10 @@ public class WorkSpaceModelImpl extends AbstractWorkSpaceModel {
 	 * @param      index   the index of the object to remove
 	 * @see #remove(int)
 	 * @see Vector#removeElementAt(int)
+     *
+     * @throws CannotRemoveWorkSpaceException if a workspace cannot be removed.
 	 */
-	public void removeElementAt (int index) {
+	public void removeElementAt (int index) throws CannotRemoveWorkSpaceException {
 		
 		final Transaction tx = getTransaction ();
 		tx.begin ();
@@ -401,9 +403,16 @@ public class WorkSpaceModelImpl extends AbstractWorkSpaceModel {
 	 *
 	 * @param   obj   the component to be added
 	 * @see Vector#addElement(WorkSpace)
+	 * @throws DuplicatedWorkSpaceException 
 	 */
-	public void addElement (WorkSpace obj) {
-		int index = delegate.size ();
+	public void addElement (final WorkSpace obj) throws DuplicatedWorkSpaceException {
+		for (final WorkSpace ws : delegate) {
+			if (obj.getName ().equals (ws.getName ())) {
+				throw new DuplicatedWorkSpaceException ();
+			}
+		}		
+		
+		final int index = delegate.size ();
 		
 		final Transaction tx = getTransaction ();
 		tx.begin ();
@@ -429,8 +438,10 @@ public class WorkSpaceModelImpl extends AbstractWorkSpaceModel {
 	 * @return  <code>true</code> if the argument was a component of this
 	 *          list; <code>false</code> otherwise
 	 * @see Vector#removeElement(WorkSpace)
+     *
+     * @throws CannotRemoveWorkSpaceException if a workspace cannot be removed.
 	 */
-	public boolean removeElement (WorkSpace obj) {
+	public boolean removeElement (WorkSpace obj) throws CannotRemoveWorkSpaceException {
 		int index = indexOf (obj);
 		boolean rv = false;
 		
@@ -463,8 +474,10 @@ public class WorkSpaceModelImpl extends AbstractWorkSpaceModel {
 	 *
 	 * @see #clear()
 	 * @see Vector#removeAllElements()
+     *
+     * @throws CannotRemoveWorkSpaceException if a workspace cannot be removed.
 	 */
-	public void removeAllElements () {
+	public void removeAllElements () throws CannotRemoveWorkSpaceException {
 		int index1 = delegate.size ()-1;
 		
 		final Transaction tx = getTransaction ();
@@ -538,8 +551,10 @@ public class WorkSpaceModelImpl extends AbstractWorkSpaceModel {
 	 * @param index index of element to replace
 	 * @param element element to be stored at the specified position
 	 * @return the element previously at the specified position
+     *
+     * @throws CannotRemoveWorkSpaceException if a workspace cannot be removed.
 	 */
-	public WorkSpace set (int index, WorkSpace element) {
+	public WorkSpace set (int index, WorkSpace element) throws CannotRemoveWorkSpaceException {
 		WorkSpace rv = null;
 		
 		final Transaction tx = getTransaction ();
@@ -596,8 +611,10 @@ public class WorkSpaceModelImpl extends AbstractWorkSpaceModel {
 	 * (<code>index &lt; 0 || index &gt;= size()</code>).
 	 *
 	 * @param index the index of the element to removed
+     *
+     * @throws CannotRemoveWorkSpaceException if a workspace cannot be removed.
 	 */
-	public WorkSpace remove (int index) {
+	public WorkSpace remove (int index) throws CannotRemoveWorkSpaceException {
 		WorkSpace rv = delegate.elementAt (index);
 		
 		final Transaction tx = getTransaction ();
@@ -667,7 +684,28 @@ public class WorkSpaceModelImpl extends AbstractWorkSpaceModel {
 //	}
 	
 	
+	public void updateElement (final WorkSpace ws, final String name, final String descr, final String notes) {
+		final Transaction tx = getTransaction ();
+		tx.begin ();
+		try {
+			ws.setName (name);
+			ws.setDescription (descr);
+			ws.setNotes (notes);
+			
+			tx.commit ();
+		} catch (final Exception e) {
+			tx.rollback ();
+			throw new RuntimeException (e);
+		}
+		
+		nodeChanged (ws);
+	}
 	
+	public void nodeChanged (final WorkSpace ws) {
+		final int index = indexOf (ws);
+		fireContentsChanged (this, index, index);
+	}
+		
 	
 	
 	
@@ -711,7 +749,7 @@ public class WorkSpaceModelImpl extends AbstractWorkSpaceModel {
 	 */
 	private PersistenceManager _pm;
 	/**
-	 * Ritorna un persistence manager difacciata, con una implementazione vuota.
+	 * Ritorna un persistence manager di facciata, con una implementazione vuota.
 	 * <P>
 	 * Scavalcare questo metodo per fornire una adeguata implementazione di PersistenceManager se necessario (ad esempio un PersistenceManager JDO).
 	 */

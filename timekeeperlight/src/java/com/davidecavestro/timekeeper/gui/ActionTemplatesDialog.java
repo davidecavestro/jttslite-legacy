@@ -20,6 +20,7 @@ import java.awt.event.KeyEvent;
 import java.util.Comparator;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTable;
@@ -31,6 +32,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.decorator.FilterPipeline;
 import org.jdesktop.swingx.decorator.SortController;
+import org.jdesktop.swingx.decorator.SortOrder;
 import org.jdesktop.swingx.decorator.Sorter;
 
 /**
@@ -137,8 +139,9 @@ public class ActionTemplatesDialog extends javax.swing.JDialog implements Persis
 		getTable ().setDefaultEditor (Duration.class, new SmartCellEditor (new DurationTableCellEditor ()));
 
 		
+		getTable ().setSortOrder (getTable ().convertColumnIndexToView (NAME_COL_INDEX), SortOrder.ASCENDING);
 		
-		_context.getUIPersisteer ().register (new TablePersistenceExt (getTable ()) {
+		_context.getUIPersister ().register (new TablePersistenceExt (getTable ()) {
 			public String getPersistenceKey () {
 				return "actiontemplates.table";
 			}
@@ -629,5 +632,9 @@ private void undoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
 	
 	public boolean restorePersistent (com.davidecavestro.common.gui.persistence.PersistenceStorage props) {
 		return PersistenceUtils.restorePersistentBounds (props, this.getPersistenceKey (), this);
+	}
+	
+	private ImageIcon getIcon () {
+		return new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/tag_blue.png"));
 	}
 }

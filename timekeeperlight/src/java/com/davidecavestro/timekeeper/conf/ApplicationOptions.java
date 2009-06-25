@@ -6,8 +6,6 @@
 
 package com.davidecavestro.timekeeper.conf;
 
-import javax.swing.UIManager;
-
 /**
  * Opzioni di configurazione dell'applicazione. E' possibile implementare una catena
  * di responsabilita', innestando diversi oggetti di questo tipo.
@@ -91,32 +89,32 @@ public final class ApplicationOptions {
 	}
 	
 	
-	/**
-	 * Ritorna il L&F impostato.
-	 *
-	 * @return il L&F impostato.
-	 */	
-	public String getLookAndFeel (){
-		final String returnValue = _settings.getLookAndFeel ();
-		if (returnValue!=null){
-				/*
-				 * Risposta locale.
-				 */
-			return returnValue;
-		} else {
-			if (_successor!=null){
-					/*
-					 * Delega successore.
-					 */
-				return _successor.getLookAndFeel ();
-			} else {
-					/*
-					 * Default di sistema non disponibile.
-					 */
-				return UIManager.getSystemLookAndFeelClassName ();
-			}
-		}
-	}
+//	/**
+//	 * Ritorna il L&F impostato.
+//	 *
+//	 * @return il L&F impostato.
+//	 */	
+//	public String getLookAndFeel (){
+//		final String returnValue = _settings.getLookAndFeel ();
+//		if (returnValue!=null){
+//				/*
+//				 * Risposta locale.
+//				 */
+//			return returnValue;
+//		} else {
+//			if (_successor!=null){
+//					/*
+//					 * Delega successore.
+//					 */
+//				return _successor.getLookAndFeel ();
+//			} else {
+//					/*
+//					 * Default di sistema non disponibile.
+//					 */
+//				return UIManager.getSystemLookAndFeelClassName ();
+//			}
+//		}
+//	}
 
 
 	

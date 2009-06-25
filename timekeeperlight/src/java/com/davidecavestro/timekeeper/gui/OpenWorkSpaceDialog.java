@@ -5,7 +5,7 @@
 
 package com.davidecavestro.timekeeper.gui;
 
-import com.davidecavestro.common.gui.dialog.DialogEvent;
+import com.davidecavestro.common.gui.GUIUtils;
 import com.davidecavestro.common.gui.dialog.DialogNotifier;
 import com.davidecavestro.common.gui.dialog.DialogNotifierImpl;
 import com.davidecavestro.common.gui.persistence.PersistenceUtils;
@@ -13,6 +13,7 @@ import com.davidecavestro.common.gui.persistence.PersistentComponent;
 import com.davidecavestro.timekeeper.ApplicationContext;
 import com.davidecavestro.timekeeper.model.WorkSpace;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.util.Arrays;
@@ -63,6 +64,7 @@ public class OpenWorkSpaceDialog extends javax.swing.JDialog implements Persiste
 		});
 	
 //		pack ();
+		setPreferredSize (new Dimension (200, 100));
 		setLocationRelativeTo (null);
 	}
 	
@@ -75,6 +77,8 @@ public class OpenWorkSpaceDialog extends javax.swing.JDialog implements Persiste
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        jPopupMenu1 = new javax.swing.JPopupMenu();
+        workspaceMenuItem = new javax.swing.JMenuItem();
         jLabel6 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         projectsList = new javax.swing.JList();
@@ -82,36 +86,66 @@ public class OpenWorkSpaceDialog extends javax.swing.JDialog implements Persiste
         okButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("com/davidecavestro/timekeeper/gui/res"); // NOI18N
-        setTitle(bundle.getString("OpenWorkspaceDialog/Title")); // NOI18N
+        workspaceMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.event.InputEvent.ALT_MASK));
+        workspaceMenuItem.setFont(new java.awt.Font("Dialog", 0, 12));
+        workspaceMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/folder.png"))); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res"); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(workspaceMenuItem, bundle.getString("OpenWorkSpaceDialog/PopupMenu/WorkspacesEditor/Text")); // NOI18N
+        workspaceMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                workspaceMenuItemActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(workspaceMenuItem);
+
+        java.util.ResourceBundle bundle1 = java.util.ResourceBundle.getBundle("com/davidecavestro/timekeeper/gui/res"); // NOI18N
+        setTitle(bundle1.getString("OpenWorkspaceDialog/Title")); // NOI18N
         setModal(true);
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         jLabel6.setFont(new java.awt.Font("Dialog", 0, 12));
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel6, bundle.getString("OpenWorkspaceDialog/ChooseWorkspaceLabel")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel6, bundle1.getString("OpenWorkspaceDialog/ChooseWorkspaceLabel")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(4, 5, 4, 5);
         getContentPane().add(jLabel6, gridBagConstraints);
 
         projectsList.setFont(new java.awt.Font("Dialog", 0, 12));
         projectsList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        projectsList.setToolTipText("null");
         projectsList.setCellRenderer(new DefaultListCellRenderer() {
             public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
                 final JLabel label = (JLabel)super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                 final WorkSpace ws = (WorkSpace)value;
                 label.setText(ws.getName ());
+
+                final StringBuilder sb = new StringBuilder ("");
+                final String descr = ws.getDescription ();
+                if (descr!=null) {
+                    sb.append ("descr");
+                }
+                final String notes = ws.getNotes ();
+                if(notes!=null) {
+                    if (sb.length ()>0) {
+                        sb.append ("\n");
+                    }
+                    sb.append (notes);
+                }
+                label.setToolTipText (sb.toString ());
+
                 return label;
             }
         });
+        projectsList.setComponentPopupMenu(jPopupMenu1);
         projectsList.setVisibleRowCount(4);
-        projectsList.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                projectsListKeyTyped(evt);
+        projectsList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                projectsListMouseClicked(evt);
             }
         });
         projectsList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
@@ -119,9 +153,9 @@ public class OpenWorkSpaceDialog extends javax.swing.JDialog implements Persiste
                 projectsListValueChanged(evt);
             }
         });
-        projectsList.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                projectsListMouseClicked(evt);
+        projectsList.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                projectsListKeyTyped(evt);
             }
         });
         jScrollPane1.setViewportView(projectsList);
@@ -129,6 +163,7 @@ public class OpenWorkSpaceDialog extends javax.swing.JDialog implements Persiste
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
@@ -137,8 +172,8 @@ public class OpenWorkSpaceDialog extends javax.swing.JDialog implements Persiste
 
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
-        okButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        org.openide.awt.Mnemonics.setLocalizedText(okButton, bundle.getString("OpenWorkspaceDialog/OkButton/Text")); // NOI18N
+        okButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        org.openide.awt.Mnemonics.setLocalizedText(okButton, bundle1.getString("OpenWorkspaceDialog/OkButton/Text")); // NOI18N
         okButton.setPreferredSize(new java.awt.Dimension(80, 25));
         okButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -153,7 +188,7 @@ public class OpenWorkSpaceDialog extends javax.swing.JDialog implements Persiste
         jPanel1.add(okButton, gridBagConstraints);
 
         cancelButton.setFont(new java.awt.Font("Dialog", 0, 12));
-        org.openide.awt.Mnemonics.setLocalizedText(cancelButton, bundle.getString("OpenWorkspaceDialog/CancelButton/Text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(cancelButton, bundle1.getString("OpenWorkspaceDialog/CancelButton/Text")); // NOI18N
         cancelButton.setPreferredSize(new java.awt.Dimension(80, 25));
         cancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -177,9 +212,30 @@ public class OpenWorkSpaceDialog extends javax.swing.JDialog implements Persiste
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         getContentPane().add(jPanel1, gridBagConstraints);
+
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/folder.png"))); // NOI18N
+        jButton1.setToolTipText(bundle.getString("OpenWorkspaceDialog/ButtonTooltip/ManageWorkspaces")); // NOI18N
+        jButton1.setContentAreaFilled(false);
+        jButton1.setDefaultCapable(false);
+        jButton1.setMaximumSize(new java.awt.Dimension(26, 26));
+        jButton1.setMinimumSize(new java.awt.Dimension(26, 26));
+        jButton1.setPreferredSize(new java.awt.Dimension(26, 26));
+        GUIUtils.addBorderRollover (new Component[] {jButton1});
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(3, 3, 0, 6);
+        getContentPane().add(jButton1, gridBagConstraints);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -209,16 +265,27 @@ public class OpenWorkSpaceDialog extends javax.swing.JDialog implements Persiste
         projectsList.ensureIndexIsVisible(projectsList.getSelectedIndex());
 		check ();
 	}//GEN-LAST:event_projectsListValueChanged
+
+private void workspaceMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_workspaceMenuItemActionPerformed
+	showWorkspaceEditor ();
+}//GEN-LAST:event_workspaceMenuItemActionPerformed
+
+private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+	showWorkspaceEditor ();
+}//GEN-LAST:event_jButton1ActionPerformed
 	
 	
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton okButton;
     private javax.swing.JList projectsList;
+    private javax.swing.JMenuItem workspaceMenuItem;
     // End of variables declaration//GEN-END:variables
 
 	/**
@@ -294,8 +361,9 @@ public class OpenWorkSpaceDialog extends javax.swing.JDialog implements Persiste
 	 * Azione di CONFERMA sulla dialog
 	 */
 	private void confirm (){
-		this._dialogNotifier.fireDialogPerformed (new DialogEvent (this, projectsList.getSelectedValue (), JOptionPane.OK_OPTION));
-		hide ();		
+		if (openWorkspace (_context, (WorkSpace)projectsList.getSelectedValue ())) {
+			setVisible (false);
+		}
 	}
 	
 	/**
@@ -323,4 +391,48 @@ public class OpenWorkSpaceDialog extends javax.swing.JDialog implements Persiste
 		};
 		
 	}
+	
+	public static boolean openWorkspace (final ApplicationContext context, final WorkSpace ws) {
+		if (!context.getModel ().getAdvancing ().isEmpty ()) {
+			/*
+			 * ci sono avanzamenti in corso nel progetto corrente
+			 */
+			if (JOptionPane.showConfirmDialog (context.getWindowManager ().getMainWindow (), 
+				java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("OpenWorkSpaceDialog/ConfirmDialog/StopCurrentProgress/Text"), 
+				java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("OpenWorkSpaceDialog/ConfirmDialog/StopCurrentProgress/Title"), 
+				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) != JOptionPane.YES_OPTION) {
+				
+				return false;
+			}
+		}
+		context.getLogger ().debug (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Opening_workspace..."));
+
+		context.getModel ().setWorkSpace (ws);
+		context.getUserSettings ().setLastProjectName (ws.getName ());
+
+		context.getLogger ().debug (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Workspace_successfully_opened"));
+		return true;
+	}
+	
+	
+	/**
+	 * Visualizza la finestra di gestione progetti.
+	 */
+	private void showWorkspaceEditor () {
+		setVisible (false);
+		_context.getWindowManager ().getWorkspacesDialog ().setVisible (true);
+	}
+
+	@Override
+	public void setVisible (boolean b) {
+		if (b) {
+			/*
+			 * ripristina il focus sulla lista
+			 */
+			projectsList.requestFocusInWindow ();
+		}
+		super.setVisible (b);
+	}
+
+	
 }

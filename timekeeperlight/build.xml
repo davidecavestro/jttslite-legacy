@@ -85,8 +85,9 @@
 	    
 	    <entry  key="build.number" value="${build.number}"/>
 	    <entry  key="build.date" type="date" value="now" pattern="yyyy-MM-dd HH:mm:ss.SSS"/>
-	    <entry  key="build.notes" type="string" value="Built with Java(TM) ${java.vm.version} (${java.vm.vendor}) by ${user.name} on ${os.name} ${os.arch} ${os.version}" />
+	    <entry  key="build.notes" type="string" value="Built by ${user.name} with ${java.runtime.name} ${java.version} (from ${java.vendor}) on ${os.name} ${os.arch} ${os.version}" />
 	</propertyfile>
+	<touch file="${src.java.dir}/com/davidecavestro/timekeeper/release.properties" />
 	<echo>Assigned build number: ${build.number}</echo>
     </target>
 

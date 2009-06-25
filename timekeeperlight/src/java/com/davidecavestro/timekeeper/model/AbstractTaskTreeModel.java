@@ -889,7 +889,7 @@ public abstract class AbstractTaskTreeModel implements TaskTreeModel, WorkAdvanc
 	 */
 	private PersistenceManager _pm;
 	/**
-	 * Ritorna un persistence manager difacciata, con una implementazione vuota.
+	 * Ritorna un persistence manager di facciata, con una implementazione vuota.
 	 * <P>
 	 * Scavalcare questo metodo per fornire una adeguata implementazione di PersistenceManager se necessario (ad esempio un PersistenceManager JDO).
 	 */

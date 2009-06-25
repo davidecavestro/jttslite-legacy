@@ -548,17 +548,6 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saveFileChooserActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JFileChooser" name="xmlFileChooser">
-      <Properties>
-        <Property name="currentDirectory" type="java.io.File" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="new File (System.getProperty (&quot;user.dir&quot;))" type="code"/>
-        </Property>
-        <Property name="fileHidingEnabled" type="boolean" value="false"/>
-      </Properties>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="xmlFileChooser.addChoosableFileFilter (new CustomFileFilter (&#xa;&#x9;new String []{FileUtils.xml},&#xa;&#x9;new String []{&quot;XML files&quot;}&#xa;));"/>
-      </AuxValues>
-    </Component>
     <Component class="javax.swing.ButtonGroup" name="TabShowingChoiceButtonGroup">
     </Component>
     <Menu class="java.awt.PopupMenu" name="trayMenu">
@@ -717,7 +706,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="exportWorkSpaceMenuItem">
               <Properties>
                 <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="new ExportWorkSpaceAction ()" type="code"/>
+                  <Connection code="new ExportWorkSpaceAction (_context)" type="code"/>
                 </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Dialog" size="12" style="0"/>
@@ -742,7 +731,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="importWorkSpaceMenuItem">
               <Properties>
                 <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="new ImportWorkSpaceAction ()" type="code"/>
+                  <Connection code="new ImportWorkSpaceAction (_context)" type="code"/>
                 </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Dialog" size="12" style="0"/>
@@ -1298,6 +1287,28 @@
                 <AuxValue name="generateMnemonicsCode" type="java.lang.Boolean" value="true"/>
               </AuxValues>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="workspaceMenuItem">
+              <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Alt+W"/>
+                </Property>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Dialog" size="12" style="0"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/folder.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/ToolsMenu/WorkspacesMenuItem/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="workspaceMenuItemActionPerformed"/>
+              </Events>
+              <AuxValues>
+                <AuxValue name="generateMnemonicsCode" type="java.lang.Boolean" value="true"/>
+              </AuxValues>
+            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="templateMenuItem">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
@@ -1417,6 +1428,7 @@
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
     <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="2"/>
@@ -2202,7 +2214,30 @@
                     <AuxValue name="generateMnemonicsCode" type="java.lang.Boolean" value="true"/>
                   </AuxValues>
                 </Component>
-                <Component class="javax.swing.JButton" name="printButton1">
+                <Component class="javax.swing.JButton" name="workspacesButton">
+                  <Properties>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/folder.png"/>
+                    </Property>
+                    <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                      <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainWindow/Toolbar/ButtonTooltip/Workspaces" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
+                    </Property>
+                    <Property name="borderPainted" type="boolean" value="false"/>
+                    <Property name="focusable" type="boolean" value="false"/>
+                    <Property name="horizontalTextPosition" type="int" value="0"/>
+                    <Property name="opaque" type="boolean" value="false"/>
+                    <Property name="verticalTextPosition" type="int" value="3"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="workspacesButtontemplateMenuItemActionPerformed"/>
+                  </Events>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="/* mantiene nascosto il testo  dell&apos;action */&#xa;redoButton.setText (null);&#xa;redoButton.putClientProperty (&quot;hideActionText&quot;, Boolean.TRUE);"/>
+                    <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="_context.getHelpManager ().initialize (helpButton);"/>
+                    <AuxValue name="generateMnemonicsCode" type="java.lang.Boolean" value="true"/>
+                  </AuxValues>
+                </Component>
+                <Component class="javax.swing.JButton" name="actionTemplatesButton">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                       <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/tag_blue.png"/>

@@ -69,10 +69,9 @@ public class PersistentTaskTreeModel extends UndoableTaskTreeModel {
 	 */
 	private PersistenceManager _pm;
 	/**
-	 * Ritorna un persistence manager difacciata, con una implementazione vuota.
-	 * <P>
-	 * Scavalcare questo metodo per fornire una adeguata implementazione di PersistenceManager se necessario (ad esempio un PersistenceManager JDO).
+	 * Ritorna il PersistenceManager JDO).
 	 */
+	@Override
 	protected PersistenceManager getPersistenceManager () {
 		if (null == _pm) {
 			_pm = new PersistenceManager () {

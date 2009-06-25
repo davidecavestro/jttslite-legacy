@@ -39,7 +39,7 @@ public abstract class TablePersistenceExt implements PersistentComponent {
 	}
 	
 	
-	public void makePersistent (PersistenceStorage props) {
+	public void makePersistent (final PersistenceStorage props) {
 		final List<String> s1 = new ArrayList<String> ();
 		final List<String> s2 = new ArrayList<String> ();
 
@@ -62,7 +62,7 @@ public abstract class TablePersistenceExt implements PersistentComponent {
 	}
 
 
-	public boolean restorePersistent (PersistenceStorage props) {
+	public boolean restorePersistent (final PersistenceStorage props) {
 		final String s1 = SettingsSupport.getStringProperty (props.getRegistry (), getVisibleColumnsPersistenceKey ());
 //		if (s==null) {
 //			return false;
@@ -79,10 +79,12 @@ public abstract class TablePersistenceExt implements PersistentComponent {
 		if (s2!=null) {
 			values2.addAll (Arrays.asList (s2.split (",")));
 		}
-		if (!values1.isEmpty () && s1!=null && s1.length ()>0) {
-			/*
-			 * Se non e' impostata alcuna colonna come visibile, le lascia tutte visualizzate
-			 */
+		
+		/*
+		 * Se non e' impostata alcuna colonna come visibile, le lascia tutte visualizzate
+		 * altrimenti le abilita ad una ad una
+		 */
+		if (!values1.isEmpty ()) {
 			for (int i = _table.getColumnCount (false)-1; i>=0; i--) {
 				final TableColumnExt tce = _table.getColumnExt (i);
 				tce.setVisible (values1.contains (Integer.toString (_table.convertColumnIndexToModel (i))));
@@ -107,7 +109,7 @@ public abstract class TablePersistenceExt implements PersistentComponent {
 	}
 	
 	/*
-	 * Ritorna l'indice codificato relativo che specifica la posizione e l'ordine applicatosulla colonna.
+	 * Ritorna l'indice codificato relativo che specifica la posizione e l'ordine applicato sulla colonna.
 	 * Chiamare questo metodo solo per indici di modello relativi a colonne con ordinamento impostato
 	 */
 	private int toColumnSortIndex (final int columnModelIndex, final SortOrder sortOrder) {

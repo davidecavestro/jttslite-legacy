@@ -8,6 +8,7 @@ package com.ost.timekeeper.model;
 
 import com.davidecavestro.timekeeper.model.Task;
 import com.davidecavestro.timekeeper.model.WorkSpace;
+import com.davidecavestro.timekeeper.model.WorkSpaceBackup;
 
 /**
  * Implementa l'entit� di tipo PROGETTO. 
@@ -23,27 +24,27 @@ import com.davidecavestro.timekeeper.model.WorkSpace;
  *
  * @author  davide
  */
-public final class Project implements WorkSpace {
+public class Project implements WorkSpace {
 	
 	/**
 	 * La radice della gerarchia di avanzamenti.
 	 */
-	private ProgressItem root;
+	protected ProgressItem root;
 	
 	/**
 	 * Il nome.
 	 */
-	private String name;
+	protected String name;
 	
 	/** 
 	 * La descrizione. 
 	 */
-	private String description;
+	protected String description;
 	
 	/**
 	 * Le annotazioni.
 	 */
-	private String notes;
+	protected String notes;
 	
 	/** 
 	 * Costruttore vuoto.
@@ -51,6 +52,16 @@ public final class Project implements WorkSpace {
 	public Project() {
 	}
 	
+
+	/**
+	 * Costruttore copia.
+	 */
+	public Project (final Project source) {
+        this.description = source.description;
+        this.name = source.name;
+        this.notes = source.notes;
+	}
+
 	/**
 	 * Costruttore con nome e gerarchia nodi.
 	 * @param name
@@ -144,5 +155,33 @@ public final class Project implements WorkSpace {
 	public void setNotes(String notes) {
 		this.notes = notes;
 	}
-	
+
+	public WorkSpaceBackup backup () {
+		return new WorkSpaceBackupImpl (this);
+	}
+
+	/**
+	 * Implementa il backup. Classe ad esclusivo uso interno, da non rendere persistente.
+	 *<P>
+	 * La classe &egrave; statica per evitare l'accesso involontario alle variabili della classe che la contiene. Deve avere l'accesso solamente per estensione!
+	 */
+	private static class WorkSpaceBackupImpl extends Project implements WorkSpaceBackup {
+		private final Project _source;
+		public WorkSpaceBackupImpl (final Project p) {
+			super (p);
+			_source = p;
+		}
+		public WorkSpace getSource () {
+			return _source;
+		}
+
+		public void restore () {
+			_source.description = description;
+			_source.name = name;
+			_source.notes = notes;
+
+            _source.root = root;
+		}
+
+	}
 }

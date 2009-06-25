@@ -15,7 +15,7 @@ import javax.swing.undo.UndoManager;
 import javax.swing.undo.UndoableEdit;
 
 /**
- * Personalizzaizone del UndoManager per la gestione UI.
+ * Personalizzazione del UndoManager per la gestione UI.
  *
  * @author  davide
  */

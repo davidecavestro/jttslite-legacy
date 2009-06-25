@@ -71,5 +71,10 @@ public interface WorkSpace {
 	 * @param notes le note.
 	 */
 	void setNotes(String notes);
-	
+
+	/**
+	 * Ritorna un clone di questo progetto, a solo scopo di backup.
+	 */
+	WorkSpaceBackup backup ();
+
 }

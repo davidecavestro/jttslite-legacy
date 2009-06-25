@@ -44,6 +44,7 @@ public class ApplicationContext {
 	private final PieceOfWorkTemplateModelImpl _templateModel;
 	private final RBUndoManager _undoManager;
 	private final RBUndoManager _atUndoManager;
+	private final RBUndoManager _wsUndoManager;
 	private ActionManager _actionManager;
 	private HelpManager _helpManager;
 	private final TaskTreeModelExceptionHandler _propsExceptionHandler;
@@ -70,6 +71,7 @@ public class ApplicationContext {
 		final PieceOfWorkTemplateModelImpl templateModel,
 		final RBUndoManager undoManager,
 		final RBUndoManager atUndoManager,
+		final RBUndoManager wsUndoManager,
 		final ActionManager actionManager,
 		final HelpManager helpManager,
 		final TaskTreeModelExceptionHandler propsExceptionHandler, 
@@ -88,6 +90,7 @@ public class ApplicationContext {
 		_templateModel = templateModel;
 		_undoManager = undoManager;
 		_atUndoManager = atUndoManager;
+		_wsUndoManager = wsUndoManager;
 		_actionManager = actionManager;
 		_helpManager = helpManager;
 		_propsExceptionHandler = propsExceptionHandler;
@@ -106,7 +109,7 @@ public class ApplicationContext {
 		return _windowManager;
 	}
 	
-	public UIPersister getUIPersisteer (){
+	public UIPersister getUIPersister (){
 		return _uiPersister;
 	}
 	
@@ -133,6 +136,10 @@ public class ApplicationContext {
 		return _atUndoManager;
 	}
 	
+	public RBUndoManager getWorkspacesUndoManager (){
+		return _wsUndoManager;
+	}
+
 	public ActionManager getActionManager (){
 		return _actionManager;
 	}

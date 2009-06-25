@@ -1,3 +1,8 @@
+2.7.0 beta1
+- Improved the management of workspaces with the introduction of Workspaces Editor
+- BUG# 2788262: Labels on "Desktop" tabbed pane aren't localized in italian
+- BUG# 2569904: (in)visible column names not remembered
+
 2.6.0
 - Removed multiple headers from CSV export dedicated reports
 - Other fixes for CSV export

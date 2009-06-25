@@ -334,7 +334,7 @@ public class OptionsDialog extends javax.swing.JDialog {
 		hide ();
 	}
 	
-	private LookAndFeelChoice _initialChoice;
+//	private LookAndFeelChoice _initialChoice;
 	
 	private void init (ApplicationOptions ao) {
 		trayIconCheckBox.getModel ().setSelected (_context.getApplicationOptions ().isTrayIconEnabled ());
@@ -346,70 +346,70 @@ public class OptionsDialog extends javax.swing.JDialog {
 		hide ();
 	}
 	
-	private enum LookAndFeelChoice {
-		SYSTEM {
-			public String getClassName () {
-				return UIManager.getSystemLookAndFeelClassName ();
-			}
-			public String toString () {
-				return "System";
-			}
-		},
-		CROSS_PLATFORM {
-			public String getClassName () {
-				return UIManager.getCrossPlatformLookAndFeelClassName ();
-			}
-			public String toString () {
-				return "Cross Platform";
-			}
-		},
-		WINDOWS {
-			public String getClassName () {
-				return "com.jgoodies.looks.windows.WindowsLookAndFeel";
-			}
-			public String toString () {
-				return "Windows";
-			}
-		},
-		PLASTIC {
-			public String getClassName () {
-				return "com.jgoodies.looks.plastic.PlasticLookAndFeel";
-			}
-			public String toString () {
-				return "Plastic";
-			}
-		},
-		PLASTIC2D {
-			public String getClassName () {
-				return "com.jgoodies.looks.plastic.Plastic3DLookAndFeel";
-			}
-			public String toString () {
-				return "Plastic 3D";
-			}
-		},
-		PLASTICXP {
-			public String getClassName () {
-				return "com.jgoodies.looks.plastic.PlasticXPLookAndFeel";
-			}
-			public String toString () {
-				return "Plastic XP";
-			}
-		},
-		TINYLAF {
-			public String getClassName () {
-				return "de.muntjak.tinylookandfeel.TinyLookAndFeel";
-			}
-			public String toString () {
-				return "TinyLAF";
-			}
-		};
-		
-		
-		public abstract String getClassName ();
-		@Override
-		public abstract String toString ();
-		
-	}
+//	private enum LookAndFeelChoice {
+//		SYSTEM {
+//			public String getClassName () {
+//				return UIManager.getSystemLookAndFeelClassName ();
+//			}
+//			public String toString () {
+//				return "System";
+//			}
+//		},
+//		CROSS_PLATFORM {
+//			public String getClassName () {
+//				return UIManager.getCrossPlatformLookAndFeelClassName ();
+//			}
+//			public String toString () {
+//				return "Cross Platform";
+//			}
+//		},
+//		WINDOWS {
+//			public String getClassName () {
+//				return "com.jgoodies.looks.windows.WindowsLookAndFeel";
+//			}
+//			public String toString () {
+//				return "Windows";
+//			}
+//		},
+//		PLASTIC {
+//			public String getClassName () {
+//				return "com.jgoodies.looks.plastic.PlasticLookAndFeel";
+//			}
+//			public String toString () {
+//				return "Plastic";
+//			}
+//		},
+//		PLASTIC2D {
+//			public String getClassName () {
+//				return "com.jgoodies.looks.plastic.Plastic3DLookAndFeel";
+//			}
+//			public String toString () {
+//				return "Plastic 3D";
+//			}
+//		},
+//		PLASTICXP {
+//			public String getClassName () {
+//				return "com.jgoodies.looks.plastic.PlasticXPLookAndFeel";
+//			}
+//			public String toString () {
+//				return "Plastic XP";
+//			}
+//		},
+//		TINYLAF {
+//			public String getClassName () {
+//				return "de.muntjak.tinylookandfeel.TinyLookAndFeel";
+//			}
+//			public String toString () {
+//				return "TinyLAF";
+//			}
+//		};
+//		
+//		
+//		public abstract String getClassName ();
+//		@Override
+//		public abstract String toString ();
+//		
+//	}
 
 	
 	private void apply () {

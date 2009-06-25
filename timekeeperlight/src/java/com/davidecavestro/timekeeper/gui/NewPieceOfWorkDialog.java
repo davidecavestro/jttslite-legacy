@@ -81,8 +81,6 @@ public class NewPieceOfWorkDialog extends javax.swing.JDialog implements Persist
 				return this;
 			}
 		});
-		
-		GUIUtils.addBorderRollover (new Component[] {jButton1});
 
 		pack ();
 		setLocationRelativeTo (null);
@@ -320,10 +318,12 @@ public class NewPieceOfWorkDialog extends javax.swing.JDialog implements Persist
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/tag_blue_edit.png"))); // NOI18N
         jButton1.setToolTipText(bundle.getString("NewPieceOfWorkDialog//ButtonTooltip/ManageTemplates")); // NOI18N
         jButton1.setBorderPainted(false);
+        jButton1.setContentAreaFilled(false);
         jButton1.setMaximumSize(new java.awt.Dimension(26, 26));
         jButton1.setMinimumSize(new java.awt.Dimension(26, 26));
         jButton1.setOpaque(false);
         jButton1.setPreferredSize(new java.awt.Dimension(26, 26));
+        GUIUtils.addBorderRollover (new Component[] {jButton1});
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -406,7 +406,7 @@ _context.getWindowManager ().getActionTemplatesDialog ().show ();
 
 	private void confirm () {
 		this._dialogNotifier.fireDialogPerformed (new DialogEvent (this, JOptionPane.OK_OPTION));
-		this.hide ();
+		this.setVisible (false);
 	}
 	private Task _task;
 
@@ -478,7 +478,7 @@ _context.getWindowManager ().getActionTemplatesDialog ().show ();
 	}
 
 	private void close () {
-		hide ();
+		setVisible (false);
 	}
 	private boolean sync = false;
 

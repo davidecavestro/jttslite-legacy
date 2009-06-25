@@ -19,7 +19,7 @@ import java.util.Collection;
  *
  * @author Davide Cavestro
  */
-public class PersistentWorkSpaceModel extends WorkSpaceModelImpl {
+public class PersistentWorkSpaceModel extends WorkSpaceModelImpl /*UndoableWorkSpaceModel*/ {
 	
 	
 	private final PersistenceNode _persistenceNode;
@@ -34,8 +34,8 @@ public class PersistentWorkSpaceModel extends WorkSpaceModelImpl {
 	 * @param workSpace
 	 * @param applicationOptions le opzioni di configurazione.
 	 */
-	public PersistentWorkSpaceModel (final PersistenceNode persistenceNode, final ApplicationOptions applicationOptions, final Logger logger) {
-		super ();
+	public PersistentWorkSpaceModel (final PersistenceNode persistenceNode, final ApplicationOptions applicationOptions, final Logger logger, final WorkSpaceRemovalController removalController) {
+		super (/*removalController*/);
 		_persistenceNode = persistenceNode;
 		_logger = logger;
 	}
@@ -76,9 +76,7 @@ public class PersistentWorkSpaceModel extends WorkSpaceModelImpl {
 	 */
 	private PersistenceManager _pm;
 	/**
-	 * Ritorna un persistence manager difacciata, con una implementazione vuota.
-	 * <P>
-	 * Scavalcare questo metodo per fornire una adeguata implementazione di PersistenceManager se necessario (ad esempio un PersistenceManager JDO).
+	 * Ritorna il PersistenceManager JDO).
 	 */
 	@Override
 	protected PersistenceManager getPersistenceManager () {

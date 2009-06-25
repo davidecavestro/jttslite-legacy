@@ -9,16 +9,20 @@ package com.davidecavestro.timekeeper.backup;
 
 import com.davidecavestro.common.util.CalendarUtils;
 import com.davidecavestro.timekeeper.ApplicationContext;
+import com.davidecavestro.timekeeper.model.DuplicatedWorkSpaceException;
 import com.davidecavestro.timekeeper.model.WorkSpace;
 import com.davidecavestro.timekeeper.model.WorkSpaceModelImpl;
 import com.ost.timekeeper.model.Progress;
 import com.ost.timekeeper.model.ProgressItem;
 import com.ost.timekeeper.model.Project;
+import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.jdom.Document;
 import org.jdom.Element;
 
@@ -45,15 +49,26 @@ public class XMLImporter {
 	 * @param project il progetto da salvare.
 	 * @param document il documento XML da usare.
 	 *
-	 * @return <CODE>true</CODE> se il ripristino /egrave; andato a buon fine.
+	 * @return <CODE>true</CODE> se il ripristino &egrave; andato a buon fine.
 	 */
 	public boolean restore (final Document document, final ImportConflictsResolver icr) {
 		final ProjectElement projectElement = new ProjectElement (document.getRootElement ());
 		final WorkSpace prj = projectElement.getProject ();
-		return _restore (prj, icr);
+        try {
+            return _restore (prj, icr);
+        } catch (final DuplicatedWorkSpaceException ex) {
+            icr.showErrorMessage (MessageFormat.format (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("XMLImporter/ErrorMessage/DuplicatedWorkSpaceException"), prj.getName ()));
+        }
+        return false;
 	}
 
-	private void makePersistent (final WorkSpace prj, final WorkSpace toRemove) {
+    /**
+     * Rende persistente un progetto, eventualmente sostituendone un altro.
+     *
+     * @param prj il progetto da rendere persistente.
+     * @param toRemove il progetto da sostituire.
+     */
+	private void makePersistent (final WorkSpace prj, final WorkSpace toRemove) throws DuplicatedWorkSpaceException {
 		final WorkSpaceModelImpl wm = _context.getWorkSpaceModel ();
 			if (toRemove!=null){
 				wm.setElementAt (prj, wm.indexOf (toRemove));
@@ -76,7 +91,7 @@ public class XMLImporter {
 		return null;
 	}
 	
-	private boolean _restore (final WorkSpace prj, final ImportConflictsResolver icr){
+	private boolean _restore (final WorkSpace prj, final ImportConflictsResolver icr) throws DuplicatedWorkSpaceException{
 		WorkSpace conflicting = null;
 		ConflictResolution choice = null;
 		do {
@@ -107,7 +122,7 @@ public class XMLImporter {
 		return save (prj, icr, conflicting);
 	}
 	
-	private boolean save (final WorkSpace prj, final ImportConflictsResolver icr, final WorkSpace conflicting) {
+	private boolean save (final WorkSpace prj, final ImportConflictsResolver icr, final WorkSpace conflicting) throws DuplicatedWorkSpaceException {
 		final boolean overwritingCurrentWS = conflicting == _context.getModel ().getWorkSpace ();
 		if (overwritingCurrentWS) {
 			if (!icr.continueOverwritingCurrentWorkspace ()) {
@@ -127,16 +142,19 @@ public class XMLImporter {
 	
 	public enum ConflictResolution {
 		OVERWRITE {
+            @Override
 			public String toString () {
 				return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Overwrite");
 			}
 		},
 		RENAME {
+            @Override
 			public String toString () {
 				return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Rename");
 			}
 		},
 		CANCEL {
+            @Override
 			public String toString () {
 				return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Cancel");
 			}
@@ -153,6 +171,8 @@ public class XMLImporter {
 			prj.getRoot ().setName (prj.getName ());
 		}
 		
+		public abstract void showErrorMessage (String msg);
+
 		public abstract String getNewName ();
 
 		public abstract boolean continueOverwritingCurrentWorkspace ();

@@ -110,7 +110,7 @@ public class PersistenceNode {
 	private void lockDatastore () throws IOException {
 		final File lockFile = getDatastoreLock ();
 		if (lockFile.exists () && System.currentTimeMillis ()  - lockFile.lastModified () < MAX_DELAY) {
-			throw new IOException ("Cannot create a new datastore lock file. The existing one is too recent.");
+			throw new IOException ("Cannot create a new datastore lock file. Please wait a minute or either manually delete "+lockFile.getPath ()+" (at your own risk).");
 		}
 		final PrintWriter fw = new PrintWriter (getDatastoreLock ());
 		try {

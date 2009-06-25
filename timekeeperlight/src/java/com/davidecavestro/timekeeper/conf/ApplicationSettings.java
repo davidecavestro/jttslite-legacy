@@ -6,8 +6,6 @@
 
 package com.davidecavestro.timekeeper.conf;
 
-import java.awt.*;
-
 /**
  * Impostazioni configurazbili.
  *
@@ -42,13 +40,13 @@ public interface ApplicationSettings {
 	 */
 	public Boolean getHelperApplicationsEnabled ();
 	
-	/**
-	 * Ritorna il LookAndFeel.
-	 *
-	 * @return il LookAndFeel.
-	 */	
-	String getLookAndFeel ();
-	
+//	/**
+//	 * Ritorna il LookAndFeel.
+//	 *
+//	 * @return il LookAndFeel.
+//	 */	
+//	String getLookAndFeel ();
+//	
 	/**
 	 * Ritorna il nome dell'ultimo progetto.
 	 * @return il nome dell'ultimo progetto.

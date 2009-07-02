@@ -57,7 +57,7 @@ DefaultLanguage
 English
 
 Ext
-.exe
+{}
 
 ExtractSolidArchivesOnStartup
 No
@@ -75,7 +75,7 @@ InstallPassword
 {}
 
 InstallVersion
-2.6.0.10
+2.7.0.1
 
 Language,de
 Yes
@@ -157,7 +157,7 @@ ProjectID
 56B3817B-81D5-9F25-9D08-E07E7FA5028E
 
 ProjectVersion
-1.2.10.1
+1.2.12.0
 
 SaveOnlyToplevelDirs
 No
@@ -187,7 +187,7 @@ UpgradeApplicationID
 {}
 
 Version
-2.6.0
+2.7.0-beta1
 
 ViewReadme
 Yes
@@ -384,6 +384,7 @@ File ::19DC27BB-FEA9-E281-6142-0F8DA3D49AF5 -name action_templates_editor.gif -p
 File ::A959A533-CE8E-9D3F-B47A-284879254A3D -name add_action_dialog.gif -parent B35DC652-EF29-6F89-475A-2E3235832AD2
 File ::CA478AFD-30B1-B466-01EA-DBBD14B3E59B -name actiontemplateseditor.html -parent 13A62B65-ABCF-0C31-5B28-44BD32A94DC8
 File ::34ED6F74-5DB1-CEED-031B-F8DEBDED0B0C -name actiontemplate.html -parent 13A62B65-ABCF-0C31-5B28-44BD32A94DC8
+File ::AA83EE58-D989-E11F-6514-03A7E285C518 -name workspaceseditor.html -parent 13A62B65-ABCF-0C31-5B28-44BD32A94DC8
 Component ::013C6EAA-75FA-D788-472C-B4C51ED5F927 -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows} -name {Default Component} -parent Components
 Component ::85C79978-6259-E466-6975-353AE52FB414 -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows} -name Help -parent Components
 SetupType ::33760410-532F-C262-2B17-4719431C94E1 -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 Solaris-sparc Windows} -name Typical -parent SetupTypes
@@ -791,7 +792,7 @@ Finish
 <%InstallDir%>
 
 3359AE05-023E-A394-711C-61AEA17D5DF9,FileSize
-205199
+207433
 
 3359AE05-023E-A394-711C-61AEA17D5DF9,Name
 {Help Files}
@@ -1838,7 +1839,7 @@ F96500F4-F736-69E5-40A4-4F828D0D1F5E,Destination
 <%InstallDir%>
 
 F96500F4-F736-69E5-40A4-4F828D0D1F5E,FileSize
-13574134
+13603170
 
 F96500F4-F736-69E5-40A4-4F828D0D1F5E,Name
 {Program Files}

@@ -149,21 +149,24 @@ public class PlainTextLogger implements Logger {
 	 * @param t l'evento associato (opzionale).
 	 */	
 	private final void printMessage (final MessageType type, final Throwable t, final String... message){
-		final StringBuffer sb = new StringBuffer ();
-		sb.append (CalendarUtils.toTSString (Calendar.getInstance ().getTime ()));
-		sb.append (": ");
-		sb.append (message);
-		if (t!=null){
-			/*
-			 * Registra anche l'evento, se specificato.
-			 */
-			sb.append (CR);
-			sb.append ("Related event: ");
-			sb.append (CR);
-			sb.append (ExceptionUtils.getStackTrace (t));
+		
+		final StringBuilder sb = new StringBuilder ();
+		for (final String s : message) {
+			sb.append (CalendarUtils.toTSString (Calendar.getInstance ().getTime ()));
+			sb.append (": ");
+			sb.append (s);
+			if (t!=null){
+				/*
+				 * Registra anche l'evento, se specificato.
+				 */
+				sb.append (CR);
+				sb.append ("Related event: ");
+				sb.append (CR);
+				sb.append (ExceptionUtils.getStackTrace (t));
+				sb.append (CR);
+			}
 			sb.append (CR);
 		}
-		sb.append (CR);
 		try {
 			this._fw.write (sb.toString ());
 //			this._fw.flush ();

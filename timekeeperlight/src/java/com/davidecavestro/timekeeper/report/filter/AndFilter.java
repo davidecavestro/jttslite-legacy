@@ -53,7 +53,7 @@ public final class AndFilter extends AbstractFilter{
 	 * @return una stringa che rappresenta questo filtro.
 	 */	
 	public String toString (){
-		final StringBuffer sb = new StringBuffer ();
+		final StringBuilder sb = new StringBuilder ();
 		sb.append ("[ ");
 		sb.append (this._left);
 		sb.append (" AND ");

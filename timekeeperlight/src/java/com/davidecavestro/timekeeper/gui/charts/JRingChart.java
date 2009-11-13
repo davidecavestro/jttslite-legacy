@@ -286,7 +286,7 @@ public class JRingChart  extends JTreeGraph2D {
 		 * testo radice
 		 */
 //		SerieNode root = model.getRoot ();
-//		StringBuffer sb= new StringBuffer ();
+//		StringBuilder sb= new StringBuilder ();
 //		sb.append ("Root: ")
 //		.append (SerieNodeToolTipSupplier.getToolTip (root));
 //		final String message = sb.toString ();
@@ -421,7 +421,7 @@ public class JRingChart  extends JTreeGraph2D {
 		public void setArea (java.awt.geom.Area area){ this._area = area;}
 		
 		public String toString (){
-			final StringBuffer sb = new StringBuffer ();
+			final StringBuilder sb = new StringBuilder ();
 			sb.append ("node: ").append (this._node);
 			sb.append (" paint: ").append (this._paint);
 			sb.append (" area: ").append (this._area);

@@ -66,7 +66,7 @@ public class DisposableData implements Data {
 	 * @return un stringa che rappresenta questi dati.
 	 */
 	public String toString (){
-		final StringBuffer sb = new StringBuffer ();
+		final StringBuilder sb = new StringBuilder ();
 		sb.append ("reference: "+this._ref);
 		sb.append (" isValid: "+true);
 		return sb.toString ();

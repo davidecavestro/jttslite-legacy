@@ -253,7 +253,7 @@ public class Period extends Observable implements LocalizedPeriod{
 	 * @return una stringa che rappresenta questo periodo.
 	 */	
 	public String toString (){
-		StringBuffer sb = new StringBuffer ();
+		final StringBuilder sb = new StringBuilder ();
 		sb.append ("from: ").append (CalendarUtils.toTSString(safeFromAccessor ()))
 		.append (" to: ").append (CalendarUtils.toTSString(safeToAccessor ()));
 		return sb.toString ();

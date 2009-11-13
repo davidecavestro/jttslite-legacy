@@ -103,7 +103,7 @@
 	    <arg line="-j ."/>
 	    <arg line="-s ."/>
 	    <arg line="-d ."/>
-	    <arg line="com/ost/timekeeper/model/ProgressItem com/ost/timekeeper/model/Period com/ost/timekeeper/model/Progress com/ost/timekeeper/model/Project"/>
+	    <arg line="com/ost/timekeeper/model/ProgressItem com/ost/timekeeper/model/Period com/ost/timekeeper/model/Progress com/ost/timekeeper/model/Project com/ost/timekeeper/model/ProgressTemplate"/>
 	</java>
     </target>
 </project>

@@ -6,12 +6,9 @@
 
 package com.davidecavestro.timekeeper.conf;
 
-import com.davidecavestro.common.log.NotificationUtils;
-import com.davidecavestro.common.util.ExceptionUtils;
 import com.davidecavestro.common.util.file.FileUtils;
 import com.davidecavestro.common.util.settings.SettingsSupport;
 import com.davidecavestro.timekeeper.Application;
-import java.awt.*;
 import java.io.*;
 import java.util.*;
 
@@ -63,7 +60,7 @@ public abstract class AbstractSettings implements CustomizableSettings {
 			this._application.getLogger ().warning ( fnfe, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Error_loading_properties._"));
 			} catch (Exception e){
 				/* evita eccezioni dovute a dipendenze inizializzazione*/
-				new NotificationUtils ().error (e, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Above_error_IS_NOT_a_bad_thing_if_you_are_running_this_application_for_the_first_time."));
+//				new NotificationUtils ().error (e, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Above_error_IS_NOT_a_bad_thing_if_you_are_running_this_application_for_the_first_time."));
 			}
 		} catch (IOException ioe) {
 			throw new RuntimeException (ioe);
@@ -201,5 +198,23 @@ public abstract class AbstractSettings implements CustomizableSettings {
 	public void setCharDepth (final Integer i) {
 		SettingsSupport.setIntegerProperty (getProperties (), PROPNAME_CHARTDEPTH, i);
 	}
+	
+	
+	public Boolean getTrayIconEnabled () {
+		return SettingsSupport.getBooleanProperty (getProperties (), PROPNAME_TRAYICONENABLED);
+	}
+
+	public void setTrayIconEnabled (final Boolean b) {
+		SettingsSupport.setBooleanProperty (getProperties (), PROPNAME_TRAYICONENABLED, b);
+	}
+
+	public Boolean getHelperApplicationsEnabled () {
+		return SettingsSupport.getBooleanProperty (getProperties (), PROPNAME_HELPERAPPSENABLED);
+	}
+
+	public void setHelperApplicationsEnabled (final Boolean b) {
+		SettingsSupport.setBooleanProperty (getProperties (), PROPNAME_HELPERAPPSENABLED, b);
+	}
+
 	
 }

@@ -101,7 +101,7 @@ public final class StringUtils {
 	 * Ritorna una stringa che rappresenta i valorispecificati, separati da virgole.
 	 */
 	public static <T> String toCSV (final T[] values) {
-		final StringBuffer sb = new StringBuffer ();
+		final StringBuilder sb = new StringBuilder ();
 		if (values.length>0) {
 			sb.append (values[0]);
 			
@@ -111,4 +111,6 @@ public final class StringUtils {
 		}
 		return sb.toString ();
 	}
+	
+
 }

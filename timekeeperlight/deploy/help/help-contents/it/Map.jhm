@@ -16,13 +16,15 @@
 
 <mapID target="html.tasktree" url="html/tasktree.html"/>
 
-<mapID target="html.report_Filtrare il report ad un periodo temporale|outline" url="html/report.html#Filtrare il report ad un periodo temporale|outline"/>
+<mapID target="html.action_add_action_dialog" url="html/action.html#add_action_dialog"/>
 
 <mapID target="html.workspace_export_a_project" url="html/workspace.html#export_a_project"/>
 
 <mapID target="html.report" url="html/report.html"/>
 
 <mapID target="html.maintoolbar" url="html/maintoolbar.html"/>
+
+<mapID target="html.actiontemplateseditor" url="html/actiontemplateseditor.html"/>
 
 <mapID target="html.task_rename_a_task" url="html/task.html#rename_a_task"/>
 
@@ -48,17 +50,17 @@
 
 <mapID target="html.task_create_a_task" url="html/task.html#create_a_task"/>
 
-<mapID target="html.index_author" url="html/index.html#author"/>
-
 <mapID target="html.action_continue_an_action" url="html/action.html#continue_an_action"/>
 
 <mapID target="html.index_3rd_party" url="html/index.html#3rd_party"/>
 
-<mapID target="html.index_DDE_LINK2" url="html/index.html#DDE_LINK2"/>
-
 <mapID target="html.index_what_does_it_do" url="html/index.html#what_does_it_do"/>
 
+<mapID target="html.index_DDE_LINK2" url="html/index.html#DDE_LINK2"/>
+
 <mapID target="html.workspace_import_a_project" url="html/workspace.html#import_a_project"/>
+
+<mapID target="html.report_Limitare il report ad un periodo temporale|outline" url="html/report.html#Limitare il report ad un periodo temporale|outline"/>
 
 <mapID target="html.index_DDE_LINK1" url="html/index.html#DDE_LINK1"/>
 
@@ -78,6 +80,10 @@
 
 <mapID target="html.index_license" url="html/index.html#license"/>
 
+<mapID target="html.report_Scegliere l'azione di lancio|outline" url="html/report.html#Scegliere l'azione di lancio|outline"/>
+
+<mapID target="html.actiontemplate" url="html/actiontemplate.html"/>
+
 <mapID target="html.report_Scegliere il report da lanciare|outline" url="html/report.html#Scegliere il report da lanciare|outline"/>
 
 <mapID target="html.action" url="html/action.html"/>
@@ -92,9 +98,39 @@
 
 <mapID target="html.userinterface_Finestra Principale|outline" url="html/userinterface.html#Finestra Principale|outline"/>
 
+<mapID target="html.task_edit_task_properties" url="html/task.html#edit_task_properties"/>
+
 <mapID target="images.popup" url="images/popup.gif"/>
 
+<mapID target="html.images.action_template_icon" url="html/images/action_template_icon.gif"/>
+
+<mapID target="html.images.cut_icon" url="html/images/cut_icon.gif"/>
+
+<mapID target="html.images.copy_icon" url="html/images/copy_icon.gif"/>
+
 <mapID target="html.images.statusbar" url="html/images/statusbar.gif"/>
+
+<mapID target="html.images.undo_icon" url="html/images/undo_icon.gif"/>
+
+<mapID target="html.images.stop_action_icon" url="html/images/stop_action_icon.gif"/>
+
+<mapID target="html.images.print_icon" url="html/images/print_icon.gif"/>
+
+<mapID target="html.images.new_action_icon" url="html/images/new_action_icon.gif"/>
+
+<mapID target="html.images.start_action_icon" url="html/images/start_action_icon.gif"/>
+
+<mapID target="html.images.redo_icon" url="html/images/redo_icon.gif"/>
+
+<mapID target="html.images.help_icon" url="html/images/help_icon.gif"/>
+
+<mapID target="html.images.new_task_icon" url="html/images/new_task_icon.gif"/>
+
+<mapID target="html.images.open_workspace_icon" url="html/images/open_workspace_icon.gif"/>
+
+<mapID target="html.images.paste_icon" url="html/images/paste_icon.gif"/>
+
+<mapID target="html.images.new_workspace_icon" url="html/images/new_workspace_icon.gif"/>
 
 <mapID target="html.images.toolbar" url="html/images/toolbar.gif"/>
 

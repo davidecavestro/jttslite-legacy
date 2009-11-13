@@ -120,7 +120,7 @@ public final class ApplicationData {
 	 */	
 	public final String getVersionNumber (){
 		if (_versionNumber==null || !_versionNumber.isValid ()){
-			final StringBuffer sb = new StringBuffer ();
+			final StringBuilder sb = new StringBuilder ();
 			sb.append (_releaseProperties.getProperty (PROPNAME_MAJORVERSIONNUMBER));
 			sb.append (".");
 			sb.append (_releaseProperties.getProperty (PROPNAME_MINORVERSIONNUMBER));

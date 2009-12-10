@@ -6,7 +6,6 @@
 
 package com.davidecavestro.timekeeper.gui;
 
-import com.davidecavestro.common.util.settings.SettingsSupport;
 import com.davidecavestro.timekeeper.ApplicationContext;
 import com.davidecavestro.timekeeper.conf.ApplicationOptions;
 import java.awt.Component;
@@ -15,7 +14,6 @@ import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.Date;
 import javax.swing.AbstractAction;
-import javax.swing.ButtonModel;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -413,6 +411,8 @@ public class OptionsDialog extends javax.swing.JDialog {
 
 	
 	private void apply () {
+        _context.getUserSettings ().setTrayIconEnabled(trayIconCheckBox.getModel ().isSelected ());
+        _context.getUserSettings ().setHelperApplicationsEnabled(useHelperApplicationsCheckBox.getModel ().isSelected ());
 	}
 	
 	private class CustomFormattingTableModel extends AbstractTableModel {
@@ -525,16 +525,16 @@ public class OptionsDialog extends javax.swing.JDialog {
 	private class ShowTrayIconAction extends AbstractAction {
 
 		public void actionPerformed (ActionEvent e) {
-			SettingsSupport.setBooleanProperty (_context.getUserSettings ().getProperties (), "showTrayIcon", trayIconCheckBox.getModel ().isSelected ());
+			_context.getUserSettings ().setTrayIconEnabled(trayIconCheckBox.getModel ().isSelected ());
 		}
-		
+
 	}
-	
+
 	private class UseHelperApplicationsAction extends AbstractAction {
 
 		public void actionPerformed (ActionEvent e) {
-			SettingsSupport.setBooleanProperty (_context.getUserSettings ().getProperties (), "useHelperApplications", useHelperApplicationsCheckBox.getModel ().isSelected ());
+			_context.getUserSettings ().setHelperApplicationsEnabled(useHelperApplicationsCheckBox.getModel ().isSelected ());
 		}
-		
+
 	}
 }

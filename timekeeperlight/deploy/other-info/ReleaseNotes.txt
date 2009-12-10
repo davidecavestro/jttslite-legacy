@@ -1,3 +1,6 @@
+2.6.2
+- BUG# 2911855: Options dialog "Desktop" tab doesn't work properly
+
 2.6.1
 - BUG# 2897061: Wrong accounting when leaving DST
 

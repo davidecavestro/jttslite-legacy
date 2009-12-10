@@ -74,18 +74,26 @@ public class SystemTraySupport {
 			
 			setWorking (pow);
 			
-			getTrayIcon ().setImageAutoSize (true);
-			
-			try {
-				tray.add (getTrayIcon ());
-				getTrayIcon ().setToolTip ("foo");
-			} catch (final AWTException e) {
-				System.out.println ("TrayIcon is not supported.");
-				e.printStackTrace (System.out);
-			}
-			
-			
-			return true;
+            try {
+                if (getTrayIcon ()==null) {
+            		return false;
+                }
+                getTrayIcon ().setImageAutoSize (true);
+
+                try {
+                    tray.add (getTrayIcon ());
+                    getTrayIcon ().setToolTip ("foo");
+                } catch (final AWTException e) {
+                    System.out.println ("TrayIcon is not supported.");
+                    e.printStackTrace (System.out);
+                }
+            	return true;
+            } catch (final NoClassDefFoundError ncdfe) {
+                /*
+                 * SUpporto java 5
+                 */
+        		return false;
+            }
 		}
 		
 		return false;

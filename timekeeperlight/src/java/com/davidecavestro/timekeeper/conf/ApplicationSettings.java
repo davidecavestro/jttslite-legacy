@@ -6,8 +6,6 @@
 
 package com.davidecavestro.timekeeper.conf;
 
-import java.awt.*;
-
 /**
  * Impostazioni configurazbili.
  *

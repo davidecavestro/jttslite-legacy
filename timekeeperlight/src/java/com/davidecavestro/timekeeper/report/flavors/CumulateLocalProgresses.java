@@ -18,8 +18,6 @@ import com.ost.timekeeper.model.Progress;
 import com.ost.timekeeper.util.Duration;
 import com.ost.timekeeper.util.LocalizedPeriod;
 import com.ost.timekeeper.util.LocalizedPeriodImpl;
-import java.io.IOException;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.util.*;
@@ -313,7 +311,17 @@ public final class CumulateLocalProgresses extends AbstractDataExtractor {
 		public TimeCumulationScale (final Date from, final Date to, final int step){
 			Date current = from;
 			while (current.before (to)){
-				final Date currentEnd = new Date (current.getTime ()+step*Duration.MILLISECONDS_PER_DAY);
+                /*
+                 * calcola il giorno successivo
+                 * usando il calendar, in quanto non è sufficiente aggiungere il numero di millisecondi
+                 *
+                 * In pratica, al passaggio tra ora legale/solare e viceversa non è corretto aggiungere 24 ore, ma 23 o 25...
+                 */
+                final Calendar cal = Calendar.getInstance();
+                cal.setTimeInMillis(current.getTime());
+                cal.add (Calendar.DAY_OF_MONTH, 1);
+//				final Date currentEnd = new Date (current.getTime ()+step*Duration.MILLISECONDS_PER_DAY);
+				final Date currentEnd = cal.getTime();
 				_set.add (new CumulationPeriod (current, currentEnd));
 				current = currentEnd;
 			}

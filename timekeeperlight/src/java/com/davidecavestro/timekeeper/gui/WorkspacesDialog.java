@@ -8,6 +8,8 @@ package com.davidecavestro.timekeeper.gui;
 import com.davidecavestro.common.gui.persistence.PersistenceUtils;
 import com.davidecavestro.common.gui.persistence.PersistentComponent;
 import com.davidecavestro.timekeeper.model.CannotRemoveWorkSpaceException;
+import com.davidecavestro.timekeeper.model.event.TaskTreeModelEvent;
+import com.davidecavestro.timekeeper.model.event.TaskTreeModelListener;
 import com.davidecavestro.timekeeper.model.event.WorkSpaceModelEvent;
 import com.davidecavestro.timekeeper.ApplicationContext;
 import com.davidecavestro.timekeeper.model.DuplicatedWorkSpaceException;
@@ -15,6 +17,7 @@ import com.davidecavestro.timekeeper.model.WorkSpace;
 import com.davidecavestro.timekeeper.model.WorkSpaceModelListener;
 import com.ost.timekeeper.model.ProgressItem;
 import com.ost.timekeeper.model.Project;
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -26,6 +29,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
@@ -540,48 +544,19 @@ private void undoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
 		return (JXTable)workspaceTable;
 	}
 	
-	
+	/**
+	 * Crea un nuovo workspace
+	 */
 	private class AddAction extends AbstractAction {
 
 		public void actionPerformed (ActionEvent e) {
+			create ();
+
+		}
+
+		private void create () throws HeadlessException {
 			try {
-				final WorkSpace workspace = WorkspacesDialog.createWorkspace (_context, new WorkspacesDialog.WorkspaceDataCallback () {
-
-					/*
-					 * impostata a stringa vuota per consentire di discriminare il valore null ricevuto in caso di cancel
-					 */
-					private String projectName="";
-
-					public String getName () throws RequestAbortedException {
-						askData ();
-						return projectName;
-					}
-
-					public ProgressItem getRoot () throws RequestAbortedException {
-						askData ();
-						return new ProgressItem (projectName);
-					}
-
-					private void askData () throws RequestAbortedException {
-						/*
-						 * cicla finchè non viene dato un valore valido oppure null
-						 */
-						while (projectName != null && projectName.trim ().length () == 0) {
-							projectName = (String) JOptionPane.showInputDialog (WorkspacesDialog.this,
-								java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Please_insert_new_workspace_name"),
-								java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("New_workspace"),
-								JOptionPane.QUESTION_MESSAGE,
-								null, null, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("New_workspace"));
-							if (projectName==null) {
-								/*
-								 * l'utente ha premuto cancel
-								 */
-								throw new RequestAbortedException ();
-							}
-						}
-					}
-				});
-				
+				final WorkSpace workspace = WorkspacesDialog.createWorkspace (_context, new BasicWorkspaceDataCallback (_context));
 				final int newSelection = getTable ().convertRowIndexToView (_context.getWorkSpaceModel ().indexOf (workspace));
 				getTable ().getSelectionModel ().setSelectionInterval (newSelection, newSelection);
 			} catch (final RequestAbortedException ex) {
@@ -589,17 +564,19 @@ private void undoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
 				 * richiesta interrotta dall'utente
 				 */
 			} catch (final DuplicatedWorkSpaceException ex) {
-				JOptionPane.showMessageDialog (WorkspacesDialog.this, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("New_workspace_conflicting_name_message"));
+				JOptionPane.showMessageDialog (WorkspacesDialog.this, java.util.ResourceBundle.getBundle ("com.davidecavestro.timekeeper.gui.res").getString ("New_workspace_conflicting_name_message"));
+				//ci riprova
+				create ();
 			}
-			
 		}
 	}
 	
-	private class DeleteAction extends AbstractAction implements ListSelectionListener {
+	private class DeleteAction extends AbstractAction implements ListSelectionListener, TaskTreeModelListener {
 		public DeleteAction () {
 			setEnabled (false);
 			this.putValue (ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke (java.awt.event.KeyEvent.VK_DELETE, 0));
 			getTable ().getSelectionModel ().addListSelectionListener (this);
+			_context.getModel ().addTaskTreeModelListener (this);
 		}
 
 		public void actionPerformed (final ActionEvent e) {
@@ -645,22 +622,58 @@ private void undoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
 				return;
 			}
 			checkEnabled ();
+			
 		}
 		
 		private void checkEnabled () {
 			/*
-			 * abilitata solo se cè una selezione
+			 * Chiamata asincrona per evitare problemi in caso di rimozione righe
 			 */
-			if (getTable ().getSelectedRowCount ()==0) {
-				setEnabled (false);
-				return;
-			}
-			final WorkSpace ws = getSelectedWorkspace ();
-			
+			SwingUtilities.invokeLater (new Runnable () {
+				public void run () {
+					/*
+					 * abilitata solo se cè una selezione
+					 */
+					if (getTable ().getSelectedRowCount ()==0) {
+						setEnabled (false);
+						return;
+					}
+					final WorkSpace ws = getSelectedWorkspace ();
+
+					/*
+					 * e se il progetto selezionato non è aperto
+					 */
+					setEnabled (ws!=null && !ws.equals (_context.getModel ().getWorkSpace ()));
+				}
+			});
+		}
+
+		public void treeNodesChanged (TaskTreeModelEvent e) {
 			/*
-			 * e se il progetto selezionato non è aperto
+			 * nessuna azione
 			 */
-			setEnabled (ws!=null && !ws.equals (_context.getModel ().getWorkSpace ()));
+		}
+
+		public void treeNodesInserted (TaskTreeModelEvent e) {
+			/*
+			 * nessuna azione
+			 */
+		}
+
+		public void treeNodesRemoved (TaskTreeModelEvent e) {
+			/*
+			 * nessuna azione
+			 */
+		}
+
+		public void treeStructureChanged (TaskTreeModelEvent e) {
+			/*
+			 * nessuna azione
+			 */
+		}
+
+		public void workSpaceChanged (WorkSpace oldWS, WorkSpace newWS) {
+			checkEnabled ();
 		}
 
 		
@@ -687,10 +700,20 @@ private void undoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
 				 */
 				return;
 			}
+			
+
+
 			/*
-			 * abilitata solo se cè una selezione
+			 * Chiamata asiincrona per evitare problemi in caso di rimozione righe
 			 */
-			setEnabled (getTable ().getSelectedRowCount ()>0);
+			SwingUtilities.invokeLater (new Runnable () {
+				public void run () {
+					/*
+					 * abilitata solo se cè una selezione
+					 */
+					setEnabled (getTable ().getSelectedRowCount ()>0);
+				}
+			});
 		}
 		
 	}
@@ -734,7 +757,19 @@ private void undoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
 			
 			final WorkSpace prj = new Project (callback.getName (), callback.getRoot ());
 			context.getWorkSpaceModel ().addElement (prj);
-			if (!OpenWorkSpaceDialog.openWorkspace (context, prj)) {
+			final boolean notifyCreation;
+			if (callback.isAutoOpen ()) {
+				/*
+				 * l'apertura automatica è stata richiesta ma non è stata portata a termine.
+				 */
+				notifyCreation = !OpenWorkSpaceDialog.openWorkspace (context, prj);
+			} else {
+				/*
+				 * non è stata richiesta l'apertura automatica
+				 */
+				notifyCreation = true;
+			}
+			if (notifyCreation) {
 				/*
 				 * Notifica all'utente che il nuovo workspace non è stato aperto, ma è comunque disponibile
 				 */
@@ -742,6 +777,7 @@ private void undoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
 				MessageFormat.format (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("WorkSpacesDialog/CreationMessageDialog/Text"), prj.getName ()), 
 				java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("WorkSpacesDialog/CreationMessageDialog/Title"), 
 				JOptionPane.INFORMATION_MESSAGE);
+			
 			}
 			
 			context.getLogger ().debug ("New workspace created");
@@ -749,10 +785,70 @@ private void undoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
 			return prj;
 	}
 	
+
+
 	public static interface WorkspaceDataCallback {
 		String getName () throws RequestAbortedException;
 		ProgressItem getRoot () throws RequestAbortedException;
-	}
-	
 
+		/**
+		 * Restituisce <code>true</code> se il workspace deve essere automaticamente aperto.
+		 *
+		 * @return <code>true</code> se il workspace deve essere automaticamente aperto.
+		 */
+		boolean isAutoOpen ();
+	}
+
+	/**
+	 * Implementazione di base dell'interfaccia di callback per l'acquisizione
+	 * dei dati di creazione workspace.
+	 */
+	public static class BasicWorkspaceDataCallback implements WorkspaceDataCallback {
+		private final ApplicationContext _context;
+
+		private String projectName;
+		private boolean openAutomatically;
+		private boolean dataCollected = false;
+
+		public BasicWorkspaceDataCallback (final ApplicationContext context) {
+			_context = context;
+		}
+
+		public String getName () throws RequestAbortedException {
+			askData ();
+			return projectName;
+		}
+
+		public ProgressItem getRoot () throws RequestAbortedException {
+			return new ProgressItem (getName ());
+		}
+
+		private void askData () throws RequestAbortedException {
+			if (dataCollected) {
+				return;
+			} else {
+				dataCollected = true;
+			}
+			_context.getWindowManager ().showNewWorkspaceDialog ();
+			/*
+			 * la chiamata aalla dialog modale dal thread AWt
+			 * BLOCCA COMUNQUE l'esecuzione, per cui il prossimo passo
+			 * viene eseguito certamente a dialog chiusa
+			 */
+
+			final NewWorkspaceDialog dialog = _context.getWindowManager ().getNewWorkspaceDialog ();
+			if (!dialog.isConfirmed ()) {
+				/*
+				 * l'utente ha premuto cancel
+				 */
+				throw new RequestAbortedException ();
+			}
+			openAutomatically = dialog.isAutoOpen ();
+			projectName = dialog.getWorkspaceName ();
+		}
+
+		public boolean isAutoOpen () {
+			return openAutomatically;
+		}
+	}
 }

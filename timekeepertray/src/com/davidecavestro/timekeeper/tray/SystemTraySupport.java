@@ -23,8 +23,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.MessageFormat;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
 
 /**
@@ -80,12 +78,14 @@ public class SystemTraySupport {
 				tray.add (getTrayIcon ());
 				getTrayIcon ().setToolTip ("foo");
 			} catch (final AWTException e) {
-				System.out.println ("TrayIcon is not supported.");
+				System.out.println ("TrayIcon is supported but is not working properly.");
 				e.printStackTrace (System.out);
 			}
 			
 			
 			return true;
+		} else {
+			System.out.println ("TrayIcon is not supported.");
 		}
 		
 		return false;
@@ -102,6 +102,7 @@ public class SystemTraySupport {
 				return;
 			}
 		} catch (final NoClassDefFoundError ncdfe) {
+			showTrayError (ncdfe);
 			/*
 			 * Supporto java 5
 			 */
@@ -121,6 +122,7 @@ public class SystemTraySupport {
 				return null;
 			}
 		} catch (final NoClassDefFoundError ncdfe) {
+			showTrayError (ncdfe);
 			/*
 			 * SUpporto java 5
 			 */
@@ -139,6 +141,7 @@ public class SystemTraySupport {
 				return;
 			}
 		} catch (final NoClassDefFoundError ncdfe) {
+			showTrayError (ncdfe);
 			/*
 			 * SUpporto java 5
 			 */
@@ -158,6 +161,7 @@ public class SystemTraySupport {
 				return;
 			}
 		} catch (final NoClassDefFoundError ncdfe) {
+			showTrayError (ncdfe);
 			/*
 			 * SUpporto java 5
 			 */
@@ -207,6 +211,7 @@ public class SystemTraySupport {
 				return;
 			}
 		} catch (final NoClassDefFoundError ncdfe) {
+			showTrayError (ncdfe);
 			/*
 			 * SUpporto java 5
 			 */
@@ -226,6 +231,7 @@ public class SystemTraySupport {
 				return;
 			}
 		} catch (final NoClassDefFoundError ncdfe) {
+			showTrayError (ncdfe);
 			/*
 			 * SUpporto java 5
 			 */
@@ -245,6 +251,7 @@ public class SystemTraySupport {
 				return;
 			}
 		} catch (final NoClassDefFoundError ncdfe) {
+			showTrayError (ncdfe);
 			/*
 			 * SUpporto java 5
 			 */
@@ -264,6 +271,7 @@ public class SystemTraySupport {
 				return;
 			}
 		} catch (final NoClassDefFoundError ncdfe) {
+			showTrayError (ncdfe);
 			/*
 			 * SUpporto java 5
 			 */
@@ -282,6 +290,7 @@ public class SystemTraySupport {
 				return;
 			}
 		} catch (final NoClassDefFoundError ncdfe) {
+			showTrayError (ncdfe);
 			/*
 			 * SUpporto java 5
 			 */
@@ -298,6 +307,7 @@ public class SystemTraySupport {
 				return;
 			}
 		} catch (final NoClassDefFoundError ncdfe) {
+			showTrayError (ncdfe);
 			/*
 			 * SUpporto java 5
 			 */
@@ -312,6 +322,7 @@ public class SystemTraySupport {
 				return;
 			}
 		} catch (final NoClassDefFoundError ncdfe) {
+			showTrayError (ncdfe);
 			/*
 			 * SUpporto java 5
 			 */
@@ -326,6 +337,7 @@ public class SystemTraySupport {
 				return;
 			}
 		} catch (final NoClassDefFoundError ncdfe) {
+			showTrayError (ncdfe);
 			/*
 			 * SUpporto java 5
 			 */
@@ -340,6 +352,7 @@ public class SystemTraySupport {
 				return;
 			}
 		} catch (final NoClassDefFoundError ncdfe) {
+			showTrayError (ncdfe);
 			/*
 			 * SUpporto java 5
 			 */
@@ -407,6 +420,10 @@ public class SystemTraySupport {
 	public void setSelected (final Task t) {
 		_selectedTask = t;
 		refreshTooltip ();
+	}
+
+	private void showTrayError (NoClassDefFoundError ncdfe) {
+		ncdfe.printStackTrace ();
 	}
 
 //	public void showMenu () {

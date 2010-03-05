@@ -149,7 +149,7 @@ public class About extends javax.swing.JDialog {
         setTitle("About");
         setName("aboutDialog"); // NOI18N
 
-        jTabbedPane1.setFont(new java.awt.Font("Dialog", 0, 12));
+        jTabbedPane1.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         jTabbedPane1.setMaximumSize(null);
         jTabbedPane1.setPreferredSize(new java.awt.Dimension(420, 300));
 
@@ -315,7 +315,6 @@ public class About extends javax.swing.JDialog {
         toggleButtonHost.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         toggleButtonHost.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/computer.png"))); // NOI18N
         toggleButtonHost.setToolTipText(bundle.getString("Host_env_button_tooltip")); // NOI18N
-        toggleButtonHost.setOpaque(false);
         toggleButtonHost.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 toggleButtonHostActionPerformed(evt);
@@ -325,9 +324,8 @@ public class About extends javax.swing.JDialog {
 
         buttonGroup1.add(toggleButtonJava);
         toggleButtonJava.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        toggleButtonJava.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/JavaCup16.png"))); // NOI18N
+        toggleButtonJava.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/JavaCup16.png"))); // NOI18N
         toggleButtonJava.setToolTipText(bundle.getString("Java_properties_button_tooltip")); // NOI18N
-        toggleButtonJava.setOpaque(false);
         toggleButtonJava.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 toggleButtonJavaActionPerformed(evt);
@@ -337,9 +335,8 @@ public class About extends javax.swing.JDialog {
 
         buttonGroup1.add(toggleButtonApp);
         toggleButtonApp.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        toggleButtonApp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/ktimer-16x16.png"))); // NOI18N
+        toggleButtonApp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/logo16x16.png"))); // NOI18N
         toggleButtonApp.setToolTipText(bundle.getString("About/System/HostButton/tooltip")); // NOI18N
-        toggleButtonApp.setOpaque(false);
         toggleButtonApp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 toggleButtonAppActionPerformed(evt);

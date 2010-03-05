@@ -27,7 +27,7 @@
               <Font name="Dialog" size="12" style="0"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/file-new.png"/>
+              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/file-new.png"/>
             </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="New_task" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -50,7 +50,7 @@
               <Font name="Dialog" size="12" style="0"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/add.png"/>
+              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/add.png"/>
             </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="New_action" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -76,7 +76,7 @@
               <Font name="Dialog" size="12" style="0"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/media-record.png"/>
+              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/media-record.png"/>
             </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Start_action" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -100,7 +100,7 @@
               <Font name="Dialog" size="12" style="0"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/transparent.png"/>
+              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/transparent.png"/>
             </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Expand" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -122,7 +122,7 @@
               <Font name="Dialog" size="12" style="0"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/transparent.png"/>
+              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/transparent.png"/>
             </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Collapse" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -146,7 +146,7 @@
               <Font name="Dialog" size="12" style="0"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/edit-cut.png"/>
+              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/edit-cut.png"/>
             </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Cut" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -168,7 +168,7 @@
               <Font name="Dialog" size="12" style="0"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/edit-copy.png"/>
+              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/edit-copy.png"/>
             </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Copy" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -190,7 +190,7 @@
               <Font name="Dialog" size="12" style="0"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/edit-paste.png"/>
+              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/edit-paste.png"/>
             </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Paste" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -211,7 +211,7 @@
               <Font name="Dialog" size="12" style="0"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/transparent.png"/>
+              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/transparent.png"/>
             </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Rename" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -240,7 +240,7 @@
               <Font name="Dialog" size="12" style="0"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/edit-delete.png"/>
+              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/edit-delete.png"/>
             </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Delete" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -260,7 +260,7 @@
               <Font name="Dialog" size="12" style="0"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/transparent.png"/>
+              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/transparent.png"/>
             </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainWIndow/TaskTreePopupMenu/TaskProperties" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -295,7 +295,7 @@
               <Font name="Dialog" size="12" style="0"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/add.png"/>
+              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/add.png"/>
             </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="New_action" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -324,7 +324,7 @@
               <Font name="Dialog" size="12" style="0"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/media-record.png"/>
+              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/media-record.png"/>
             </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Start_action" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -346,7 +346,7 @@
               <Font name="Dialog" size="12" style="0"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/transparent.png"/>
+              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/transparent.png"/>
             </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Start_action_clone" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -371,7 +371,7 @@
               <Font name="Dialog" size="12" style="0"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/transparent.png"/>
+              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/transparent.png"/>
             </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Continue_action" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -399,7 +399,7 @@
               <Font name="Dialog" size="12" style="0"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/media-stop.png"/>
+              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/media-stop.png"/>
             </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Stop" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -424,7 +424,7 @@
               <Font name="Dialog" size="12" style="0"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/transparent.png"/>
+              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/transparent.png"/>
             </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainWIndow/ProgressesTableMenu/AddProgressToTemplates" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -451,7 +451,7 @@
               <Font name="Dialog" size="12" style="0"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/edit-cut.png"/>
+              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/edit-cut.png"/>
             </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Cut" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -470,7 +470,7 @@
               <Font name="Dialog" size="12" style="0"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/edit-copy.png"/>
+              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/edit-copy.png"/>
             </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Copy" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -489,7 +489,7 @@
               <Font name="Dialog" size="12" style="0"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/edit-paste.png"/>
+              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/edit-paste.png"/>
             </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Paste" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -510,7 +510,7 @@
               <Font name="Dialog" size="12" style="0"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/edit-delete.png"/>
+              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/edit-delete.png"/>
             </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Delete" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -635,7 +635,7 @@
                   <Font name="Dialog" size="12" style="0"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/folder-new.png"/>
+                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/folder-new.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/FileMenu/NewWorkspaceMenuItem/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -660,7 +660,7 @@
                   <Font name="Dialog" size="12" style="0"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/file-new.png"/>
+                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/file-new.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/FileMenu/NewTaskMenuItem/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -690,7 +690,7 @@
                   <Font name="Dialog" size="12" style="0"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/folder-open.png"/>
+                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/folder-open.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/FileMenu/OpenWorkspaceMenuItem/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -715,7 +715,7 @@
                   <Font name="Dialog" size="12" style="0"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/fileexport.png"/>
+                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/fileexport.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/FileMenu/ExportWorkspaceMenuItem/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -740,7 +740,7 @@
                   <Font name="Dialog" size="12" style="0"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/fileimport.png"/>
+                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/fileimport.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/FileMenu/ImportWorkspaceMenuItem/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -770,7 +770,7 @@
                   <Font name="Dialog" size="12" style="0"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/document-print.png"/>
+                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/document-print.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/FileMenu/ReportingMenuItem/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -791,7 +791,7 @@
                   <Font name="Dialog" size="12" style="0"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/application-exit.png"/>
+                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/application-exit.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/FileMenu/ExitMenuItem/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -831,7 +831,7 @@
                   <Font name="Dialog" size="12" style="0"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/edit-undo.png"/>
+                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/edit-undo.png"/>
                 </Property>
               </Properties>
               <Events>
@@ -850,7 +850,7 @@
                   <Font name="Dialog" size="12" style="0"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/edit-redo.png"/>
+                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/edit-redo.png"/>
                 </Property>
               </Properties>
             </MenuItem>
@@ -868,7 +868,7 @@
                   <Font name="Dialog" size="12" style="0"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/edit-cut.png"/>
+                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/edit-cut.png"/>
                 </Property>
                 <Property name="mnemonic" type="int" value="88"/>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
@@ -892,7 +892,7 @@
                   <Font name="Dialog" size="12" style="0"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/edit-copy.png"/>
+                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/edit-copy.png"/>
                 </Property>
                 <Property name="mnemonic" type="int" value="67"/>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
@@ -916,7 +916,7 @@
                   <Font name="Dialog" size="12" style="0"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/edit-paste.png"/>
+                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/edit-paste.png"/>
                 </Property>
                 <Property name="mnemonic" type="int" value="86"/>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
@@ -942,7 +942,7 @@
                   <Font name="Dialog" size="12" style="0"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/edit-delete.png"/>
+                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/edit-delete.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/EditMenu/DeleteMenuItem/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -1050,7 +1050,7 @@
                   <Font name="Dialog" size="12" style="0"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/transparent.png"/>
+                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/transparent.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/TasksMenu/RenameTaskMenuItem/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -1072,7 +1072,7 @@
                   <Font name="Dialog" size="12" style="0"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/transparent.png"/>
+                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/transparent.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/TasksMenu/TaskPropertiesMenuItem/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -1106,7 +1106,7 @@
                   <Font name="Dialog" size="12" style="0"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/add.png"/>
+                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/add.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/ActionsMenu/AddActionMenuItem/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -1135,7 +1135,7 @@
                   <Font name="Dialog" size="12" style="0"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/media-record.png"/>
+                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/media-record.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/ActionsMenu/StartActionMenuItem/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -1160,7 +1160,7 @@
                   <Font name="Dialog" size="12" style="0"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/transparent.png"/>
+                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/transparent.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/ActionsMenu/StartActionCloneMenuItem/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -1185,7 +1185,7 @@
                   <Font name="Dialog" size="12" style="0"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/transparent.png"/>
+                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/transparent.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/ActionsMenu/ContinueActionMenuItem/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -1215,7 +1215,7 @@
                   <Font name="Dialog" size="12" style="0"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/media-stop.png"/>
+                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/media-stop.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/ActionsMenu/StopActionMenuItem/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -1255,7 +1255,7 @@
                   <Font name="Dialog" size="12" style="0"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/transparent.png"/>
+                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/console.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/ToolsMenu/LogMenuItem/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -1277,7 +1277,7 @@
                   <Font name="Dialog" size="12" style="0"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/cog.png"/>
+                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/cog.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/ToolsMenu/OptionsMenuItem/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -1299,7 +1299,7 @@
                   <Font name="Dialog" size="12" style="0"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/folder.png"/>
+                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/folder.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/ToolsMenu/WorkspacesMenuItem/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -1321,7 +1321,7 @@
                   <Font name="Dialog" size="12" style="0"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/tag_blue.png"/>
+                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/tag_blue.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/ToolsMenu/TemplatesMenuItem/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -1355,7 +1355,7 @@
                   <Font name="Dialog" size="12" style="0"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/help-browser.png"/>
+                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/help-browser.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/HelpMenu/ContentsMenuItem/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -1375,7 +1375,7 @@
                   <Font name="Dialog" size="12" style="0"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/contexthelp.png"/>
+                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/contexthelp.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/HelpMenu/ContextualHelpMenuItem/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -1394,7 +1394,7 @@
                   <Font name="Dialog" size="12" style="0"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/dialog-information.png"/>
+                  <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/dialog-information.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainMenu/HelpMenu/AboutMenuItem/Text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -1618,7 +1618,7 @@
                               </Events>
                               <AuxValues>
                                 <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new SmartJXTable (){&#xa;&#x9;&#xa;&#x9;public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {&#xa;&#x9;&#x9;Component c = super.prepareRenderer( renderer, row, column);&#xa;&#x9;&#x9;// We want renderer component to be transparent&#xa;&#x9;&#x9;// so background image is visible&#xa;&#x9;&#x9;if( c instanceof JComponent ) {&#xa;&#x9;&#x9;&#x9;//((JComponent)c).setOpaque(false);&#xa;&#x9;&#x9;&#x9;final Color oldColor = c.getBackground ();&#xa;&#x9;&#x9;&#x9;if (oldColor!=null) {&#xa;&#x9;&#x9;&#x9;&#x9;c.setBackground (ColorUtil.setAlpha (oldColor, 150));&#xa;&#x9;&#x9;&#x9;}&#xa;&#x9;&#x9;}&#xa;&#x9;&#x9;return c;&#xa;&#x9;}&#xa;&#x9;&#x9; &#xa;&#x9;&#x9; &#xa;&#x9;public void paint( Graphics g ) {&#xa;&#x9;&#x9;// First draw the background image - tiled &#xa;&#x9;&#x9;final Dimension d = getSize();&#xa;&#xa;&#x9;&#x9;g.drawImage (ptbImage.getImage(), 0, jPanel4.getHeight () - getTableHeader ().getHeight (), null, null);&#xa;&#x9;&#x9;&#xa;&#x9;&#x9;/*&#xa;&#x9;&#x9; * immagine centrata, non va bene perch&#xe8; si vuole l&apos;esatta posizione del tab dedicata al grafico&#xa;&#x9;&#x9; */&#xa;&#x9;&#x9;//g.drawImage( ptbImage.getImage(), (d.width - ptbImageWidth)/2, (d.height - ptbImageHeight)/2, null, null );&#xa;&#x9;&#x9;/*&#xa;&#x9;&#x9; * Trova le dimensioni minime tra l&apos;immagine e la tabella&#xa;&#x9;&#x9; */&#xa;&#x9;&#x9;final int h = d.height &lt; ptbImageHeight ? d.height : ptbImageHeight;&#xa;&#x9;&#x9;final int w = d.width &lt; ptbImageWidth ? d.width : ptbImageWidth;&#xa;&#x9;&#x9;&#xa;&#x9;&#x9;/*&#xa;&#x9;&#x9; * Dato che il pannello contenente lo slider &#xe8; pi&#xe0; alto dello header della tabella&#xa;&#x9;&#x9; * si posiziona con un&apos;offset&#xa;&#x9;&#x9; */&#xa;&#x9;&#x9;//g.drawImage (ptbImage.getImage(), 0, d.height - ptbImageHeight, w, h, null, null);&#xa;&#x9;&#x9;&#xa;&#x9;&#x9;&#xa;&#x9;&#x9;super.paint(g);&#xa;&#x9;}&#xa;};&#xa;"/>
-                                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="//progressesTable.setDefaultEditor (String.class, new ValueCellEditor ());&#xa;&#xa;/*&#xa; * editor (shortcut per cancellazione&#xa; */&#xa;progressesTable.addKeyListener (new KeyAdapter (){&#xa;&#x9; public void keyPressed(KeyEvent e) {&#xa;&#x9;&#x9; if (e.getKeyCode ()==KeyEvent.VK_DELETE){&#xa;&#x9;&#x9; }&#xa;&#x9; }&#xa;});&#xa;&#xa;javax.help.CSH.setHelpIDString (progressesTable, _context.getHelpManager ().getResolver ().resolveHelpID (HelpResources.PROGRESSES_TABLE ));&#xa;&#xa;progressesTable.setDefaultRenderer (java.util.Date.class, new DefaultTableCellRenderer (){&#xa;&#x9;&#xa;&#x9;public Component getTableCellRendererComponent (final JTable table, final Object value, boolean isSelected, boolean hasFocus, final int row, final int column) {&#xa;&#x9;&#x9;final Component c = super.getTableCellRendererComponent (table, value, isSelected, hasFocus, row, column);&#xa;&#x9;&#x9;&#xa;&#x9;&#x9;setHorizontalAlignment (TRAILING);&#xa;&#x9;&#x9;&#xa;&#x9;&#x9;return c;&#xa;&#x9;}&#xa;&#x9;public void setValue (Object value) {&#xa;&#x9;&#x9;setText (&#xa;&#x9;&#x9;&#x9;com.davidecavestro.common.util.CalendarUtils.getTimestamp (&#xa;&#x9;&#x9;&#x9;&#x9;(Date)value, &#xa;&#x9;&#x9;&#x9;&#x9;CustomizableFormat.LONG_DATE.getValue (_context)&#xa;&#x9;&#x9;&#x9;)&#xa;&#x9;&#x9;);&#xa;&#x9;}&#xa;});&#xa;&#xa;final ImageIcon runningIcon = new ImageIcon (getClass().getResource (&quot;/com/davidecavestro/timekeeper/gui/images/gears.gif&quot;));&#xa;final ImageIcon staticIcon = new ImageIcon ();&#xa;&#xa;&#xa;progressesTable.setDefaultRenderer (Duration.class, &#xa;&#x9;new DefaultTableCellRenderer () {&#xa;&#x9;&#x9;private Font _originalFont;&#xa;&#x9;&#x9;private Font _boldFont;&#xa;&#x9;&#x9;public Component getTableCellRendererComponent (final JTable table, final Object value, boolean isSelected, boolean hasFocus, final int row, final int column) {&#xa;&#xa;&#x9;&#x9;&#x9;final JLabel res = (JLabel)super.getTableCellRendererComponent ( table, value, isSelected, hasFocus, row, column);&#xa;&#x9;&#x9;&#x9;final PieceOfWork progress = (PieceOfWork)value;&#xa;&#xa;&#x9;&#x9;&#x9;final boolean progressing = progress.getTo ()==null;&#xa;&#x9;&#x9;&#x9;//final ImageIcon icon = progressing?runningIcon:staticIcon;&#xa;&#x9;&#x9;&#x9;//setIcon (icon);&#xa;&#xa;&#x9;&#x9;&#x9;if (null==_originalFont) {&#xa;&#x9;&#x9;&#x9;&#x9;_originalFont = res.getFont ();&#xa;&#x9;&#x9;&#x9;}&#xa;&#x9;&#x9;&#x9;if (null==_boldFont) {&#xa;&#x9;&#x9;&#x9;&#x9;_boldFont = _originalFont.deriveFont (Font.BOLD);&#xa;&#x9;&#x9;&#x9;}&#xa;&#x9;&#x9;&#x9;&#xa;&#x9;&#x9;&#x9;if (progressing){&#xa;&#x9;&#x9;&#x9;&#x9;res.setFont (_boldFont);&#xa;&#x9;&#x9;&#x9;&#x9;/*&#xa;&#x9;&#x9;&#x9;&#x9;icon.setImageObserver (new ImageObserver (){&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;public boolean imageUpdate (Image img, int flags, int x, int y, int w, int h) {&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;if ((flags &amp;amp; (FRAMEBITS | ALLBITS)) != 0) {&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Rectangle rect = table.getCellRect (row, column, false);&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;table.repaint (rect);&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;}&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;//&#x9;&#x9;&#x9;table.repaint ();&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;return (flags &amp;amp; (ALLBITS | ABORT)) == 0;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;}&#xa;&#x9;&#x9;&#x9;&#x9;});&#xa;&#x9;&#x9;&#x9;&#x9; **/&#xa;&#x9;&#x9;&#x9;} else {&#xa;&#x9;&#x9;&#x9;&#x9;res.setFont (_originalFont);&#xa;&#x9;&#x9;&#x9;}&#xa;&#x9;&#x9;&#x9;&#xa;&#x9;&#x9;&#x9;setHorizontalAlignment (TRAILING);&#xa;&#xa;&#x9;&#x9;&#x9;return res;&#xa;&#x9;&#x9;}&#xa;&#x9;&#x9;public void setValue (Object value) {&#xa;&#x9;&#x9;&#x9;final PieceOfWork progress = (PieceOfWork)value;&#xa;&#x9;&#x9;&#x9;setText (DurationUtils.formatDuration (progress.getTime ()));&#xa;&#x9;&#x9;}&#xa;&#x9;}&#xa;);"/>
+                                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="//progressesTable.setDefaultEditor (String.class, new ValueCellEditor ());&#xa;&#xa;/*&#xa; * editor (shortcut per cancellazione&#xa; */&#xa;progressesTable.addKeyListener (new KeyAdapter (){&#xa;&#x9; public void keyPressed(KeyEvent e) {&#xa;&#x9;&#x9; if (e.getKeyCode ()==KeyEvent.VK_DELETE){&#xa;&#x9;&#x9; }&#xa;&#x9; }&#xa;});&#xa;&#xa;javax.help.CSH.setHelpIDString (progressesTable, _context.getHelpManager ().getResolver ().resolveHelpID (HelpResources.PROGRESSES_TABLE ));&#xa;&#xa;progressesTable.setDefaultRenderer (java.util.Date.class, new DefaultTableCellRenderer (){&#xa;&#x9;&#xa;&#x9;public Component getTableCellRendererComponent (final JTable table, final Object value, boolean isSelected, boolean hasFocus, final int row, final int column) {&#xa;&#x9;&#x9;final Component c = super.getTableCellRendererComponent (table, value, isSelected, hasFocus, row, column);&#xa;&#x9;&#x9;&#xa;&#x9;&#x9;setHorizontalAlignment (TRAILING);&#xa;&#x9;&#x9;&#xa;&#x9;&#x9;return c;&#xa;&#x9;}&#xa;&#x9;public void setValue (Object value) {&#xa;&#x9;&#x9;setText (&#xa;&#x9;&#x9;&#x9;com.davidecavestro.common.util.CalendarUtils.getTimestamp (&#xa;&#x9;&#x9;&#x9;&#x9;(Date)value, &#xa;&#x9;&#x9;&#x9;&#x9;CustomizableFormat.LONG_DATE.getValue (_context)&#xa;&#x9;&#x9;&#x9;)&#xa;&#x9;&#x9;);&#xa;&#x9;}&#xa;});&#xa;&#xa;&#xa;progressesTable.setDefaultRenderer (Duration.class, &#xa;&#x9;new DefaultTableCellRenderer () {&#xa;&#x9;&#x9;private Font _originalFont;&#xa;&#x9;&#x9;private Font _boldFont;&#xa;&#x9;&#x9;public Component getTableCellRendererComponent (final JTable table, final Object value, boolean isSelected, boolean hasFocus, final int row, final int column) {&#xa;&#xa;&#x9;&#x9;&#x9;final JLabel res = (JLabel)super.getTableCellRendererComponent ( table, value, isSelected, hasFocus, row, column);&#xa;&#x9;&#x9;&#x9;final PieceOfWork progress = (PieceOfWork)value;&#xa;&#xa;&#x9;&#x9;&#x9;final boolean progressing = progress.getTo ()==null;&#xa;&#xa;&#x9;&#x9;&#x9;if (null==_originalFont) {&#xa;&#x9;&#x9;&#x9;&#x9;_originalFont = res.getFont ();&#xa;&#x9;&#x9;&#x9;}&#xa;&#x9;&#x9;&#x9;if (null==_boldFont) {&#xa;&#x9;&#x9;&#x9;&#x9;_boldFont = _originalFont.deriveFont (Font.BOLD);&#xa;&#x9;&#x9;&#x9;}&#xa;&#x9;&#x9;&#x9;&#xa;&#x9;&#x9;&#x9;if (progressing){&#xa;&#x9;&#x9;&#x9;&#x9;res.setFont (_boldFont);&#xa;&#x9;&#x9;&#x9;} else {&#xa;&#x9;&#x9;&#x9;&#x9;res.setFont (_originalFont);&#xa;&#x9;&#x9;&#x9;}&#xa;&#x9;&#x9;&#x9;&#xa;&#x9;&#x9;&#x9;setHorizontalAlignment (TRAILING);&#xa;&#xa;&#x9;&#x9;&#x9;return res;&#xa;&#x9;&#x9;}&#xa;&#x9;&#x9;public void setValue (Object value) {&#xa;&#x9;&#x9;&#x9;final PieceOfWork progress = (PieceOfWork)value;&#xa;&#x9;&#x9;&#x9;setText (DurationUtils.formatDuration (progress.getTime ()));&#xa;&#x9;&#x9;}&#xa;&#x9;}&#xa;);"/>
                               </AuxValues>
                             </Component>
                           </SubComponents>
@@ -1768,7 +1768,7 @@
                       <Font name="Dialog" size="12" style="0"/>
                     </Property>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/folder-new.png"/>
+                      <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/toolbar_package-add.png"/>
                     </Property>
                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                       <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="New_workspace" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -1791,7 +1791,7 @@
                       <Font name="Dialog" size="12" style="0"/>
                     </Property>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/file-new.png"/>
+                      <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/toolbar_file-new.png"/>
                     </Property>
                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                       <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="New_task_(Ctrl+N)" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -1814,7 +1814,7 @@
                       <Font name="Dialog" size="12" style="0"/>
                     </Property>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/folder-open.png"/>
+                      <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/toolbar_folder-open.png"/>
                     </Property>
                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                       <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Open_workspace_(Ctrl+O)" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -1850,7 +1850,7 @@
                       <Font name="Dialog" size="12" style="0"/>
                     </Property>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/add.png"/>
+                      <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/toolbar_add.png"/>
                     </Property>
                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                       <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="New_action" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -1886,7 +1886,7 @@
                       <Font name="Dialog" size="12" style="0"/>
                     </Property>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/media-record.png"/>
+                      <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/toolbar_media-record.png"/>
                     </Property>
                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                       <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="&lt;HTML&gt;_Start_action_(Ctrl+S)_&lt;BR&gt;__&lt;I&gt;hold_SHIFT_key_pressed_for_options_dialog&lt;/I&gt;_&lt;/HTML&gt;" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -1909,7 +1909,7 @@
                       <Font name="Dialog" size="12" style="0"/>
                     </Property>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/media-stop.png"/>
+                      <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/toolbar_media-stop.png"/>
                     </Property>
                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                       <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Stop_action_(Ctrl+T)" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -1963,7 +1963,7 @@
                       <Font name="Dialog" size="12" style="0"/>
                     </Property>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/edit-cut.png"/>
+                      <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/toolbar_edit-cut.png"/>
                     </Property>
                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                       <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Cut_(Ctrl+X)" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -1987,7 +1987,7 @@
                       <Font name="Dialog" size="12" style="0"/>
                     </Property>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/edit-copy.png"/>
+                      <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/toolbar_edit-copy.png"/>
                     </Property>
                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                       <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Copy_(Ctrl+C)" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -2011,7 +2011,7 @@
                       <Font name="Dialog" size="12" style="0"/>
                     </Property>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/edit-paste.png"/>
+                      <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/toolbar_edit-paste.png"/>
                     </Property>
                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                       <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Paste_(Ctrl+V)" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -2035,7 +2035,7 @@
                       <Font name="Dialog" size="12" style="0"/>
                     </Property>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/edit-undo.png"/>
+                      <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/toolbar_edit-undo.png"/>
                     </Property>
                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                       <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Undo+SHORTCUT" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -2059,7 +2059,7 @@
                       <Font name="Dialog" size="12" style="0"/>
                     </Property>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/edit-redo.png"/>
+                      <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/toolbar_edit-redo.png"/>
                     </Property>
                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                       <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Redo+SHORTCUT" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -2108,7 +2108,7 @@
                       <Connection code="new StartReportAction ()" type="code"/>
                     </Property>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/document-print.png"/>
+                      <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/toolbar_document-print.png"/>
                     </Property>
                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                       <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Print_(Ctrl+P)" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -2124,7 +2124,7 @@
                 <Component class="javax.swing.JButton" name="workspacesButton">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/folder.png"/>
+                      <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/toolbar_package.png"/>
                     </Property>
                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                       <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainWindow/Toolbar/ButtonTooltip/Workspaces" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -2146,7 +2146,7 @@
                 <Component class="javax.swing.JButton" name="actionTemplatesButton">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/tag_blue.png"/>
+                      <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/tag_blue.png"/>
                     </Property>
                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                       <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="MainWIndow/Toolbar/ButtonTooltip/Templates" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -2168,7 +2168,7 @@
                 <Component class="javax.swing.JButton" name="helpButton">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/help-browser.png"/>
+                      <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/toolbar_help-browser.png"/>
                     </Property>
                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                       <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="Show_help" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>

@@ -244,20 +244,20 @@ public class WorkspacesDialog extends javax.swing.JDialog implements PersistentC
         jPanel6 = new javax.swing.JPanel();
 
         jMenuItem1.setAction(new AddAction ());
-        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/add-workspace.png"))); // NOI18N
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/add-workspace.png"))); // NOI18N
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res"); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(jMenuItem1, bundle.getString("WorkspacesDialog/Button/Add")); // NOI18N
         jPopupMenu1.add(jMenuItem1);
 
         jMenuItem2.setAction(new DeleteAction ());
-        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/delete-workspace.png"))); // NOI18N
+        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/delete-workspace.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(jMenuItem2, bundle.getString("WorkspacesDialog/Button/Delete")); // NOI18N
         jPopupMenu1.add(jMenuItem2);
         jPopupMenu1.add(jSeparator1);
 
         undoMenuItem.setAction(_context.getWorkspacesUndoManager ().getUndoAction ());
         undoMenuItem.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        undoMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/edit-undo.png"))); // NOI18N
+        undoMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/edit-undo.png"))); // NOI18N
         undoMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 undoMenuItemActionPerformed(evt);
@@ -267,7 +267,7 @@ public class WorkspacesDialog extends javax.swing.JDialog implements PersistentC
 
         redoMenuItem.setAction(_context.getWorkspacesUndoManager ().getRedoAction ());
         redoMenuItem.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        redoMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/edit-redo.png"))); // NOI18N
+        redoMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/edit-redo.png"))); // NOI18N
         jPopupMenu1.add(redoMenuItem);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -322,8 +322,8 @@ public class WorkspacesDialog extends javax.swing.JDialog implements PersistentC
         jPanel5.setLayout(new java.awt.GridBagLayout());
 
         addButton.setAction(new AddAction ());
-        addButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        addButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/add-workspace.png"))); // NOI18N
+        addButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        addButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/add-workspace.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(addButton, bundle.getString("WorkspacesDialog/Button/Add")); // NOI18N
         addButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -333,8 +333,8 @@ public class WorkspacesDialog extends javax.swing.JDialog implements PersistentC
         jPanel5.add(addButton, gridBagConstraints);
 
         deleteButton.setAction(new DeleteAction ());
-        deleteButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        deleteButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/delete-workspace.png"))); // NOI18N
+        deleteButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        deleteButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/delete-workspace.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(deleteButton, bundle.getString("WorkspacesDialog/Button/Delete")); // NOI18N
         deleteButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -347,7 +347,7 @@ public class WorkspacesDialog extends javax.swing.JDialog implements PersistentC
 
         openButton.setAction(new OpenAction ());
         openButton.setFont(new java.awt.Font("Dialog", 0, 12));
-        openButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/folder-open.png"))); // NOI18N
+        openButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/folder-open.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(openButton, bundle.getString("WorkspacesDialog/Button/Open")); // NOI18N
         openButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -360,7 +360,7 @@ public class WorkspacesDialog extends javax.swing.JDialog implements PersistentC
 
         exportButton.setAction(new ExportWorkSpaceAction (_context));
         exportButton.setFont(new java.awt.Font("Dialog", 0, 12));
-        exportButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/fileexport.png"))); // NOI18N
+        exportButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/fileexport.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(exportButton, bundle.getString("WorkspacesDialog/Button/Export")); // NOI18N
         exportButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -373,7 +373,7 @@ public class WorkspacesDialog extends javax.swing.JDialog implements PersistentC
 
         importButton.setAction(new ImportWorkSpaceAction (_context));
         importButton.setFont(new java.awt.Font("Dialog", 0, 12));
-        importButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/fileimport.png"))); // NOI18N
+        importButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/fileimport.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(importButton, bundle.getString("WorkspacesDialog/Button/Import")); // NOI18N
         importButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         gridBagConstraints = new java.awt.GridBagConstraints();

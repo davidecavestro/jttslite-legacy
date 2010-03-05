@@ -50,8 +50,8 @@ public class SystemTraySupport {
 	
 	Object trayIcon;
 	
-	final Image workImage = Toolkit.getDefaultToolkit ().getImage (getClass ().getResource ("/com/davidecavestro/timekeeper/gui/images/small/clock.png"));
-	final Image pauseImage = Toolkit.getDefaultToolkit ().getImage (getClass ().getResource ("/com/davidecavestro/timekeeper/gui/images/small/clock_red.png"));
+	final Image workImage = Toolkit.getDefaultToolkit ().getImage (getClass ().getResource ("/com/davidecavestro/timekeeper/gui/images/trayicon_on_work.png"));
+	final Image pauseImage = Toolkit.getDefaultToolkit ().getImage (getClass ().getResource ("/com/davidecavestro/timekeeper/gui/images/trayicon_on_pause.png"));
 	
 	/**
 	 * Registra l'icona nella system tray.

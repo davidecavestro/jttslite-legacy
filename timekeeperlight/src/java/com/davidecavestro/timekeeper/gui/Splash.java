@@ -7,11 +7,10 @@
 package com.davidecavestro.timekeeper.gui;
 
 import com.davidecavestro.common.application.ApplicationData;
-import com.davidecavestro.timekeeper.ApplicationContext;
 import java.awt.BorderLayout;
 
 /**
- *
+ * Classe che si occupa di visualizzare lo splash iniziale dell'applicazione
  * @author  davide
  */
 public class Splash extends javax.swing.JFrame {
@@ -27,13 +26,10 @@ public class Splash extends javax.swing.JFrame {
 		initComponents ();
 		_presentationPanel = new PresentationPanel (appData);
 		mainPanel.add (_presentationPanel, BorderLayout.CENTER);
-		
-//		pack ();
 		/*
 		 * Centra sullo schermo.
 		 */
 		setLocationRelativeTo (null);
-		
 	}
 	
 	/** This method is called from within the constructor to

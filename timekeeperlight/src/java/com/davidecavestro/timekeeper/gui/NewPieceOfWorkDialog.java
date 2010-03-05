@@ -315,13 +315,12 @@ public class NewPieceOfWorkDialog extends javax.swing.JDialog implements Persist
         gridBagConstraints.insets = new java.awt.Insets(2, 5, 2, 5);
         getContentPane().add(jLabel5, gridBagConstraints);
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/tag_blue_edit.png"))); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/tag_blue_edit.png"))); // NOI18N
         jButton1.setToolTipText(bundle.getString("NewPieceOfWorkDialog//ButtonTooltip/ManageTemplates")); // NOI18N
         jButton1.setBorderPainted(false);
         jButton1.setContentAreaFilled(false);
         jButton1.setMaximumSize(new java.awt.Dimension(26, 26));
         jButton1.setMinimumSize(new java.awt.Dimension(26, 26));
-        jButton1.setOpaque(false);
         jButton1.setPreferredSize(new java.awt.Dimension(26, 26));
         GUIUtils.addBorderRollover (new Component[] {jButton1});
         jButton1.addActionListener(new java.awt.event.ActionListener() {

@@ -14,7 +14,7 @@
               <Connection code="new AddAction ()" type="code"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/add-workspace.png"/>
+              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/add-workspace.png"/>
             </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="WorkspacesDialog/Button/Add" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -27,7 +27,7 @@
               <Connection code="new DeleteAction ()" type="code"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/delete-workspace.png"/>
+              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/delete-workspace.png"/>
             </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="WorkspacesDialog/Button/Delete" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -45,7 +45,7 @@
               <Font name="Dialog" size="12" style="0"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/edit-undo.png"/>
+              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/edit-undo.png"/>
             </Property>
           </Properties>
           <Events>
@@ -61,7 +61,7 @@
               <Font name="Dialog" size="12" style="0"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/edit-redo.png"/>
+              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/edit-redo.png"/>
             </Property>
           </Properties>
         </MenuItem>
@@ -181,7 +181,7 @@
               <Font name="Dialog" size="12" style="0"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/add-workspace.png"/>
+              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/add-workspace.png"/>
             </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="WorkspacesDialog/Button/Add" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -203,7 +203,7 @@
               <Font name="Dialog" size="12" style="0"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/delete-workspace.png"/>
+              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/delete-workspace.png"/>
             </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="WorkspacesDialog/Button/Delete" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -225,7 +225,7 @@
               <Font name="Dialog" size="12" style="0"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/folder-open.png"/>
+              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/folder-open.png"/>
             </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="WorkspacesDialog/Button/Open" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -247,7 +247,7 @@
               <Font name="Dialog" size="12" style="0"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/fileexport.png"/>
+              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/fileexport.png"/>
             </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="WorkspacesDialog/Button/Export" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>
@@ -269,7 +269,7 @@
               <Font name="Dialog" size="12" style="0"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/small/fileimport.png"/>
+              <Image iconType="3" name="/com/davidecavestro/timekeeper/gui/images/fileimport.png"/>
             </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="com/davidecavestro/timekeeper/gui/res.properties" key="WorkspacesDialog/Button/Import" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameDots}&quot;).getString(&quot;{key}&quot;)"/>

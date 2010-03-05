@@ -89,8 +89,8 @@ public class OpenWorkSpaceDialog extends javax.swing.JDialog implements Persiste
         jButton1 = new javax.swing.JButton();
 
         workspaceMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.event.InputEvent.ALT_MASK));
-        workspaceMenuItem.setFont(new java.awt.Font("Dialog", 0, 12));
-        workspaceMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/folder.png"))); // NOI18N
+        workspaceMenuItem.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        workspaceMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/folder.png"))); // NOI18N
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res"); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(workspaceMenuItem, bundle.getString("OpenWorkSpaceDialog/PopupMenu/WorkspacesEditor/Text")); // NOI18N
         workspaceMenuItem.addActionListener(new java.awt.event.ActionListener() {

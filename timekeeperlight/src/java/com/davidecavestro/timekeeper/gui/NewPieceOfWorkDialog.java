@@ -315,7 +315,7 @@ public class NewPieceOfWorkDialog extends javax.swing.JDialog implements Persist
         gridBagConstraints.insets = new java.awt.Insets(2, 5, 2, 5);
         getContentPane().add(jLabel5, gridBagConstraints);
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/tag_blue_edit.png"))); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/tag_blue.png"))); // NOI18N
         jButton1.setToolTipText(bundle.getString("NewPieceOfWorkDialog//ButtonTooltip/ManageTemplates")); // NOI18N
         jButton1.setBorderPainted(false);
         jButton1.setContentAreaFilled(false);

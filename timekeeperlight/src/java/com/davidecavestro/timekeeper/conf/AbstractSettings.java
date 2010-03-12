@@ -135,24 +135,6 @@ public abstract class AbstractSettings implements CustomizableSettings {
 	public void setPlainTextLogBufferSize (final Integer size){
 		SettingsSupport.setIntegerProperty (getProperties (), PLAINTEXTLOG_BUFFERSIZE, size);
 	}
-	
-	/**
-	 * Ritorna il LookAndFeel.
-	 *
-	 * @return il LookAndFeel.
-	 */	
-	public String getLookAndFeel (){
-		return SettingsSupport.getStringProperty (getProperties (), PROPNAME_LOOKANDFEEL);		
-	}	
-
-	/**
-	 * Imposta il LookAndFeel.
-	 *
-	 * @param lookAndFeel il Look And Feel
-	 */	
-	public void setLookAndFeel (final String lookAndFeel) {
-		SettingsSupport.setStringProperty (getProperties (), PROPNAME_LOOKANDFEEL, lookAndFeel);
-	}
 
 	public String getJDOUserName () {
 		return SettingsSupport.getStringProperty (getProperties (), PROPNAME_JDOSTORAGEUSER_NAME);
@@ -216,5 +198,11 @@ public abstract class AbstractSettings implements CustomizableSettings {
 		SettingsSupport.setBooleanProperty (getProperties (), PROPNAME_HELPERAPPSENABLED, b);
 	}
 
-	
+	public Boolean getSystemLookAndFeelEnabled () {
+		return SettingsSupport.getBooleanProperty (getProperties (), PROPNAME_LOOKANDFEELENABLED);
+	}
+
+	public void setSystemLookAndFeelEnabled (final Boolean b) {
+		SettingsSupport.setBooleanProperty (getProperties (), PROPNAME_LOOKANDFEELENABLED, b);
+	}
 }

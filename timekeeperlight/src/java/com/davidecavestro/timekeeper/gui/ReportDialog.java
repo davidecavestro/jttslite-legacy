@@ -143,7 +143,6 @@ public class ReportDialog extends javax.swing.JDialog implements PersistentCompo
         presetsRadio.setText(bundle.getString("ReportDialog/ChoiceControl/presets")); // NOI18N
         presetsRadio.setToolTipText("Use presets");
         presetsRadio.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        presetsRadio.setMargin(new java.awt.Insets(0, 0, 0, 0));
         presetsRadio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 presetsRadioActionPerformed(evt);
@@ -159,7 +158,6 @@ public class ReportDialog extends javax.swing.JDialog implements PersistentCompo
         jRadioButton2.setText(bundle.getString("ReportDialog/ChoiceControl/custom")); // NOI18N
         jRadioButton2.setToolTipText("Set a custom time range");
         jRadioButton2.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        jRadioButton2.setMargin(new java.awt.Insets(0, 0, 0, 0));
         jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButton2ActionPerformed(evt);
@@ -255,6 +253,7 @@ public class ReportDialog extends javax.swing.JDialog implements PersistentCompo
         taskTreePaneljPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("ReportDialog/ControlsGroup/ReportRootChoice"))); // NOI18N
         taskTreePaneljPanel3.setLayout(new java.awt.GridBagLayout());
 
+        jXTreeTable1.setBackground(new java.awt.Color(254, 254, 254));
         jXTreeTable1.setEditable(false);
         jXTreeTable1.setRootVisible(true);
         jXTreeTable1.setTreeTableModel(_context.getWindowManager ().getMainWindow ().getTaskTreeTableModel ());
@@ -301,7 +300,6 @@ public class ReportDialog extends javax.swing.JDialog implements PersistentCompo
         java.util.ResourceBundle bundle1 = java.util.ResourceBundle.getBundle("com/davidecavestro/timekeeper/gui/res"); // NOI18N
         jRadioButton1.setText(bundle1.getString("ReportDialog/LaunchActionGroup/PreviewAction")); // NOI18N
         jRadioButton1.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        jRadioButton1.setMargin(new java.awt.Insets(0, 0, 0, 0));
         jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButton1ActionPerformed(evt);
@@ -316,7 +314,6 @@ public class ReportDialog extends javax.swing.JDialog implements PersistentCompo
         jRadioButton3.setFont(new java.awt.Font("Dialog", 0, 12));
         jRadioButton3.setText(bundle1.getString("ReportDialog/LaunchActionGroup/SaveAction")); // NOI18N
         jRadioButton3.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        jRadioButton3.setMargin(new java.awt.Insets(0, 0, 0, 0));
         jRadioButton3.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 jRadioButton3StateChanged(evt);

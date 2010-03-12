@@ -24,8 +24,6 @@ public final class DefaultSettings implements ApplicationSettings {
 	 * Dimensione predefinita per il buffer del log di testo semplice
 	 */
 	public final static Integer DEFAULT_PLAINTEXTLOG_BUFFERSIZE = new Integer (8192);
-	
-	private static DefaultSettings _instance;
 
 	private final ApplicationEnvironment _env;
 	
@@ -48,15 +46,6 @@ public final class DefaultSettings implements ApplicationSettings {
 		sb.append ("/logs");
 		return sb.toString ();
 	}
-	
-//	/**
-//	 * Ritorna il lookAndFeel predefinito (JGoodies Plastic3D).
-//	 * @return il lookAndFeel.
-//	 */
-//	public String getLookAndFeel () {
-//		return com.jgoodies.looks.windows.WindowsLookAndFeel.class.getName ();
-////		return UIManager.getSystemLookAndFeelClassName ();
-//	}
 	
 	/**
 	 * Ritorna la dimensione del buffer per il logger di testo semplice.
@@ -222,6 +211,15 @@ public final class DefaultSettings implements ApplicationSettings {
 		return true;
 	}
 
+	/**
+	 * Impostazione predefinita di abilitazione del L&F di sistema.
+	 *
+	 * @return sempre <tt>false</tt>.
+	 */
+        public static boolean isSystemLookAndFeelEnabled(){
+            return false;
+        }
+
 	public Boolean getTrayIconEnabled () {
 		return Boolean.valueOf (isTrayIconEnabled ());
 	}
@@ -230,5 +228,8 @@ public final class DefaultSettings implements ApplicationSettings {
 		return Boolean.valueOf (isHelperApplicationIntegrationEnabled ());
 	}
 
-	
+    public Boolean getSystemLookAndFeelEnabled() {
+        return Boolean.valueOf(isSystemLookAndFeelEnabled());
+    }
+    
 }

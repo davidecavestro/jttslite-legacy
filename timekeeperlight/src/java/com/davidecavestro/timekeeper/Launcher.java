@@ -19,6 +19,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.concurrent.Semaphore;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  * lancia l'applicazione.
@@ -35,6 +37,8 @@ public class Launcher {
 	private final String RESPONSE_UP_TO_YOU = "up to you";
 	
 	private final Semaphore _semaphore;
+        private Application _application;
+        private boolean _firstCall = true;
 	
 	/** Costruttore vuoto. */
 	private Launcher () {
@@ -155,13 +159,11 @@ public class Launcher {
 		return startServer (PORT);
 	}
 	
-	private Application _application;
 	private void bind (Application a) {
 		_application = a;
 		_semaphore.release ();
 	}
 	
-	private boolean _firstCall = true;
 	private void rightRequest () {
 		if (_firstCall) {
 			_firstCall = false;

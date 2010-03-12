@@ -168,11 +168,6 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 	
 	private final static ImageIcon DEFAULT_PROGRESSES_TABLE_BACKGROUND = new ImageIcon ();
 	
-	/**
-	 * indica se la selezione sull'albero p cambiata con l'ultimo evento di selezione
-	 */
-//	private boolean taskTreeSelectionChanged;
-	
 	/*
 	 * progress Table Backgroud Image
 	 */
@@ -219,8 +214,6 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 		createActionTable (new JTextArea ());
 		
 		initComponents ();
-		
-//		setTableBackoundImage (new ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/Hourglass.png")));
 
 		/*
 		 * registrazione modello albero come listener sui modelli  
@@ -237,9 +230,6 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 		_ticPump.addAdvancingTicListener ((ProgressesJTableModel)progressesTable.getModel ());
 		_context.getModel ().addWorkAdvanceModelListener ((ProgressesJTableModel)progressesTable.getModel ());
 
-		
-//		this._context.getUIPersister ().register (new MainWindow.PersistencePanelAdapter (this.taskTreePanel, "taskTreePanel"));
-		
 		/*
 		 * registra l'albero e la tabella per la gestione del cut&paste dal menu e toolbar
 		 */
@@ -247,24 +237,10 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 		tal.register (progressesTable);
 
 		
-//		/*
-//		 * notifica la textarea del cambio di selezione, aggiornandola
-//		 */
-//		final ListSelectionListener l = new ListSelectionListener (){
-//			final Document d = new PlainDocument ();
-//			public void valueChanged (ListSelectionEvent e) {
-//			}
-//		};
-//		progressesTable.getSelectionModel ().addListSelectionListener (l);
-//		progressesTable.getColumnModel ().getSelectionModel ().addListSelectionListener (l);
-		
 		initTableEditors();
-//		progressesTable.addHighlighter (AlternateRowHighlighter.beige);
-//		progressesTable.addHighlighter (new AlternateRowHighlighter(Color.white, new Color(255, 252, 180), null, true));
 		
 		final ColorHighlighter rollover = new ColorHighlighter(HighlightPredicate.ROLLOVER_ROW, null, Color.BLUE);
 		progressesTable.setHighlighters(HighlighterFactory.createAlternateStriping (javax.swing.UIManager.getDefaults().getColor("Table.background"), new Color(255, 252, 180)), rollover);		
-//		taskTree.addHighlighter (AlternateRowHighlighter.quickSilver);
 		
 		/*
 		 * Imposta l'ordinamento crescente come default per la colonna di inizio nella tabella degli avanzamenti
@@ -367,75 +343,10 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 		GUIUtils.addBorderRollover (mainToolbar1.getComponents ());
 		GUIUtils.addBorderRollover (mainToolbar2.getComponents ());
 		
-
-		
-//		//disable internal dnd functionality, because we need our own implementation
-//		taskTree.setDragEnabled (false);
-		
 		//attach transfer handler
 		taskTree.setTransferHandler (new TaskTreeTransferHandler ());
 		
 		progressesTable.setTransferHandler (new ProgressTableTransferHandler ());
-		
-//		//since we have a transfer handler, we just need to attach mouse listeners
-//		//to initiate the drag inside of the transfer handler
-//		final MouseAdapter dndMouseAdapter = new MouseAdapter () {
-//			public void mousePressed (MouseEvent e) {
-//				_taskTreeFirstMouseEvent = e;
-//				e.consume ();
-//			}
-//
-//			public void mouseReleased (MouseEvent e) {
-//				_taskTreeFirstMouseEvent = null;
-//			}
-//		};
-//
-//		taskTree.addMouseListener (dndMouseAdapter);
-//		taskTree.addMouseMotionListener (new java.awt.event.MouseMotionAdapter () {
-//
-//			//define diplacement of five pixel for as drag
-//			private static final int PIXEL_DISPLACEMENT = 5;
-//
-//			public void mouseDragged (MouseEvent e) {
-//				if (_taskTreeFirstMouseEvent != null) {
-//					e.consume ();
-//
-//					//if the user holds down the control key -> COPY, otherwise MOVE
-//					int ctrlMask = java.awt.event.InputEvent.CTRL_DOWN_MASK;
-//					int action = ((e.getModifiersEx () & ctrlMask) == ctrlMask) ? TransferHandler.COPY : TransferHandler.MOVE;
-//
-//					int dx = Math.abs (e.getX () - _taskTreeFirstMouseEvent.getX ());
-//					int dy = Math.abs (e.getY () - _taskTreeFirstMouseEvent.getY ());
-//
-//					//define a displacement of at least some pixel as a drag
-//					if (dx > PIXEL_DISPLACEMENT || dy > PIXEL_DISPLACEMENT) {
-//						//starting to drag...
-//						JComponent c = (JComponent) e.getSource ();
-//						TransferHandler handler = c.getTransferHandler ();
-//
-//						//tell transfer handler to start drag
-//						handler.exportAsDrag (c, _taskTreeFirstMouseEvent, action);
-//
-//						int x = e.getX ();
-//						int y = e.getY ();
-//
-//						//reset first mouse event for the next time
-//						_taskTreeFirstMouseEvent = null;
-//					}
-//				}
-//			}
-//		});
-//
-//		//revert MouseListeners order so that our MouseListener is called first
-//		//this is important to give drag n drop first priority and prevent the
-//		//internal mouse handler of tableUI changing the selection.
-//		java.awt.event.MouseListener[] mls = this.getMouseListeners ();
-//		for (int i = 0; i < mls.length; i++) {
-//			if (mls[i] != dndMouseAdapter) {
-//				this.removeMouseListener (mls[i]);
-//				this.addMouseListener (mls[i]);
-//			}
-//		}
 		
 		_context.getModel ().addWorkAdvanceModelListener (new WorkAdvanceModelListener () {
 			public void elementsInserted (WorkAdvanceModelEvent e) {
@@ -1008,7 +919,6 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
         copyMenuItem = new javax.swing.JMenuItem();
         getActionByName(DefaultEditorKit.pasteAction).putValue (Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke (java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.CTRL_MASK));
         pasteMenuItem = new javax.swing.JMenuItem();
-        jSeparator8 = new javax.swing.JSeparator();
         getActionByName(DefaultEditorKit.deleteNextCharAction).putValue (Action.ACCELERATOR_KEY, javax.swing.KeyStroke.getKeyStroke (java.awt.event.KeyEvent.VK_DELETE, 0));
         deleteMenuItem = new javax.swing.JMenuItem();
         viewMenu = new javax.swing.JMenu();
@@ -1028,9 +938,10 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
         stopProgressMenuItem = new javax.swing.JMenuItem();
         toolsMenu = new javax.swing.JMenu();
         logConsoleMenuItem = new javax.swing.JMenuItem();
-        optionsMenuItem = new javax.swing.JMenuItem();
         workspaceMenuItem = new javax.swing.JMenuItem();
         templateMenuItem = new javax.swing.JMenuItem();
+        jSeparator8 = new javax.swing.JPopupMenu.Separator();
+        optionsMenuItem = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
         contentsMenuItem = new javax.swing.JMenuItem();
         contextHelpMenuItem = new javax.swing.JMenuItem();
@@ -1331,6 +1242,7 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
         taskTreePanel.setPreferredSize(new java.awt.Dimension(160, 354));
         taskTreePanel.setLayout(new java.awt.BorderLayout());
 
+        taskTree.setBackground(new java.awt.Color(254, 254, 254));
         taskTree.setColumnControlVisible(true);
         taskTree.setComponentPopupMenu(treePopupMenu);
         taskTree.setDragEnabled(true);
@@ -1555,7 +1467,6 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
             mainPanel.add(tree_table_splitPane, java.awt.BorderLayout.CENTER);
 
             jPanel5.setMinimumSize(new java.awt.Dimension(400, 28));
-            jPanel5.setPreferredSize(new java.awt.Dimension(420, 28));
             jPanel5.setLayout(new java.awt.GridBagLayout());
 
             mainToolbar.setFloatable(false);
@@ -1563,7 +1474,7 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
             javax.help.CSH.setHelpIDString (mainToolbar, _context.getHelpManager ().getResolver ().resolveHelpID (HelpResources.MAIN_TOOLBAR ));
 
             jButton5.setAction(new NewWorkSpaceAction ());
-            jButton5.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+            jButton5.setFont(new java.awt.Font("Dialog", 0, 12));
             jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/toolbar_package-add.png"))); // NOI18N
             jButton5.setToolTipText(bundle.getString("New_workspace")); // NOI18N
             jButton5.setBorderPainted(false);
@@ -1579,7 +1490,7 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
             mainToolbar.add(jButton1);
 
             jButton2.setAction(new OpenWorkSpaceAction ());
-            jButton2.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+            jButton2.setFont(new java.awt.Font("Dialog", 0, 12));
             jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/toolbar_folder-open.png"))); // NOI18N
             jButton2.setToolTipText(bundle.getString("Open_workspace_(Ctrl+O)")); // NOI18N
             jButton2.setBorderPainted(false);
@@ -1724,7 +1635,7 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
             mainToolbar2.add(workspacesButton);
 
             _context.getHelpManager ().initialize (helpButton);
-            actionTemplatesButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/tag_blue.png"))); // NOI18N
+            actionTemplatesButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/toolbar_template.png"))); // NOI18N
             actionTemplatesButton.setToolTipText(bundle.getString("MainWIndow/Toolbar/ButtonTooltip/Templates")); // NOI18N
             actionTemplatesButton.setBorderPainted(false);
             actionTemplatesButton.setFocusable(false);
@@ -1952,7 +1863,6 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
             pasteMenuItem.setMnemonic('V');
             org.openide.awt.Mnemonics.setLocalizedText(pasteMenuItem, bundle.getString("MainMenu/EditMenu/PasteMenuItem/Text")); // NOI18N
             editMenu.add(pasteMenuItem);
-            editMenu.add(jSeparator8);
 
             deleteMenuItem.setAction(new TransferAction ("delete", tal));
             deleteMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_DELETE, 0));
@@ -2091,7 +2001,7 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
             toolsMenu.setFont(new java.awt.Font("Dialog", 0, 12));
 
             logConsoleMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.ALT_MASK));
-            logConsoleMenuItem.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+            logConsoleMenuItem.setFont(new java.awt.Font("Dialog", 0, 12));
             logConsoleMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/console.png"))); // NOI18N
             org.openide.awt.Mnemonics.setLocalizedText(logConsoleMenuItem, bundle.getString("MainMenu/ToolsMenu/LogMenuItem/Text")); // NOI18N
             logConsoleMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -2100,17 +2010,6 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
                 }
             });
             toolsMenu.add(logConsoleMenuItem);
-
-            optionsMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.ALT_MASK));
-            optionsMenuItem.setFont(new java.awt.Font("Dialog", 0, 12));
-            optionsMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/cog.png"))); // NOI18N
-            org.openide.awt.Mnemonics.setLocalizedText(optionsMenuItem, bundle.getString("MainMenu/ToolsMenu/OptionsMenuItem/Text")); // NOI18N
-            optionsMenuItem.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    optionsMenuItemActionPerformed(evt);
-                }
-            });
-            toolsMenu.add(optionsMenuItem);
 
             workspaceMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.event.InputEvent.ALT_MASK));
             workspaceMenuItem.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -2133,6 +2032,18 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
                 }
             });
             toolsMenu.add(templateMenuItem);
+            toolsMenu.add(jSeparator8);
+
+            optionsMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.ALT_MASK));
+            optionsMenuItem.setFont(new java.awt.Font("Dialog", 0, 12));
+            optionsMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/cog.png"))); // NOI18N
+            org.openide.awt.Mnemonics.setLocalizedText(optionsMenuItem, bundle.getString("MainMenu/ToolsMenu/OptionsMenuItem/Text")); // NOI18N
+            optionsMenuItem.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    optionsMenuItemActionPerformed(evt);
+                }
+            });
+            toolsMenu.add(optionsMenuItem);
 
             menuBar.add(toolsMenu);
 
@@ -2151,7 +2062,7 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
             helpMenu.add(contentsMenuItem);
 
             contextHelpMenuItem.setFont(new java.awt.Font("Dialog", 0, 12));
-            contextHelpMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/contexthelp.png"))); // NOI18N
+            contextHelpMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/transparent.png"))); // NOI18N
             org.openide.awt.Mnemonics.setLocalizedText(contextHelpMenuItem, bundle.getString("MainMenu/HelpMenu/ContextualHelpMenuItem/Text")); // NOI18N
             contextHelpMenuItem.addActionListener (new CSH.DisplayHelpAfterTracking (_context.getHelpManager ().getMainHelpBroker ()));
             helpMenu.add(contextHelpMenuItem);
@@ -2525,7 +2436,7 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JSeparator jSeparator6;
     private javax.swing.JSeparator jSeparator7;
-    private javax.swing.JSeparator jSeparator8;
+    private javax.swing.JPopupMenu.Separator jSeparator8;
     private javax.swing.JSeparator jSeparator9;
     private javax.swing.JCheckBoxMenuItem linkTableBackgroundMenuItem;
     private javax.swing.JMenuItem logConsoleMenuItem;

@@ -7,7 +7,6 @@
 package com.davidecavestro.timekeeper.gui;
 
 import com.davidecavestro.timekeeper.ApplicationContext;
-import com.davidecavestro.timekeeper.conf.ApplicationOptions;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.text.SimpleDateFormat;
@@ -45,17 +44,8 @@ public class OptionsDialog extends javax.swing.JDialog {
 		super (parent, modal);
 		this._context = context;
 		initComponents ();
-		
-//		cancelButton.getInputMap (JComponent.WHEN_IN_FOCUSED_WINDOW).put (KeyStroke.getKeyStroke ("ESCAPE"), "cancel");
-//		cancelButton.getActionMap().put("cancel", new javax.swing.AbstractAction ("cancel"){
-//			public void actionPerformed (ActionEvent ae){
-//				cancel ();
-//			}
-//		});
-		
 		getDateFormatTable ().setColumnControlVisible (true);
-		
-				/*
+		/*
 		 * toggle sort
 		 * 1 asc, 2 desc, 3 null
 		 */
@@ -134,6 +124,7 @@ public class OptionsDialog extends javax.swing.JDialog {
         jPanel2 = new javax.swing.JPanel();
         trayIconCheckBox = new javax.swing.JCheckBox();
         useHelperApplicationsCheckBox = new javax.swing.JCheckBox();
+        useSystemLookAndFeelCheckBox = new javax.swing.JCheckBox();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
@@ -165,7 +156,7 @@ public class OptionsDialog extends javax.swing.JDialog {
 
         jPanel3.setLayout(new java.awt.GridBagLayout());
 
-        jTabbedPane1.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jTabbedPane1.setFont(new java.awt.Font("Dialog", 0, 12));
 
         jPanel4.setLayout(new java.awt.GridBagLayout());
 
@@ -238,7 +229,7 @@ public class OptionsDialog extends javax.swing.JDialog {
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
         trayIconCheckBox.setAction(new ShowTrayIconAction ());
-        trayIconCheckBox.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        trayIconCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
         trayIconCheckBox.setText(bundle.getString("OptionsDialog/DesktopIntegration/ShowTrayIconCheckBox")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
@@ -246,7 +237,7 @@ public class OptionsDialog extends javax.swing.JDialog {
         jPanel2.add(trayIconCheckBox, gridBagConstraints);
 
         useHelperApplicationsCheckBox.setAction(new UseHelperApplicationsAction ());
-        useHelperApplicationsCheckBox.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        useHelperApplicationsCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
         useHelperApplicationsCheckBox.setText(bundle.getString("OptionsDialog/DesktopIntegration/UseHelperApplicationsCheckBox")); // NOI18N
         useHelperApplicationsCheckBox.setToolTipText(bundle.getString("OptionsDialog/DesktopIntegration/UseHelperApplicationsCheckBox/Tooltip")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -255,6 +246,17 @@ public class OptionsDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 7, 0, 0);
         jPanel2.add(useHelperApplicationsCheckBox, gridBagConstraints);
+
+        useSystemLookAndFeelCheckBox.setAction(new UseSystemLookAndFeelAction());
+        useSystemLookAndFeelCheckBox.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        useSystemLookAndFeelCheckBox.setText(bundle.getString("OptionsDialog/DesktopIntegration/UseSystemLookAndFeelCheckBox")); // NOI18N
+        useSystemLookAndFeelCheckBox.setToolTipText(bundle.getString("OptionsDialog/DesktopIntegration/UseHelperApplicationsCheckBox/Tooltip")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 7, 0, 0);
+        jPanel2.add(useSystemLookAndFeelCheckBox, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
@@ -295,7 +297,7 @@ public class OptionsDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
 	private void formComponentShown (java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
-		init (_context.getApplicationOptions ());		
+		init ();		
 
 	}//GEN-LAST:event_formComponentShown
 
@@ -320,94 +322,23 @@ public class OptionsDialog extends javax.swing.JDialog {
     private javax.swing.JTextField sampleTextField;
     private javax.swing.JCheckBox trayIconCheckBox;
     private javax.swing.JCheckBox useHelperApplicationsCheckBox;
+    private javax.swing.JCheckBox useSystemLookAndFeelCheckBox;
     // End of variables declaration//GEN-END:variables
 	
 	private final void confirm (){
-//		final UserSettings us = _context.getUserSettings ();
-		
-//		us.setBackupOnSave (Boolean.valueOf (createBackupFilesCheckBox.getModel ().isSelected ()));
-//		us.setKeyEditing (Boolean.valueOf (enableKeyEditingCheckBox.getModel ().isSelected ()));
 		apply ();
-		hide ();
+		this.setVisible(false);
 	}
-	
-//	private LookAndFeelChoice _initialChoice;
-	
-	private void init (ApplicationOptions ao) {
+
+        /*
+         * Inizializza i componenti grafici andando a reperire le impostazioni
+         * dell'utente
+         */
+	private void init () {
 		trayIconCheckBox.getModel ().setSelected (_context.getApplicationOptions ().isTrayIconEnabled ());
 		useHelperApplicationsCheckBox.getModel ().setSelected (_context.getApplicationOptions ().isHelperApplicationIntegrationEnabled ());
+                useSystemLookAndFeelCheckBox.setSelected(_context.getApplicationOptions().isSystemLookAndFeelEnabled());
 	}
-	
-	private void cancel (){
-		apply ();
-		hide ();
-	}
-	
-//	private enum LookAndFeelChoice {
-//		SYSTEM {
-//			public String getClassName () {
-//				return UIManager.getSystemLookAndFeelClassName ();
-//			}
-//			public String toString () {
-//				return "System";
-//			}
-//		},
-//		CROSS_PLATFORM {
-//			public String getClassName () {
-//				return UIManager.getCrossPlatformLookAndFeelClassName ();
-//			}
-//			public String toString () {
-//				return "Cross Platform";
-//			}
-//		},
-//		WINDOWS {
-//			public String getClassName () {
-//				return "com.jgoodies.looks.windows.WindowsLookAndFeel";
-//			}
-//			public String toString () {
-//				return "Windows";
-//			}
-//		},
-//		PLASTIC {
-//			public String getClassName () {
-//				return "com.jgoodies.looks.plastic.PlasticLookAndFeel";
-//			}
-//			public String toString () {
-//				return "Plastic";
-//			}
-//		},
-//		PLASTIC2D {
-//			public String getClassName () {
-//				return "com.jgoodies.looks.plastic.Plastic3DLookAndFeel";
-//			}
-//			public String toString () {
-//				return "Plastic 3D";
-//			}
-//		},
-//		PLASTICXP {
-//			public String getClassName () {
-//				return "com.jgoodies.looks.plastic.PlasticXPLookAndFeel";
-//			}
-//			public String toString () {
-//				return "Plastic XP";
-//			}
-//		},
-//		TINYLAF {
-//			public String getClassName () {
-//				return "de.muntjak.tinylookandfeel.TinyLookAndFeel";
-//			}
-//			public String toString () {
-//				return "TinyLAF";
-//			}
-//		};
-//		
-//		
-//		public abstract String getClassName ();
-//		@Override
-//		public abstract String toString ();
-//		
-//	}
-
 	
 	private void apply () {
         _context.getUserSettings ().setTrayIconEnabled(trayIconCheckBox.getModel ().isSelected ());
@@ -536,4 +467,14 @@ public class OptionsDialog extends javax.swing.JDialog {
 		}
 		
 	}
+
+    /**
+     * Action l'impostazione del look and feel di sistema o di quello cross platform
+     */
+    private class UseSystemLookAndFeelAction extends AbstractAction {
+
+        public void actionPerformed(ActionEvent e) {
+            _context.getUserSettings().setSystemLookAndFeelEnabled(useSystemLookAndFeelCheckBox.isSelected());
+        }
+    }
 }

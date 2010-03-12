@@ -44,17 +44,18 @@ public class PresentationPanel extends javax.swing.JPanel {
         jPanel1.setPreferredSize(new java.awt.Dimension(420, 300));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        appVersionLabel.setFont(new java.awt.Font("Impact", 0, 28)); // NOI18N
+        appVersionLabel.setFont(new java.awt.Font("Impact", 0, 27)); // NOI18N
         appVersionLabel.setForeground(new java.awt.Color(0, 0, 0));
-        org.openide.awt.Mnemonics.setLocalizedText(appVersionLabel, _appData.getVersionNumber ());
+        appVersionLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        org.openide.awt.Mnemonics.setLocalizedText(appVersionLabel, "ver. " + _appData.getVersionNumber ());
         appVersionLabel.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         appVersionLabel.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jPanel1.add(appVersionLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 220, 140, 50));
+        jPanel1.add(appVersionLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 220, 140, 50));
 
-        statusLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        statusLabel.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         statusLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         statusLabel.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        jPanel1.add(statusLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 420, 30));
+        jPanel1.add(statusLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 210, 420, 30));
 
         applicationImageLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         applicationImageLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/splash.png"))); // NOI18N

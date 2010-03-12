@@ -39,14 +39,14 @@ public interface ApplicationSettings {
 	 * @return <tt>true/tt> se l'integrazione con il desktop per l'uso delle helper applications è abilitata.
 	 */
 	public Boolean getHelperApplicationsEnabled ();
+
+        /**
+	 * Indica se il L&F di sistema è abilitato
+	 * @return <tt>true/tt> se il L&F di sistema è abilitato
+	 */
+	public Boolean getSystemLookAndFeelEnabled ();
+
 	
-//	/**
-//	 * Ritorna il LookAndFeel.
-//	 *
-//	 * @return il LookAndFeel.
-//	 */	
-//	String getLookAndFeel ();
-//	
 	/**
 	 * Ritorna il nome dell'ultimo progetto.
 	 * @return il nome dell'ultimo progetto.

@@ -52,6 +52,8 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.Properties;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.text.DefaultStyledDocument;
 
 /**
@@ -94,7 +96,26 @@ public class Application {
 		final UserSettings userSettings = new UserSettings (this, userResources);
 		
 		final ApplicationOptions applicationOptions = new ApplicationOptions (userSettings, new ApplicationOptions (new DefaultSettings (args, userResources), null));
-		
+
+            /**
+             * Imposto il look and feel scelto da preferenze
+             */
+            try {
+                if (userSettings.getSystemLookAndFeelEnabled() != null &&
+                        userSettings.getSystemLookAndFeelEnabled().booleanValue()) {
+                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                } else {
+                    UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+                }
+            } catch (UnsupportedLookAndFeelException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
 		/**
 		 * Percorso del file di configuraizone/mappatura, relativo alla directory di
 		 * installazione dell'applicazione.
@@ -397,10 +418,6 @@ public class Application {
 	public void bringToFront () {
 		_context.getWindowManager ().getMainWindow ().bringToFront ();		
 	}
-	
-	
-	
 
-	
 	
 }

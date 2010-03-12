@@ -88,38 +88,6 @@ public final class ApplicationOptions {
 		}
 	}
 	
-	
-//	/**
-//	 * Ritorna il L&F impostato.
-//	 *
-//	 * @return il L&F impostato.
-//	 */	
-//	public String getLookAndFeel (){
-//		final String returnValue = _settings.getLookAndFeel ();
-//		if (returnValue!=null){
-//				/*
-//				 * Risposta locale.
-//				 */
-//			return returnValue;
-//		} else {
-//			if (_successor!=null){
-//					/*
-//					 * Delega successore.
-//					 */
-//				return _successor.getLookAndFeel ();
-//			} else {
-//					/*
-//					 * Default di sistema non disponibile.
-//					 */
-//				return UIManager.getSystemLookAndFeelClassName ();
-//			}
-//		}
-//	}
-
-
-	
-
-	
 	/**
 	 * Ritorna il percorso per il database.
 	 *
@@ -334,6 +302,30 @@ public final class ApplicationOptions {
 			}
 		}
 	}
-	
-	
+
+        	/**
+	 * Indica se il L&F di sistema è abilitato.
+	 * @return <tt>true/tt> se il L&F di sistema è abilitato.
+	 */
+	public boolean isSystemLookAndFeelEnabled () {
+		final Boolean returnValue = _settings.getSystemLookAndFeelEnabled();
+		if (returnValue!=null){
+				/*
+				 * Risposta locale.
+				 */
+			return returnValue.booleanValue ();
+		} else {
+			if (_successor!=null){
+					/*
+					 * Delega successore.
+					 */
+				return _successor.isSystemLookAndFeelEnabled();
+			} else {
+				/*
+				 * Default diSistema
+				 */
+				return DefaultSettings.isSystemLookAndFeelEnabled();
+			}
+		}
+	}
 }

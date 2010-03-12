@@ -25,9 +25,9 @@ public interface CustomizableSettings extends ApplicationSettings {
 	public final static String PROPNAME_LOGDIRPATH = "logdirpath";
 	
 	/**
-	 * Il LookAndFeel.
+	 * Abilitazione del look and feel di sistema.
 	 */
-	public final static String PROPNAME_LOOKANDFEEL = "lookandfeel";
+	public final static String PROPNAME_LOOKANDFEELENABLED = "systemlookandfeelenabled";
 		
 	
 	/**
@@ -113,7 +113,7 @@ public interface CustomizableSettings extends ApplicationSettings {
 	/**
 	 * Imposta il LookAndFeel.
 	 */
-	void setLookAndFeel (final String lookAndFeel);
+	void setSystemLookAndFeelEnabled (Boolean b);
 	
 	/**
 	 * Imposta il nome utente da utilizare per accedere allo storage JDo.

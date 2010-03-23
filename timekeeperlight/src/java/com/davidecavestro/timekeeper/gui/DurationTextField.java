@@ -7,15 +7,12 @@
 
 package com.davidecavestro.timekeeper.gui;
 
+import com.ost.timekeeper.util.DurationUtils;
 import com.ost.timekeeper.util.Duration;
 import java.text.FieldPosition;
 import java.text.Format;
-import java.text.ParseException;
 import java.text.ParsePosition;
-import java.util.Map;
-import javax.swing.Action;
 import javax.swing.JFormattedTextField;
-import javax.swing.text.BadLocationException;
 import javax.swing.text.InternationalFormatter;
 
 /**
@@ -31,6 +28,18 @@ public class DurationTextField extends JFormattedTextField {
 	public DurationTextField () {
 		super (new DurationFormatter ());
 	}
+//	public DurationTextField () {
+//		super ();
+////		setFormatter (new DurationFormatter ());
+////		addKeyListener (new KeyAdapter (){
+////                public void keyPressed(KeyEvent e) {
+////                    if (e.getKeyCode ()==KeyEvent.VK_UP || e.getKeyCode ()==KeyEvent.VK_KP_UP){
+////						select (getCaretPosition (), getCaretPosition ());
+////						e.consume ();
+////                    }
+////                }
+////            });		
+//	}
 	
 	/**
 	 * Costruttore.
@@ -110,6 +119,34 @@ public class DurationTextField extends JFormattedTextField {
 			});
 		}
 		
+		
+		
+//   /**
+//     * Subclasses supporting incrementing must override this to handle
+//     * the actual incrementing. <code>value</code> is the current value,
+//     * <code>attributes</code> gives the field the cursor is in (may be
+//     * null depending upon <code>canIncrement</code>) and 
+//     * <code>direction</code> is the amount to increment by.
+//     */
+//    Object adjustValue(Object value, Map attributes, Object field,
+//                           int direction) throws
+//                      BadLocationException, ParseException {
+//        return null;
+//    }
+//
+//    /**
+//     * Returns false, indicating InternationalFormatter does not allow
+//     * incrementing of the value. Subclasses that wish to support 
+//     * incrementing/decrementing the value should override this and
+//     * return true. Subclasses should also override
+//     * <code>adjustValue</code>.
+//     */
+//    boolean getSupportsIncrement() {
+//        return true;
+//    }		
+//		
+		
+		
 //		/**
 //		 * Returns true, as DateFormatterFilter will support
 //		 * incrementing/decrementing of the value.
@@ -157,5 +194,20 @@ public class DurationTextField extends JFormattedTextField {
 //			}
 //			return null;
 //		}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	}
+
+	@Override
+	public Duration getValue () {
+		return (Duration)super.getValue ();
+	}
+	
 }

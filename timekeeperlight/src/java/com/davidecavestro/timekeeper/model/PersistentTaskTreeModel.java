@@ -8,7 +8,6 @@
 package com.davidecavestro.timekeeper.model;
 
 import com.davidecavestro.common.log.Logger;
-import com.davidecavestro.common.undo.RBUndoManager;
 import com.davidecavestro.timekeeper.conf.ApplicationOptions;
 import com.davidecavestro.timekeeper.persistence.PersistenceManager;
 import com.davidecavestro.timekeeper.persistence.PersistenceNode;
@@ -33,8 +32,8 @@ public class PersistentTaskTreeModel extends UndoableTaskTreeModel {
 	 * @param workSpace 
 	 * @param applicationOptions le opzioni di configurazione.
 	 */
-	public PersistentTaskTreeModel (final PersistenceNode persistenceNode, final RBUndoManager um, final ApplicationOptions applicationOptions, final Logger logger, final TaskTreeModelExceptionHandler peh, final WorkSpace workSpace) {
-		super (um, applicationOptions, peh, workSpace);
+	public PersistentTaskTreeModel (final PersistenceNode persistenceNode, final ApplicationOptions applicationOptions, final Logger logger, final TaskTreeModelExceptionHandler peh, final WorkSpace workSpace) {
+		super (applicationOptions, peh, workSpace);
 		_persistenceNode = persistenceNode;
 		_logger = logger;
 	}
@@ -70,10 +69,9 @@ public class PersistentTaskTreeModel extends UndoableTaskTreeModel {
 	 */
 	private PersistenceManager _pm;
 	/**
-	 * Ritorna un persistence manager difacciata, con una implementazione vuota.
-	 * <P>
-	 * Scavalcare questo metodo per fornire una adeguata implementazione di PersistenceManager se necessario (ad esempio un PersistenceManager JDO).
+	 * Ritorna il PersistenceManager JDO).
 	 */
+	@Override
 	protected PersistenceManager getPersistenceManager () {
 		if (null == _pm) {
 			_pm = new PersistenceManager () {

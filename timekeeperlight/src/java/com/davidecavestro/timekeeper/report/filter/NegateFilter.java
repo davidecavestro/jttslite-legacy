@@ -38,7 +38,7 @@ public final class NegateFilter extends AbstractFilter{
 	 * @return una stringa che rappresenta questo filtro.
 	 */	
 	public String toString (){
-		final StringBuffer sb = new StringBuffer ();
+		final StringBuilder sb = new StringBuilder ();
 		sb.append ("[ NOT ");
 		sb.append (this._filter);
 		sb.append ("] ");

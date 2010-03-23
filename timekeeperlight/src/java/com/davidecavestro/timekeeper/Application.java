@@ -29,13 +29,18 @@ import com.davidecavestro.timekeeper.actions.ActionManager;
 import com.davidecavestro.timekeeper.conf.ApplicationOptions;
 import com.davidecavestro.timekeeper.conf.DefaultSettings;
 import com.davidecavestro.timekeeper.gui.Splash;
+import com.davidecavestro.timekeeper.model.DuplicatedWorkSpaceException;
+import com.davidecavestro.timekeeper.model.PersistentPieceOfWorkTemplateModel;
 import com.davidecavestro.timekeeper.model.PersistentTaskTreeModel;
 import com.davidecavestro.timekeeper.model.PersistentWorkSpaceModel;
 import com.davidecavestro.timekeeper.model.TaskTreeModelExceptionHandler;
 import com.davidecavestro.timekeeper.model.WorkSpace;
 import com.davidecavestro.timekeeper.model.WorkSpaceModel;
+import com.davidecavestro.timekeeper.model.WorkSpaceModelListener;
+import com.davidecavestro.timekeeper.model.WorkSpaceRemovalControllerImpl;
 import com.davidecavestro.timekeeper.model.event.TaskTreeModelEvent;
 import com.davidecavestro.timekeeper.model.event.TaskTreeModelListener;
+import com.davidecavestro.timekeeper.model.event.WorkSpaceModelEvent;
 import com.davidecavestro.timekeeper.persistence.PersistenceNode;
 import com.davidecavestro.timekeeper.persistence.PersistenceNodeException;
 import com.ost.timekeeper.model.ProgressItem;
@@ -69,6 +74,8 @@ public class Application {
 		
 		
 		final RBUndoManager undoManager = new RBUndoManager ();
+		final RBUndoManager atUndoManager = new RBUndoManager ();
+		final RBUndoManager wsUndoManager = new RBUndoManager ();
 		
 		final Properties releaseProps = new Properties ();
 		try {
@@ -95,7 +102,7 @@ public class Application {
 		final Properties p = new Properties ();
 		try {
 			p.load (new FileInputStream (new File (_env.getApplicationDirPath (), "helpmap.properties")));
-		} catch (IOException ioe){
+		} catch (final IOException ioe){
 //			System.out.println (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Missing_help_resources_mapping_file"));
 		}
 		
@@ -123,7 +130,7 @@ public class Application {
 		
 		final ProgressItem pi = new ProgressItem (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("New_workspace"));
 		final Project prj = new Project (pi.getName (), pi);
-		final PersistentTaskTreeModel model = new PersistentTaskTreeModel (_persistenceNode, undoManager, applicationOptions, _logger, peh, prj);
+		final PersistentTaskTreeModel model = new PersistentTaskTreeModel (_persistenceNode, applicationOptions, _logger, peh, prj);
 		model.addTaskTreeModelListener (new TaskTreeModelListener () {
 			public void treeNodesChanged (TaskTreeModelEvent e) {
 			}
@@ -140,7 +147,10 @@ public class Application {
 				undoManager.discardAllEdits ();
 			}
 		});
-		final PersistentWorkSpaceModel wsModel = new PersistentWorkSpaceModel (_persistenceNode, applicationOptions, _logger);
+        final WorkSpaceRemovalControllerImpl wsRemovalController = new WorkSpaceRemovalControllerImpl ();
+		final PersistentWorkSpaceModel wsModel = new PersistentWorkSpaceModel (_persistenceNode, applicationOptions, _logger, wsRemovalController);
+		final PersistentPieceOfWorkTemplateModel templateModel = new PersistentPieceOfWorkTemplateModel (_persistenceNode, applicationOptions, _logger);
+		
 		try {
 			_persistenceNode.init ();
 		} catch (final PersistenceNodeException pne) {
@@ -148,10 +158,10 @@ public class Application {
 			final NotificationUtils notification = new NotificationUtils ();
 			final String[] message = {
 				"Cannot initialize the persistence subsystem. ",
-				"Please check write permissions to "+applicationOptions.getJDOStorageDirPath (),
-				"If you have the correct permissions, please wait a couple of minutes, so that the current lock become obsolete"
+				"Please check your write permissions to "+applicationOptions.getJDOStorageDirPath ()+".",
+				"If you have the correct permissions, please wait a couple of minutes, so that the current lock becomes obsolete."
 				};
-			notification.error (pne, message);
+			notification.error (message);
 			
 			exit ();
 			/*
@@ -161,6 +171,7 @@ public class Application {
 		}
 		wsModel.init () ;
 		
+		templateModel.init ();
 		
 		_context = new ApplicationContext (
 			_env,
@@ -172,7 +183,10 @@ public class Application {
 			applicationData,
 			model,
 			wsModel,
+			templateModel,
 			undoManager,
+			atUndoManager,
+			wsUndoManager,
 			new ActionManager (),
 			new HelpManager (new HelpResourcesResolver (p), "help-contents/JTTSlite.hs"),
 			peh,
@@ -180,13 +194,20 @@ public class Application {
 			);
 		
 		model.addUndoableEditListener (undoManager);
+		templateModel.addUndoableEditListener (atUndoManager);
+        /*
+         * non conviene usare l'undo finchè non funziona correttamente
+		wsModel.addUndoableEditListener (wsUndoManager);
+         */
 		
-		/**
+		/*
 		 * Assicura la persistenza delle informazioni di configurazione del DB
 		 */
 		userSettings.setJDOStorageDirPath (applicationOptions.getJDOStorageDirPath ());
 		userSettings.setJDOStorageName (applicationOptions.getJDOStorageName ());
 		userSettings.setJDOUserName (applicationOptions.getJDOUserName ());
+        
+        wsRemovalController.setContext (_context);
 	}
 	
 	
@@ -199,7 +220,7 @@ public class Application {
 		final WindowManager wm = _context.getWindowManager ();
 		
 		wm.init (_context);
-		wm.setLookAndFeel (_context.getApplicationOptions ().getLookAndFeel (), false);
+//		wm.setLookAndFeel (_context.getApplicationOptions ().getLookAndFeel (), false);
 		
 		final Splash splash = wm.getSplashWindow (_context.getApplicationData ());
 		splash.show ();
@@ -214,12 +235,35 @@ public class Application {
 			splash.showInfo (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Preparing_main_window..."));
 			wm.getMainWindow ().addWindowListener (
 				new java.awt.event.WindowAdapter () {
-				public void windowClosing (java.awt.event.WindowEvent evt) {
-					exit ();
+				@Override
+				public void windowClosing (final java.awt.event.WindowEvent evt) {
+					processExitRequest (evt);
 				}
 			});
 			
 			_context.getModel ().setWorkSpace (prepareWorkSpace ());
+
+            /*
+             * crea al volo un progetto qualora vengano rimossi tutti
+             */
+            _context.getWorkSpaceModel ().addWorkSpaceModelListener (new WorkSpaceModelListener () {
+
+                public void intervalAdded (WorkSpaceModelEvent e) {
+
+                }
+
+                public void intervalRemoved (WorkSpaceModelEvent e) {
+                    if (_context.getWorkSpaceModel ().isEmpty ()){
+                        createNewWorkSpace ();
+                    }
+                }
+
+                public void contentsChanged (WorkSpaceModelEvent e) {
+
+                }
+            });
+
+
 		
 		} finally {
 			splash.setVisible (false);
@@ -241,17 +285,24 @@ public class Application {
 	 *	</UL>
 	 */
 	public void beforeExit (){
-		_persistenceNode.flushData ();
+		if (_persistenceNode!=null) {
+			_persistenceNode.flushData ();
+		}
 		
-		
-		_context.getUIPersisteer ().makePersistentAll ();
+		if (_context!=null) {
+			_context.getUIPersister ().makePersistentAll ();
+		}
 		
 		
 		/* Garantisce la chiusura del logger. */
-		_logger.close ();
+		if (_logger!=null) {
+			_logger.close ();
+		}
 		
 		/* Salva le preferenze utente */
-		_context.getUserSettings ().storeProperties ();
+		if (_context!=null) {
+			_context.getUserSettings ().storeProperties ();
+		}
 	}
 	
 	private WorkSpace prepareWorkSpace () {
@@ -275,24 +326,28 @@ public class Application {
 		}
 		
 		/*
-		 * Crea unnuovoworkspace
+		 * Crea un nuovo workspace
 		 */
-		_context.getLogger ().info (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Creating_a_new_empty_workspace..."));
 		final WorkSpace newWS = createNewWorkSpace ();
-		_context.getLogger ().info (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Empty_workspace_created."));
 		
 		return newWS;
 	}
 	
 	private WorkSpace createNewWorkSpace () {
+		_context.getLogger ().info (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Creating_a_new_empty_workspace..."));
 		/*
 		 * Crea nuovo progetto.
 		 */
 		final ProgressItem pi = new ProgressItem (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("New_workspace"));
 		pi.insert (new ProgressItem (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("New_task")));
 		final WorkSpace ws = new Project (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("New_workspace"), pi);
-		_context.getWorkSpaceModel ().addElement (ws);
+		try {
+			_context.getWorkSpaceModel ().addElement (ws);
+		} catch (final DuplicatedWorkSpaceException ex) {
+			throw new RuntimeException (ex);
+		}
 		
+		_context.getLogger ().info (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Empty_workspace_created."));
 		return ws;
 	}
 	
@@ -311,11 +366,16 @@ public class Application {
 	/**
 	 * Termina l'applicazione.
 	 */
-	public final void exit (){
+	public final void processExitRequest (java.awt.event.WindowEvent evt){
+		if (!_context.getWindowManager ().getMainWindow ().canExit ()) {
+			return;
+		}
+		exit ();
+	}
+	private void exit () {
 		beforeExit ();
 		_context.getWindowManager ().disposeAllFrames ();
 		HungAwtExit.forceOtherFramesDispose (_context.getWindowManager ().getMainWindow ());
-		System.out.println ("Closing application...");
 	}
 	
 	private final class UserUIStorage implements PersistenceStorage {
@@ -337,6 +397,10 @@ public class Application {
 	public void bringToFront () {
 		_context.getWindowManager ().getMainWindow ().bringToFront ();		
 	}
+	
+	
+	
+
 	
 	
 }

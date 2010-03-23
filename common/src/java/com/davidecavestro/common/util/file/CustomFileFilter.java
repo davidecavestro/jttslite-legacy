@@ -56,7 +56,7 @@ public class CustomFileFilter extends  javax.swing.filechooser.FileFilter {
 	
 	//The description of this filter
 	public String getDescription () {
-		final StringBuffer sb = new StringBuffer ();
+		final StringBuilder sb = new StringBuilder ();
 		for (int i=0;i<this._descriptions.length;i++){
 			if (i>0){
 				sb.append (" / ");

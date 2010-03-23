@@ -8,16 +8,13 @@ package com.davidecavestro.common.log;
 
 import com.davidecavestro.common.util.CalendarUtils;
 import java.awt.Color;
-import java.io.*;
 import java.util.*;
-import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
-import javax.swing.text.html.HTMLDocument;
 
 /**
  * Mostra gli eventi su console grafica.
@@ -52,6 +49,7 @@ public class ConsoleLogger implements Logger{
 	 *
 	 * @throws Throwable in caso di eccezioni non gestibili.
 	 */	
+	@Override
     protected void finalize() throws Throwable {
 		close ();
 		this._document=null;
@@ -142,14 +140,17 @@ public class ConsoleLogger implements Logger{
 	 * @param t l'evento associato (opzionale).
 	 */	
 	private final void printMessage (final MessageType type, final Throwable t, final String... message){
-		addParagraph (new Paragraph ("normal", 
-			new Run []{
-				new Run ("messagetype", type.getType ()+"\t"),
-				new Run ("timestamp", CalendarUtils.toTSString (Calendar.getInstance ().getTime ())),
-				new Run ("none", new StringBuffer (": ").append (message).toString ())
-		}));
+		final String timeStamp = CalendarUtils.toTSString (Calendar.getInstance ().getTime ());
+		for (final String s : message) {
+			addParagraph (new Paragraph ("normal", 
+				new Run []{
+					new Run ("messagetype", type.getType ()+"\t"),
+					new Run ("timestamp", timeStamp),
+					new Run ("none", new StringBuilder (": ").append (s).toString ())
+			}));
+		}
 		
-//		final StringBuffer sb = new StringBuffer ();
+//		final StringBuilder sb = new StringBuilder ();
 //		sb.append ("<B>").append (type.getType ()).append ("</B>");
 //		sb.append (CalendarUtils.toTSString (Calendar.getInstance ().getTime ()));
 //		sb.append (": ");

@@ -7,7 +7,6 @@
 
 package com.davidecavestro.timekeeper.model;
 
-import com.davidecavestro.common.undo.RBUndoManager;
 import com.davidecavestro.timekeeper.conf.ApplicationOptions;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,17 +27,14 @@ import javax.swing.undo.UndoableEdit;
  */
 public class UndoableTaskTreeModel extends TaskTreeModelImpl {
 	
-	private final RBUndoManager _undoManager;
-	
 	/**
 	 * Costruttore.
 	 * @param applicationOptions le opzioni di configurazione.
 	 * @param name il nome.
 	 * @param resources le risorse di localizzazione.
 	 */
-	public UndoableTaskTreeModel (final RBUndoManager undoManager, final ApplicationOptions applicationOptions,  final TaskTreeModelExceptionHandler peh, final WorkSpace workSpace) {
+	public UndoableTaskTreeModel (final ApplicationOptions applicationOptions,  final TaskTreeModelExceptionHandler peh, final WorkSpace workSpace) {
 		super (applicationOptions, peh, workSpace);
-		_undoManager = undoManager;
 	}
 	
 	public void addUndoableEditListener (UndoableEditListener listener) {
@@ -60,11 +56,13 @@ public class UndoableTaskTreeModel extends TaskTreeModelImpl {
 		super.removePieceOfWork (pow);
 		
 		fireUndoableEditEvent (new AbstractUndoableEdit () {
+			@Override
 			public String getPresentationName () {
 				return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("delete_action");
 			}
 			
 			
+			@Override
 			public void undo () throws CannotUndoException {
 				super.undo ();
 				
@@ -77,6 +75,7 @@ public class UndoableTaskTreeModel extends TaskTreeModelImpl {
 			}
 			
 			
+			@Override
 			public void redo () throws CannotUndoException {
 				super.redo ();
 				
@@ -94,6 +93,7 @@ public class UndoableTaskTreeModel extends TaskTreeModelImpl {
 			
 			private final PieceOfWorkBackup backup = newPOW.backup ();
 			
+			@Override
 			public String getPresentationName () {
 				if (startingPOW) {
 					return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("start_action");
@@ -103,6 +103,7 @@ public class UndoableTaskTreeModel extends TaskTreeModelImpl {
 			}
 			
 			
+			@Override
 			public void undo () throws CannotUndoException {
 				super.undo ();
 				
@@ -110,6 +111,7 @@ public class UndoableTaskTreeModel extends TaskTreeModelImpl {
 			}
 			
 			
+			@Override
 			public void redo () throws CannotUndoException {
 				super.redo ();
 				
@@ -134,11 +136,13 @@ public class UndoableTaskTreeModel extends TaskTreeModelImpl {
 		
 		fireUndoableEditEvent (new AbstractUndoableEdit () {
 
+			@Override
 			public String getPresentationName () {
 				return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("delete_task");
 			}
 			
 			
+			@Override
 			public void undo () throws CannotUndoException {
 				super.undo ();
 				
@@ -151,6 +155,7 @@ public class UndoableTaskTreeModel extends TaskTreeModelImpl {
 			}
 			
 			
+			@Override
 			public void redo () throws CannotUndoException {
 				super.redo ();
 				
@@ -167,11 +172,13 @@ public class UndoableTaskTreeModel extends TaskTreeModelImpl {
 			
 			private final TaskBackup backup = backupSubTree (newChild);
 			
+			@Override
 			public String getPresentationName () {
 				return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("new_task");
 			}
 			
 			
+			@Override
 			public void undo () throws CannotUndoException {
 				super.undo ();
 				
@@ -179,6 +186,7 @@ public class UndoableTaskTreeModel extends TaskTreeModelImpl {
 			}
 			
 			
+			@Override
 			public void redo () throws CannotUndoException {
 				super.redo ();
 				
@@ -213,6 +221,7 @@ public class UndoableTaskTreeModel extends TaskTreeModelImpl {
 		
 		fireUndoableEditEvent (new AbstractUndoableEdit () {
 			
+			@Override
 			public String getPresentationName () {
 				if (onlyOne) {
 					return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("delete_task");
@@ -222,6 +231,7 @@ public class UndoableTaskTreeModel extends TaskTreeModelImpl {
 			}
 			
 			
+			@Override
 			public void undo () throws CannotUndoException {
 				super.undo ();
 				
@@ -237,6 +247,7 @@ public class UndoableTaskTreeModel extends TaskTreeModelImpl {
 			}
 			
 			
+			@Override
 			public void redo () throws CannotUndoException {
 				super.redo ();
 				
@@ -265,6 +276,7 @@ public class UndoableTaskTreeModel extends TaskTreeModelImpl {
 		
 		fireUndoableEditEvent (new AbstractUndoableEdit () {
 			
+			@Override
 			public String getPresentationName () {
 				if (onlyOne) {
 					return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("delete_action");
@@ -274,6 +286,7 @@ public class UndoableTaskTreeModel extends TaskTreeModelImpl {
 			}
 			
 			
+			@Override
 			public void undo () throws CannotUndoException {
 				super.undo ();
 				
@@ -289,6 +302,7 @@ public class UndoableTaskTreeModel extends TaskTreeModelImpl {
 			}
 			
 			
+			@Override
 			public void redo () throws CannotUndoException {
 				super.redo ();
 				
@@ -314,6 +328,7 @@ public class UndoableTaskTreeModel extends TaskTreeModelImpl {
 		
 		fireUndoableEditEvent (new AbstractUndoableEdit () {
 			
+			@Override
 			public String getPresentationName () {
 				if (onlyOne) {
 					return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("move_task");
@@ -323,6 +338,7 @@ public class UndoableTaskTreeModel extends TaskTreeModelImpl {
 			}
 			
 			
+			@Override
 			public void undo () throws CannotUndoException {
 				super.undo ();
 				
@@ -334,6 +350,7 @@ public class UndoableTaskTreeModel extends TaskTreeModelImpl {
 			}
 			
 			
+			@Override
 			public void redo () throws CannotUndoException {
 				super.redo ();
 				
@@ -360,6 +377,7 @@ public class UndoableTaskTreeModel extends TaskTreeModelImpl {
 		
 		fireUndoableEditEvent (new AbstractUndoableEdit () {
 			
+			@Override
 			public String getPresentationName () {
 				if (onlyOne) {
 					return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("move_action");
@@ -369,6 +387,7 @@ public class UndoableTaskTreeModel extends TaskTreeModelImpl {
 			}
 			
 			
+			@Override
 			public void undo () throws CannotUndoException {
 				super.undo ();
 				
@@ -380,6 +399,7 @@ public class UndoableTaskTreeModel extends TaskTreeModelImpl {
 			}
 			
 			
+			@Override
 			public void redo () throws CannotUndoException {
 				super.redo ();
 				
@@ -389,28 +409,31 @@ public class UndoableTaskTreeModel extends TaskTreeModelImpl {
 	}
 	
 	@Override
-	public void updateTask (final Task t, final String name) {
+	public void updateTask (final Task t, final String name, final String description) {
 		final String oldName = t.getName ();
-		super.updateTask (t, name);
+		super.updateTask (t, name, description);
 
 		fireUndoableEditEvent (new AbstractUndoableEdit () {
 			
+			@Override
 			public String getPresentationName () {
 				return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("edit_task");
 			}
 			
 			
+			@Override
 			public void undo () throws CannotUndoException {
 				super.undo ();
 				
-				UndoableTaskTreeModel.super.updateTask (t, oldName);
+				UndoableTaskTreeModel.super.updateTask (t, oldName, description);
 			}
 			
 			
+			@Override
 			public void redo () throws CannotUndoException {
 				super.redo ();
 				
-				UndoableTaskTreeModel.super.updateTask (t, name);
+				UndoableTaskTreeModel.super.updateTask (t, name, description);
 			}
 		});
 		
@@ -429,6 +452,7 @@ public class UndoableTaskTreeModel extends TaskTreeModelImpl {
 
 		fireUndoableEditEvent (new AbstractUndoableEdit () {
 			
+			@Override
 			public String getPresentationName () {
 				if (stoppingPOW) {
 					return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("stop_action");
@@ -438,6 +462,7 @@ public class UndoableTaskTreeModel extends TaskTreeModelImpl {
 			}
 			
 			
+			@Override
 			public void undo () throws CannotUndoException {
 				super.undo ();
 				
@@ -445,6 +470,7 @@ public class UndoableTaskTreeModel extends TaskTreeModelImpl {
 			}
 			
 			
+			@Override
 			public void redo () throws CannotUndoException {
 				super.redo ();
 				

@@ -12,6 +12,7 @@ import com.davidecavestro.timekeeper.model.event.WorkAdvanceModelEvent;
 import com.davidecavestro.timekeeper.model.event.WorkAdvanceModelListener;
 import java.util.Timer;
 import java.util.TimerTask;
+import javax.swing.SwingUtilities;
 import javax.swing.event.EventListenerList;
 
 /**
@@ -94,7 +95,13 @@ public class AdvancingTicPump implements WorkAdvanceModelListener {
 		t.schedule (
 			new TimerTask () {
 			    public void run() {
-					fireAdvancingTic ();
+					SwingUtilities.invokeLater (new Runnable () {
+						public void run () {
+							/*
+							 * @workaround invoca in modo asincrono la modifica tooltip
+							 */
+							fireAdvancingTic ();
+						}});
 				}
 			}
 			, 0

@@ -21,7 +21,6 @@ public interface PieceOfWorkBackup extends PieceOfWork {
 	PieceOfWork getSource ();
 	/**
 	 * Ripristina lo stato interno salvato in questo backup.
-	 * @param pow l'avanzamento su cui ripristinare lo stato.
 	 */
 	void restore ();
 }

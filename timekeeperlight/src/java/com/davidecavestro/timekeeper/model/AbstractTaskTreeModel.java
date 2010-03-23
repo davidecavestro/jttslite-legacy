@@ -28,8 +28,8 @@ import javax.swing.event.EventListenerList;
  * Implementazione parziale dell'albero dei task di modello.
  *
  * <P>
- * Fornisce i metodi di manipolazione del modello, quali ad esempio, l'inserimento o rimozione deinodi,degli avanzamenti.
- * QUestimetodi provvedono alla notifica delle modifiche apportate tramite gli eventi di tipo <CODE>TaskTreeModelEvent</CODE> e <CODE>WorkAdvanceModelEvent</CODE>.
+ * Fornisce i metodi di manipolazione del modello, quali ad esempio, l'inserimento o rimozione dei nodi e degli avanzamenti.
+ * Questi metodi provvedono alla notifica delle modifiche apportate tramite gli eventi di tipo <CODE>TaskTreeModelEvent</CODE> e <CODE>WorkAdvanceModelEvent</CODE>.
  * <P>
  *
  * <H3>Note per l'estensione</H3>
@@ -40,7 +40,7 @@ import javax.swing.event.EventListenerList;
  * Tali metodi sono richiamabili in modo sicuro, poich&egrave; la loro visibilit&agrave; ridotta ne garantisce l'affidabilit&agrave;.
  *
  * Questa restrizione &egrave; dovuta alla scelta di rendere questa classe estensibile, allo scopo di supportare 
- * "decorazioni" quali l'implementazione dell'undo/redo. Eventuali chiamate dirette ai metodi pubblici po&ograve; provocare la chiamata
+ * "decorazioni" quali l'implementazione dell'undo/redo. Eventuali chiamate dirette ai metodi pubblici possono provocare la chiamata
  * involontaria di agginte come il supporto all'undo/redo. 
  *
  * Esempio: la classe che estende questo modello per aggiungere le funzionalit&agrave; di undo, presenter&agrave; override del tipo
@@ -889,7 +889,7 @@ public abstract class AbstractTaskTreeModel implements TaskTreeModel, WorkAdvanc
 	 */
 	private PersistenceManager _pm;
 	/**
-	 * Ritorna un persistence manager difacciata, con una implementazione vuota.
+	 * Ritorna un persistence manager di facciata, con una implementazione vuota.
 	 * <P>
 	 * Scavalcare questo metodo per fornire una adeguata implementazione di PersistenceManager se necessario (ad esempio un PersistenceManager JDO).
 	 */
@@ -1287,11 +1287,12 @@ public abstract class AbstractTaskTreeModel implements TaskTreeModel, WorkAdvanc
 		_insertPiecesOfWorkInto (l, target, position, false);
 	}
 	
-	public void updateTask (final Task t, final String name) {
+	public void updateTask (final Task t, final String name, final String description) {
 		final Transaction tx = getTransaction ();
 		tx.begin ();
 		try {
 			t.setName (name);
+			t.setDescription (description);
 			
 			tx.commit ();
 		} catch (final Exception e) {

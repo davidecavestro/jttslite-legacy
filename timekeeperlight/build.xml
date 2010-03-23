@@ -6,6 +6,7 @@
     <description>Builds, tests, and runs the project timekeeperlight.</description>
     <import file="nbproject/build-impl.xml"/>
 
+    <import file="nbproject/profiler-build-impl.xml"/>
     <import file="nbproject/profiler-build-impl.xml"/>    <!--
 
     There exist several targets which are by default empty and which can be 
@@ -68,7 +69,7 @@
 
     -->
     
-    <target name="-pre-jar">
+    <target name="-pre-compile">
 	<!-- prepara le informazioni di release. -->
 	<buildnumber/>
 	<property file="${src.java.dir}/com/davidecavestro/timekeeper/release-skeleton.properties"/>
@@ -84,8 +85,9 @@
 	    
 	    <entry  key="build.number" value="${build.number}"/>
 	    <entry  key="build.date" type="date" value="now" pattern="yyyy-MM-dd HH:mm:ss.SSS"/>
-	    <entry  key="build.notes" type="string" value="Built with Java(TM) ${java.vm.version} (${java.vm.vendor}) by ${user.name} on ${os.name} ${os.arch} ${os.version}" />
+	    <entry  key="build.notes" type="string" value="Built by ${user.name} with ${java.runtime.name} ${java.version} (from ${java.vendor}) on ${os.name} ${os.arch} ${os.version}" />
 	</propertyfile>
+	<touch file="${src.java.dir}/com/davidecavestro/timekeeper/release.properties" />
 	<echo>Assigned build number: ${build.number}</echo>
     </target>
 

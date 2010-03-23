@@ -10,6 +10,7 @@ package com.davidecavestro.timekeeper.persistence;
 import com.davidecavestro.common.log.Logger;
 import com.davidecavestro.timekeeper.conf.ApplicationOptions;
 import com.davidecavestro.timekeeper.model.WorkSpace;
+import com.ost.timekeeper.model.ProgressTemplate;
 import com.ost.timekeeper.model.Project;
 import java.io.BufferedReader;
 import java.io.File;
@@ -64,7 +65,7 @@ public class PersistenceNode {
 			_props = new Properties (null);
 		}
 		_props.put ("javax.jdo.PersistenceManagerFactoryClass", "com.sun.jdori.fostore.FOStorePMF");
-		final StringBuffer connectionURL = new StringBuffer ();
+		final StringBuilder connectionURL = new StringBuilder ();
 		connectionURL.append ("fostore:");
 		final String storageDirPath = _ao.getJDOStorageDirPath ();
 		if (storageDirPath!=null && storageDirPath.length ()>0){
@@ -109,7 +110,7 @@ public class PersistenceNode {
 	private void lockDatastore () throws IOException {
 		final File lockFile = getDatastoreLock ();
 		if (lockFile.exists () && System.currentTimeMillis ()  - lockFile.lastModified () < MAX_DELAY) {
-			throw new IOException ("Cannot create a new datastore lock file. The existing one is too recent.");
+			throw new IOException ("Cannot create a new datastore lock file. Please wait a minute or either manually delete "+lockFile.getPath ()+" (at your own risk).");
 		}
 		final PrintWriter fw = new PrintWriter (getDatastoreLock ());
 		try {
@@ -173,7 +174,9 @@ public class PersistenceNode {
 		if (_pm.currentTransaction ().isActive ()){
 			_pm.currentTransaction ().commit ();
 		}
+		
 		_pm.currentTransaction ().setOptimistic (false);
+		_pm.setMultithreaded (true);
 	}
 	
 	/**
@@ -259,6 +262,24 @@ public class PersistenceNode {
 		final PersistenceManager pm = getPersistenceManager ();
 		for (final Iterator it = pm.getExtent(Project.class, true).iterator();it.hasNext ();){
 			data.add ((Project)it.next());
+		}
+		return data;
+	}
+	
+	public List<ProgressTemplate> getAvailableTemplates () {
+		final List<ProgressTemplate> data = new ArrayList<ProgressTemplate> ();
+		final PersistenceManager pm = getPersistenceManager ();
+		
+		try {
+			/*
+			 * Evita problemi di class loading
+			 */
+			Class.forName ("com.ost.timekeeper.model.ProgressTemplate", true, pm.getClass ().getClassLoader ());
+		} catch (final ClassNotFoundException ex) {
+			throw new RuntimeException (ex);
+		}
+		for (final Iterator it = pm.getExtent(ProgressTemplate.class, true).iterator();it.hasNext ();){
+			data.add ((ProgressTemplate)it.next());
 		}
 		return data;
 	}

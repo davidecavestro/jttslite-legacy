@@ -6,11 +6,9 @@
 
 package com.davidecavestro.timekeeper.conf;
 
-import javax.swing.UIManager;
-
 /**
  * Opzioni di configurazione dell'applicazione. E' possibile implementare una catena
- * di responsabilita'', innestando diversi oggetti di questo tipo.
+ * di responsabilita', innestando diversi oggetti di questo tipo.
  *
  * @author  davide
  */
@@ -91,32 +89,32 @@ public final class ApplicationOptions {
 	}
 	
 	
-	/**
-	 * Ritorna il L&F impostato.
-	 *
-	 * @return il L&F impostato.
-	 */	
-	public String getLookAndFeel (){
-		final String returnValue = _settings.getLookAndFeel ();
-		if (returnValue!=null){
-				/*
-				 * Risposta locale.
-				 */
-			return returnValue;
-		} else {
-			if (_successor!=null){
-					/*
-					 * Delega successore.
-					 */
-				return _successor.getLookAndFeel ();
-			} else {
-					/*
-					 * Default di sistema non disponibile.
-					 */
-				return UIManager.getSystemLookAndFeelClassName ();
-			}
-		}
-	}
+//	/**
+//	 * Ritorna il L&F impostato.
+//	 *
+//	 * @return il L&F impostato.
+//	 */	
+//	public String getLookAndFeel (){
+//		final String returnValue = _settings.getLookAndFeel ();
+//		if (returnValue!=null){
+//				/*
+//				 * Risposta locale.
+//				 */
+//			return returnValue;
+//		} else {
+//			if (_successor!=null){
+//					/*
+//					 * Delega successore.
+//					 */
+//				return _successor.getLookAndFeel ();
+//			} else {
+//					/*
+//					 * Default di sistema non disponibile.
+//					 */
+//				return UIManager.getSystemLookAndFeelClassName ();
+//			}
+//		}
+//	}
 
 
 	
@@ -281,6 +279,58 @@ public final class ApplicationOptions {
 				 * Funzionalit� disabilita'ta.
 				 */
 				return DefaultSettings.defaultChartDepth ();
+			}
+		}
+	}
+
+	/**
+	 * Indica se l'integrazione con il desktop per la visualizzazione della trayicon è abilitata.
+	 * @return <tt>true/tt> se l'integrazione con il desktop per la visualizzazione della trayicon è abilitata.
+	 */
+	public boolean isTrayIconEnabled () {
+		final Boolean returnValue = _settings.getTrayIconEnabled ();
+		if (returnValue!=null){
+				/*
+				 * Risposta locale.
+				 */
+			return returnValue.booleanValue ();
+		} else {
+			if (_successor!=null){
+					/*
+					 * Delega successore.
+					 */
+				return _successor.isTrayIconEnabled ();
+			} else {
+				/*
+				 * Default diSistema
+				 */
+				return DefaultSettings.isTrayIconEnabled ();
+			}
+		}
+	}
+	
+	/**
+	 * Indica se l'integrazione con il desktop per l'utilizzo delle helper application (per aprire i file) è abilitata.
+	 * @return <tt>true/tt> se l'integrazione con il desktop per l'utilizzo delle helper application (per aprire i file) è abilitata.
+	 */
+	public boolean isHelperApplicationIntegrationEnabled () {
+		final Boolean returnValue = _settings.getHelperApplicationsEnabled ();
+		if (returnValue!=null){
+				/*
+				 * Risposta locale.
+				 */
+			return returnValue.booleanValue ();
+		} else {
+			if (_successor!=null){
+					/*
+					 * Delega successore.
+					 */
+				return _successor.isHelperApplicationIntegrationEnabled ();
+			} else {
+				/*
+				 * Default diSistema
+				 */
+				return DefaultSettings.isHelperApplicationIntegrationEnabled ();
 			}
 		}
 	}

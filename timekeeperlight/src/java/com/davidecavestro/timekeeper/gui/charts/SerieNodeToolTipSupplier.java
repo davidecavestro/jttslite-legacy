@@ -73,7 +73,7 @@ public final class SerieNodeToolTipSupplier {
 			
 			
 				
-			final StringBuffer sb= new StringBuffer ();
+			final StringBuilder sb= new StringBuilder ();
 			sb.append ("<HTML>")
 			.append ("<TABLE>")
 			
@@ -148,7 +148,7 @@ public final class SerieNodeToolTipSupplier {
 		 * @return la stringa formattata che rappresenta una durata nelformato previsto.
 		 */		
 		private String formatDuration (final Duration duration){
-			final StringBuffer sb = new StringBuffer ();
+			final StringBuilder sb = new StringBuilder ();
 			
 //			final long days = duration.getDays();
 //

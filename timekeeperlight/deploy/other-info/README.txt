@@ -23,7 +23,7 @@ JTTS is released under a BSD-like license. For more more info about JTTS and thi
 ~ Availability:
 
 Home Page:
-http://sourceforge.net/projects/jttslite/
+http://jttslite.sourceforge.net/
 
 Downloads:
 http://sourceforge.net/projects/jttslite/

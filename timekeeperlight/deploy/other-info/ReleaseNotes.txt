@@ -1,3 +1,7 @@
+2.7.0
+- Fixed some Workspaces Editor issues
+- Updated the User Guide
+
 2.7.0 beta1
 - Improved the management of workspaces with the introduction of Workspaces Editor
 - BUG# 2788262: Labels on "Desktop" tabbed pane aren't localized in italian

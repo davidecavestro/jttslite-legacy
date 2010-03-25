@@ -6,12 +6,12 @@
 
 package com.ost.timekeeper.model;
 
-import com.davidecavestro.common.util.ExceptionUtils;
-import com.davidecavestro.timekeeper.model.PieceOfWork;
-import com.davidecavestro.timekeeper.model.PieceOfWorkBackup;
-import com.davidecavestro.timekeeper.model.Task;
-import com.davidecavestro.timekeeper.model.TaskBackup;
 import java.util.*;
+import net.sf.jttslite.common.util.ExceptionUtils;
+import net.sf.jttslite.core.model.PieceOfWork;
+import net.sf.jttslite.core.model.PieceOfWorkBackup;
+import net.sf.jttslite.core.model.Task;
+import net.sf.jttslite.core.model.TaskBackup;
 
 /**
  * Generico nodo della gerarchia di avanzamenti (nodo di avanzamento).

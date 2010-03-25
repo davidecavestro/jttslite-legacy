@@ -7,11 +7,10 @@
 
 package com.ost.timekeeper.model;
 
-import com.davidecavestro.common.util.GenericUtils;
-import com.davidecavestro.timekeeper.model.PieceOfWorkTemplate;
-import com.davidecavestro.timekeeper.model.PieceOfWorkTemplateBackup;
-import com.ost.timekeeper.util.Duration;
 import java.util.Observable;
+import net.sf.jttslite.core.model.PieceOfWorkTemplate;
+import net.sf.jttslite.core.model.PieceOfWorkTemplateBackup;
+import net.sf.jttslite.core.util.Duration;
 
 /**
  * A template to ease the creation of recurrent pieces of work

@@ -6,9 +6,10 @@
 
 package com.ost.timekeeper.model;
 
-import com.davidecavestro.timekeeper.model.Task;
-import com.davidecavestro.timekeeper.model.WorkSpace;
-import com.davidecavestro.timekeeper.model.WorkSpaceBackup;
+import net.sf.jttslite.core.model.Task;
+import net.sf.jttslite.core.model.WorkSpace;
+import net.sf.jttslite.core.model.WorkSpaceBackup;
+
 
 /**
  * Implementa l'entit� di tipo PROGETTO. 

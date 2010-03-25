@@ -6,11 +6,11 @@
 
 package com.ost.timekeeper.model;
 
-import com.davidecavestro.common.util.CalendarUtils;
-import com.davidecavestro.common.util.ExceptionUtils;
-import com.ost.timekeeper.util.Duration;
-import com.ost.timekeeper.util.LocalizedPeriod;
 import java.util.*;
+import net.sf.jttslite.common.util.CalendarUtils;
+import net.sf.jttslite.common.util.ExceptionUtils;
+import net.sf.jttslite.core.util.Duration;
+import net.sf.jttslite.core.util.LocalizedPeriod;
 
 /**
  * Rappresenta un periodo temporale. I metodi che non ammettono periodi temporali 

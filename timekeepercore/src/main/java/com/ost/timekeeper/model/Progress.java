@@ -6,10 +6,10 @@
 
 package com.ost.timekeeper.model;
 
-import com.davidecavestro.timekeeper.model.PieceOfWork;
-import com.davidecavestro.timekeeper.model.PieceOfWorkBackup;
-import com.davidecavestro.timekeeper.model.Task;
 import java.util.Date;
+import net.sf.jttslite.core.model.PieceOfWork;
+import net.sf.jttslite.core.model.PieceOfWorkBackup;
+import net.sf.jttslite.core.model.Task;
 
 /**
  * Un avanzamento.

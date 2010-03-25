@@ -156,7 +156,7 @@ public class About extends javax.swing.JDialog {
         presentationPanel.setMinimumSize(new java.awt.Dimension(420, 300));
         presentationPanel.setPreferredSize(new java.awt.Dimension(420, 300));
         presentationPanel.setLayout(new java.awt.GridBagLayout());
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res"); // NOI18N
         jTabbedPane1.addTab(bundle.getString("About"), presentationPanel); // NOI18N
 
         jPanel1.setPreferredSize(new java.awt.Dimension(200, 200));
@@ -508,9 +508,9 @@ public class About extends javax.swing.JDialog {
 		public String getColumnName (int columnIndex) {
 			switch (columnIndex) {
 				case 0:
-					return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Property");
+					return java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Property");
 				case 1:
-					return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Value");
+					return java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Value");
 				default:
 					return null;
 			}
@@ -566,9 +566,9 @@ public class About extends javax.swing.JDialog {
 		public String getColumnName (int columnIndex) {
 			switch (columnIndex) {
 				case 0:
-					return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Property");
+					return java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Property");
 				case 1:
-					return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Value");
+					return java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Value");
 				default:
 					return null;
 			}
@@ -624,9 +624,9 @@ public class About extends javax.swing.JDialog {
 		public String getColumnName (int columnIndex) {
 			switch (columnIndex) {
 				case 0:
-					return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Property");
+					return java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Property");
 				case 1:
-					return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Value");
+					return java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Value");
 				default:
 					return null;
 			}

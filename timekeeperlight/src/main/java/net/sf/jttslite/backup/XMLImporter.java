@@ -57,7 +57,7 @@ public class XMLImporter {
         try {
             return _restore (prj, icr);
         } catch (final DuplicatedWorkSpaceException ex) {
-            icr.showErrorMessage (MessageFormat.format (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("XMLImporter/ErrorMessage/DuplicatedWorkSpaceException"), prj.getName ()));
+            icr.showErrorMessage (MessageFormat.format (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("XMLImporter/ErrorMessage/DuplicatedWorkSpaceException"), prj.getName ()));
         }
         return false;
 	}
@@ -144,19 +144,19 @@ public class XMLImporter {
 		OVERWRITE {
             @Override
 			public String toString () {
-				return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Overwrite");
+				return java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Overwrite");
 			}
 		},
 		RENAME {
             @Override
 			public String toString () {
-				return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Rename");
+				return java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Rename");
 			}
 		},
 		CANCEL {
             @Override
 			public String toString () {
-				return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Cancel");
+				return java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Cancel");
 			}
 		}
 		
@@ -198,7 +198,7 @@ public class XMLImporter {
 					child.setParent (this._progressItem);
 					children.add (child);
 				} catch (Exception e){
-					_context.getLogger ().error (e, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("error_importing_task_"));
+					_context.getLogger ().error (e, java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("error_importing_task_"));
 				}
 			}
 			this._progressItem.setChildren (children);
@@ -208,7 +208,7 @@ public class XMLImporter {
 					final Progress progress = new ProgressElement ((Element)it.next (), this._progressItem).getProgress ();
 					progresses.add (progress);
 				} catch (Exception e){
-					_context.getLogger ().error (e, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("error_importing_action_"));
+					_context.getLogger ().error (e, java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("error_importing_action_"));
 				}
 			}
 			this._progressItem.setProgresses (progresses);

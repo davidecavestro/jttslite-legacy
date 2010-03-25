@@ -48,7 +48,7 @@ public class UndoablePieceOfWorkTemplateModel extends PieceOfWorkTemplateModelIm
 			
 			@Override
 			public String getPresentationName () {
-				return java.util.ResourceBundle.getBundle ("com.davidecavestro.timekeeper.gui.res").getString ("UndoablePieceOfWorkTemplateModel/UndoActionName/add_progresstemplate");
+				return java.util.ResourceBundle.getBundle ("net.sf.jttslite.gui.res").getString ("UndoablePieceOfWorkTemplateModel/UndoActionName/add_progresstemplate");
 			}
 
 			@Override
@@ -82,7 +82,7 @@ public class UndoablePieceOfWorkTemplateModel extends PieceOfWorkTemplateModelIm
 			
 			@Override
 			public String getPresentationName () {
-				return java.util.ResourceBundle.getBundle ("com.davidecavestro.timekeeper.gui.res").getString ("UndoablePieceOfWorkTemplateModel/UndoActionName/add_progresstemplate");
+				return java.util.ResourceBundle.getBundle ("net.sf.jttslite.gui.res").getString ("UndoablePieceOfWorkTemplateModel/UndoActionName/add_progresstemplate");
 			}
 
 			@Override
@@ -121,7 +121,7 @@ public class UndoablePieceOfWorkTemplateModel extends PieceOfWorkTemplateModelIm
 			
 			@Override
 			public String getPresentationName () {
-				return java.util.ResourceBundle.getBundle ("com.davidecavestro.timekeeper.gui.res").getString ("UndoablePieceOfWorkTemplateModel/UndoActionName/insert_progresstemplate");
+				return java.util.ResourceBundle.getBundle ("net.sf.jttslite.gui.res").getString ("UndoablePieceOfWorkTemplateModel/UndoActionName/insert_progresstemplate");
 			}
 
 			@Override
@@ -155,7 +155,7 @@ public class UndoablePieceOfWorkTemplateModel extends PieceOfWorkTemplateModelIm
 
 			@Override
 			public String getPresentationName () {
-				return java.util.ResourceBundle.getBundle ("com.davidecavestro.timekeeper.gui.res").getString ("UndoablePieceOfWorkTemplateModel/UndoActionName/remove_progresstemplate");
+				return java.util.ResourceBundle.getBundle ("net.sf.jttslite.gui.res").getString ("UndoablePieceOfWorkTemplateModel/UndoActionName/remove_progresstemplate");
 			}
 
 			@Override
@@ -194,7 +194,7 @@ public class UndoablePieceOfWorkTemplateModel extends PieceOfWorkTemplateModelIm
 
 			@Override
 			public String getPresentationName () {
-				return java.util.ResourceBundle.getBundle ("com.davidecavestro.timekeeper.gui.res").getString ("UndoablePieceOfWorkTemplateModel/UndoActionName/remove_progresstemplate");
+				return java.util.ResourceBundle.getBundle ("net.sf.jttslite.gui.res").getString ("UndoablePieceOfWorkTemplateModel/UndoActionName/remove_progresstemplate");
 			}
 
 			@Override
@@ -234,7 +234,7 @@ public class UndoablePieceOfWorkTemplateModel extends PieceOfWorkTemplateModelIm
 
 			@Override
 			public String getPresentationName () {
-				return java.util.ResourceBundle.getBundle ("com.davidecavestro.timekeeper.gui.res").getString ("UndoablePieceOfWorkTemplateModel/UndoActionName/remove_progresstemplate");
+				return java.util.ResourceBundle.getBundle ("net.sf.jttslite.gui.res").getString ("UndoablePieceOfWorkTemplateModel/UndoActionName/remove_progresstemplate");
 			}
 
 			@Override
@@ -274,7 +274,7 @@ public class UndoablePieceOfWorkTemplateModel extends PieceOfWorkTemplateModelIm
 
 			@Override
 			public String getPresentationName () {
-				return java.util.ResourceBundle.getBundle ("com.davidecavestro.timekeeper.gui.res").getString ("UndoablePieceOfWorkTemplateModel/UndoActionName/remove_progresstemplate");
+				return java.util.ResourceBundle.getBundle ("net.sf.jttslite.gui.res").getString ("UndoablePieceOfWorkTemplateModel/UndoActionName/remove_progresstemplate");
 			}
 
 			@Override
@@ -315,7 +315,7 @@ public class UndoablePieceOfWorkTemplateModel extends PieceOfWorkTemplateModelIm
 			
 			@Override
 			public String getPresentationName () {
-				return java.util.ResourceBundle.getBundle ("com.davidecavestro.timekeeper.gui.res").getString ("UndoablePieceOfWorkTemplateModel/UndoActionName/set_progresstemplateset_progresstemplate");
+				return java.util.ResourceBundle.getBundle ("net.sf.jttslite.gui.res").getString ("UndoablePieceOfWorkTemplateModel/UndoActionName/set_progresstemplateset_progresstemplate");
 			}
 
 			@Override
@@ -360,7 +360,7 @@ public class UndoablePieceOfWorkTemplateModel extends PieceOfWorkTemplateModelIm
 			
 			@Override
 			public String getPresentationName () {
-				return java.util.ResourceBundle.getBundle ("com.davidecavestro.timekeeper.gui.res").getString ("UndoablePieceOfWorkTemplateModel/UndoActionName/set_progresstemplateset_progresstemplate");
+				return java.util.ResourceBundle.getBundle ("net.sf.jttslite.gui.res").getString ("UndoablePieceOfWorkTemplateModel/UndoActionName/set_progresstemplateset_progresstemplate");
 			}
 
 			@Override
@@ -401,7 +401,7 @@ public class UndoablePieceOfWorkTemplateModel extends PieceOfWorkTemplateModelIm
 
 			@Override
 			public String getPresentationName () {
-				return java.util.ResourceBundle.getBundle ("com.davidecavestro.timekeeper.gui.res").getString ("UndoablePieceOfWorkTemplateModel/UndoActionName/edit_progresstemplate");
+				return java.util.ResourceBundle.getBundle ("net.sf.jttslite.gui.res").getString ("UndoablePieceOfWorkTemplateModel/UndoActionName/edit_progresstemplate");
 			}
 
 			@Override

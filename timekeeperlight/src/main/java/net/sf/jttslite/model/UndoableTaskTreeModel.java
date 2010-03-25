@@ -63,7 +63,7 @@ public class UndoableTaskTreeModel extends TaskTreeModelImpl {
 		fireUndoableEditEvent (new AbstractUndoableEdit () {
 			@Override
 			public String getPresentationName () {
-				return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("delete_action");
+				return java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("delete_action");
 			}
 			
 			
@@ -101,9 +101,9 @@ public class UndoableTaskTreeModel extends TaskTreeModelImpl {
 			@Override
 			public String getPresentationName () {
 				if (startingPOW) {
-					return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("start_action");
+					return java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("start_action");
 				} else {
-					return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("new_action");
+					return java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("new_action");
 				}
 			}
 			
@@ -143,7 +143,7 @@ public class UndoableTaskTreeModel extends TaskTreeModelImpl {
 
 			@Override
 			public String getPresentationName () {
-				return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("delete_task");
+				return java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("delete_task");
 			}
 			
 			
@@ -179,7 +179,7 @@ public class UndoableTaskTreeModel extends TaskTreeModelImpl {
 			
 			@Override
 			public String getPresentationName () {
-				return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("new_task");
+				return java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("new_task");
 			}
 			
 			
@@ -229,9 +229,9 @@ public class UndoableTaskTreeModel extends TaskTreeModelImpl {
 			@Override
 			public String getPresentationName () {
 				if (onlyOne) {
-					return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("delete_task");
+					return java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("delete_task");
 				} else {
-					return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("delete_tasks");
+					return java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("delete_tasks");
 				}
 			}
 			
@@ -284,9 +284,9 @@ public class UndoableTaskTreeModel extends TaskTreeModelImpl {
 			@Override
 			public String getPresentationName () {
 				if (onlyOne) {
-					return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("delete_action");
+					return java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("delete_action");
 				} else {
-					return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("delete_actions");
+					return java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("delete_actions");
 				}
 			}
 			
@@ -336,9 +336,9 @@ public class UndoableTaskTreeModel extends TaskTreeModelImpl {
 			@Override
 			public String getPresentationName () {
 				if (onlyOne) {
-					return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("move_task");
+					return java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("move_task");
 				} else {
-					return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("move_tasks");
+					return java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("move_tasks");
 				}
 			}
 			
@@ -385,9 +385,9 @@ public class UndoableTaskTreeModel extends TaskTreeModelImpl {
 			@Override
 			public String getPresentationName () {
 				if (onlyOne) {
-					return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("move_action");
+					return java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("move_action");
 				} else {
-					return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("move_actions");
+					return java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("move_actions");
 				}
 			}
 			
@@ -422,7 +422,7 @@ public class UndoableTaskTreeModel extends TaskTreeModelImpl {
 			
 			@Override
 			public String getPresentationName () {
-				return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("edit_task");
+				return java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("edit_task");
 			}
 			
 			
@@ -460,9 +460,9 @@ public class UndoableTaskTreeModel extends TaskTreeModelImpl {
 			@Override
 			public String getPresentationName () {
 				if (stoppingPOW) {
-					return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("stop_action");
+					return java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("stop_action");
 				} else {
-					return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("edit_action");
+					return java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("edit_action");
 				}
 			}
 			

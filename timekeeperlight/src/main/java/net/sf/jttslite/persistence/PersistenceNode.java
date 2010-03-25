@@ -180,7 +180,7 @@ public class PersistenceNode {
 	}
 	
 	/**
-	 * Rilascia le risorse per la risorsea gestione della persistenza dei dati.
+	 * Rilascia le risorse per la gestione della persistenza dei dati.
 	 */
 	private void closePersistence (){
 		if (_pm==null){
@@ -274,7 +274,7 @@ public class PersistenceNode {
 			/*
 			 * Evita problemi di class loading
 			 */
-			Class.forName ("com.ost.timekeeper.model.ProgressTemplate", true, pm.getClass ().getClassLoader ());
+			Class.forName ("net.sf.jttslite.core.model.impl.ProgressTemplate", true, pm.getClass ().getClassLoader ());
 		} catch (final ClassNotFoundException ex) {
 			throw new RuntimeException (ex);
 		}
@@ -308,7 +308,7 @@ public class PersistenceNode {
 			
 				lockDatastore ();
 				if (!isDatastoreAvailable ()) {
-					throw new PersistenceNodeException (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Cannot_initialize_data_storage."));
+					throw new PersistenceNodeException (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Cannot_initialize_data_storage."));
 				}
 				
 			} catch (final Exception ex) {

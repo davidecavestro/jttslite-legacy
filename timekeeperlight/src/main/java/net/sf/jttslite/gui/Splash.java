@@ -52,7 +52,7 @@ public class Splash extends javax.swing.JFrame {
         });
 
         getAccessibleContext().setAccessibleName("splashFrame");
-        getAccessibleContext().setAccessibleDescription(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Application_startup_splash"));
+        getAccessibleContext().setAccessibleDescription(java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Application_startup_splash"));
         mainPanel.setLayout(new java.awt.BorderLayout());
 
         mainPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));

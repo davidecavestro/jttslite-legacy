@@ -43,13 +43,13 @@ public enum CustomizableFormat {
 	
 	
 	public String getDescription () {
-		return ResourceBundle.getBundle ("com.davidecavestro.timekeeper.gui.res").getString (getKey ()+"/Description");
+		return ResourceBundle.getBundle ("net.sf.jttslite.gui.res").getString (getKey ()+"/Description");
 	}
 	public String getName () {
-		return ResourceBundle.getBundle ("com.davidecavestro.timekeeper.gui.res").getString (getKey ()+"/Name");
+		return ResourceBundle.getBundle ("net.sf.jttslite.gui.res").getString (getKey ()+"/Name");
 	}
 	public String getDefaultValue () {
-		return ResourceBundle.getBundle ("com.davidecavestro.timekeeper.gui.res").getString (getKey ());
+		return ResourceBundle.getBundle ("net.sf.jttslite.gui.res").getString (getKey ());
 	}
 	public String getCustomValue (final ApplicationContext context) {
 		return SettingsSupport.getStringProperty (context.getUserSettings ().getProperties (), getKey ());

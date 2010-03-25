@@ -358,9 +358,9 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 			
 			private void adjustStatusLabel () {
 				if (_context.getModel ().getAdvancing ().isEmpty ()) {
-					appStatusLabel.setText (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("MainWindow/StatusBar/StatusLabel/IDLE"));
+					appStatusLabel.setText (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("MainWindow/StatusBar/StatusLabel/IDLE"));
 				} else {
-					appStatusLabel.setText (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("MainWindow/StatusBar/StatusLabel/RUNNING"));
+					appStatusLabel.setText (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("MainWindow/StatusBar/StatusLabel/RUNNING"));
 				}
 			}
 		});
@@ -558,14 +558,14 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 		mainContentsTabbedPane.setIconAt (0, 
 			new CompositeIcon (
 				new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/view_text.png")),
-				new VTextIcon(mainContentsTabbedPane, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("MainWindow/MainContentsTabbedPane/TabTitle/Actions"), VTextIcon.ROTATE_DEFAULT)
+				new VTextIcon(mainContentsTabbedPane, java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("MainWindow/MainContentsTabbedPane/TabTitle/Actions"), VTextIcon.ROTATE_DEFAULT)
 				)
 			);
 		
 		mainContentsTabbedPane.setIconAt (1, 
 			new CompositeIcon (
 				new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/colors.png")),
-				new VTextIcon(mainContentsTabbedPane, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("MainWindow/MainContentsTabbedPane/TabTitle/Charts"), VTextIcon.ROTATE_DEFAULT)
+				new VTextIcon(mainContentsTabbedPane, java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("MainWindow/MainContentsTabbedPane/TabTitle/Charts"), VTextIcon.ROTATE_DEFAULT)
 				)
 			);
 			
@@ -671,8 +671,8 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 			private final TrayMessageNotifier _notifier = new TrayMessageNotifier (context, 1000*60*15) {
 				public void notifyTray (final SystemTraySupport traySupport) {
 					traySupport.displayInfo (
-						java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("SystemTray/InfoMesage/Title/Idle_15_minutes"), 
-						java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("SystemTray/InfoMesage/Message/Idle_15_minutes"));
+						java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("SystemTray/InfoMesage/Title/Idle_15_minutes"), 
+						java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("SystemTray/InfoMesage/Message/Idle_15_minutes"));
 				}
 			};
 			
@@ -728,8 +728,8 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 		/*
 		 * Tabpane tooltips
 		 */
-		mainContentsTabbedPane.setToolTipTextAt (0, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("MainWindow/ProgressesPane/ProgressesTableTab/Tooltip"));
-		mainContentsTabbedPane.setToolTipTextAt (1, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("MainWindow/ProgressesPane/ChartsTab/Tooltip"));
+		mainContentsTabbedPane.setToolTipTextAt (0, java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("MainWindow/ProgressesPane/ProgressesTableTab/Tooltip"));
+		mainContentsTabbedPane.setToolTipTextAt (1, java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("MainWindow/ProgressesPane/ChartsTab/Tooltip"));
 				
 		
 		
@@ -962,7 +962,7 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
         newTaskPopupItem.setAction(new NewTaskAction ());
         newTaskPopupItem.setFont(new java.awt.Font("Dialog", 0, 12));
         newTaskPopupItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/file-new.png"))); // NOI18N
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res"); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(newTaskPopupItem, bundle.getString("New_task")); // NOI18N
         newTaskPopupItem.setActionCommand("newTask");
         newTaskPopupItem.addActionListener(new java.awt.event.ActionListener() {
@@ -2660,11 +2660,11 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 		}
 		
 		private final String[] _columnNames = new String[] {
-			java.util.ResourceBundle.getBundle ("com.davidecavestro.timekeeper.gui.res").getString ("table_header/Duration")
+			java.util.ResourceBundle.getBundle ("net.sf.jttslite.gui.res").getString ("table_header/Duration")
 			, /*"Task", */
-			java.util.ResourceBundle.getBundle ("com.davidecavestro.timekeeper.gui.res").getString ("table_header/From"),
-			java.util.ResourceBundle.getBundle ("com.davidecavestro.timekeeper.gui.res").getString ("table_header/To"),
-			java.util.ResourceBundle.getBundle ("com.davidecavestro.timekeeper.gui.res").getString ("table_header/Notes")
+			java.util.ResourceBundle.getBundle ("net.sf.jttslite.gui.res").getString ("table_header/From"),
+			java.util.ResourceBundle.getBundle ("net.sf.jttslite.gui.res").getString ("table_header/To"),
+			java.util.ResourceBundle.getBundle ("net.sf.jttslite.gui.res").getString ("table_header/Notes")
 		};
 		
 		@Override
@@ -3053,9 +3053,9 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 		}
 		
 		private String[] columnNames = new String[] {
-			java.util.ResourceBundle.getBundle ("com.davidecavestro.timekeeper.gui.res").getString ("Task"), 
-			java.util.ResourceBundle.getBundle ("com.davidecavestro.timekeeper.gui.res").getString ("Today"), 
-			java.util.ResourceBundle.getBundle ("com.davidecavestro.timekeeper.gui.res").getString ("Total")
+			java.util.ResourceBundle.getBundle ("net.sf.jttslite.gui.res").getString ("Task"), 
+			java.util.ResourceBundle.getBundle ("net.sf.jttslite.gui.res").getString ("Today"), 
+			java.util.ResourceBundle.getBundle ("net.sf.jttslite.gui.res").getString ("Total")
 		};
 		public String getColumnName (int column) {
 			return columnNames[column];
@@ -3980,8 +3980,8 @@ com.davidecavestro.timekeeper.gui.MainWindow$TaskJTreeModel.checkForReload(MainW
 			
 			if (
 				JOptionPane.showConfirmDialog (MainWindow.this, 
-					java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("task.removal.confirm.message"), 
-					java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("task.removal.confirm.dialogtitle"), 
+					java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("task.removal.confirm.message"), 
+					java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("task.removal.confirm.dialogtitle"), 
 					JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE) != JOptionPane.OK_OPTION) {
 				return;
 			}
@@ -4345,7 +4345,7 @@ com.davidecavestro.timekeeper.gui.MainWindow$TaskJTreeModel.checkForReload(MainW
 			final PieceOfWorkTemplateModelImpl m = _context.getTemplateModel ();
 			for (final Progress progress : _candidates ) {
 				final ProgressTemplate template = new ProgressTemplate ();
-				template.setName (MessageFormat.format (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("new.template.automatic.name"), progress.getTask ().getName (), ""));
+				template.setName (MessageFormat.format (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("new.template.automatic.name"), progress.getTask ().getName (), ""));
 				template.setDuration (progress.getDuration ());
 				template.setNotes (progress.getDescription ());
 				m.addElement (template);
@@ -4478,8 +4478,8 @@ com.davidecavestro.timekeeper.gui.MainWindow$TaskJTreeModel.checkForReload(MainW
 			
 			if (
 				JOptionPane.showConfirmDialog (MainWindow.this, 
-					java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("action.removal.confirm.message"), 
-					java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("action.removal.confirm.dialogtitle"), 
+					java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("action.removal.confirm.message"), 
+					java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("action.removal.confirm.dialogtitle"), 
 					JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE) != JOptionPane.OK_OPTION) {
 				return;
 			}
@@ -4616,7 +4616,7 @@ com.davidecavestro.timekeeper.gui.MainWindow$TaskJTreeModel.checkForReload(MainW
 				 * richiesta interrotta dall'utente
 				 */
 			} catch (final DuplicatedWorkSpaceException ex) {
-				JOptionPane.showMessageDialog (MainWindow.this, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("New_workspace_conflicting_name_message"));
+				JOptionPane.showMessageDialog (MainWindow.this, java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("New_workspace_conflicting_name_message"));
 				//ci riprova
 				create ();
 			}
@@ -5016,8 +5016,8 @@ com.davidecavestro.timekeeper.gui.MainWindow$TaskJTreeModel.checkForReload(MainW
 				Arrays.binarySearch (optionsArray, PasteMode.AS_LAST_CHILD):
 				JOptionPane.showOptionDialog (
 				taskTree,
-				MessageFormat.format (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("PasteOptionsDialog/MainMessage"), releaseTarget.getName (), sourceNames.toString ()),
-				java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("PasteOptionsDialog/Title"),
+				MessageFormat.format (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("PasteOptionsDialog/MainMessage"), releaseTarget.getName (), sourceNames.toString ()),
+				java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("PasteOptionsDialog/Title"),
 				JOptionPane.OK_CANCEL_OPTION,
 				JOptionPane.QUESTION_MESSAGE,
 				null,
@@ -5350,17 +5350,17 @@ com.davidecavestro.timekeeper.gui.MainWindow$TaskJTreeModel.checkForReload(MainW
 	private static enum PasteMode {
 		BEFORE {
 			public String toString () {
-				return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("GeneralChoice/PasteMode/before");
+				return java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("GeneralChoice/PasteMode/before");
 			}
 		},
 		AFTER {
 			public String toString () {
-				return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("GeneralChoice/PasteMode/after");
+				return java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("GeneralChoice/PasteMode/after");
 			}
 		},
 		AS_LAST_CHILD {
 			public String toString () {
-				return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("GeneralChoice/PasteMode/as_last_child");
+				return java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("GeneralChoice/PasteMode/as_last_child");
 			}
 		}
 		
@@ -5718,8 +5718,8 @@ com.davidecavestro.timekeeper.gui.MainWindow$TaskJTreeModel.checkForReload(MainW
 			 * Azione in corso.
 			 */
 			final int choice = JOptionPane.showOptionDialog (_context.getWindowManager ().getMainWindow (), 
-				java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("ApplicationExit/ActiveActionConfirm/AskUserChoice"), 
-				java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("ApplicationExit/ActiveActionConfirm/Title"), 
+				java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("ApplicationExit/ActiveActionConfirm/AskUserChoice"), 
+				java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("ApplicationExit/ActiveActionConfirm/Title"), 
 				JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, ActiveActionExitChoice.values (), ActiveActionExitChoice.LEAVE);
 			
 			if (choice<0) {
@@ -5741,7 +5741,7 @@ com.davidecavestro.timekeeper.gui.MainWindow$TaskJTreeModel.checkForReload(MainW
 	private enum ActiveActionExitChoice {
 		LEAVE {
 			public String toString () {
-				return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("ConfirmDialog/ApplicationExitWIthActiveAction/Leave");
+				return java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("ConfirmDialog/ApplicationExitWIthActiveAction/Leave");
 			}
 			
 			public boolean process (final MainWindow mw) {
@@ -5750,7 +5750,7 @@ com.davidecavestro.timekeeper.gui.MainWindow$TaskJTreeModel.checkForReload(MainW
 		},
 		STOP {
 			public String toString () {
-				return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("ConfirmDialog/ApplicationExitWIthActiveAction/Stop");
+				return java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("ConfirmDialog/ApplicationExitWIthActiveAction/Stop");
 			}
 			
 			public boolean process (final MainWindow mw) {
@@ -5760,7 +5760,7 @@ com.davidecavestro.timekeeper.gui.MainWindow$TaskJTreeModel.checkForReload(MainW
 		}/*,
 		CANCEL {
 			public String toString () {
-				return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("ConfirmDialog/ApplicationExitWIthActiveAction/Cancel");
+				return java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("ConfirmDialog/ApplicationExitWIthActiveAction/Cancel");
 			}
 			
 			public boolean process (final MainWindow mw) {
@@ -5806,7 +5806,7 @@ class ImportWorkSpaceAction extends ContextAwareAction {
 
         final JFileChooser xmlFileChooser = getContext ().getWindowManager ().getXMLFileChooser ();
 
-        xmlFileChooser.setDialogTitle (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Import_workspace_from"));
+        xmlFileChooser.setDialogTitle (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Import_workspace_from"));
         final int returnVal = xmlFileChooser.showOpenDialog (mainWindow);
         if (returnVal != JFileChooser.APPROVE_OPTION) {
             return;
@@ -5821,8 +5821,8 @@ class ImportWorkSpaceAction extends ContextAwareAction {
                     final XMLImporter.ConflictResolution[] options = new XMLImporter.ConflictResolution[] {XMLImporter.ConflictResolution.OVERWRITE, XMLImporter.ConflictResolution.RENAME, XMLImporter.ConflictResolution.CANCEL};
                     final XMLImporter.ConflictResolution defaultValue = XMLImporter.ConflictResolution.OVERWRITE;
                     final int choice = JOptionPane.showOptionDialog (mainWindow,
-                        java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Workspace_import_conflict_resolution_message"),
-                        java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Import_conflict"),
+                        java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Workspace_import_conflict_resolution_message"),
+                        java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Import_conflict"),
                         JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, defaultValue);
                     if (choice<0) {
                         return XMLImporter.ConflictResolution.CANCEL;
@@ -5831,23 +5831,23 @@ class ImportWorkSpaceAction extends ContextAwareAction {
                 }
 
                 public String getNewName () {
-                    return JOptionPane.showInputDialog (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Rename_importing_workspace_to"));
+                    return JOptionPane.showInputDialog (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Rename_importing_workspace_to"));
                 }
 
 
                 public boolean continueOverwritingCurrentWorkspace () {
                     return JOptionPane.YES_OPTION==JOptionPane.showConfirmDialog (mainWindow,
-                        java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Current_workspace_overwrite_confirm_equest"),
-                        java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Overwriting_current_workspace"),
+                        java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Current_workspace_overwrite_confirm_equest"),
+                        java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Overwriting_current_workspace"),
                         JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
                 }
 
                 @Override
                 public void showErrorMessage (String msg) {
-                    JOptionPane.showMessageDialog (mainWindow, msg, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("MainWindow/GenericErrorDialog/Title"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog (mainWindow, msg, java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("MainWindow/GenericErrorDialog/Title"), JOptionPane.ERROR_MESSAGE);
                 }
             })) {
-                JOptionPane.showMessageDialog (mainWindow, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Import_completed"));
+                JOptionPane.showMessageDialog (mainWindow, java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Import_completed"));
             }
         } catch (final FileNotFoundException fnfe) {
             throw new RuntimeException (fnfe);
@@ -5879,7 +5879,7 @@ class ExportWorkSpaceAction extends ContextAwareAction {
         boolean fileExists;
         do {
             xmlFileChooser.setSelectedFile (new File (getContext ().getModel ().getWorkSpace ().getName ()+"_"+CalendarUtils.getTimestamp (new Date (), "yyyyMMdd")+".xml"));
-            xmlFileChooser.setDialogTitle (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Export_workspace_to"));
+            xmlFileChooser.setDialogTitle (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Export_workspace_to"));
             returnVal = xmlFileChooser.showSaveDialog(mainWindow);
             if (returnVal != JFileChooser.APPROVE_OPTION) {
                 return;
@@ -5901,7 +5901,7 @@ class ExportWorkSpaceAction extends ContextAwareAction {
         if (new XMLAgent (getContext ()).backup (getContext ().getModel ().getWorkSpace (), d)) {
             try {
                 new XMLOutputter ().output (d, new FileOutputStream (xmlFileChooser.getSelectedFile ()));
-                JOptionPane.showMessageDialog (mainWindow, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Export_completed"));
+                JOptionPane.showMessageDialog (mainWindow, java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Export_completed"));
             } catch (FileNotFoundException ex) {
                 throw new RuntimeException (ex);
             } catch (IOException ex) {

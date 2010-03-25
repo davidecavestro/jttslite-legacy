@@ -176,7 +176,7 @@ public final class TaskListExtractor extends AbstractDataExtractor {
 	 */
 	public String toString (){
 		final StringBuilder sb = new StringBuilder ();
-		sb.append (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("_subtree_root:_"));
+		sb.append (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("_subtree_root:_"));
 		sb.append (this._subtreeRoot);
 		return sb.toString ();
 	}
@@ -205,10 +205,10 @@ public final class TaskListExtractor extends AbstractDataExtractor {
 		public CumulationPeriod (final Date from, final Date to){
 			super (from, to);
 			if (null==from){
-				throw new IllegalArgumentException (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Invalid_'from'_value:_")+from);
+				throw new IllegalArgumentException (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Invalid_'from'_value:_")+from);
 			}
 			if (null==to){
-				throw new IllegalArgumentException (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Invalid_'to'_value:_")+to);
+				throw new IllegalArgumentException (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Invalid_'to'_value:_")+to);
 			}
 			_map = new HashMap<Task, NodeProgresses> ();
 		}

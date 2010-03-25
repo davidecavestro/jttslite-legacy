@@ -112,7 +112,7 @@ public class DurationTextField extends JFormattedTextField {
 						pos.setIndex (newPos);
 						return new Duration (hours, minutes, seconds, 0);
 					} catch (final NumberFormatException nfe) {
-						throw new RuntimeException (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Invalid_data:_")+source);
+						throw new RuntimeException (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Invalid_data:_")+source);
 					}
 				}
 				

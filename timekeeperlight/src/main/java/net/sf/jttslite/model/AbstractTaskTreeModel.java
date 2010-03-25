@@ -1277,7 +1277,7 @@ public abstract class AbstractTaskTreeModel implements TaskTreeModel, WorkAdvanc
 		final TaskTreePath targetPath = new TaskTreePath (_workspace, target);
 		for (final Task t : l) {
 			if (targetPath.contains (t)) {
-				throw new IllegalOperationException (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Cannot_move_a_task_into_its_subtree!"));
+				throw new IllegalOperationException (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Cannot_move_a_task_into_its_subtree!"));
 			}
 		}
 		final List<PieceOfWork> reverse = new ArrayList (l);

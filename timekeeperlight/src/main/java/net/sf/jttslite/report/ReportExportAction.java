@@ -203,7 +203,7 @@ public enum ReportExportAction implements ReportLaunchAction {
 		if (result == JFileChooser.APPROVE_OPTION) {
 			final File f = normalizeFile(_fileChooser.getSelectedFile());
 			if (f.exists()) {
-				if (JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog(parent, MessageFormat.format(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("ReportDialog/JOptionPane/Confirm_overwrite_existing_file"), f.getPath()), java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("ReportDialog/JOptionPane/Title/Confirm_overwrite_existing_file"), JOptionPane.YES_NO_OPTION)) {
+				if (JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog(parent, MessageFormat.format(java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("ReportDialog/JOptionPane/Confirm_overwrite_existing_file"), f.getPath()), java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("ReportDialog/JOptionPane/Title/Confirm_overwrite_existing_file"), JOptionPane.YES_NO_OPTION)) {
 					return;
 				}
 			}
@@ -213,7 +213,7 @@ public enum ReportExportAction implements ReportLaunchAction {
 				export(print, f);
 			}
 
-			JOptionPane.showMessageDialog(parent, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("ReportExportMessageDialog/Exporting_completed"));
+			JOptionPane.showMessageDialog(parent, java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("ReportExportMessageDialog/Exporting_completed"));
 		}
 	}
 

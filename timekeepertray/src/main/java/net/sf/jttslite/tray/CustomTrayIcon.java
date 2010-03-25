@@ -32,9 +32,9 @@ public class CustomTrayIcon extends TrayIcon {
 		public String getToolTip () {
 			final PieceOfWork pow =_systemTraySupport.getRunningAction ();
 			if (pow!=null) {
-				return MessageFormat.format (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("TrayIcon/Tooltip/Working"), pow.getTask ().getName (), DurationUtils.format (new Duration (pow.getFrom (), new Date ())));
+				return MessageFormat.format (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("TrayIcon/Tooltip/Working"), pow.getTask ().getName (), DurationUtils.format (new Duration (pow.getFrom (), new Date ())));
 			} else {
-				return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("TrayIcon/Tooltip/Pause");
+				return java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("TrayIcon/Tooltip/Pause");
 			}
 		}	
 }

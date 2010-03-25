@@ -57,10 +57,10 @@ public abstract class AbstractSettings implements CustomizableSettings {
 			}
 		} catch (FileNotFoundException fnfe) {
 			try {
-			this._application.getLogger ().warning ( fnfe, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Error_loading_properties._"));
+			this._application.getLogger ().warning ( fnfe, java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Error_loading_properties._"));
 			} catch (Exception e){
 				/* evita eccezioni dovute a dipendenze inizializzazione*/
-//				new NotificationUtils ().error (e, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Above_error_IS_NOT_a_bad_thing_if_you_are_running_this_application_for_the_first_time."));
+//				new NotificationUtils ().error (e, java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Above_error_IS_NOT_a_bad_thing_if_you_are_running_this_application_for_the_first_time."));
 			}
 		} catch (IOException ioe) {
 			throw new RuntimeException (ioe);

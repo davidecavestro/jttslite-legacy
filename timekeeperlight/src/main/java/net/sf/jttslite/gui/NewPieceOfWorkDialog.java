@@ -114,7 +114,7 @@ public class NewPieceOfWorkDialog extends javax.swing.JDialog implements Persist
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res"); // NOI18N
         setTitle(bundle.getString("New_progress")); // NOI18N
         setModal(true);
         getContentPane().setLayout(new java.awt.GridBagLayout());
@@ -411,7 +411,7 @@ _context.getWindowManager ().getActionTemplatesDialog ().show ();
 
 	public void showForTask (Task t) {
 		this._task = t;
-		setTitle (java.util.ResourceBundle.getBundle ("com.davidecavestro.timekeeper.gui.res").getString ("New_progress") + " - [" + t.getName () + "]");
+		setTitle (java.util.ResourceBundle.getBundle ("net.sf.jttslite.gui.res").getString ("New_progress") + " - [" + t.getName () + "]");
 		show ();
 	}
 

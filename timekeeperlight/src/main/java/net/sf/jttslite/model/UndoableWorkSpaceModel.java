@@ -54,7 +54,7 @@ public class UndoableWorkSpaceModel extends WorkSpaceModelImpl {
 			
 			@Override
 			public String getPresentationName () {
-				return java.util.ResourceBundle.getBundle ("com.davidecavestro.timekeeper.gui.res").getString ("UndoableWorkSpaceModel/UndoActionName/add_workspace");
+				return java.util.ResourceBundle.getBundle ("net.sf.jttslite.gui.res").getString ("UndoableWorkSpaceModel/UndoActionName/add_workspace");
 			}
 
 			@Override
@@ -91,7 +91,7 @@ public class UndoableWorkSpaceModel extends WorkSpaceModelImpl {
 			
 			@Override
 			public String getPresentationName () {
-				return java.util.ResourceBundle.getBundle ("com.davidecavestro.timekeeper.gui.res").getString ("UndoableWorkSpaceModel/UndoActionName/add_workspace");
+				return java.util.ResourceBundle.getBundle ("net.sf.jttslite.gui.res").getString ("UndoableWorkSpaceModel/UndoActionName/add_workspace");
 			}
 
 			@Override
@@ -136,7 +136,7 @@ public class UndoableWorkSpaceModel extends WorkSpaceModelImpl {
 			
 			@Override
 			public String getPresentationName () {
-				return java.util.ResourceBundle.getBundle ("com.davidecavestro.timekeeper.gui.res").getString ("UndoableWorkSpaceModel/UndoActionName/insert_workspace");
+				return java.util.ResourceBundle.getBundle ("net.sf.jttslite.gui.res").getString ("UndoableWorkSpaceModel/UndoActionName/insert_workspace");
 			}
 
 			@Override
@@ -173,7 +173,7 @@ public class UndoableWorkSpaceModel extends WorkSpaceModelImpl {
 
 			@Override
 			public String getPresentationName () {
-				return java.util.ResourceBundle.getBundle ("com.davidecavestro.timekeeper.gui.res").getString ("UndoableWorkSpaceModel/UndoActionName/remove_workspace");
+				return java.util.ResourceBundle.getBundle ("net.sf.jttslite.gui.res").getString ("UndoableWorkSpaceModel/UndoActionName/remove_workspace");
 			}
 
 			@Override
@@ -221,7 +221,7 @@ public class UndoableWorkSpaceModel extends WorkSpaceModelImpl {
 //
 //			@Override
 //			public String getPresentationName () {
-//				return java.util.ResourceBundle.getBundle ("com.davidecavestro.timekeeper.gui.res").getString ("UndoableWorkSpaceModel/UndoActionName/remove_workspace");
+//				return java.util.ResourceBundle.getBundle ("net.sf.jttslite.gui.res").getString ("UndoableWorkSpaceModel/UndoActionName/remove_workspace");
 //			}
 //
 //			@Override
@@ -264,7 +264,7 @@ public class UndoableWorkSpaceModel extends WorkSpaceModelImpl {
 
 			@Override
 			public String getPresentationName () {
-				return java.util.ResourceBundle.getBundle ("com.davidecavestro.timekeeper.gui.res").getString ("UndoableWorkSpaceModel/UndoActionName/remove_workspace");
+				return java.util.ResourceBundle.getBundle ("net.sf.jttslite.gui.res").getString ("UndoableWorkSpaceModel/UndoActionName/remove_workspace");
 			}
 
 			@Override
@@ -307,7 +307,7 @@ public class UndoableWorkSpaceModel extends WorkSpaceModelImpl {
 
 			@Override
 			public String getPresentationName () {
-				return java.util.ResourceBundle.getBundle ("com.davidecavestro.timekeeper.gui.res").getString ("UndoableWorkSpaceModel/UndoActionName/remove_workspace");
+				return java.util.ResourceBundle.getBundle ("net.sf.jttslite.gui.res").getString ("UndoableWorkSpaceModel/UndoActionName/remove_workspace");
 			}
 
 			@Override
@@ -351,7 +351,7 @@ public class UndoableWorkSpaceModel extends WorkSpaceModelImpl {
 			
 			@Override
 			public String getPresentationName () {
-				return java.util.ResourceBundle.getBundle ("com.davidecavestro.timekeeper.gui.res").getString ("UndoableWorkSpaceModel/UndoActionName/set_workspac");
+				return java.util.ResourceBundle.getBundle ("net.sf.jttslite.gui.res").getString ("UndoableWorkSpaceModel/UndoActionName/set_workspac");
 			}
 
 			@Override
@@ -403,7 +403,7 @@ public class UndoableWorkSpaceModel extends WorkSpaceModelImpl {
 			
 			@Override
 			public String getPresentationName () {
-				return java.util.ResourceBundle.getBundle ("com.davidecavestro.timekeeper.gui.res").getString ("UndoableWorkSpaceModel/UndoActionName/set_workspace");
+				return java.util.ResourceBundle.getBundle ("net.sf.jttslite.gui.res").getString ("UndoableWorkSpaceModel/UndoActionName/set_workspace");
 			}
 
 			@Override
@@ -444,7 +444,7 @@ public class UndoableWorkSpaceModel extends WorkSpaceModelImpl {
 
 			@Override
 			public String getPresentationName () {
-				return java.util.ResourceBundle.getBundle ("com.davidecavestro.timekeeper.gui.res").getString ("UndoableWorkSpaceModel/UndoActionName/edit_workspace");
+				return java.util.ResourceBundle.getBundle ("net.sf.jttslite.gui.res").getString ("UndoableWorkSpaceModel/UndoActionName/edit_workspace");
 			}
 
 			@Override

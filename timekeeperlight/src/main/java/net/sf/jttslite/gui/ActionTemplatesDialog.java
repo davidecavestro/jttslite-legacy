@@ -296,7 +296,7 @@ public class ActionTemplatesDialog extends javax.swing.JDialog implements Persis
 
         jMenuItem1.setAction(new AddAction ());
         jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/add-template.png"))); // NOI18N
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res"); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(jMenuItem1, bundle.getString("ActionTemplatesDialog/Button/Add")); // NOI18N
         jPopupMenu1.add(jMenuItem1);
 
@@ -474,9 +474,9 @@ private void undoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
 
 		
 		private final String[] _columnNames = new String[] {
-			java.util.ResourceBundle.getBundle ("com.davidecavestro.timekeeper.gui.res").getString ("ActionTemplatesDialog/TemplatesTable/ColumnHeader/Name"),
-			java.util.ResourceBundle.getBundle ("com.davidecavestro.timekeeper.gui.res").getString ("ActionTemplatesDialog/TemplatesTable/ColumnHeader/Duration"),
-			java.util.ResourceBundle.getBundle ("com.davidecavestro.timekeeper.gui.res").getString ("ActionTemplatesDialog/TemplatesTable/ColumnHeader/Notes")
+			java.util.ResourceBundle.getBundle ("net.sf.jttslite.gui.res").getString ("ActionTemplatesDialog/TemplatesTable/ColumnHeader/Name"),
+			java.util.ResourceBundle.getBundle ("net.sf.jttslite.gui.res").getString ("ActionTemplatesDialog/TemplatesTable/ColumnHeader/Duration"),
+			java.util.ResourceBundle.getBundle ("net.sf.jttslite.gui.res").getString ("ActionTemplatesDialog/TemplatesTable/ColumnHeader/Notes")
 		};
 		
 		private final Class[] _columnClasses = new Class[] {

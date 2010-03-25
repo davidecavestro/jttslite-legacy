@@ -132,7 +132,7 @@ public final class ActionListExtractor extends AbstractDataExtractor {
 	 */
 	public String toString() {
 		final StringBuilder sb = new StringBuilder();
-		sb.append(java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("_subtree_root:_"));
+		sb.append(java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("_subtree_root:_"));
 		sb.append(this._subtreeRoot);
 		return sb.toString();
 	}

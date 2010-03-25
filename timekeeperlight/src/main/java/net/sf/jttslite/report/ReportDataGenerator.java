@@ -36,13 +36,13 @@ public final class ReportDataGenerator {
 	 * @return il report.
 	 */
 	public void generate ( final DataExtractor extractor, final ReportPreferences prefs, final JRBindings jasperBindings, final ReportLaunchAction rla){
-		_context.getLogger ().debug (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Starting_report_generation_process"));
+		_context.getLogger ().debug (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Starting_report_generation_process"));
 		
 		final StringBuilder logBuffer = new StringBuilder ();
-		logBuffer.append (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Generating_report_data.")).append ("\n");
-		logBuffer.append (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("extractor:_")).append (extractor).append ("\n");
-		logBuffer.append (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("preferences:_")).append (prefs).append ("\n");
-		logBuffer.append (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("bindings:_")).append (jasperBindings);
+		logBuffer.append (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Generating_report_data.")).append ("\n");
+		logBuffer.append (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("extractor:_")).append (extractor).append ("\n");
+		logBuffer.append (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("preferences:_")).append (prefs).append ("\n");
+		logBuffer.append (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("bindings:_")).append (jasperBindings);
 		_context.getLogger ().debug (logBuffer.toString ());
 		
 		final Collection data = extractor.extract ();
@@ -64,7 +64,7 @@ public final class ReportDataGenerator {
 		} catch (final Exception e){
 			throw new RuntimeException (e);
 		}
-		_context.getLogger ().debug (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Report_generation_process_successfully_completed"));
+		_context.getLogger ().debug (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Report_generation_process_successfully_completed"));
 	}
 	
 	

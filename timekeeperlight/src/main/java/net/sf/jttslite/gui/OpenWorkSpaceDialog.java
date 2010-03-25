@@ -91,7 +91,7 @@ public class OpenWorkSpaceDialog extends javax.swing.JDialog implements Persiste
         workspaceMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.event.InputEvent.ALT_MASK));
         workspaceMenuItem.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         workspaceMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/folder.png"))); // NOI18N
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res"); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(workspaceMenuItem, bundle.getString("OpenWorkSpaceDialog/PopupMenu/WorkspacesEditor/Text")); // NOI18N
         workspaceMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -398,19 +398,19 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 			 * ci sono avanzamenti in corso nel progetto corrente
 			 */
 			if (JOptionPane.showConfirmDialog (context.getWindowManager ().getMainWindow (), 
-				java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("OpenWorkSpaceDialog/ConfirmDialog/StopCurrentProgress/Text"), 
-				java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("OpenWorkSpaceDialog/ConfirmDialog/StopCurrentProgress/Title"), 
+				java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("OpenWorkSpaceDialog/ConfirmDialog/StopCurrentProgress/Text"), 
+				java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("OpenWorkSpaceDialog/ConfirmDialog/StopCurrentProgress/Title"), 
 				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) != JOptionPane.YES_OPTION) {
 				
 				return false;
 			}
 		}
-		context.getLogger ().debug (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Opening_workspace..."));
+		context.getLogger ().debug (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Opening_workspace..."));
 
 		context.getModel ().setWorkSpace (ws);
 		context.getUserSettings ().setLastProjectName (ws.getName ());
 
-		context.getLogger ().debug (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Workspace_successfully_opened"));
+		context.getLogger ().debug (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Workspace_successfully_opened"));
 		return true;
 	}
 	

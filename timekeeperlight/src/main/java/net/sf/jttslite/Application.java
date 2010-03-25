@@ -86,7 +86,7 @@ public class Application {
 			 */
 			releaseProps.load (getClass ().getResourceAsStream ("release.properties"));
 		} catch (final Exception e) {
-			System.err.println (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Cannot_load_release_properties"));
+			System.err.println (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Cannot_load_release_properties"));
 			/*@todo mostrare stacktrace finito lo sviluppo*/
 //			e.printStackTrace (System.err);
 		}
@@ -124,7 +124,7 @@ public class Application {
 		try {
 			p.load (new FileInputStream (new File (_env.getApplicationDirPath (), "helpmap.properties")));
 		} catch (final IOException ioe){
-//			System.out.println (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Missing_help_resources_mapping_file"));
+//			System.out.println (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Missing_help_resources_mapping_file"));
 		}
 		
 		
@@ -136,7 +136,7 @@ public class Application {
 			_logger = new CompositeLogger (new PlainTextLogger (plainTextLogFile, true, 10), null);
 			
 		} catch (IOException ioe){
-			System.out.println (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Logging_disabled._CAUSE:_")+ExceptionUtils.getStackTrace (ioe));
+			System.out.println (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Logging_disabled._CAUSE:_")+ExceptionUtils.getStackTrace (ioe));
 			_logger = new CompositeLogger (new LoggerAdapter (), null);
 		}
 		
@@ -149,7 +149,7 @@ public class Application {
 		userSettings.setJDOStorageName (applicationOptions.getJDOStorageName ());
 		userSettings.setJDOUserName (applicationOptions.getJDOUserName ());
 		
-		final ProgressItem pi = new ProgressItem (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("New_workspace"));
+		final ProgressItem pi = new ProgressItem (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("New_workspace"));
 		final Project prj = new Project (pi.getName (), pi);
 		final PersistentTaskTreeModel model = new PersistentTaskTreeModel (_persistenceNode, applicationOptions, _logger, peh, prj);
 		model.addTaskTreeModelListener (new TaskTreeModelListener () {
@@ -237,7 +237,7 @@ public class Application {
 	 * @throws java.awt.HeadlessException se l'ambiente grafico non è supportato.
 	 */
 	public void start () throws HeadlessException {
-		_context.getLogger ().info (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("starting_UI"));
+		_context.getLogger ().info (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("starting_UI"));
 		final WindowManager wm = _context.getWindowManager ();
 		
 		wm.init (_context);
@@ -246,14 +246,14 @@ public class Application {
 		final Splash splash = wm.getSplashWindow (_context.getApplicationData ());
 		splash.show ();
 		try {
-			splash.showInfo (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Initializing_context..."));
-			splash.showInfo (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Initializing_log_console..."));
+			splash.showInfo (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Initializing_context..."));
+			splash.showInfo (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Initializing_log_console..."));
 			final ConsoleLogger cl = new ConsoleLogger (new DefaultStyledDocument (), true);
 			
 			_context.getWindowManager ().getLogConsole ().init (cl.getDocument ());
 			
 			_logger.setSuccessor (cl);
-			splash.showInfo (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Preparing_main_window..."));
+			splash.showInfo (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Preparing_main_window..."));
 			wm.getMainWindow ().addWindowListener (
 				new java.awt.event.WindowAdapter () {
 				@Override
@@ -292,7 +292,7 @@ public class Application {
 		}
 		
 		wm.getMainWindow ().show ();
-		_context.getLogger ().info (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("UI_successfully_started"));
+		_context.getLogger ().info (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("UI_successfully_started"));
 	}
 	
 	public Logger getLogger (){
@@ -355,20 +355,20 @@ public class Application {
 	}
 	
 	private WorkSpace createNewWorkSpace () {
-		_context.getLogger ().info (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Creating_a_new_empty_workspace..."));
+		_context.getLogger ().info (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Creating_a_new_empty_workspace..."));
 		/*
 		 * Crea nuovo progetto.
 		 */
-		final ProgressItem pi = new ProgressItem (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("New_workspace"));
-		pi.insert (new ProgressItem (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("New_task")));
-		final WorkSpace ws = new Project (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("New_workspace"), pi);
+		final ProgressItem pi = new ProgressItem (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("New_workspace"));
+		pi.insert (new ProgressItem (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("New_task")));
+		final WorkSpace ws = new Project (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("New_workspace"), pi);
 		try {
 			_context.getWorkSpaceModel ().addElement (ws);
 		} catch (final DuplicatedWorkSpaceException ex) {
 			throw new RuntimeException (ex);
 		}
 		
-		_context.getLogger ().info (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Empty_workspace_created."));
+		_context.getLogger ().info (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Empty_workspace_created."));
 		return ws;
 	}
 	

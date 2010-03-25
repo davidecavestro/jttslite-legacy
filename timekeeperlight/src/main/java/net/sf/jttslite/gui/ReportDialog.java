@@ -131,7 +131,7 @@ public class ReportDialog extends javax.swing.JDialog implements PersistentCompo
         jPanel5 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res"); // NOI18N
         setTitle(bundle.getString("ReportDialog/Title/Reporting_panel")); // NOI18N
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
@@ -639,7 +639,7 @@ public class ReportDialog extends javax.swing.JDialog implements PersistentCompo
 	private enum TimeRangePreset {
 		THIS_WEEK {
 			public String toString () {
-				return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("ReportDialog/ReportPresetName/This_week");
+				return java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("ReportDialog/ReportPresetName/This_week");
 			}
 			public int length () {
 				return 7;
@@ -654,7 +654,7 @@ public class ReportDialog extends javax.swing.JDialog implements PersistentCompo
 		},
 		LAST_SEVEN_DAYS {
 			public String toString () {
-				return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("ReportDialog/ReportPresetName/Last_seven_days");
+				return java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("ReportDialog/ReportPresetName/Last_seven_days");
 			}
 			public int length () {
 				return 7;
@@ -682,7 +682,7 @@ public class ReportDialog extends javax.swing.JDialog implements PersistentCompo
 		},
 		PREVIOUS_WEEK {
 			public String toString () {
-				return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("ReportDialog/ReportPresetName/Last_week");
+				return java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("ReportDialog/ReportPresetName/Last_week");
 			}
 			public int length () {
 				return 7;
@@ -716,7 +716,7 @@ public class ReportDialog extends javax.swing.JDialog implements PersistentCompo
 		},
 		PREVIOUS_TWO_WEEKS {
 			public String toString () {
-				return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("ReportDialog/ReportPresetName/Last_2_weeks");
+				return java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("ReportDialog/ReportPresetName/Last_2_weeks");
 			}
 			public int length () {
 				return 14;
@@ -738,7 +738,7 @@ public class ReportDialog extends javax.swing.JDialog implements PersistentCompo
 		},
 		THIS_MONTH {
 			public String toString () {
-				return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("ReportDialog/ReportPresetName/This_month");
+				return java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("ReportDialog/ReportPresetName/This_month");
 			}
 			public int length () {
 				return getDaysInMonth (new GregorianCalendar ());
@@ -753,7 +753,7 @@ public class ReportDialog extends javax.swing.JDialog implements PersistentCompo
 		},
 		PREVIOUS_MONTH {
 			public String toString () {
-				return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("ReportDialog/ReportPresetName/Previous_month");
+				return java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("ReportDialog/ReportPresetName/Previous_month");
 			}
 			public int length () {
 				final GregorianCalendar c = new GregorianCalendar ();
@@ -818,7 +818,7 @@ public class ReportDialog extends javax.swing.JDialog implements PersistentCompo
 				return "/dailyprogressesdetail.jasper";
 			}
 			public String toString () {
-				return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("ReportDialog/ReportChoice/DailyProgressesDetail");
+				return java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("ReportDialog/ReportChoice/DailyProgressesDetail");
 			}
 			
 			public DataExtractor getExtractor (ApplicationContext context, Task t, TargetedFilterContainer[] targetedFilterContainer, Date startDate, int i, int periodCount) {
@@ -831,7 +831,7 @@ public class ReportDialog extends javax.swing.JDialog implements PersistentCompo
 				return "/dailyactionslist.jasper";
 			}
 			public String toString () {
-				return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("ReportDialog/ReportChoice/DailyActionsList");
+				return java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("ReportDialog/ReportChoice/DailyActionsList");
 			}
 			
 			public DataExtractor getExtractor (ApplicationContext context, Task t, TargetedFilterContainer[] targetedFilterContainer, Date startDate, int i, int periodCount) {
@@ -844,7 +844,7 @@ public class ReportDialog extends javax.swing.JDialog implements PersistentCompo
 				return "/tasklist.jasper";
 			}
 			public String toString () {
-				return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("ReportDialog/ReportChoice/TaskList");
+				return java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("ReportDialog/ReportChoice/TaskList");
 			}
 			
 			public DataExtractor getExtractor (ApplicationContext context, Task t, TargetedFilterContainer[] targetedFilterContainer, Date startDate, int i, int periodCount) {
@@ -863,7 +863,7 @@ public class ReportDialog extends javax.swing.JDialog implements PersistentCompo
 				return "/actionlist.jasper";
 			}
 			public String toString () {
-				return java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("ReportDialog/ReportChoice/ActionList");
+				return java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("ReportDialog/ReportChoice/ActionList");
 			}
 			
 			public DataExtractor getExtractor (ApplicationContext context, Task t, TargetedFilterContainer[] targetedFilterContainer, Date startDate, int i, int periodCount) {

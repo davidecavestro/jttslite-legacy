@@ -245,7 +245,7 @@ public class WorkspacesDialog extends javax.swing.JDialog implements PersistentC
 
         jMenuItem1.setAction(new AddAction ());
         jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/add-workspace.png"))); // NOI18N
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res"); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(jMenuItem1, bundle.getString("WorkspacesDialog/Button/Add")); // NOI18N
         jPopupMenu1.add(jMenuItem1);
 
@@ -448,9 +448,9 @@ private void undoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
 
 		
 		private final String[] _columnNames = new String[] {
-			java.util.ResourceBundle.getBundle ("com.davidecavestro.timekeeper.gui.res").getString ("WorkspacesDialog/WorkspaceTable/ColumnHeader/Name"),
-			java.util.ResourceBundle.getBundle ("com.davidecavestro.timekeeper.gui.res").getString ("WorkspacesDialog/WorkspaceTable/ColumnHeader/Description")/*,
-			java.util.ResourceBundle.getBundle ("com.davidecavestro.timekeeper.gui.res").getString ("WorkspacesDialog/WorkspaceTable/ColumnHeader/Notes")*/
+			java.util.ResourceBundle.getBundle ("net.sf.jttslite.gui.res").getString ("WorkspacesDialog/WorkspaceTable/ColumnHeader/Name"),
+			java.util.ResourceBundle.getBundle ("net.sf.jttslite.gui.res").getString ("WorkspacesDialog/WorkspaceTable/ColumnHeader/Description")/*,
+			java.util.ResourceBundle.getBundle ("net.sf.jttslite.gui.res").getString ("WorkspacesDialog/WorkspaceTable/ColumnHeader/Notes")*/
 		};
 		
 		private final Class[] _columnClasses = new Class[] {
@@ -564,7 +564,7 @@ private void undoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
 				 * richiesta interrotta dall'utente
 				 */
 			} catch (final DuplicatedWorkSpaceException ex) {
-				JOptionPane.showMessageDialog (WorkspacesDialog.this, java.util.ResourceBundle.getBundle ("com.davidecavestro.timekeeper.gui.res").getString ("New_workspace_conflicting_name_message"));
+				JOptionPane.showMessageDialog (WorkspacesDialog.this, java.util.ResourceBundle.getBundle ("net.sf.jttslite.gui.res").getString ("New_workspace_conflicting_name_message"));
 				//ci riprova
 				create ();
 			}
@@ -584,8 +584,8 @@ private void undoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
 
             if (JOptionPane.showConfirmDialog (
                 WorkspacesDialog.this,
-                MessageFormat.format (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("WorkspacesDialog/WarningMessage/Removing_workspace"), getSelectedWorkspace ().getName ()),
-                java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("WorkspacesDialog/WarningMessageTitle/Removing_workspace"),
+                MessageFormat.format (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("WorkspacesDialog/WarningMessage/Removing_workspace"), getSelectedWorkspace ().getName ()),
+                java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("WorkspacesDialog/WarningMessageTitle/Removing_workspace"),
                 JOptionPane.YES_NO_OPTION)
                 !=JOptionPane.YES_OPTION) {
                 return;
@@ -598,7 +598,7 @@ private void undoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
                  * questo caso non si dovrebbe verificare, fintantochè l'azione
                  * viene abilitata solo per i progetti non in uso
                  */
-                JOptionPane.showMessageDialog (WorkspacesDialog.this, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("WorkspacesDialog/ErrorMessage/CannotRemoveWorkSpaceException"));
+                JOptionPane.showMessageDialog (WorkspacesDialog.this, java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("WorkspacesDialog/ErrorMessage/CannotRemoveWorkSpaceException"));
                 return;
             }
 
@@ -774,8 +774,8 @@ private void undoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
 				 * Notifica all'utente che il nuovo workspace non è stato aperto, ma è comunque disponibile
 				 */
 				JOptionPane.showMessageDialog (context.getWindowManager ().getMainWindow (), 
-				MessageFormat.format (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("WorkSpacesDialog/CreationMessageDialog/Text"), prj.getName ()), 
-				java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("WorkSpacesDialog/CreationMessageDialog/Title"), 
+				MessageFormat.format (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("WorkSpacesDialog/CreationMessageDialog/Text"), prj.getName ()), 
+				java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("WorkSpacesDialog/CreationMessageDialog/Title"), 
 				JOptionPane.INFORMATION_MESSAGE);
 			
 			}

@@ -129,7 +129,7 @@ public class OptionsDialog extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res"); // NOI18N
         setTitle(bundle.getString("Options")); // NOI18N
         setModal(true);
         addComponentListener(new java.awt.event.ComponentAdapter() {
@@ -363,11 +363,11 @@ public class OptionsDialog extends javax.swing.JDialog {
 		public String getColumnName (int column) {
 			switch (column) {
 				case COL_NAME: 
-					return java.util.ResourceBundle.getBundle ("com.davidecavestro.timekeeper.gui.res").getString ("OptionsDialog/DateFormatTable/NameColumn/Title");
+					return java.util.ResourceBundle.getBundle ("net.sf.jttslite.gui.res").getString ("OptionsDialog/DateFormatTable/NameColumn/Title");
 				case COL_CUSTOM: 
-					return java.util.ResourceBundle.getBundle ("com.davidecavestro.timekeeper.gui.res").getString ("OptionsDialog/DateFormatTable/CustomColumn/Title");
+					return java.util.ResourceBundle.getBundle ("net.sf.jttslite.gui.res").getString ("OptionsDialog/DateFormatTable/CustomColumn/Title");
 				case COL_DEFAULT: 
-					return java.util.ResourceBundle.getBundle ("com.davidecavestro.timekeeper.gui.res").getString ("OptionsDialog/DateFormatTable/DefaultColumn/Title");
+					return java.util.ResourceBundle.getBundle ("net.sf.jttslite.gui.res").getString ("OptionsDialog/DateFormatTable/DefaultColumn/Title");
 					
 				default:
 					return null;
@@ -405,7 +405,7 @@ public class OptionsDialog extends javax.swing.JDialog {
 					try {
 						final SimpleDateFormat df = new SimpleDateFormat ((String)aValue);
 					} catch (final IllegalArgumentException iae) {
-						JOptionPane.showMessageDialog (OptionsDialog.this, java.util.ResourceBundle.getBundle ("com.davidecavestro.timekeeper.gui.res").getString ("OptionsDialog/DateFOrmatTab/UserInsertedInvalidFormat"));
+						JOptionPane.showMessageDialog (OptionsDialog.this, java.util.ResourceBundle.getBundle ("net.sf.jttslite.gui.res").getString ("OptionsDialog/DateFOrmatTab/UserInsertedInvalidFormat"));
 						return;
 					}
 					fmt.setCustomValue (_context, (String)aValue);

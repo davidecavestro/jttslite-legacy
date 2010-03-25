@@ -62,7 +62,7 @@ public class XMLExporter {
 				final Task child = (Task)it.next ();
 				try {
 					addContent (new ProgressItemElement (child));
-				} catch (Exception e){_context.getLogger ().error (e, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("error_exporting_node"));}
+				} catch (Exception e){_context.getLogger ().error (e, java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("error_exporting_node"));}
 			}
 			for (final Object progress : progressItem.getPiecesOfWork ()){
 				addContent (new ProgressElement ((PieceOfWork)progress));
@@ -74,7 +74,7 @@ public class XMLExporter {
 	private final class ProjectElement extends Element {
 		public ProjectElement (final WorkSpace project){
 			super (XMLResources.PROJECT_ELEMENT);
-			addContent (new Comment (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Generated_by_")+_context.getApplicationData ().getApplicationInternalName ()+ java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("_v.")+_context.getApplicationData ().getVersionNumber ()+ java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("_build_")+_context.getApplicationData ().getBuildNumber ()));
+			addContent (new Comment (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Generated_by_")+_context.getApplicationData ().getApplicationInternalName ()+ java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("_v.")+_context.getApplicationData ().getVersionNumber ()+ java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("_build_")+_context.getApplicationData ().getBuildNumber ()));
 			
 			addContent (new NullableSingleValueElement  (XMLResources.NAME_PROPERTY, project.getName ()));
 			addContent (new NullableSingleValueElement  (XMLResources.DESCRIPTION_PROPERTY, project.getDescription ()));
@@ -89,16 +89,16 @@ public class XMLExporter {
 			super (XMLResources.PROGRESS_ELEMENT);
 			try {
 				addContent (new NullableSingleValueElement (XMLResources.FROM_PROPERTY, CalendarUtils.getTS (progress.getFrom (), CalendarUtils.TIMESTAMP_FORMAT)));
-			} catch (Exception e){_context.getLogger ().error (e, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("error_exporting_action"));}
+			} catch (Exception e){_context.getLogger ().error (e, java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("error_exporting_action"));}
 			try {
 				addContent (new NullableSingleValueElement (XMLResources.TO_PROPERTY, CalendarUtils.getTS (progress.getTo (), CalendarUtils.TIMESTAMP_FORMAT)));
-			} catch (Exception e){_context.getLogger ().error (e, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("error_exporting_action"));}
+			} catch (Exception e){_context.getLogger ().error (e, java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("error_exporting_action"));}
 			try {
 				addContent (new NullableSingleValueElement (XMLResources.DESCRIPTION_PROPERTY, progress.getDescription ()));
-			} catch (Exception e){_context.getLogger ().error (e, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("error_exporting_action"));}
+			} catch (Exception e){_context.getLogger ().error (e, java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("error_exporting_action"));}
 			try {
 				addContent (new NullableSingleValueElement (XMLResources.NOTES_PROPERTY, progress.getNotes ()));
-			} catch (Exception e){_context.getLogger ().error (e, java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("error_exporting_action"));}
+			} catch (Exception e){_context.getLogger ().error (e, java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("error_exporting_action"));}
 			
 		}
 	}

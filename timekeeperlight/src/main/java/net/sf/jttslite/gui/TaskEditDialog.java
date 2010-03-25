@@ -63,7 +63,7 @@ public class TaskEditDialog extends javax.swing.JDialog {
         jPanel2 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res"); // NOI18N
         setTitle(bundle.getString("TaskEditDialog/Title")); // NOI18N
         setModal(true);
         getContentPane().setLayout(new java.awt.GridBagLayout());

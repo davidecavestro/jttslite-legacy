@@ -185,13 +185,13 @@ public class SystemTraySupport {
 				 */
 				final PieceOfWork pow = getRunningAction ();
 				if (pow!=null) {
-					setTooltip (MessageFormat.format (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("TrayIcon/Tooltip/Working"), pow.getTask ().getName (), DurationUtils.format (new Duration (pow.getFrom (), new Date ()))));
+					setTooltip (MessageFormat.format (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("TrayIcon/Tooltip/Working"), pow.getTask ().getName (), DurationUtils.format (new Duration (pow.getFrom (), new Date ()))));
 				} else {
 					final Task selectedTask = getSelectedTask ();
 					if (selectedTask!=null) {
-						setTooltip (MessageFormat.format (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("TrayIcon/Tooltip/Pause_on_task"), selectedTask.getName ()));
+						setTooltip (MessageFormat.format (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("TrayIcon/Tooltip/Pause_on_task"), selectedTask.getName ()));
 					} else {
-						setTooltip (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("TrayIcon/Tooltip/Pause"));
+						setTooltip (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("TrayIcon/Tooltip/Pause"));
 					}
 				}
 			}

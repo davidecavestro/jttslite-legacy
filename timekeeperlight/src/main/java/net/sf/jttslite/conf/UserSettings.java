@@ -20,7 +20,7 @@ public final class UserSettings extends AbstractSettings {
 	/**
 	 * header file impostazioni.
 	 */
-	public final static String PROPERTIES_HEADER = java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("_***_USER_SETTINGS_***_");
+	public final static String PROPERTIES_HEADER = java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("_***_USER_SETTINGS_***_");
 
 
 	private final UserResources  _userResources;

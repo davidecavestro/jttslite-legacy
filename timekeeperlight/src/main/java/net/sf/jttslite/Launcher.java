@@ -181,9 +181,9 @@ public class Launcher {
 		if (!l.checkForOtherInstances ()) {
 			final NotificationUtils notification = new NotificationUtils ();
 			final String[] message = {
-				java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Launcher/ErrorMessage/DuplicatedAppInstance/Row1"),
-				java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Launcher/ErrorMessage/DuplicatedAppInstance/Row2"),
-				java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Launcher/ErrorMessage/DuplicatedAppInstance/Row3")
+				java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Launcher/ErrorMessage/DuplicatedAppInstance/Row1"),
+				java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Launcher/ErrorMessage/DuplicatedAppInstance/Row2"),
+				java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Launcher/ErrorMessage/DuplicatedAppInstance/Row3")
 				};
 			notification.error (message);
 			System.exit (1);
@@ -194,7 +194,7 @@ public class Launcher {
 		} catch (final HeadlessException he) {
 			final NotificationUtils notification = new NotificationUtils ();
 			final String[] message = {
-				java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("Launcher/ErrorMessage/AWTUnavailable"),
+				java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Launcher/ErrorMessage/AWTUnavailable"),
 				};
 			notification.error (message);
 			throw he;

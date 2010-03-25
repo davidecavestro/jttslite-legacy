@@ -79,7 +79,7 @@ public final class ReportPreferences {
 	 */	
 	public String toString (){
 		final StringBuilder sb = new StringBuilder ();
-		sb.append (java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.res").getString("_output:_")).append (this._output);
+		sb.append (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("_output:_")).append (this._output);
 		return sb.toString ();
 	}
 }

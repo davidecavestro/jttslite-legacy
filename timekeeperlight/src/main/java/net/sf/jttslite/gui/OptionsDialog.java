@@ -223,7 +223,7 @@ public class OptionsDialog extends javax.swing.JDialog {
         gridBagConstraints.weightx = 1.0;
         jPanel4.add(jPanel1, gridBagConstraints);
 
-        java.util.ResourceBundle bundle1 = java.util.ResourceBundle.getBundle("com/davidecavestro/timekeeper/gui/res"); // NOI18N
+        java.util.ResourceBundle bundle1 = java.util.ResourceBundle.getBundle("net/sf/jttslite/gui/res"); // NOI18N
         jTabbedPane1.addTab(bundle1.getString("OptionsDialog/DateFormatTab/Title"), jPanel4); // NOI18N
 
         jPanel2.setLayout(new java.awt.GridBagLayout());

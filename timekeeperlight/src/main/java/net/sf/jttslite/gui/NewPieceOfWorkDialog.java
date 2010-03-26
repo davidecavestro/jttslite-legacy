@@ -121,7 +121,7 @@ public class NewPieceOfWorkDialog extends javax.swing.JDialog implements Persist
 
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 12));
         jLabel1.setLabelFor(fromField);
-        java.util.ResourceBundle bundle1 = java.util.ResourceBundle.getBundle("com/davidecavestro/timekeeper/gui/res"); // NOI18N
+        java.util.ResourceBundle bundle1 = java.util.ResourceBundle.getBundle("net/sf/jttslite/gui/res"); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(jLabel1, bundle1.getString("NewPieceOfWorkDialog/From/Label")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -315,7 +315,7 @@ public class NewPieceOfWorkDialog extends javax.swing.JDialog implements Persist
         gridBagConstraints.insets = new java.awt.Insets(2, 5, 2, 5);
         getContentPane().add(jLabel5, gridBagConstraints);
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/tag_blue.png"))); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jttslite/gui/images/tag_blue.png"))); // NOI18N
         jButton1.setToolTipText(bundle.getString("NewPieceOfWorkDialog//ButtonTooltip/ManageTemplates")); // NOI18N
         jButton1.setBorderPainted(false);
         jButton1.setContentAreaFilled(false);

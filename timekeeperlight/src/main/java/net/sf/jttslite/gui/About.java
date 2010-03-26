@@ -301,7 +301,7 @@ public class About extends javax.swing.JDialog {
 
         buttonGroup1.add(toggleButtonHost);
         toggleButtonHost.setFont(new java.awt.Font("Dialog", 0, 12));
-        toggleButtonHost.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/computer.png"))); // NOI18N
+        toggleButtonHost.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jttslite/gui/images/computer.png"))); // NOI18N
         toggleButtonHost.setToolTipText(bundle.getString("Host_env_button_tooltip")); // NOI18N
         toggleButtonHost.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -312,7 +312,7 @@ public class About extends javax.swing.JDialog {
 
         buttonGroup1.add(toggleButtonJava);
         toggleButtonJava.setFont(new java.awt.Font("Dialog", 0, 12));
-        toggleButtonJava.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/JavaCup16.png"))); // NOI18N
+        toggleButtonJava.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jttslite/gui/images/JavaCup16.png"))); // NOI18N
         toggleButtonJava.setToolTipText(bundle.getString("Java_properties_button_tooltip")); // NOI18N
         toggleButtonJava.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -323,7 +323,7 @@ public class About extends javax.swing.JDialog {
 
         buttonGroup1.add(toggleButtonApp);
         toggleButtonApp.setFont(new java.awt.Font("Dialog", 0, 12));
-        toggleButtonApp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/logo16x16.png"))); // NOI18N
+        toggleButtonApp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jttslite/gui/images/logo16x16.png"))); // NOI18N
         toggleButtonApp.setToolTipText(bundle.getString("About/System/HostButton/tooltip")); // NOI18N
         toggleButtonApp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

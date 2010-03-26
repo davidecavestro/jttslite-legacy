@@ -89,8 +89,8 @@ public class OpenWorkSpaceDialog extends javax.swing.JDialog implements Persiste
         jButton1 = new javax.swing.JButton();
 
         workspaceMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.event.InputEvent.ALT_MASK));
-        workspaceMenuItem.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        workspaceMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/folder.png"))); // NOI18N
+        workspaceMenuItem.setFont(new java.awt.Font("Dialog", 0, 12));
+        workspaceMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jttslite/gui/images/folder.png"))); // NOI18N
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res"); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(workspaceMenuItem, bundle.getString("OpenWorkSpaceDialog/PopupMenu/WorkspacesEditor/Text")); // NOI18N
         workspaceMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -100,7 +100,7 @@ public class OpenWorkSpaceDialog extends javax.swing.JDialog implements Persiste
         });
         jPopupMenu1.add(workspaceMenuItem);
 
-        java.util.ResourceBundle bundle1 = java.util.ResourceBundle.getBundle("com/davidecavestro/timekeeper/gui/res"); // NOI18N
+        java.util.ResourceBundle bundle1 = java.util.ResourceBundle.getBundle("net/sf/jttslite/gui/res"); // NOI18N
         setTitle(bundle1.getString("OpenWorkspaceDialog/Title")); // NOI18N
         setModal(true);
         getContentPane().setLayout(new java.awt.GridBagLayout());
@@ -172,7 +172,7 @@ public class OpenWorkSpaceDialog extends javax.swing.JDialog implements Persiste
 
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
-        okButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        okButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(okButton, bundle1.getString("OpenWorkspaceDialog/OkButton/Text")); // NOI18N
         okButton.setPreferredSize(new java.awt.Dimension(80, 25));
         okButton.addActionListener(new java.awt.event.ActionListener() {
@@ -217,7 +217,7 @@ public class OpenWorkSpaceDialog extends javax.swing.JDialog implements Persiste
         gridBagConstraints.weightx = 1.0;
         getContentPane().add(jPanel1, gridBagConstraints);
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/folder.png"))); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jttslite/gui/images/folder.png"))); // NOI18N
         jButton1.setToolTipText(bundle.getString("OpenWorkspaceDialog/ButtonTooltip/ManageWorkspaces")); // NOI18N
         jButton1.setContentAreaFilled(false);
         jButton1.setDefaultCapable(false);

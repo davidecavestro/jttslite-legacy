@@ -58,7 +58,7 @@ public class PresentationPanel extends javax.swing.JPanel {
         jPanel1.add(statusLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 210, 420, 30));
 
         applicationImageLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        applicationImageLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/splash.png"))); // NOI18N
+        applicationImageLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jttslite/gui/images/splash.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(applicationImageLabel, "aaa");
         jPanel1.add(applicationImageLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 430, 290));
 

@@ -295,20 +295,20 @@ public class ActionTemplatesDialog extends javax.swing.JDialog implements Persis
         jPanel6 = new javax.swing.JPanel();
 
         jMenuItem1.setAction(new AddAction ());
-        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/add-template.png"))); // NOI18N
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jttslite/gui/images/add-template.png"))); // NOI18N
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res"); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(jMenuItem1, bundle.getString("ActionTemplatesDialog/Button/Add")); // NOI18N
         jPopupMenu1.add(jMenuItem1);
 
         jMenuItem2.setAction(new DeleteAction ());
-        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/delete-template.png"))); // NOI18N
+        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jttslite/gui/images/delete-template.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(jMenuItem2, bundle.getString("ActionTemplatesDialog/Button/Delete")); // NOI18N
         jPopupMenu1.add(jMenuItem2);
         jPopupMenu1.add(jSeparator1);
 
         undoMenuItem.setAction(_context.getActionTemplatesUndoManager ().getUndoAction());
         undoMenuItem.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        undoMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/edit-undo.png"))); // NOI18N
+        undoMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jttslite/gui/images/edit-undo.png"))); // NOI18N
         undoMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 undoMenuItemActionPerformed(evt);
@@ -318,7 +318,7 @@ public class ActionTemplatesDialog extends javax.swing.JDialog implements Persis
 
         redoMenuItem.setAction(_context.getActionTemplatesUndoManager ().getRedoAction());
         redoMenuItem.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        redoMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/edit-redo.png"))); // NOI18N
+        redoMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jttslite/gui/images/edit-redo.png"))); // NOI18N
         jPopupMenu1.add(redoMenuItem);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -392,7 +392,7 @@ public class ActionTemplatesDialog extends javax.swing.JDialog implements Persis
 
         addButton.setAction(new AddAction ());
         addButton.setFont(new java.awt.Font("Dialog", 0, 12));
-        addButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/add-template.png"))); // NOI18N
+        addButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jttslite/gui/images/add-template.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(addButton, bundle.getString("ActionTemplatesDialog/Button/Add")); // NOI18N
         addButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -403,7 +403,7 @@ public class ActionTemplatesDialog extends javax.swing.JDialog implements Persis
 
         deleteButton.setAction(new DeleteAction ());
         deleteButton.setFont(new java.awt.Font("Dialog", 0, 12));
-        deleteButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/delete-template.png"))); // NOI18N
+        deleteButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jttslite/gui/images/delete-template.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(deleteButton, bundle.getString("ActionTemplatesDialog/Button/Delete")); // NOI18N
         deleteButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -634,7 +634,4 @@ private void undoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
 		return PersistenceUtils.restorePersistentBounds (props, this.getPersistenceKey (), this);
 	}
 	
-	private ImageIcon getIcon () {
-		return new javax.swing.ImageIcon(getClass().getResource("/com/davidecavestro/timekeeper/gui/images/small/tag_blue.png"));
-	}
 }

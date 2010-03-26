@@ -297,7 +297,7 @@ public class ReportDialog extends javax.swing.JDialog implements PersistentCompo
         buttonGroup2.add(jRadioButton1);
         jRadioButton1.setFont(new java.awt.Font("Dialog", 0, 12));
         jRadioButton1.setSelected(true);
-        java.util.ResourceBundle bundle1 = java.util.ResourceBundle.getBundle("com/davidecavestro/timekeeper/gui/res"); // NOI18N
+        java.util.ResourceBundle bundle1 = java.util.ResourceBundle.getBundle("net/sf/jttslite/gui/res"); // NOI18N
         jRadioButton1.setText(bundle1.getString("ReportDialog/LaunchActionGroup/PreviewAction")); // NOI18N
         jRadioButton1.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         jRadioButton1.addActionListener(new java.awt.event.ActionListener() {

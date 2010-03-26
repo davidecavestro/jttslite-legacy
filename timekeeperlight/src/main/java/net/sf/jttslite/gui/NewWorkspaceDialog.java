@@ -278,7 +278,7 @@ public class NewWorkspaceDialog extends javax.swing.JDialog implements Persisten
 	}
 
 	private void initState () {
-		tfWorkspaceName.setText (java.util.ResourceBundle.getBundle("com/davidecavestro/timekeeper/gui/Bundle").getString("NewWorkspaceDialog.tfWorkspaceName.text"));
+		tfWorkspaceName.setText (java.util.ResourceBundle.getBundle("net/sf/jttslite/gui/Bundle").getString("NewWorkspaceDialog.tfWorkspaceName.text"));
 		confirmed=false;
 //		cbOpenAutomatically.getModel ().setSelected (true);
 		tfWorkspaceName.selectAll ();

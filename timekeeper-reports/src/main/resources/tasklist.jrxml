@@ -157,7 +157,7 @@
 					<textElement verticalAlignment="Top">
 						<font size="12" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" isStrikeThrough="false" />
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[com.davidecavestro.timekeeper.gui.DurationUtils.formatDuration ($F{duration}.longValue ())]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[net.sf.jttslite.gui.DurationUtils.formatDuration ($F{duration}.longValue ())]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement

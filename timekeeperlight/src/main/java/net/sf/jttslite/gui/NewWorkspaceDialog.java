@@ -87,7 +87,7 @@ public class NewWorkspaceDialog extends javax.swing.JDialog implements Persisten
         getContentPane().add(jPanel2, gridBagConstraints);
 
         okButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("com.davidecavestro.timekeeper.gui.Bundle"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.Bundle"); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(okButton, bundle.getString("NewWorkspaceDialog.okButton.text")); // NOI18N
         okButton.setMinimumSize(new java.awt.Dimension(80, 25));
         okButton.setPreferredSize(new java.awt.Dimension(80, 25));

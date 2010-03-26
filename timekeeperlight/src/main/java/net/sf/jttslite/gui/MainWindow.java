@@ -3130,7 +3130,7 @@ javax.swing.plaf.basic.BasicTreeUI$Handler.treeStructureChanged(BasicTreeUI.java
         at
 org.jdesktop.swingx.treetable.AbstractTreeTableModel.fireTreeStructureChanged(AbstractTreeTableModel.java:315)
         at
-com.davidecavestro.timekeeper.gui.MainWindow$TaskJTreeModel.checkForReload(MainWindow.java:2559)
+net.sf.jttslite.gui.MainWindow$TaskJTreeModel.checkForReload(MainWindow.java:2559)
 
 						 */
 						System.err.println ("Exception detected on reloading workspace");

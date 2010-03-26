@@ -88,7 +88,7 @@
 					<textElement textAlignment="Right">
 						<font size="16"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[com.davidecavestro.timekeeper.gui.DurationUtils.formatDuration ($F{periodTotalEffort}.longValue ())]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[net.sf.jttslite.gui.DurationUtils.formatDuration ($F{periodTotalEffort}.longValue ())]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -181,7 +181,7 @@
 					<textElement textAlignment="Right">
 						<font size="16" isBold="false"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[com.davidecavestro.timekeeper.gui.DurationUtils.formatDuration ($F{taskTotalEffort}.longValue ())]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[net.sf.jttslite.gui.DurationUtils.formatDuration ($F{taskTotalEffort}.longValue ())]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -365,7 +365,7 @@
 					<textElement textAlignment="Right">
 						<font pdfFontName="Helvetica" size="16" isBold="false"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[com.davidecavestro.timekeeper.gui.DurationUtils.formatDuration ($F{progressEffort}.longValue ())]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[net.sf.jttslite.gui.DurationUtils.formatDuration ($F{progressEffort}.longValue ())]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement

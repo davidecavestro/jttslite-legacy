@@ -73,7 +73,7 @@
 	<javac target="1.4" source="1.4" deprecation="true" destdir="${build.classes.dir}" classpath="${javac.classpath}" debug="true">
 	    <src>
 			<pathelement location="${src.java.dir}/com/ost/timekeeper/model"/>
-			<pathelement location="${src.java.dir}/com/ost/timekeeper/util"/>
+			<pathelement location="${src.java.dir}/net/sf/jttslite/core/util"/>
 			<pathelement location="${src.java.dir}/net/sf/jttslite/core/model/impl"/>
 	    </src>
 	</javac>

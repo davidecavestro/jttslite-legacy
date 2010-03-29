@@ -29,7 +29,22 @@ import javax.swing.JOptionPane;
 public class WindowManager implements ActionListener, DialogListener {
 
 	private ApplicationContext _context;
-
+        private SystemTraySupport _systemTray;
+        private Splash _splash;
+        private MainWindow _mainWindow;
+        private NewPieceOfWorkDialog _mewPOWDialog;
+        private NewWorkspaceDialog newWorkspaceDialog;
+        private StartPieceOfWorkDialog _startPOWDialog;
+        private OpenWorkSpaceDialog _openWSDialog;
+        private OptionsDialog _optionsDialog;
+        private ReportDialog _reportDialog;
+        private TaskEditDialog _taskEditDialog;
+        private WorkspacesDialog _workspacesDialog;
+        private DesktopSupport _desktop;
+        private JFileChooser xmlFileChooser;
+        private LogConsole _logConsole;
+        private About _about;
+        
 	/** 
 	 * Crea una nuova istanza.
 	 */
@@ -44,7 +59,6 @@ public class WindowManager implements ActionListener, DialogListener {
 		this._context = context;
 	}
 
-	private Splash _splash;
 	/**
 	 * Ritorna la finestra principale.
 	 * @return la finestra principale.
@@ -58,9 +72,7 @@ public class WindowManager implements ActionListener, DialogListener {
 		}
 		return this._splash;
 	}
-
-
-	private MainWindow _mainWindow;
+	
 	/**
 	 * Ritorna la finestra principale.
 	 * @return la finestra principale.
@@ -79,7 +91,6 @@ public class WindowManager implements ActionListener, DialogListener {
 		return this._mainWindow;
 	}
 
-	private NewPieceOfWorkDialog _mewPOWDialog;
 	/**
 	 * Ritorna la dialog di inserimento nuovo avanzamento.
 	 * @return la dialog di inserimento nuovo avanzamento.
@@ -94,8 +105,7 @@ public class WindowManager implements ActionListener, DialogListener {
 		}
 		return _mewPOWDialog;
 	}
-
-	private NewWorkspaceDialog newWorkspaceDialog;
+	
 	/**
 	 * Restituisce il riferimento alla finestra di dialogo per la creazine di un nuovo workspace.
 	 * @return la finestra di dialogo per la creazine di un nuovo workspace.
@@ -114,8 +124,7 @@ public class WindowManager implements ActionListener, DialogListener {
 	public void showNewWorkspaceDialog () {
 		getNewWorkspaceDialog ().setVisible (true);
 	}
-
-	private StartPieceOfWorkDialog _startPOWDialog;
+	
 	/**
 	 * Ritorna la dialog di partenza nuovo avanzamento.
 	 * @return la dialog di partenza nuovo avanzamento.
@@ -136,7 +145,6 @@ public class WindowManager implements ActionListener, DialogListener {
 		getStartPieceOfWorkDialog ().showForTask (parent);
 	}
 
-	private OpenWorkSpaceDialog _openWSDialog;
 	/**
 	 * Ritorna la dialog di selezione progetto.
 	 * @return la dialog di selezione progetto.
@@ -153,8 +161,7 @@ public class WindowManager implements ActionListener, DialogListener {
 	public void showOpenWorkSpaceDialog (final WorkSpace initialValue) {
 		getOpenWorkSpaceDialog ().showWithSelection (initialValue);
 	}
-
-	private ReportDialog _reportDialog;
+	
 	/**
 	 * Ritorna la dialog di stampa.
 	 * @return la dialog di stampa.
@@ -171,8 +178,7 @@ public class WindowManager implements ActionListener, DialogListener {
 	public void showReportDialog (final Task reportRoot) {
 		getReportDialog ().showForRoot (reportRoot);
 	}
-
-	private LogConsole _logConsole;
+	
 	/**
 	 * Ritorna la console dilog.
 	 * @return la console dilog.
@@ -185,7 +191,6 @@ public class WindowManager implements ActionListener, DialogListener {
 		return this._logConsole;
 	}
 
-	private OptionsDialog _optionsDialog;
 	/**
 	 * Ritorna la dialog di impostazione delle opzioni.
 	 * 
@@ -197,8 +202,7 @@ public class WindowManager implements ActionListener, DialogListener {
 		}
 		return this._optionsDialog;
 	}
-
-	private TaskEditDialog _taskEditDialog;
+	
 	/**
 	 * Ritorna la dialog di modifica task.
 	 * 
@@ -225,8 +229,7 @@ public class WindowManager implements ActionListener, DialogListener {
 		}
 		return _actionTemplatesDialog;
 	}
-
-	private WorkspacesDialog _workspacesDialog;
+	
 	/**
 	 * Ritorna la dialog di gestione dei progetti.
 	 * 
@@ -298,7 +301,7 @@ public class WindowManager implements ActionListener, DialogListener {
 		return this._context;
 	}
 
-	private About _about;
+	
 	/**
 	 * Ritorna la dialog di inserimento nuova entry, con una inizializzazione lazy.
 	 *
@@ -311,34 +314,20 @@ public class WindowManager implements ActionListener, DialogListener {
 		return this._about;
 	}
 
-	private SystemTraySupport _systemTray;
-	/**
-	 * Ritorna il supporto per la tray icon, con una inizializzazione lazy.
-	 *
-	 * @return il supporto per la tray icon.
-	 */
-	public SystemTraySupport getSystemTraySupport () {
-		if (_systemTray == null) {
-			_systemTray = new SystemTraySupport (_context);
-			try {
-				_systemTray.register (null, null);
-			} catch (final NoClassDefFoundError er) {
-				/*
-				 * Eccezione silenziata in quanto è previsto che possa accadere, usando una versione di Java anteriore alla 6
-				 */
-				//er.printStackTrace();
-			} catch (final ClassNotFoundException ex) {
-				/*
-				 * Eccezione silenziata in quanto è previsto che possa accadere, usando una versione di Java anteriore alla 6
-				 */
-				//ex.printStackTrace();
-			}
+	
+    /**
+     * Ritorna il supporto per la tray icon, con una inizializzazione lazy.
+     *
+     * @return il supporto per la tray icon.
+     */
+    public SystemTraySupport getSystemTraySupport() {
+        if (_systemTray == null) {
+            _systemTray = new SystemTraySupport(_context);
+            _systemTray.register(null, null);
+        }
+        return _systemTray;
+    }
 
-		}
-		return _systemTray;
-	}
-
-	private DesktopSupport _desktop;
 	/**
 	 * Ritorna il supporto per il desktop support, con una inizializzazione lazy.
 	 *
@@ -350,8 +339,7 @@ public class WindowManager implements ActionListener, DialogListener {
 		}
 		return _desktop;
 	}
-
-	private JFileChooser xmlFileChooser;
+	
 	/**
 	 * Restituisce la dialog per la selezione di fle XML.
 	 *

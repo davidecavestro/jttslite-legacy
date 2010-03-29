@@ -37,21 +37,23 @@ public class SystemTraySupport {
 	
 	private PieceOfWork _advancingPOW;
 	private Task _selectedTask;
-	
 	private final Object _context;
+    Object trayIcon;
+	final Image workImage = Toolkit.getDefaultToolkit ().getImage (getClass ().getResource ("/net/sf/jttslite/gui/images/trayicon_on_work.png"));
+	final Image pauseImage = Toolkit.getDefaultToolkit ().getImage (getClass ().getResource ("/net/sf/jttslite/gui/images/trayicon_on_pause.png"));
+	private final static Object[] voidObjectArray = new Object[0];
+	private final static Class[] voidClassArray = new Class[0];
+	private TrayIconConfigurationAccessor accessor;
+	private boolean accessorInitializationFailed = true;
 	
 	/**
 	 * Costruttore.
+	 *
+	 * @param context 
 	 */
 	public SystemTraySupport (final Object context) {
 		_context = context;
 	}
-	
-	
-	Object trayIcon;
-	
-	final Image workImage = Toolkit.getDefaultToolkit ().getImage (getClass ().getResource ("/net/sf/jttslite/gui/images/trayicon_on_work.png"));
-	final Image pauseImage = Toolkit.getDefaultToolkit ().getImage (getClass ().getResource ("/net/sf/jttslite/gui/images/trayicon_on_pause.png"));
 	
 	/**
 	 * Registra l'icona nella system tray.
@@ -60,9 +62,8 @@ public class SystemTraySupport {
 	 * @return l'esito della registrazione.
 	 * @param pow l'azione correntemente attiva. Pu&ograve; essere nulla.
 	 * @param popup il menu da associare alla tray icon. Pu&ograve; essere nullo.
-	 * @throws java.lang.ClassNotFoundException in caso di utilizo con una versionedi Java anteriore alla 6
 	 */
-	public boolean register (final PopupMenu popup, final PieceOfWork pow) throws ClassNotFoundException, NoClassDefFoundError {
+	public boolean register (final PopupMenu popup, final PieceOfWork pow){
 		
 		if (SystemTray.isSupported ()) {
 			
@@ -91,91 +92,58 @@ public class SystemTraySupport {
 		return false;
 	}
 	
-	/**
-	 * Imposta un nuovo enu per la tray icon.
-	 *
-	 * @param popup ilnuovo menu.
-	 */
-	public void setMenu (final PopupMenu popup) {
-		try {
-			if (getTrayIcon ()==null) {
-				return;
-			}
-		} catch (final NoClassDefFoundError ncdfe) {
-			showTrayError (ncdfe);
-			/*
-			 * Supporto java 5
-			 */
-			return;
-		}
-		getTrayIcon ().setPopupMenu (popup);
-	}
+    /**
+     * Imposta un nuovo enu per la tray icon.
+     *
+     * @param popup ilnuovo menu.
+     */
+    public void setMenu(final PopupMenu popup) {
+        if (getTrayIcon() == null) {
+            return;
+        }
+        getTrayIcon().setPopupMenu(popup);
+    }
+
+    /**
+     * Ritorna il menu associato alla tray icon.
+     *
+     * @return il menu associato alla tray icon.
+     */
+    public PopupMenu getMenu() {
+        if (getTrayIcon() == null) {
+            return null;
+        }
+        return getTrayIcon().getPopupMenu();
+    }
+
+    /**
+     * Imposta un nuovo tooltip.
+     * @param text il nuovo tooltip.
+     */
+    public void setTooltip(final String text) {
+        if (getTrayIcon() == null) {
+            return;
+        }
+        getTrayIcon().setToolTip(text);
+    }
 	
-	/**
-	 * Ritorna il menu associato alla tray icon.
-	 *
-	 * @return il menu associato alla tray icon.
-	 */
-	public PopupMenu getMenu () {
-		try {
-			if (getTrayIcon ()==null) {
-				return null;
-			}
-		} catch (final NoClassDefFoundError ncdfe) {
-			showTrayError (ncdfe);
-			/*
-			 * SUpporto java 5
-			 */
-			return null;
-		}
-		return getTrayIcon ().getPopupMenu ();
-	}
-	
-	/**
-	 * Imposta un nuovo tooltip.
-	 * @param text il nuovo tooltip.
-	 */
-	public void setTooltip (final String text) {
-		try {
-			if (getTrayIcon ()==null) {
-				return;
-			}
-		} catch (final NoClassDefFoundError ncdfe) {
-			showTrayError (ncdfe);
-			/*
-			 * SUpporto java 5
-			 */
-			return;
-		}
-		getTrayIcon ().setToolTip (text);
-	}
-	
-	/**
-	 * Imposta l'attivit&agrave; in corso. Il valore <TT>null</TT> va usato per indicare che non cisono attivit&agrave; in corso.
-	 * @param t l'attivit&agrave; correntemente in fase di misurazione.
-	 */
-	public void setWorking (final PieceOfWork spow) {
-		
-		try {
-			if (getTrayIcon ()==null) {
-				return;
-			}
-		} catch (final NoClassDefFoundError ncdfe) {
-			showTrayError (ncdfe);
-			/*
-			 * SUpporto java 5
-			 */
-			return;
-		}
-		_advancingPOW = spow;
-		if (spow!=null) {
-			getTrayIcon ().setImage (workImage);
-		} else {
-			getTrayIcon ().setImage (pauseImage);
-		}
-		
-		refreshTooltip ();
-	}
+    /**
+     * Imposta l'attivit&agrave; in corso. Il valore <TT>null</TT> va usato per indicare che non cisono attivit&agrave; in corso.
+     * @param spow l'attivit&agrave; correntemente in fase di misurazione.
+     */
+    public void setWorking(final PieceOfWork spow) {
+        if (getTrayIcon() == null) {
+            return;
+        }
+        _advancingPOW = spow;
+        if (spow != null) {
+            getTrayIcon().setImage(workImage);
+        } else {
+            getTrayIcon().setImage(pauseImage);
+        }
+
+        refreshTooltip();
+    }
 	
 	private void refreshTooltip () {
 		SwingUtilities.invokeLater (new Runnable () {
@@ -198,168 +166,97 @@ public class SystemTraySupport {
 		});
 	}
 	
-	
-	/**
-	 * Mostra un messaggio dierrore.
-	 *
-	 * @param caption il titolo delmessaggio.
-	 * @param message il testo del messaggio.
-	 */
-	public void showError (final String caption, final String message) {
-		try {
-			if (getTrayIcon ()==null) {
-				return;
-			}
-		} catch (final NoClassDefFoundError ncdfe) {
-			showTrayError (ncdfe);
-			/*
-			 * SUpporto java 5
-			 */
-			return;
-		}
-		getTrayIcon ().displayMessage (caption, message, TrayIcon.MessageType.ERROR);
-	}
-	/**
-	 * Mostra un messaggio di info.
-	 *
-	 * @param caption il titolo delmessaggio.
-	 * @param message il testo del messaggio.
-	 */
-	public void displayInfo (final String caption, final String message) {
-		try {
-			if (getTrayIcon ()==null) {
-				return;
-			}
-		} catch (final NoClassDefFoundError ncdfe) {
-			showTrayError (ncdfe);
-			/*
-			 * SUpporto java 5
-			 */
-			return;
-		}
-		getTrayIcon ().displayMessage (caption, message, TrayIcon.MessageType.INFO);
-	}
-	/**
-	 * Mostra un messaggio di warning.
-	 *
-	 * @param caption il titolo delmessaggio.
-	 * @param message il testo del messaggio.
-	 */
-	public void displayWarning (final String caption, final String message) {
-		try {
-			if (getTrayIcon ()==null) {
-				return;
-			}
-		} catch (final NoClassDefFoundError ncdfe) {
-			showTrayError (ncdfe);
-			/*
-			 * SUpporto java 5
-			 */
-			return;
-		}
-		getTrayIcon ().displayMessage (caption, message, TrayIcon.MessageType.WARNING);
-	}
-	/**
-	 * Mostra un messaggio.
-	 *
-	 * @param caption il titolo delmessaggio.
-	 * @param message il testo del messaggio.
-	 */
-	public void displayMessage (final String caption, final String message) {
-		try {
-			if (getTrayIcon ()==null) {
-				return;
-			}
-		} catch (final NoClassDefFoundError ncdfe) {
-			showTrayError (ncdfe);
-			/*
-			 * SUpporto java 5
-			 */
-			return;
-		}
-		getTrayIcon ().displayMessage (caption, message, TrayIcon.MessageType.NONE);
-	}
-	
-	
-	/**
-	 * Rimuove la tray icon dalla System Tray.
-	 */
-	public void release () {
-		try {
-			if (getTrayIcon ()==null) {
-				return;
-			}
-		} catch (final NoClassDefFoundError ncdfe) {
-			showTrayError (ncdfe);
-			/*
-			 * SUpporto java 5
-			 */
-			return;
-		}
-		final SystemTray tray = SystemTray.getSystemTray ();
-		
-		tray.remove (getTrayIcon ());
-	}
-	
-	public void addMouseListener (final MouseListener l) {
-		try {
-			if (getTrayIcon ()==null) {
-				return;
-			}
-		} catch (final NoClassDefFoundError ncdfe) {
-			showTrayError (ncdfe);
-			/*
-			 * SUpporto java 5
-			 */
-			return;
-		}
-		getTrayIcon ().addMouseListener (l);
-	}
-	
-	public void removeMouseListener (final MouseListener l) {
-		try {
-			if (getTrayIcon ()==null) {
-				return;
-			}
-		} catch (final NoClassDefFoundError ncdfe) {
-			showTrayError (ncdfe);
-			/*
-			 * SUpporto java 5
-			 */
-			return;
-		}
-		getTrayIcon ().removeMouseListener (l);
-	}
-	
-	public void addMouseMotionListener (final MouseMotionListener l) {
-		try {
-			if (getTrayIcon ()==null) {
-				return;
-			}
-		} catch (final NoClassDefFoundError ncdfe) {
-			showTrayError (ncdfe);
-			/*
-			 * SUpporto java 5
-			 */
-			return;
-		}
-		getTrayIcon ().addMouseMotionListener (l);
-	}
-	
-	public void removeMouseMotionListener (final MouseMotionListener l) {
-		try {
-			if (getTrayIcon ()==null) {
-				return;
-			}
-		} catch (final NoClassDefFoundError ncdfe) {
-			showTrayError (ncdfe);
-			/*
-			 * SUpporto java 5
-			 */
-			return;
-		}
-		getTrayIcon ().removeMouseMotionListener (l);
-	}
+    /**
+     * Mostra un messaggio dierrore.
+     *
+     * @param caption il titolo delmessaggio.
+     * @param message il testo del messaggio.
+     */
+    public void showError(final String caption, final String message) {
+        if (getTrayIcon() == null) {
+            return;
+        }
+        getTrayIcon().displayMessage(caption, message, TrayIcon.MessageType.ERROR);
+    }
+
+    /**
+     * Mostra un messaggio di info.
+     *
+     * @param caption il titolo delmessaggio.
+     * @param message il testo del messaggio.
+     */
+    public void displayInfo(final String caption, final String message) {
+        if (getTrayIcon() == null) {
+            return;
+        }
+        getTrayIcon().displayMessage(caption, message, TrayIcon.MessageType.INFO);
+    }
+
+    /**
+     * Mostra un messaggio di warning.
+     *
+     * @param caption il titolo delmessaggio.
+     * @param message il testo del messaggio.
+     */
+    public void displayWarning(final String caption, final String message) {
+        if (getTrayIcon() == null) {
+            return;
+        }
+        getTrayIcon().displayMessage(caption, message, TrayIcon.MessageType.WARNING);
+    }
+
+    /**
+     * Mostra un messaggio.
+     *
+     * @param caption il titolo delmessaggio.
+     * @param message il testo del messaggio.
+     */
+    public void displayMessage(final String caption, final String message) {
+        if (getTrayIcon() == null) {
+            return;
+        }
+        getTrayIcon().displayMessage(caption, message, TrayIcon.MessageType.NONE);
+    }
+
+    /**
+     * Rimuove la tray icon dalla System Tray.
+     */
+    public void release() {
+        if (getTrayIcon() == null) {
+            return;
+        }
+        final SystemTray tray = SystemTray.getSystemTray();
+
+        tray.remove(getTrayIcon());
+    }
+
+    public void addMouseListener(final MouseListener l) {
+        if (getTrayIcon() == null) {
+            return;
+        }
+        getTrayIcon().addMouseListener(l);
+    }
+
+    public void removeMouseListener(final MouseListener l) {
+        if (getTrayIcon() == null) {
+            return;
+        }
+        getTrayIcon().removeMouseListener(l);
+    }
+
+    public void addMouseMotionListener(final MouseMotionListener l) {
+        if (getTrayIcon() == null) {
+            return;
+        }
+        getTrayIcon().addMouseMotionListener(l);
+    }
+
+    public void removeMouseMotionListener(final MouseMotionListener l) {
+        if (getTrayIcon() == null) {
+            return;
+        }
+        getTrayIcon().removeMouseMotionListener(l);
+    }
 	
 	
 	public PieceOfWork getRunningAction () {
@@ -370,19 +267,12 @@ public class SystemTraySupport {
 		return _selectedTask;
 	}
 	
-	private final static Object[] voidObjectArray = new Object[0];
-	private final static Class[] voidClassArray = new Class[0];
-	
-	private TrayIconConfigurationAccessor accessor;
-	private boolean accessorInitializationFailed = true;
-	
 	/**
-	 * Finche' si vuole supportare Java 5, e' necessario proteggere qualsiasi accesso a TrayIcon con un 
-	 * try {
-	 * ...
-	 * } catch (NoClassDefFoundError )
+	 * Finche' si vuole supportare Java 5, e' necessario proteggere
+         * qualsiasi accesso a TrayIcon con un
+	 * 
 	 */
-	private TrayIcon getTrayIcon () throws NoClassDefFoundError {
+	private TrayIcon getTrayIcon (){
 		
 		boolean isTrayIconEnabled = true;
 		
@@ -414,27 +304,20 @@ public class SystemTraySupport {
 	}
 
 	/**
-	 * Imposta il correntemente selezionato.
-	 * Serve per poter mostrare neitooltip il nome deltask selezionato (quello su cuieventualmente sifa partire un'azione)
+	 * Imposta il task correntemente selezionato.
+	 * Serve per poter mostrare nei tooltip il nome del task selezionato (quello su cui
+	 * eventualmente si fa partire un'azione)
+	 *
+	 * @param t task correntemente selezionato
 	 */
 	public void setSelected (final Task t) {
 		_selectedTask = t;
 		refreshTooltip ();
 	}
-
-	private void showTrayError (NoClassDefFoundError ncdfe) {
-		ncdfe.printStackTrace ();
-	}
-
-//	public void showMenu () {
-//		if (getTrayIcon ()==null) {
-//			return;
-//		}
-////		getTrayIcon ().getPopupMenu ().dispatchEvent (new MouseEvent ());
-//	}
 	
 	/*
-	 * @workaround usa la reflection per rimuovere dipendenze di comilazione verso ApplicationOptions (progetto Java5 vs Java6)
+	 * @workaround usa la reflection per rimuovere dipendenze di compilazione
+	 * verso ApplicationOptions
 	 */
 	private class TrayIconConfigurationAccessor {
 		

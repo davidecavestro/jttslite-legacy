@@ -55,6 +55,8 @@ public class Project implements WorkSpace {
 
 	/**
 	 * Costruttore copia.
+	 *
+	 * @param source il progetto da copiare
 	 */
 	public Project (final Project source) {
         this.description = source.description;
@@ -103,7 +105,7 @@ public class Project implements WorkSpace {
 	 * Ritorna la rappresentazione in formato stringa di questo progetto.
 	 *
 	 * @return una stringa che rappresenta questo progetto.
-	 */	
+	 */
 	public String toString (){
 		final StringBuilder sb = new StringBuilder ();
 		sb.append ("name: ").append (this.name)

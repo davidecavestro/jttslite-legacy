@@ -55,6 +55,8 @@ public interface PieceOfWorkTemplate {
 	
 	/**
 	 * Ritorna un clone di questo avanzamento, a solo scopo di backup.
+	 *
+	 * @return un clone di questo avanzamento, a solo scopo di backup
 	 */
 	PieceOfWorkTemplateBackup backup ();
 

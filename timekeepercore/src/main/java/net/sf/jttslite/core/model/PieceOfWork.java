@@ -3,8 +3,6 @@
  *
  * Created on November 11, 2006, 12:50 PM
  *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
  */
 
 package net.sf.jttslite.core.model;
@@ -35,7 +33,7 @@ public interface PieceOfWork extends LocalizedPeriod {
 	/** 
 	 * Imposta la data di inizio per questo periodo di lavoro.
 	 *
-	 * @param to la nuova data di inizio del periodo di lavoro.
+	 * @param from to la nuova data di inizio del periodo di lavoro.
 	 */
 	void setFrom (Date from);
 		
@@ -61,13 +59,14 @@ public interface PieceOfWork extends LocalizedPeriod {
 	
 	/**
 	 * Ritorna un clone di questo avanzamento, a solo scopo di backup.
+	 *
+	 * @return un clone di questo avanzamento, a solo scopo di backup.
 	 */
 	PieceOfWorkBackup backup ();
 
-//	/**
-//	 * Copia il proprio stato internodall'oggetto specificato.
-//	 */
-//	void restore (PieceOfWorkBackup pow);
-
-	String getNotes ();
+   /**
+    * Restituisce le note dell'avanzamento
+    * @return le note dell'avanzamento
+    */
+   String getNotes();
 }

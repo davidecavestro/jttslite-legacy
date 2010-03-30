@@ -9,7 +9,6 @@ package net.sf.jttslite.model;
 
 import net.sf.jttslite.core.model.WorkSpace;
 import net.sf.jttslite.core.model.Task;
-import net.sf.jttslite.core.model.PieceOfWork;
 import net.sf.jttslite.persistence.PersistenceManager;
 import net.sf.jttslite.persistence.Transaction;
 import java.util.Collection;
@@ -120,22 +119,6 @@ public class WorkSpaceModelImpl extends AbstractWorkSpaceModel {
 		delegate.ensureCapacity (minCapacity);
 	}
 	
-//	/**
-//	 * Sets the size of this list.
-//	 *
-//	 * @param   newSize   the new size of this list
-//	 * @see Vector#setSize(int)
-//	 */
-//	public void setSize (int newSize) {
-//		int oldSize = delegate.size ();
-//		delegate.setSize (newSize);
-//		if (oldSize > newSize) {
-//			fireIntervalRemoved (this, newSize, oldSize-1);
-//		} else if (oldSize < newSize) {
-//			fireIntervalAdded (this, oldSize, newSize-1);
-//		}
-//	}
-	
 	/**
 	 * Returns the current capacity of this list.
 	 *
@@ -209,48 +192,6 @@ public class WorkSpaceModelImpl extends AbstractWorkSpaceModel {
 	public int indexOf (WorkSpace elem) {
 		return delegate.indexOf (elem);
 	}
-	
-//	/**
-//	 * Searches for the first occurrence of <code>elem</code>, beginning
-//	 * the search at <code>index</code>.
-//	 *
-//	 * @param   elem    an desired component
-//	 * @param   index   the index from which to begin searching
-//	 * @return  the index where the first occurrence of <code>elem</code>
-//	 *          is found after <code>index</code>; returns <code>-1</code>
-//	 *          if the <code>elem</code> is not found in the list
-//	 * @see Vector#indexOf(WorkSpace,int)
-//	 */
-//	public int indexOf (WorkSpace elem, int index) {
-//		return delegate.indexOf (elem, index);
-//	}
-	
-//	/**
-//	 * Returns the index of the last occurrence of <code>elem</code>.
-//	 *
-//	 * @param   elem   the desired component
-//	 * @return  the index of the last occurrence of <code>elem</code>
-//	 *          in the list; returns <code>-1</code> if the object is not found
-//	 * @see Vector#lastIndexOf(WorkSpace)
-//	 */
-//	public int lastIndexOf (WorkSpace elem) {
-//		return delegate.lastIndexOf (elem);
-//	}
-	
-//	/**
-//	 * Searches backwards for <code>elem</code>, starting from the
-//	 * specified index, and returns an index to it.
-//	 *
-//	 * @param  elem    the desired component
-//	 * @param  index   the index to start searching from
-//	 * @return the index of the last occurrence of the <code>elem</code>
-//	 *          in this list at position less than <code>index</code>;
-//	 *          returns <code>-1</code> if the object is not found
-//	 * @see Vector#lastIndexOf(WorkSpace,int)
-//	 */
-//	public int lastIndexOf (WorkSpace elem, int index) {
-//		return delegate.lastIndexOf (elem, index);
-//	}
 	
 	/**
 	 * Returns the component at the specified index.
@@ -508,6 +449,7 @@ public class WorkSpaceModelImpl extends AbstractWorkSpaceModel {
 	 *
 	 * @return a String representation of this object
 	 */
+   @Override
 	public String toString () {
 		return delegate.toString ();
 	}
@@ -538,6 +480,7 @@ public class WorkSpaceModelImpl extends AbstractWorkSpaceModel {
 	 * (<code>index &lt; 0 || index &gt;= size()</code>).
 	 *
 	 * @param index index of element to return
+	 * @return the element at the specified position in this list
 	 */
 	public WorkSpace get (int index) {
 		return delegate.elementAt (index);
@@ -615,7 +558,8 @@ public class WorkSpaceModelImpl extends AbstractWorkSpaceModel {
 	 *
 	 * @param index the index of the element to removed
      *
-     * @throws CannotRemoveWorkSpaceException if a workspace cannot be removed.
+	 * @return the element that was removed from the list
+	 * @throws CannotRemoveWorkSpaceException if a workspace cannot be removed.
 	 */
 	public WorkSpace remove (int index) throws CannotRemoveWorkSpaceException {
 		WorkSpace rv = delegate.elementAt (index);
@@ -661,31 +605,6 @@ public class WorkSpaceModelImpl extends AbstractWorkSpaceModel {
 		}
 	}
 	
-//	/**
-//	 * Deletes the components at the specified range of indexes.
-//	 * The removal is inclusive, so specifying a range of (1,5)
-//	 * removes the component at index 1 and the component at index 5,
-//	 * as well as all components in between.
-//	 * <p>
-//	 * Throws an <code>ArrayIndexOutOfBoundsException</code>
-//	 * if the index was invalid.
-//	 * Throws an <code>IllegalArgumentException</code> if
-//	 * <code>fromIndex &gt; toIndex</code>.
-//	 *
-//	 * @param      fromIndex the index of the lower end of the range
-//	 * @param      toIndex   the index of the upper end of the range
-//	 * @see	   #remove(int)
-//	 */
-//	public void removeRange (int fromIndex, int toIndex) {
-//		if (fromIndex > toIndex) {
-//			throw new IllegalArgumentException ("fromIndex must be <= toIndex");
-//		}
-//		for(int i = toIndex; i >= fromIndex; i--) {
-//			delegate.removeElementAt (i);
-//		}
-//		fireIntervalRemoved (this, fromIndex, toIndex);
-//	}
-	
 	
 	public void updateElement (final WorkSpace ws, final String name, final String descr, final String notes) {
 		final Transaction tx = getTransaction ();
@@ -708,15 +627,6 @@ public class WorkSpaceModelImpl extends AbstractWorkSpaceModel {
 		final int index = indexOf (ws);
 		fireContentsChanged (this, index, index);
 	}
-		
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	/*-------------------------------------------------------------
@@ -729,9 +639,11 @@ public class WorkSpaceModelImpl extends AbstractWorkSpaceModel {
 	 */
 	private Transaction _tx;
 	/**
-	 * Ritorna una transazione difacciata, con una implementazione vuota.
+	 * Ritorna una transazione di facciata, con una implementazione vuota.
 	 * <P>
 	 * Scavalcare questo metodo per fornire una adeguata implementazione di Transactionse necessario (ad esempio una transazione JDO).
+	 *
+	 * @return una transazione di facciata, con una implementazione vuota.
 	 */
 	protected Transaction getTransaction () {
 		if (null == _tx) {
@@ -748,13 +660,15 @@ public class WorkSpaceModelImpl extends AbstractWorkSpaceModel {
 	}
 	
 	/**
-	 * RIferimentoalla transazione fake, creata lazy.
+	 * Riferimento alla transazione fake, creata lazy.
 	 */
 	private PersistenceManager _pm;
 	/**
 	 * Ritorna un persistence manager di facciata, con una implementazione vuota.
 	 * <P>
 	 * Scavalcare questo metodo per fornire una adeguata implementazione di PersistenceManager se necessario (ad esempio un PersistenceManager JDO).
+	 *
+	 * @return un persistence manager di facciata, con una implementazione vuota
 	 */
 	protected PersistenceManager getPersistenceManager () {
 		if (null == _pm) {
@@ -772,32 +686,17 @@ public class WorkSpaceModelImpl extends AbstractWorkSpaceModel {
 		return _pm;
 	}
 	
-	
-	/**
-	 * Rimuove il sottoalbero, avanzamenti compresi.
-	 *
-	 * @param pm
-	 * @param toDelete la radice del sottoalbero da rimuovere.
-	 */
-	private void deleteSubtreePersistent (final PersistenceManager pm, final List<Task> toDelete){
-		for (final Task t : toDelete) {
-			deleteSubtreePersistent (pm, t);
-		}
-	}
-	
 	/**
 	 * Rimuove il sottoalbero, avanzamenti compresi.
 	 *
 	 * @param toDelete la radice del sottoalbero da rimuovere.
 	 */
 	private void deleteSubtreePersistent (final PersistenceManager pm, final Task toDelete){
-		for (final Iterator it = toDelete.getChildren ().iterator ();it.hasNext ();){
-			deleteSubtreePersistent (pm, (Task)it.next ());
+	   for(Task task : toDelete.getChildren ()){
+		   deleteSubtreePersistent (pm, task);
 		}
-		for (final Iterator it = toDelete.getPiecesOfWork ().iterator ();it.hasNext ();){
-			pm.deletePersistent ((PieceOfWork)it.next ());
-		}
-		pm.deletePersistent (toDelete);
+	   pm.deletePersistentAll (toDelete.getPiecesOfWork ());
+	   pm.deletePersistent (toDelete);
 	}
 	
 	/**
@@ -821,33 +720,16 @@ public class WorkSpaceModelImpl extends AbstractWorkSpaceModel {
 		}
 	}
 	
-	
-	
-
-	/**
-	 * Rende persistente il sottoalbero, avanzamenti compresi.
-	 *
-	 * @param pm
-	 * @param toPersist la radice del sottoalbero da rendere persistente.
-	 */
-	private void makeSubtreePersistent (final PersistenceManager pm, final List<Task> toPersist){
-		for (final Task t : toPersist) {
-			makeSubtreePersistent (pm, t);
-		}
-	}
-	
 	/**
 	 * Rende persistente il sottoalbero, avanzamenti compresi.
 	 *
 	 * @param toPersist la radice del sottoalbero da rendere persistente.
 	 */
 	private void makeSubtreePersistent (final PersistenceManager pm, final Task toPersist){
-		for (final Iterator it = toPersist.getChildren ().iterator ();it.hasNext ();){
-			makeSubtreePersistent (pm, (Task)it.next ());
+		for (Task task : toPersist.getChildren ()){
+			makeSubtreePersistent (pm, task);
 		}
-		for (final Iterator it = toPersist.getPiecesOfWork ().iterator ();it.hasNext ();){
-			pm.makePersistent ((PieceOfWork)it.next ());
-		}
+		pm.makePersistentAll (toPersist.getPiecesOfWork ());
 		pm.makePersistent (toPersist);
 	}
 	
@@ -859,17 +741,6 @@ public class WorkSpaceModelImpl extends AbstractWorkSpaceModel {
 	private void makePersistent (final PersistenceManager pm, final WorkSpace toPersist){
 		makeSubtreePersistent (pm, toPersist.getRoot ());
 		pm.makePersistent (toPersist);
-	}
-	
-	/**
-	 * Rende persistenti i workspace.
-	 *
-	 * @param toPersist i workspace da rendere persistenti.
-	 */
-	private void makePersistent (final PersistenceManager pm, final List<WorkSpace> toPersist){
-		for (final WorkSpace ws : toPersist) {
-			makePersistent (pm, ws);
-		}
 	}
 		
 	/*-------------------------------------------------------------

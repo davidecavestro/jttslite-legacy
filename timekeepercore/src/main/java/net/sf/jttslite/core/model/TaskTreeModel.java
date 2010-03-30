@@ -7,7 +7,6 @@
 
 package net.sf.jttslite.core.model;
 
-import net.sf.jttslite.core.model.Task;
 import net.sf.jttslite.core.model.event.TaskTreeModelListener;
 
 /**

@@ -3,8 +3,6 @@
  *
  * Created on November 11, 2006, 12:35 PM
  *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
  */
 
 package net.sf.jttslite.core.model;
@@ -69,19 +67,12 @@ public interface Task {
 	Task childAt (int pos);
 	
 	/**
-	 * Ritorna il progettod i appartenenza di questo nodo.
-	 *
-	 * @return il progetto di appartenenza.
-	 */
-//	WorkSpace getWorkSpace ();
-	
-	/**
 	 * Ritorna la lista di avanzamenti appartenenti a queto nodo. Non dovrebbe
 	 * essere usata per apportare modifiche agli avanzamenti.
 	 *
 	 * @return la lista di avanzamenti appartnenti a queto nodo.
 	 */
-	List getPiecesOfWork ();
+	List<PieceOfWork> getPiecesOfWork ();
 	
 	/**
 	 * Ritorna il nome di questo nodo.
@@ -154,7 +145,7 @@ public interface Task {
 	 *
 	 * @return gli avanzamenti apparteneneti al sottoalbero.
 	 */
-	List getSubtreeProgresses ();
+	List<PieceOfWork> getSubtreeProgresses ();
 	
 	/**
 	 * Ritorna la lista dei figli di questo task.
@@ -163,20 +154,27 @@ public interface Task {
 	 * 
 	 * @return la lista dei figli di questo task.
 	 */
-	List getChildren ();
+	List<Task> getChildren ();
 	
 	/**
 	 * Ritorna un clone di questo nodo, a solo scopo di backup.
+	 *
+	 * @return un clone di questo nodo, a solo scopo di backup.
 	 */
 	TaskBackup backup ();
-	
-//	/**
-//	 * Ripristina il proprio stato interno dal backup specificato.
-//	 */
-//	void restore (TaskBackup t);
 
+	/**
+	 * Restituisce il codice di questo task
+	 *
+	 * @return il codice di questo task
+	 */
 	String getCode ();
 
+	/**
+	 * Restituisce le note del task
+	 * 
+	 * @return le note del task
+	 */
 	String getNotes ();
 	
 }

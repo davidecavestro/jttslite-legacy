@@ -74,6 +74,8 @@ public interface WorkSpace {
 
 	/**
 	 * Ritorna un clone di questo progetto, a solo scopo di backup.
+	 *
+	 * @return un clone di questo progetto, a solo scopo di backup.
 	 */
 	WorkSpaceBackup backup ();
 

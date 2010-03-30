@@ -7,7 +7,6 @@
 
 package net.sf.jttslite.core.model.impl;
 
-import net.sf.jttslite.common.util.GenericUtils;
 import net.sf.jttslite.core.model.PieceOfWorkTemplate;
 import net.sf.jttslite.core.model.PieceOfWorkTemplateBackup;
 import net.sf.jttslite.core.util.Duration;
@@ -133,7 +132,6 @@ public class ProgressTemplate extends Observable implements PieceOfWorkTemplate 
 		}
 	}
 	
-//	@Override
 	public String toString () {
 		final StringBuilder sb = new StringBuilder ();
 		sb.append ("name: ").append (name);
@@ -141,36 +139,6 @@ public class ProgressTemplate extends Observable implements PieceOfWorkTemplate 
 		sb.append ("notes: ").append (notes);
 		return sb.toString ();
 	}
-
-	//commentato per evitare accessi ai campi durante la cancellazione
-//	@Override
-//	public boolean equals (final Object obj) {
-//		if (obj==this) {
-//			return true;
-//		}
-//		if (obj==null) {
-//			return false;
-//		}
-//		if (!(obj instanceof ProgressTemplate)) {
-//			return false;
-//		}
-//		final ProgressTemplate powt = (ProgressTemplate)obj;
-//		return 
-//			GenericUtils.equals (this.name, powt.name)
-//			&& GenericUtils.equals (this.duration, powt.duration)
-//			&& GenericUtils.equals (this.notes, powt.notes);
-//	}
-	
-//	@Override
-//	public int hashCode () {
-//		final StringBuilder sb = new StringBuilder ();
-//		sb.append ("PieceOfWorkTemplate:")
-//		.append (name).append ("@@@").append (GenericUtils.hashCode (name, -1)).append ("###")
-//		.append (duration).append ("@@@").append (GenericUtils.hashCode (duration, -1)).append ("###")
-//		.append (notes).append ("@@@").append (GenericUtils.hashCode (notes, -1)).append ("###")
-//		;
-//		return sb.toString ().hashCode ();
-//	}
 
 
 	public PieceOfWorkTemplateBackup backup () {

@@ -7,12 +7,12 @@
 
 package net.sf.jttslite.model;
 
-import net.sf.jttslite.common.log.Logger;
 import net.sf.jttslite.conf.ApplicationOptions;
 import net.sf.jttslite.persistence.PersistenceManager;
 import net.sf.jttslite.persistence.PersistenceNode;
 import net.sf.jttslite.persistence.Transaction;
 import java.util.Collection;
+import java.util.logging.Logger;
 
 /**
  * Fornisce l'implementazione della persistenza.

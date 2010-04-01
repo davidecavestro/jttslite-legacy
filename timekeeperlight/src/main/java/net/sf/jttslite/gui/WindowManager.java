@@ -18,6 +18,7 @@ import net.sf.jttslite.core.model.impl.Progress;
 import net.sf.jttslite.core.model.impl.ProgressItem;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.logging.Level;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
@@ -261,7 +262,7 @@ public class WindowManager implements ActionListener, DialogListener {
 		} else if (e.getSource () == _startPOWDialog) {
 			if (e.getType () == JOptionPane.OK_OPTION) {
 				getMainWindow ().stopAdvancing ();
-				_context.getLogger ().debug (java.util.ResourceBundle.getBundle ("net.sf.jttslite.gui.res").getString ("Starting_new_action..."));
+				_context.getLogger ().log (Level.INFO,java.util.ResourceBundle.getBundle ("net.sf.jttslite.gui.res").getString ("Starting_new_action..."));
 				final ProgressItem t = (ProgressItem) _startPOWDialog.getTask ();
 				final Progress p = new Progress (
 					_startPOWDialog.getFromDate (),
@@ -272,13 +273,13 @@ public class WindowManager implements ActionListener, DialogListener {
 					p,
 					t,
 					-1);
-				_context.getLogger ().debug (java.util.ResourceBundle.getBundle ("net.sf.jttslite.gui.res").getString ("New_action_started"));
+				_context.getLogger ().log (Level.INFO,java.util.ResourceBundle.getBundle ("net.sf.jttslite.gui.res").getString ("New_action_started"));
 			}
 		} else if (e.getSource () == _reportDialog) {
 			if (e.getType () == JOptionPane.OK_OPTION) {
-				_context.getLogger ().debug (java.util.ResourceBundle.getBundle ("net.sf.jttslite.gui.res").getString ("Generating_report..."));
+				_context.getLogger ().log (Level.INFO,java.util.ResourceBundle.getBundle ("net.sf.jttslite.gui.res").getString ("Generating_report..."));
 				_reportDialog.launchReport ();
-				_context.getLogger ().debug (java.util.ResourceBundle.getBundle ("net.sf.jttslite.gui.res").getString ("Report_successfully_generated"));
+				_context.getLogger ().log (Level.INFO,java.util.ResourceBundle.getBundle ("net.sf.jttslite.gui.res").getString ("Report_successfully_generated"));
 			}
 		}
 	}

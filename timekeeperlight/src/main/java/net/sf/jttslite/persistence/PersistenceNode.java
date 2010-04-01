@@ -7,7 +7,6 @@
 
 package net.sf.jttslite.persistence;
 
-import net.sf.jttslite.common.log.Logger;
 import net.sf.jttslite.conf.ApplicationOptions;
 import net.sf.jttslite.core.model.WorkSpace;
 import net.sf.jttslite.core.model.impl.ProgressTemplate;
@@ -24,6 +23,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Logger;
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
@@ -241,7 +241,7 @@ public class PersistenceNode {
 	 * @todo siccome l'INFAME che ha fatto la classe JDOHelper chiama direttamente i metodi
 	 * di Hashtable, non posso usare le properties di default.
 	 *
-	 * @param env l'ambiente di configurazione del data store.
+	 * @param props l'ambiente di configurazione del data store.
 	 * @return il gestore della persistenza per il datastore creato.
 	 */
 	public static PersistenceManager createDataStore (final Properties props) {

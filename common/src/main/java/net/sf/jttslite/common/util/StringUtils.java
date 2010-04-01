@@ -63,7 +63,7 @@ public final class StringUtils {
 	 * @return un array di stringhe.
 	 */	
 	public static String[] toStringArray (final String s){
-		final List l = new ArrayList ();
+		final List<String> l = new ArrayList<String> ();
 		int from = 0;
 		final String delimiter = "\\n";
 		final int delimiterLength = delimiter.length ();
@@ -78,12 +78,7 @@ public final class StringUtils {
 				break;
 			}
 		}
-		
-//		String s1 = new String (new char[] {'\n'});
-//		for (final StringTokenizer st = new StringTokenizer (s, "\\n", false);st.hasMoreTokens ();){
-//			l.add (st.nextToken ());
-//		}
-		return (String[])l.toArray (voidStringArray);
+		return l.toArray (voidStringArray);
 	}
 	
 	/**

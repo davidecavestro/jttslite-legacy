@@ -11,6 +11,7 @@ import net.sf.jttslite.core.model.PieceOfWork;
 import com.ost.timekeeper.model.*;
 import java.awt.datatransfer.*;
 import java.io.*;
+import java.util.logging.Level;
 import javax.swing.*;
 
 /**
@@ -61,10 +62,10 @@ public abstract class ProgressTransferHandler extends TransferHandler implements
 			final PieceOfWork[] progresses = td.getData ();
 			importProgresses (c, progresses, td.getAction ()!=TransferHandler.COPY);
 		} catch (UnsupportedFlavorException ufe) {
-			_context.getLogger ().warning (ufe, java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Error_transferring_UI_data."));
+			_context.getLogger ().log (Level.WARNING, java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Error_transferring_UI_data."),ufe);
 			return false;
 		} catch (IOException ioe) {
-			_context.getLogger ().warning (ioe, java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Error_transferring_UI_data."));
+			_context.getLogger ().log (Level.WARNING, java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Error_transferring_UI_data."),ioe);
 			return false;
 		}
 		return true;

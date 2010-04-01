@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.logging.Level;
 import javax.swing.AbstractListModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComponent;
@@ -405,12 +406,12 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 				return false;
 			}
 		}
-		context.getLogger ().debug (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Opening_workspace..."));
+		context.getLogger ().log (Level.WARNING ,java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Opening_workspace..."));
 
 		context.getModel ().setWorkSpace (ws);
 		context.getUserSettings ().setLastProjectName (ws.getName ());
 
-		context.getLogger ().debug (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Workspace_successfully_opened"));
+		context.getLogger ().log (Level.WARNING,java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Workspace_successfully_opened"));
 		return true;
 	}
 	

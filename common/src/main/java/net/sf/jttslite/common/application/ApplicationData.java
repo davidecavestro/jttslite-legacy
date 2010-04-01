@@ -8,8 +8,6 @@ package net.sf.jttslite.common.application;
 
 import net.sf.jttslite.common.cache.DisposableData;
 import net.sf.jttslite.common.util.settings.SettingsSupport;
-import java.io.*;
-import java.net.URLDecoder;
 import java.util.*;
 
 /**
@@ -80,13 +78,6 @@ public final class ApplicationData {
 	public ApplicationData (Properties p) {
 		this._releaseProperties = p;
 	}
-	
-//	public static ApplicationData getInstance (){
-//		if (_instance==null){
-//			_instance = new ApplicationData ();
-//		}
-//		return _instance;
-//	}
 	
 	/**
 	 * Ritorna il nome interno dell'applicazione. Questo nome e' inteso ad uso 

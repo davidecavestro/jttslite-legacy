@@ -94,6 +94,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
+import java.util.logging.Level;
 import javax.help.CSH;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -3893,7 +3894,7 @@ net.sf.jttslite.gui.MainWindow$TaskJTreeModel.checkForReload(MainWindow.java:255
 		
 		public void actionPerformed (java.awt.event.ActionEvent e) {
 			final TaskTreeModelImpl m = _context.getModel ();
-			_context.getLogger ().debug ("Creating new task...");
+			_context.getLogger ().log (Level.INFO, "Creating new task...");
 			final Task t = new ProgressItem (_candidateParent.getName ()+"."+(_candidateParent.childCount ()+1));
 			m.insertNodeInto (t, _candidateParent, _candidateParent.childCount ());
 			SwingUtilities.invokeLater (new Runnable () {
@@ -3916,7 +3917,7 @@ net.sf.jttslite.gui.MainWindow$TaskJTreeModel.checkForReload(MainWindow.java:255
 				}
 			});
 			
-			_context.getLogger ().debug ("New task created");
+			_context.getLogger ().log (Level.INFO,"New task created");
 		}
 		
 		Task _candidateParent;
@@ -3986,12 +3987,12 @@ net.sf.jttslite.gui.MainWindow$TaskJTreeModel.checkForReload(MainWindow.java:255
 				return;
 			}
 			
-			_context.getLogger ().debug ("Removing tasks...");
+			_context.getLogger ().log (Level.INFO,"Removing tasks...");
 			final TaskTreeModelImpl m = _context.getModel ();
 			for (final Task parent : _removalCandidates.keySet ()) {
 				m.removeTasks (parent, _removalCandidates.get (parent));
 			}
-			_context.getLogger ().debug ("Tasks removed");
+			_context.getLogger ().log (Level.INFO,"Tasks removed");
 		}
 		
 		Map<Task, List<Task>> _removalCandidates;
@@ -4062,10 +4063,10 @@ net.sf.jttslite.gui.MainWindow$TaskJTreeModel.checkForReload(MainWindow.java:255
 					 */
 					_stopAction.actionPerformed (e);
 				}
-				_context.getLogger ().debug ("Starting new action...");
+				_context.getLogger ().log (Level.INFO,"Starting new action...");
 				final TaskTreeModelImpl m = _context.getModel ();
 				m.insertPieceOfWorkInto (new Progress (new Date (), null, (ProgressItem)_candidateParent), _candidateParent, _candidateParent.pieceOfWorkCount ());
-				_context.getLogger ().debug ("Action started");
+				_context.getLogger ().log (Level.INFO,"Action started");
 			}
 		}
 		
@@ -4133,14 +4134,14 @@ net.sf.jttslite.gui.MainWindow$TaskJTreeModel.checkForReload(MainWindow.java:255
 				 */
 				_stopAction.actionPerformed (e);
 			}
-			_context.getLogger ().debug ("Starting progress clone...");
+			_context.getLogger ().log (Level.INFO,"Starting progress clone...");
 			final TaskTreeModelImpl m = _context.getModel ();
 			final ProgressItem parent = (ProgressItem)_candidateSource.getTask ();
 			final Progress clone = new Progress (new Date (), null, parent);
 			clone.setDescription (_candidateSource.getDescription ());
 			clone.setNotes (_candidateSource.getNotes ());
 			m.insertPieceOfWorkInto (clone, parent, parent.pieceOfWorkCount ());
-			_context.getLogger ().debug ("Clone progress started");
+			_context.getLogger ().log (Level.INFO,"Clone progress started");
 		}
 		
 		private Progress _candidateSource;
@@ -4218,10 +4219,10 @@ net.sf.jttslite.gui.MainWindow$TaskJTreeModel.checkForReload(MainWindow.java:255
 		}
 		
 		public void actionPerformed (java.awt.event.ActionEvent e) {
-			_context.getLogger ().debug ("Continuing a previously closed action...");
+			_context.getLogger ().log (Level.INFO,"Continuing a previously closed action...");
 			final TaskTreeModelImpl m = _context.getModel ();
 			m.updatePieceOfWork (_candidate, _candidate.getFrom (), null, _candidate.getDescription ());
-			_context.getLogger ().debug ("Action (re)started");
+			_context.getLogger ().log (Level.INFO,"Action (re)started");
 		}
 		
 		private Progress _candidate;
@@ -4303,9 +4304,9 @@ net.sf.jttslite.gui.MainWindow$TaskJTreeModel.checkForReload(MainWindow.java:255
 		}
 		
 		public void actionPerformed (java.awt.event.ActionEvent e) {
-			_context.getLogger ().debug ("Stopping current action...");
+			_context.getLogger ().log (Level.INFO,"Stopping current action...");
 			stopAdvancing ();
-			_context.getLogger ().debug ("Current action stopped");
+			_context.getLogger ().log (Level.INFO,"Current action stopped");
 		}
 		
 		private void setEnabled () {
@@ -4341,7 +4342,7 @@ net.sf.jttslite.gui.MainWindow$TaskJTreeModel.checkForReload(MainWindow.java:255
 		}
 		
 		public void actionPerformed (java.awt.event.ActionEvent e) {
-			_context.getLogger ().debug ("Adding action to templates...");
+			_context.getLogger ().log (Level.INFO,"Adding action to templates...");
 			final PieceOfWorkTemplateModelImpl m = _context.getTemplateModel ();
 			for (final Progress progress : _candidates ) {
 				final ProgressTemplate template = new ProgressTemplate ();
@@ -4350,7 +4351,7 @@ net.sf.jttslite.gui.MainWindow$TaskJTreeModel.checkForReload(MainWindow.java:255
 				template.setNotes (progress.getDescription ());
 				m.addElement (template);
 			}
-			_context.getLogger ().debug ("Template added");
+			_context.getLogger ().log (Level.INFO,"Template added");
 		}
 		
 		private final List<Progress> _candidates = new ArrayList<Progress> ();
@@ -4422,11 +4423,11 @@ net.sf.jttslite.gui.MainWindow$TaskJTreeModel.checkForReload(MainWindow.java:255
 		}
 		
 		public void actionPerformed (java.awt.event.ActionEvent e) {
-			_context.getLogger ().debug ("Creating new action...");
+			_context.getLogger ().log (Level.INFO,"Creating new action...");
 //			final TaskTreeModelImpl m = _context.getModel ();
 			_context.getWindowManager ().getNewPieceOfWorkDialog ().showForTask (_candidateParent);
 //			m.insertPieceOfWorkInto (new Progress (new Date (), null, (ProgressItem)_candidateParent), _candidateParent, _candidateParent.pieceOfWorkCount ());
-			_context.getLogger ().debug ("New action created");
+			_context.getLogger ().log (Level.INFO,"New action created");
 		}
 		
 		private boolean _isEnabled () {
@@ -4486,12 +4487,12 @@ net.sf.jttslite.gui.MainWindow$TaskJTreeModel.checkForReload(MainWindow.java:255
 			
 			
 			
-			_context.getLogger ().debug ("Deleting actions...");
+			_context.getLogger ().log (Level.INFO,"Deleting actions...");
 			final TaskTreeModelImpl m = _context.getModel ();
 			for (final Task t : _removalCandidates.keySet ()) {
 				m.removePiecesOfWork (t, _removalCandidates.get (t));
 			}
-			_context.getLogger ().debug ("Actions deleted");
+			_context.getLogger ().log (Level.INFO,"Actions deleted");
 		}
 		
 		private final Map<Task, List<PieceOfWork>> _removalCandidates = new HashMap<Task, List<PieceOfWork>>  ();
@@ -5214,10 +5215,10 @@ net.sf.jttslite.gui.MainWindow$TaskJTreeModel.checkForReload(MainWindow.java:255
 					importProgresses (c, progresses, td.getAction ()!=TransferHandler.COPY);
 				}
 			} catch (UnsupportedFlavorException ufe) {
-				_context.getLogger ().warning (ufe, "Error transferring UI data.");
+				_context.getLogger ().log (Level.WARNING,"Error transferring UI data.",ufe);
 				return false;
 			} catch (IOException ioe) {
-				_context.getLogger ().warning (ioe, "Error transferring UI data.");
+				_context.getLogger ().log (Level.WARNING, "Error transferring UI data.",ioe);
 				return false;
 			}
 			return true;
@@ -5802,7 +5803,7 @@ class ImportWorkSpaceAction extends ContextAwareAction {
 
     public void actionPerformed (ActionEvent e) {
         final MainWindow mainWindow = getContext ().getWindowManager ().getMainWindow ();
-        getContext ().getLogger ().debug ("Restoring workspace backup...");
+        getContext ().getLogger ().log (Level.INFO,"Restoring workspace backup...");
 
         final JFileChooser xmlFileChooser = getContext ().getWindowManager ().getXMLFileChooser ();
 
@@ -5856,7 +5857,7 @@ class ImportWorkSpaceAction extends ContextAwareAction {
         } catch (final JDOMException jde) {
             throw new RuntimeException (jde);
         }
-        getContext ().getLogger ().debug ("Workspace backup restored");
+        getContext ().getLogger ().log (Level.INFO,"Workspace backup restored");
     }
 
 }
@@ -5870,7 +5871,7 @@ class ExportWorkSpaceAction extends ContextAwareAction {
     public void actionPerformed (ActionEvent e) {
         final MainWindow mainWindow = getContext ().getWindowManager ().getMainWindow ();
 
-        getContext ().getLogger ().debug ("Generating workspace backup...");
+        getContext ().getLogger ().log (Level.INFO,"Generating workspace backup...");
 
         final JFileChooser xmlFileChooser = getContext ().getWindowManager ().getXMLFileChooser ();
 
@@ -5908,6 +5909,6 @@ class ExportWorkSpaceAction extends ContextAwareAction {
                 throw new RuntimeException (ex);
             }
         }
-        getContext ().getLogger ().debug ("Workspace backup generated");
+        getContext ().getLogger ().log (Level.INFO,"Workspace backup generated");
     }
 }

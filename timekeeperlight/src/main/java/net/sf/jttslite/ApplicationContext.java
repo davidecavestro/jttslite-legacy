@@ -9,7 +9,6 @@ package net.sf.jttslite;
 import net.sf.jttslite.common.application.ApplicationData;
 import net.sf.jttslite.common.gui.persistence.UIPersister;
 import net.sf.jttslite.common.help.HelpManager;
-import net.sf.jttslite.common.log.Logger;
 import net.sf.jttslite.common.undo.RBUndoManager;
 import net.sf.jttslite.model.TaskTreeModelExceptionHandler;
 import net.sf.jttslite.conf.ApplicationOptions;
@@ -23,6 +22,7 @@ import net.sf.jttslite.model.UndoableTaskTreeModel;
 import net.sf.jttslite.model.WorkSpaceModelImpl;
 import net.sf.jttslite.persistence.PersistenceNode;
 import java.beans.PropertyChangeListener;
+import java.util.logging.Logger;
 
 /**
  * Contesto applicativo.

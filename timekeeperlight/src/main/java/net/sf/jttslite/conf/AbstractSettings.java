@@ -11,6 +11,7 @@ import net.sf.jttslite.common.util.settings.SettingsSupport;
 import net.sf.jttslite.Application;
 import java.io.*;
 import java.util.*;
+import java.util.logging.Level;
 
 /**
  * Implementazione di base delle impostazioni applicative.
@@ -57,7 +58,7 @@ public abstract class AbstractSettings implements CustomizableSettings {
 			}
 		} catch (FileNotFoundException fnfe) {
 			try {
-			this._application.getLogger ().warning ( fnfe, java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Error_loading_properties._"));
+			this._application.getLogger ().log (Level.WARNING, java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Error_loading_properties._"), fnfe);
 			} catch (Exception e){
 				/* evita eccezioni dovute a dipendenze inizializzazione*/
 //				new NotificationUtils ().error (e, java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Above_error_IS_NOT_a_bad_thing_if_you_are_running_this_application_for_the_first_time."));

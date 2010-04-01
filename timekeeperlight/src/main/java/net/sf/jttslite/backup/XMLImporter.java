@@ -198,7 +198,7 @@ public class XMLImporter {
 					child.setParent (this._progressItem);
 					children.add (child);
 				} catch (Exception e){
-					_context.getLogger ().error (e, java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("error_importing_task_"));
+					_context.getLogger ().log (Level.WARNING, java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("error_importing_task_"),e);
 				}
 			}
 			this._progressItem.setChildren (children);
@@ -208,7 +208,7 @@ public class XMLImporter {
 					final Progress progress = new ProgressElement ((Element)it.next (), this._progressItem).getProgress ();
 					progresses.add (progress);
 				} catch (Exception e){
-					_context.getLogger ().error (e, java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("error_importing_action_"));
+					_context.getLogger ().log (Level.WARNING, java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("error_importing_action_"),e);
 				}
 			}
 			this._progressItem.setProgresses (progresses);

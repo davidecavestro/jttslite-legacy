@@ -60,22 +60,9 @@ public final class CalendarUtils {
 	}
 	
 	/**
-	 * Ritorna un timestamp della data specificata usando il formato specificato.
-	 *
-	 * @param format il formato.
-	 * @param date la data da cui ricavare l timestamp
-	 * @return un timestamp della data specificata usando il formato specificato.
-	 * @deprecated usare <TT>getTimestamp ()</TT>;
-	 */	
-	public static String getTS (final Date date, final String format){
-		return getTimestamp (date, format);
-	}
-	
-	/**
 	 * Ritorna un timestamp della data specificata usando il formato 
 	 * {@link com.ost.timekeeper.util.CalendarUtils#TIMESTAMP_FORMAT}.
 	 *
-	 * @param format il formato.
 	 * @param date la data da cui ricavare l timestamp
 	 * @return un timestamp della data specificata usando il formato specificato.
 	 */	
@@ -129,7 +116,6 @@ public final class CalendarUtils {
 	 * {@link com.ost.timekeeper.util.CalendarUtils#TIMESTAMP_FORMAT}.
 	 *
 	 * @param strDate il timestamp.
-	 * @param format il formato del timestamp.
 	 * @return il <TT>Calendar</TT> ricavato dalla conversione del timestamp specificato.
 	 * @throws ParseException se il timestamp ed il formato specificati non solo compatibili.
 	 */	
@@ -161,7 +147,6 @@ public final class CalendarUtils {
 	 * {@link com.ost.timekeeper.util.CalendarUtils#TIMESTAMP_FORMAT}.
 	 *
 	 * @return la data ricavata da <TT>strDate</TT>.
-	 * @param format il formato
 	 * @param strDate il timestamp
 	 * @throws ParseException se il timestamp ed il formato specificati non solo compatibili.
 	 */	
@@ -207,6 +192,7 @@ public final class CalendarUtils {
 	 * Ritorna una data a partire della data specificata con le ore, minuti, secondi e frazioni azzerate.
 	 *
 	 * @param date la data.
+	 * @return una data a partire della data specificata con le ore, minuti, secondi e frazioni azzerate
 	 */	
 	public static Date resetTimeCopy (final Date date ){
 		final Date clone = new Date (date.getTime ());

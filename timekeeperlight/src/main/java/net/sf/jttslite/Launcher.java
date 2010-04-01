@@ -6,12 +6,12 @@
 
 package net.sf.jttslite;
 
-import net.sf.jttslite.common.log.NotificationUtils;
 import net.sf.jttslite.conf.CommandLineApplicationEnvironment;
 import net.sf.jttslite.conf.UserResources;
 import java.awt.HeadlessException;
-import java.io.DataInputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.BindException;
 import java.net.InetAddress;
@@ -19,8 +19,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.concurrent.Semaphore;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.JOptionPane;
 
 /**
  * lancia l'applicazione.
@@ -57,7 +56,7 @@ public class Launcher {
 							while (true) {
 								final Socket s = ss.accept ();
 								try {
-									final DataInputStream in = new DataInputStream (s.getInputStream ());
+									final BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream ()));
 									final String greetings = in.readLine ();
 									final PrintStream out = new PrintStream (s.getOutputStream ());
 
@@ -120,7 +119,7 @@ public class Launcher {
 				try {
 					s.setSoTimeout (500);
 					final PrintStream out = new PrintStream (s.getOutputStream ());
-					final DataInputStream in = new DataInputStream (s.getInputStream ());
+					final BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream ()));
 					out.println (REQUEST);
 					if (RESPONSE.equals (in.readLine ())) {
 						/*
@@ -142,9 +141,9 @@ public class Launcher {
 					s.close ();
 				}
 			} catch (UnknownHostException ex1) {
-				ex.printStackTrace();
+				ex1.printStackTrace();
 			} catch (IOException ex1) {
-				ex.printStackTrace();
+				ex1.printStackTrace();
 			}
 		} catch (IOException ex) {
 			ex.printStackTrace();
@@ -179,27 +178,27 @@ public class Launcher {
 	public static void main (String[] args) {
 		final Launcher l = new Launcher ();
 		if (!l.checkForOtherInstances ()) {
-			final NotificationUtils notification = new NotificationUtils ();
 			final String[] message = {
 				java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Launcher/ErrorMessage/DuplicatedAppInstance/Row1"),
 				java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Launcher/ErrorMessage/DuplicatedAppInstance/Row2"),
 				java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Launcher/ErrorMessage/DuplicatedAppInstance/Row3")
 				};
-			notification.error (message);
+			  try {
+			  JOptionPane.showMessageDialog (null, message, "", JOptionPane.ERROR_MESSAGE);
+		   } catch (HeadlessException headlessException) {
+			   System.err.println (message + " " + headlessException.getStackTrace ());
+		   }
 			System.exit (1);
 		}
 		final Application a = new Application (new CommandLineApplicationEnvironment (args));
 		try {
 			a.start ();
 		} catch (final HeadlessException he) {
-			final NotificationUtils notification = new NotificationUtils ();
 			final String[] message = {
 				java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Launcher/ErrorMessage/AWTUnavailable"),
-				};
-			notification.error (message);
-			throw he;
+			};
+			a.getLogger ().severe (message + " " + he.getStackTrace ());
 		}
-		
 		l.bind (a);
 	}
 }

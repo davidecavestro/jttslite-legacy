@@ -23,6 +23,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.text.MessageFormat;
 import java.util.Comparator;
+import java.util.logging.Level;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
@@ -749,7 +750,7 @@ private void undoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
 	
 	public static WorkSpace createWorkspace (final ApplicationContext context, final WorkspaceDataCallback callback) throws DuplicatedWorkSpaceException, RequestAbortedException {
 
-			context.getLogger ().debug ("Creating new workspace");
+			context.getLogger ().log (Level.INFO,"Creating new workspace");
 			
 			final WorkSpace prj = new Project (callback.getName (), callback.getRoot ());
 			context.getWorkSpaceModel ().addElement (prj);
@@ -776,7 +777,7 @@ private void undoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
 			
 			}
 			
-			context.getLogger ().debug ("New workspace created");
+			context.getLogger ().log (Level.INFO,"New workspace created");
 			
 			return prj;
 	}

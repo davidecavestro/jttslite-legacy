@@ -12,12 +12,6 @@ import net.sf.jttslite.common.gui.persistence.PersistenceStorage;
 import net.sf.jttslite.common.gui.persistence.UIPersister;
 import net.sf.jttslite.common.help.HelpManager;
 import net.sf.jttslite.common.help.HelpResourcesResolver;
-import net.sf.jttslite.common.log.CompositeLogger;
-import net.sf.jttslite.common.log.ConsoleLogger;
-import net.sf.jttslite.common.log.Logger;
-import net.sf.jttslite.common.log.LoggerAdapter;
-import net.sf.jttslite.common.log.NotificationUtils;
-import net.sf.jttslite.common.log.PlainTextLogger;
 import net.sf.jttslite.common.undo.RBUndoManager;
 import net.sf.jttslite.common.util.*;
 import net.sf.jttslite.conf.ApplicationEnvironment;
@@ -52,9 +46,15 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.Properties;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.text.DefaultStyledDocument;
+import net.sf.jttslite.common.log.SwingHandler;
 
 /**
  * Il gestore centrale dell'intera applicazione.
@@ -62,23 +62,24 @@ import javax.swing.text.DefaultStyledDocument;
  * @author  davide
  */
 public class Application {
-	private CompositeLogger _logger;
+	private Logger _logger;
+
 	private final ApplicationEnvironment _env;
 	private final ApplicationContext _context;
 	private final PersistenceNode _persistenceNode;
 	
-	/**
-	 * Costruttore.
-	 */
+   /**
+    * Costruttore.
+    *
+    * @param args Ambiente di configurazione dell'applicazione impostato dai parametri di lancio
+    */
 	public Application (final CommandLineApplicationEnvironment args) {
 		_env = args;
-		
-		
-		
+				
 		final RBUndoManager undoManager = new RBUndoManager ();
 		final RBUndoManager atUndoManager = new RBUndoManager ();
 		final RBUndoManager wsUndoManager = new RBUndoManager ();
-		
+
 		final Properties releaseProps = new Properties ();
 		try {
 			/*
@@ -87,8 +88,6 @@ public class Application {
 			releaseProps.load (getClass ().getResourceAsStream ("release.properties"));
 		} catch (final Exception e) {
 			System.err.println (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Cannot_load_release_properties"));
-			/*@todo mostrare stacktrace finito lo sviluppo*/
-//			e.printStackTrace (System.err);
 		}
 		
 		final ApplicationData applicationData = new ApplicationData (releaseProps);
@@ -124,20 +123,24 @@ public class Application {
 		try {
 			p.load (new FileInputStream (new File (_env.getApplicationDirPath (), "helpmap.properties")));
 		} catch (final IOException ioe){
-//			System.out.println (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Missing_help_resources_mapping_file"));
+		 System.err.println (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Missing_help_resources_mapping_file"));
 		}
-		
-		
+
+		/*
+		 * Inizializzazione del sistema di log
+		 */
+		_logger = Logger.getLogger ("net.sf.jtts");
 		try {
-			final File plainTextLogFile = new File (applicationOptions.getLogDirPath (), CalendarUtils.getTS (Calendar.getInstance ().getTime (), CalendarUtils.FILENAME_TIMESTAMP_FORMAT)+".log");
-			
-//			logDocument.setParser (new javax.swing.text.html.parser.ParserDelegator ());
-			
-			_logger = new CompositeLogger (new PlainTextLogger (plainTextLogFile, true, 10), null);
-			
+		   final File plainTextLogFile = new File (applicationOptions.getLogDirPath (), CalendarUtils.getTimestamp (Calendar.getInstance ().getTime (), CalendarUtils.FILENAME_TIMESTAMP_FORMAT)+".log");
+		   if(!plainTextLogFile.exists ()){
+			  plainTextLogFile.createNewFile ();
+			  _logger.log (Level.INFO, "Created log file");
+		   }
+		   final FileHandler fh = new FileHandler (plainTextLogFile.getAbsolutePath (),true);
+		   fh.setFormatter (new SimpleFormatter ());
+			_logger.addHandler (fh);
 		} catch (IOException ioe){
-			System.out.println (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Logging_disabled._CAUSE:_")+ExceptionUtils.getStackTrace (ioe));
-			_logger = new CompositeLogger (new LoggerAdapter (), null);
+		   _logger.log (Level.WARNING, "Connot initializate file log handler", ioe);
 		}
 		
 		final TaskTreeModelExceptionHandler peh = new TaskTreeModelExceptionHandler () {};
@@ -176,14 +179,13 @@ public class Application {
 			_persistenceNode.init ();
 		} catch (final PersistenceNodeException pne) {
 			
-			final NotificationUtils notification = new NotificationUtils ();
+			
 			final String[] message = {
 				"Cannot initialize the persistence subsystem. ",
 				"Please check your write permissions to "+applicationOptions.getJDOStorageDirPath ()+".",
 				"If you have the correct permissions, please wait a couple of minutes, so that the current lock becomes obsolete."
 				};
-			notification.error (message);
-			
+			JOptionPane.showMessageDialog (null, message, "", JOptionPane.ERROR_MESSAGE);
 			exit ();
 			/*
 			 * Exit dovrebbe terminare la JVM, se non fosse, comunque l'applicazione non deve partire
@@ -216,11 +218,6 @@ public class Application {
 		
 		model.addUndoableEditListener (undoManager);
 		templateModel.addUndoableEditListener (atUndoManager);
-        /*
-         * non conviene usare l'undo finchè non funziona correttamente
-		wsModel.addUndoableEditListener (wsUndoManager);
-         */
-		
 		/*
 		 * Assicura la persistenza delle informazioni di configurazione del DB
 		 */
@@ -241,18 +238,15 @@ public class Application {
 		final WindowManager wm = _context.getWindowManager ();
 		
 		wm.init (_context);
-//		wm.setLookAndFeel (_context.getApplicationOptions ().getLookAndFeel (), false);
 		
 		final Splash splash = wm.getSplashWindow (_context.getApplicationData ());
-		splash.show ();
+		splash.setVisible (true);
 		try {
 			splash.showInfo (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Initializing_context..."));
 			splash.showInfo (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Initializing_log_console..."));
-			final ConsoleLogger cl = new ConsoleLogger (new DefaultStyledDocument (), true);
-			
+			final SwingHandler cl = new SwingHandler (new DefaultStyledDocument ());
 			_context.getWindowManager ().getLogConsole ().init (cl.getDocument ());
-			
-			_logger.setSuccessor (cl);
+			_logger.addHandler (cl);
 			splash.showInfo (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Preparing_main_window..."));
 			wm.getMainWindow ().addWindowListener (
 				new java.awt.event.WindowAdapter () {
@@ -312,12 +306,6 @@ public class Application {
 		
 		if (_context!=null) {
 			_context.getUIPersister ().makePersistentAll ();
-		}
-		
-		
-		/* Garantisce la chiusura del logger. */
-		if (_logger!=null) {
-			_logger.close ();
 		}
 		
 		/* Salva le preferenze utente */
@@ -386,6 +374,8 @@ public class Application {
 	
 	/**
 	 * Termina l'applicazione.
+	 *
+	 * @param evt 
 	 */
 	public final void processExitRequest (java.awt.event.WindowEvent evt){
 		if (!_context.getWindowManager ().getMainWindow ().canExit ()) {

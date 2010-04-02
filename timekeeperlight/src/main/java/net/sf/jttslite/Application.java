@@ -131,10 +131,15 @@ public class Application {
 		 */
 		_logger = Logger.getLogger ("net.sf.jtts");
 		try {
-		   final File plainTextLogFile = new File (applicationOptions.getLogDirPath (), CalendarUtils.getTimestamp (Calendar.getInstance ().getTime (), CalendarUtils.FILENAME_TIMESTAMP_FORMAT)+".log");
+		   final File logDirFile = new File(applicationOptions.getLogDirPath ());
+		   if(!logDirFile.exists ()){
+			  logDirFile.mkdir ();
+			  _logger.log (Level.INFO, "Logs direcotry created in: " + applicationOptions.getLogDirPath ());
+		   }
+		   final File plainTextLogFile = new File (applicationOptions.getLogDirPath (),CalendarUtils.getTimestamp (Calendar.getInstance ().getTime (), CalendarUtils.FILENAME_TIMESTAMP_FORMAT)+".log");
 		   if(!plainTextLogFile.exists ()){
 			  plainTextLogFile.createNewFile ();
-			  _logger.log (Level.INFO, "Created log file");
+			  _logger.log (Level.INFO, "Log file created: " + plainTextLogFile.getName ());
 		   }
 		   final FileHandler fh = new FileHandler (plainTextLogFile.getAbsolutePath (),true);
 		   fh.setFormatter (new SimpleFormatter ());

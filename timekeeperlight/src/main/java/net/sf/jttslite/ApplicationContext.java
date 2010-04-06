@@ -48,10 +48,7 @@ public class ApplicationContext {
 	private ActionManager _actionManager;
 	private HelpManager _helpManager;
 	private final TaskTreeModelExceptionHandler _propsExceptionHandler;
-	
     private java.beans.PropertyChangeSupport changeSupport;
-	
-	private boolean _isProcessing;
 	private final PersistenceNode _persistenceNode;
 
 	
@@ -209,7 +206,6 @@ public class ApplicationContext {
 	}
 	
 	protected void firePropertyChange (String propertyName, Object oldValue, Object newValue) {
-		java.beans.PropertyChangeSupport changeSupport = this.changeSupport;
 		if (changeSupport == null) {
 			return;
 		}
@@ -217,7 +213,6 @@ public class ApplicationContext {
 	}
 	
 	protected void firePropertyChange (String propertyName, boolean oldValue, boolean newValue) {
-		java.beans.PropertyChangeSupport changeSupport = this.changeSupport;
 		if (changeSupport == null) {
 			return;
 		}
@@ -225,23 +220,10 @@ public class ApplicationContext {
 	}
 	
 	protected void firePropertyChange (String propertyName, int oldValue, int newValue) {
-		java.beans.PropertyChangeSupport changeSupport = this.changeSupport;
 		if (changeSupport == null) {
 			return;
 		}
 		changeSupport.firePropertyChange (propertyName, oldValue, newValue);
-	}
-	
-	public void setProcessing (final boolean processing) {
-		final boolean oldValue = this._isProcessing;
-		this._isProcessing = processing;
-		if (oldValue!=processing) {
-			firePropertyChange ("isProcessing", oldValue, processing);
-		}
-	}
-	
-	public boolean isProcessing (){
-		return this._isProcessing;
 	}
 
 	public PersistenceNode getPersistenceNode () {

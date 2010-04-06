@@ -49,12 +49,6 @@ public class ProgressItem extends Observable implements Task {
 	protected String notes;
 	
 	/**
-	 * Stato di avanzamento
-	 * @deprecated campo non pi&ugrave; gestito dalla versione 2.
-	 */
-	private boolean progressing;
-	
-	/**
 	 * Il padre.
 	 */
 	protected ProgressItem parent;
@@ -68,12 +62,6 @@ public class ProgressItem extends Observable implements Task {
 	 * Gli avanzamenti effettuati su questo nodo.
 	 */
 	protected List progresses = new ArrayList ();
-	
-	/**
-	 * L'avanzamento corrente di questo nodo.
-	 * @deprecated campo non pi&ugrave; gestito dalla versione 2.
-	 */
-	private Progress currentProgress;
 	
 	/**
 	 * Il progetto di appartenenza.
@@ -249,66 +237,7 @@ public class ProgressItem extends Observable implements Task {
 		}
 		return -1;
 	}
-	
-	/**
-	 * Fa partire un avanzamento su questo nodo.
-	 *
-	 * Questa azione viene notificata ai listener registrati su
-	 * questo nodo.
-	 */
-	public synchronized PieceOfWork startPeriod () {
-		return startPeriod (new Date ());
-	}
-	
-	/**
-	 * Fa partire un avanzamento su questo nodo dal momento specificato.
-	 *
-	 * Questa azione viene notificata ai listener registrati su
-	 * questo nodo.
-	 */
-	public synchronized PieceOfWork startPeriod (final Date startDate) {
-		if (this.progressing){
-			//non ferma avanzamento esistente, lo continua
-			return null;
-		}
-		this.progressing = true;
-		this.currentProgress = new Progress (startDate, null, this);
-		safeProgressesAccessor ().add (this.currentProgress);
-		
-		this.setChanged ();
-		this.notifyObservers ();
-		return this.currentProgress;
-	}
-	
-	/**
-	 * Termina l'avanzamento corrente su questo nodo.
-	 * Questa azione viene notificata ai listener registrati su
-	 * questo nodo.
-	 *
-	 * @return il periodo determinato dall'avanzamento terminato.
-	 */
-	public synchronized PieceOfWork stopPeriod () {
-		if (!this.progressing){
-			throw new IllegalStateException ();
-		}
-		this.currentProgress.setTo (new Date ());
-		
-		this.setChanged ();
-		this.notifyObservers ();
-		
-		this.progressing = false;
-		return this.currentProgress;
-	}
-	
-	/**
-	 * Verifica se questo elemento ha un avanzamento correntemente attivo.
-	 *
-	 * @return <code>true</code> se c'� un avanzamento attivo;<code>false</code> altrimenti.
-	 */
-	public boolean isProgressing () {
-		return this.progressing;
-	}
-	
+
 	/**
 	 * Aggiunge un avanzamento a questo nodo.
 	 *
@@ -535,35 +464,6 @@ public class ProgressItem extends Observable implements Task {
 	 */
 	public synchronized void setProgresses (List progresses) {
 		this.progresses = new ArrayList (progresses);
-	}
-	
-	/**
-	 * Imposta lo stato di avanzamento di questo nodo.
-	 * ESCLUSIVAMENTE AD USO DEL PERSISTENT MANAGER.
-	 *
-	 * @param progressing lo stato di avanzamento di qeusto nodo.
-	 */
-	public void setProgressing (boolean progressing) {
-		this.progressing=progressing;
-	}
-	
-	/**
-	 * Imposta il progetto di appartenenza di questo nodo.
-	 * ESCLUSIVAMENTE AD USO DEL PERSISTENT MANAGER.
-	 *
-	 * @param project il progetto di appartenenza.
-	 */
-//	public void setProject (Project project) {
-//		this.project=project;
-//	}
-	
-	/**
-	 * Ritorna l'avanzamento corrente.
-	 *
-	 * @return l'avanzamento corrente.
-	 */
-	public PieceOfWork getCurrentProgress (){
-		return this.currentProgress;
 	}
 	
 	/**

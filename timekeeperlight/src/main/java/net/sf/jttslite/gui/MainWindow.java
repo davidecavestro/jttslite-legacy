@@ -10,7 +10,6 @@ import net.sf.jttslite.model.DuplicatedWorkSpaceException;
 import net.sf.jttslite.core.util.DurationUtils;
 import net.sf.jttslite.common.gui.CompositeIcon;
 import net.sf.jttslite.common.gui.GUIUtils;
-import net.sf.jttslite.common.gui.SwingWorker;
 import net.sf.jttslite.common.gui.VTextIcon;
 import net.sf.jttslite.common.gui.persistence.PersistenceUtils;
 import net.sf.jttslite.common.gui.persistence.PersistentComponent;
@@ -56,7 +55,6 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.MenuItem;
-import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -67,6 +65,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
@@ -92,7 +91,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import javax.help.CSH;
@@ -115,7 +113,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.event.TreeModelEvent;
@@ -193,23 +190,14 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 		 * garantisce che alla chiusura della finestra la ticpump smetta di notificare eventi riempiendo la coda AWT 
 		 * (altrimenti la JVM non si chiude in funzione della frequenza del timer!)
 		 */
-		addWindowListener (new WindowListener () {
-			public void windowActivated (WindowEvent e) {
-			}
-			public void windowClosed (WindowEvent e) {
-			}
-			public void windowClosing (WindowEvent e) {
-				_ticPump.release ();
-			}
-			public void windowDeactivated (WindowEvent e) {
-			}
-			public void windowDeiconified (WindowEvent e) {
-			}
-			public void windowIconified (WindowEvent e) {
-			}
-			public void windowOpened (WindowEvent e) {
-			}
-		});
+
+	   addWindowListener (new WindowAdapter () {
+
+		  @Override
+		  public void windowClosing(WindowEvent e) {
+			 _ticPump.release ();
+		  }
+	   });
 		_context.getModel ().addWorkAdvanceModelListener (_ticPump);
 		
 		createActionTable (new JTextArea ());
@@ -285,7 +273,6 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 				
 				progressBar.setIndeterminate (isProcessing);
 				progressBar.setValue (isProcessing ?99:0);
-//				progressBar.setVisible (isProcessing);
 			}
 		});
 		
@@ -432,20 +419,7 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 					
 				};
 			}
-		});
-		
-		progressesTable.getModel ().addTableModelListener (new TableModelListener () {
-			public void tableChanged (TableModelEvent e) {
-				if (e.getColumn ()==TableModelEvent.ALL_COLUMNS && e.getLastRow ()==Integer.MAX_VALUE) {
-					/* denota un ricaricamento totale */
-					/*
-					 * @workaround commentato il packall, altrimenti provoca un accesso al modello non valido (in caso di eliminazione chiede righe non piu' esistenti, anche se il modello sembra coerente. Cache interna?)
-					 */
-//					progressesTable.packAll ();
-				}
-			}
-		});
-		
+		});	
 		
 		/*
 		 * forza il focus sull'albero in caso di variazione del workspace
@@ -479,14 +453,6 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 		final Action renameTaskAction = new RenameTaskAction ();
 		taskTreeActionMap.put (renameTaskAction.getValue (Action.NAME), renameTaskAction);
 		taskTree.setActionMap (taskTreeActionMap);
-//		/*
-//		 * @workaround
-//		 */
-//		//((JXTree)taskTree.getCellRenderer (0, 0)).getActionMap ().put ("renameTask", new RenameTaskAction ());
-//		//taskTree.getTreeCellRenderer ().taskTreeActionMap);
-//		final InputMap taskTreeInputMap = new InputMap ();
-//		taskTreeInputMap.setParent (taskTree.getInputMap ());
-//		taskTreeInputMap.put ((KeyStroke) renameTaskAction.getValue (Action.ACCELERATOR_KEY),renameTaskAction.getValue (Action.NAME));
 		
 		final ActionMap progressesTableActionMap = new ActionMap ();
 		progressesTableActionMap.setParent (progressesTable.getActionMap ());
@@ -510,25 +476,7 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 			public void treeStructureChanged (TreeModelEvent e) {
 			}
 		});
-		
-//		_context.getModel ().addTaskTreeModelListener (new TaskTreeModelListener () {
-//			public void treeNodesChanged (TaskTreeModelEvent e) {
-//				invokePackAll (progressesTable);
-//			}
-//			public void treeNodesInserted (TaskTreeModelEvent e) {
-//				invokePackAll (progressesTable);
-//			}
-//			public void treeNodesRemoved (TaskTreeModelEvent e) {
-//				invokePackAll (progressesTable);
-//			}
-//			public void treeStructureChanged (TaskTreeModelEvent e) {
-//				invokePackAll (progressesTable);
-//			}
-//			public void workSpaceChanged (WorkSpace oldWS, WorkSpace newWS) {
-//				invokePackAll (progressesTable);
-//			}
-//			
-//		});
+
 		invokePackAll (taskTree);
 		
 		
@@ -623,9 +571,7 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 		 */
 		tray.addMouseListener (new MouseListener () {
 			public void mouseClicked (MouseEvent e) {
-				if (e.getClickCount ()==1) {
-//					tray.showMenu ();
-				} else {
+				if (e.getClickCount ()!=1) {
 					bringToFront ();
 				}
 			}
@@ -708,23 +654,6 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 			}
 		});
 		
-//		taskTree.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-//
-//			int lastSelectedRow=-2;
-//			public void valueChanged(ListSelectionEvent e) {
-//				if (e.getValueIsAdjusting ()) {
-//					/* evento spurio */
-//					return;
-//				}
-//				/*
-//				 * @workaround salta event spurio
-//				 */
-//				if (taskTree.getSelectedRow()>=0) {
-//					taskTreeSelectionChanged = taskTree.getSelectedRow()!=lastSelectedRow;
-//					lastSelectedRow = taskTree.getSelectedRow();
-//				}
-//			}
-//		});
 		
 		/*
 		 * Tabpane tooltips
@@ -2252,7 +2181,7 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 	}//GEN-LAST:event_tablePopupMenuPopupMenuWillBecomeVisible
 	
 	private void treePopupMenuPopupMenuWillBecomeVisible (javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_treePopupMenuPopupMenuWillBecomeVisible
-		prepareTreePopupMenu (evt);
+
 	}//GEN-LAST:event_treePopupMenuPopupMenuWillBecomeVisible
 	
 	private void newTaskMenuItemActionPerformed (java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newTaskMenuItemActionPerformed
@@ -2260,11 +2189,11 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 	}//GEN-LAST:event_newTaskMenuItemActionPerformed
 	
 	private void optionsMenuItemActionPerformed (java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optionsMenuItemActionPerformed
-		_context.getWindowManager ().getOptionsDialog ().show ();
+		_context.getWindowManager ().getOptionsDialog ().setVisible (true);
 	}//GEN-LAST:event_optionsMenuItemActionPerformed
 	
     private void logConsoleMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logConsoleMenuItemActionPerformed
-		_context.getWindowManager ().getLogConsole ().show ();
+		_context.getWindowManager ().getLogConsole ().setVisible (true);
     }//GEN-LAST:event_logConsoleMenuItemActionPerformed
 	
 	private void contentsMenuItemActionPerformed (java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contentsMenuItemActionPerformed
@@ -2284,7 +2213,7 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 							}//GEN-LAST:event_formWindowDeactivated
 	
 	private void aboutMenuItemActionPerformed (java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutMenuItemActionPerformed
-		_wm.getAbout ().show ();
+		_wm.getAbout ().setVisible (true);
 	}//GEN-LAST:event_aboutMenuItemActionPerformed
 		
 	private void saveFileChooserActionPerformed (java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveFileChooserActionPerformed
@@ -2310,7 +2239,7 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 	}//GEN-LAST:event_exitMenuItemActionPerformed
 
 private void templateMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_templateMenuItemActionPerformed
-	_context.getWindowManager ().getActionTemplatesDialog ().show ();
+	_context.getWindowManager ().getActionTemplatesDialog ().setVisible (true);
 }//GEN-LAST:event_templateMenuItemActionPerformed
 
 private void addToTemplatesMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addToTemplatesMenuItemActionPerformed
@@ -2318,43 +2247,15 @@ private void addToTemplatesMenuItemActionPerformed(java.awt.event.ActionEvent ev
 }//GEN-LAST:event_addToTemplatesMenuItemActionPerformed
 
 private void taskTreeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_taskTreeMouseClicked
-		/*
-		 * Gestione click tasto sinistro
-		 */
-//		if (evt.getButton ()==MouseEvent.BUTTON1) {
-//			if (evt.getClickCount()==1) {
-//
-//				final int row = taskTree.getRowForPath (taskTree.getPathForLocation (evt.getX (), evt.getY ()));
-//////				if (row >=0 && taskTree.getSelectedRow()==row && !taskTreeSelectionChanged) {
-//					evt.consume();
-//					SwingUtilities.invokeLater(new Runnable() {
-//
-//						public void run() {
-//							/*
-//							 * avvia editazione nome task
-//							 */
-//							taskTree.editCellAt (row, TaskJTreeModel.TREE_COLUMN_INDEX);
-//							if (!taskTree.isEditing() && taskTree.getCellEditor () instanceof TreeTableCellEditor) {
-//								final JTextField editor = (JTextField)taskTree.getCellEditor ().getTableCellEditorComponent (taskTree, taskTree.getModel ().getValueAt (row, TaskJTreeModel.TREE_COLUMN_INDEX), true, row, TaskJTreeModel.TREE_COLUMN_INDEX);
-//								editor.selectAll ();
-//								editor.requestFocusInWindow ();
-//							}
-//						}
-//					});
-//					return;
-//				}
-//
-//			}
-//		}
 
 }//GEN-LAST:event_taskTreeMouseClicked
 
 private void workspaceMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_workspaceMenuItemActionPerformed
-	_context.getWindowManager ().getWorkspacesDialog ().show ();
+	_context.getWindowManager ().getWorkspacesDialog ().setVisible (true);
 }//GEN-LAST:event_workspaceMenuItemActionPerformed
 
 private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_workspacesButtontemplateMenuItemActionPerformed
-	_context.getWindowManager ().getWorkspacesDialog ().show ();
+	_context.getWindowManager ().getWorkspacesDialog ().setVisible (true);
 }//GEN-LAST:event_workspacesButtontemplateMenuItemActionPerformed
 	
 	public String getPersistenceKey () {
@@ -2502,26 +2403,6 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
     // End of variables declaration//GEN-END:variables
 	
 	
-	private class PersistenceTreeAdapter implements PersistentComponent	{
-		
-		private final JComponent _tree;
-		public PersistenceTreeAdapter (JComponent tree){
-			this._tree = tree;
-		}
-		public String getPersistenceKey () {
-			return "tasktree";
-		}
-		
-		public void makePersistent (net.sf.jttslite.common.gui.persistence.PersistenceStorage props) {
-			PersistenceUtils.makeBoundsPersistent (props, this.getPersistenceKey (), this._tree);
-		}
-		
-		public boolean restorePersistent (net.sf.jttslite.common.gui.persistence.PersistenceStorage props) {
-			return PersistenceUtils.restorePersistentBoundsToPreferredSize (props, this.getPersistenceKey (), this._tree);
-		}
-		
-	}
-	
 	/**
 	 * Implementa la persistenza delle dimensioni per un pannello.
 	 */
@@ -2546,15 +2427,7 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 		}
 		
 	}
-	
-	private final static String[] voidStringArray = new String[0];
-	
-	
-	
-	
-	
-	
-	
+
 	
 	
 	/**********************************************
@@ -2589,9 +2462,6 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 	 * Il modello della tabella degli avanzamenti.
 	 */
 	private class ProgressesJTableModel extends AbstractTableModel implements TaskTreeModelListener, TreeSelectionListener, TableModelListener, AdvancingTicListener, WorkAdvanceModelListener {
-		
-		private final TaskTreeModelImpl _taskTreeModel;
-		
 		private Task _master;
 		private WorkSpace _workspace;
 		private TaskTreePath _masterPath;
@@ -2599,12 +2469,8 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 		
 		
 		public ProgressesJTableModel (final TaskTreeModelImpl ttm){
-			this._taskTreeModel = ttm;
 			reload (null, null);
 			fireTableStructureChanged ();
-//			ttm.addTaskTreeModelListener (this);
-//			ttm.addWorkAdvanceModelListener (this);
-//			_ticPump.addAdvancingTicListener (this);
 		}
 		
 		public int getColumnCount () {
@@ -2625,8 +2491,6 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 			switch (columnIndex) {
 				case DURATION_COL_INDEX:
 					return getPieceOfWork (rowIndex);
-//				case 1:
-//					return _progresses.get (rowIndex).getTask ().getName ();
 				case START_COL_INDEX:
 					return getPieceOfWork (rowIndex).getFrom ();
 				case END_COL_INDEX:
@@ -2853,12 +2717,6 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 					fireTableDataChanged ();
 				} else {
 					/*
-					 * Inserimenti puntuali di avanzamenti nel percorso
-					 */
-//					for (int i=0;i<childIndices.length;i++){
-//						fireTableRowsDeleted (childIndices[i], childIndices[i]);
-//					}
-					/*
 					 * @todo ottimizzare con codice riportato sopra
 					 * al momento tale codice comporta problemi dato che esso e' pensato per rimozioni contigue
 					 */
@@ -2873,12 +2731,10 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 		}
 		
 		public void treeStructureChanged (TaskTreeModelEvent e) {
-//			System.out.println ("table treeStructureChanged");
 			checkForReload (e);
 			if (_masterPath==null) {
 				return;
 			}
-//			if (e.getWorkSpace ()!=)
 			if (e.getPath ().contains (_masterPath)) {
 				cache ();
 				fireTableDataChanged ();
@@ -2893,10 +2749,8 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 				final WorkSpace ws = e.getWorkSpace ();
 				if (ws!=null) {
 					reload (ws, ws.getRoot ());
-//					System.out.println ("reloading table for "+ws);
 				} else {
 					reload (null, null);
-//					System.out.println ("reloading table for null");
 				}
 			}
 		}
@@ -2919,16 +2773,6 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 				});
 			}
 			
-//			final TreePath path = e.getPath ();
-//			if (path==null) {
-//				return;
-//			}
-//			final Object o = path.getLastPathComponent ();
-//			if (!e.isAddedPath ()) {
-//				reload (null, null);
-//			} else if (o instanceof Task){
-//				reload (_context.getModel ().getWorkSpace (), (Task)o);
-//			}
 		}
 		
 		public void tableChanged (TableModelEvent e) {
@@ -3112,28 +2956,6 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 					try {
 					fireTreeStructureChanged (this, toTreePath (path));
 					} catch (final NullPointerException npe) {
-						/*
-						 * @workaround saltuariamente (la frequenza varia da sistema a sistema) in fase di avvio 
-						 * viene sollevata un'accezione al momento inspiegabile che va silenziata.
-						 * Appena possibile bisogna rimuovere questo catch che potrebbe fermare altre eccezioni. NullPointerException e' moooolto generica.
-						 * L'eccezione sembra dovuta ad una parziale inizializzazione del TreeUI
-						 *
-						 *
-Exception in thread "main" java.lang.NullPointerException
-        at
-javax.swing.plaf.basic.BasicTreeUI.getLeadSelectionPath(BasicTreeUI.java:2358)
-        at
-javax.swing.plaf.basic.BasicTreeUI.updateLeadRow(BasicTreeUI.java:2362)
-        at
-javax.swing.plaf.basic.BasicTreeUI.access$1400(BasicTreeUI.java:46)
-        at
-javax.swing.plaf.basic.BasicTreeUI$Handler.treeStructureChanged(BasicTreeUI.java:3723)
-        at
-org.jdesktop.swingx.treetable.AbstractTreeTableModel.fireTreeStructureChanged(AbstractTreeTableModel.java:315)
-        at
-net.sf.jttslite.gui.MainWindow$TaskJTreeModel.checkForReload(MainWindow.java:2559)
-
-						 */
 						System.err.println ("Exception detected on reloading workspace");
 						npe.printStackTrace (System.err);
 					}
@@ -3260,7 +3082,6 @@ net.sf.jttslite.gui.MainWindow$TaskJTreeModel.checkForReload(MainWindow.java:255
 		};
 		
 		public void treeStructureChanged (TaskTreeModelEvent e) {
-//			System.out.println ("tree treeStructureChanged");
 			checkForReload (e);
 			e.allow (_treeStructureChangedInspector);
 		}
@@ -3536,12 +3357,11 @@ net.sf.jttslite.gui.MainWindow$TaskJTreeModel.checkForReload(MainWindow.java:255
 	 * Mostra la finestra, eventualmente completando la fase di inizializzazione.
 	 * @see #postInit
 	 */
-	@Override
-	public void show (){
+	public void setVisible (boolean visible){
 		if (!postInitialized){
 			postInit ();
 		}
-		super.show ();
+		super.setVisible (visible);
 	}
 	
 	/**
@@ -3571,46 +3391,6 @@ net.sf.jttslite.gui.MainWindow$TaskJTreeModel.checkForReload(MainWindow.java:255
 		postInitialized = true;
 	}
 	
-	
-	/**
-	 * Notifica l'applicazione l'esecuzione di lavori lunghi, mostrando la barra di progressione.
-	 * Solo se il task dura + di 0.2 secs
-	 */
-	private abstract class VisibleWorker extends SwingWorker {
-		private final String initialMessage;
-		
-		public VisibleWorker (String initialMessage){
-			this.initialMessage = initialMessage;
-		}
-		
-		public abstract void work ();
-		public Object construct () {
-			final Processing processing = new Processing ();
-			processing.setValue (true);
-			
-			final java.util.Timer timer = new java.util.Timer ("processNotificationTimer", true);
-			timer.schedule (new TimerTask (){
-				public void run (){
-					if (processing.booleanValue ()) {
-						_context.setProcessing (true);
-						progressBar.setString (initialMessage);
-					}
-				}},
-				/* 2 decimi di secondo */
-				200);
-				
-				
-				try{
-					work ();
-				} finally {
-					processing.setValue (false);
-					_context.setProcessing (false);
-					progressBar.setString ("");
-				}
-				
-				return null;
-		}
-	}
 	
 	private void invokePackAll (final JXTable t) {
 		SwingUtilities.invokeLater (new Runnable () {
@@ -3663,15 +3443,6 @@ net.sf.jttslite.gui.MainWindow$TaskJTreeModel.checkForReload(MainWindow.java:255
 				}
 			});
 			getComponent ().setHorizontalAlignment (JTextField.TRAILING);
-//			getComponent ().addFocusListener (new FocusListener () {
-//				public void focusGained (FocusEvent e) {
-//					getComponent ().requestFocusInWindow ();
-//					getComponent ().selectAll ();
-//				}
-//				public void focusLost (FocusEvent e) {
-//				}
-//			});
-
 		}
 
 		@Override
@@ -3712,14 +3483,6 @@ net.sf.jttslite.gui.MainWindow$TaskJTreeModel.checkForReload(MainWindow.java:255
 		public DurationCellEditor () {
 			super (new DurationTextField ());
 			getComponent ().setHorizontalAlignment (JTextField.TRAILING);
-//			getComponent ().addFocusListener (new FocusListener () {
-//				public void focusGained (FocusEvent e) {
-//					getComponent ().requestFocusInWindow ();
-//					getComponent ().selectAll ();
-//				}
-//				public void focusLost (FocusEvent e) {
-//				}
-//			});
 		}
 		
 		@Override
@@ -3761,81 +3524,6 @@ net.sf.jttslite.gui.MainWindow$TaskJTreeModel.checkForReload(MainWindow.java:255
 	
 	/**********************************************
 	 * FINE SEZIONE DEDICATA AGLI EDITOR
-	 **********************************************/
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	/**********************************************
-	 * INIZIO SEZIONE DEDICATA AI POPUP
-	 **********************************************/
-	
-	
-//	/**
-//	 * Riferimento all'avanzamento interesato dalle azioni del popup menu per la tabella degli avanzamenti.
-//	 *<P>
-//	 *La presenza di questo riferimento sirende necessaria dato che non &egrave; possibile determinare
-//	 *la riga interessata dal menu di popup in sede di gestione degli eventi di tipo PopupMenuEvent, che
-//	 *non danno alcuna coordinata.
-//	 */
-//	private PieceOfWork _tablePopupMenuSubject;
-//	private void prepareTablePopupMenu (MouseEvent evt) {
-//		if (evt.getButton ()==MouseEvent.BUTTON3){
-////			if (evt.getSource ()==progressesTable){
-//			_tablePopupMenuSubject = getPieceOfWorkForEvent (evt);
-////			}
-//		}
-//		deleteProgressPopupItem.setEnabled (_tablePopupMenuSubject!=null);
-//	}
-//	
-//	private void prepareTablePopupMenu (PopupMenuEvent evt) {
-//		deleteProgressPopupItem.setEnabled (_tablePopupMenuSubject!=null);
-//	}
-	
-	/**
-	 * Ritorna l'avanzamento della tabella candidato come soggetto di esecuzione delle azioni riferite alle coordinate dell'evento del mosue.
-	 * <P>
-	 * Viene usato dal popup menu.
-	 * @param evt
-	 * @return
-	 */
-	private PieceOfWork getPieceOfWorkForEvent (MouseEvent evt) {
-		final int x = evt.getX ();
-		final int y = evt.getY ();
-		final Point p = new Point (x, y);
-		final int r = progressesTable.rowAtPoint (p);
-		if (r<0) {
-			return null;
-		}
-		return (PieceOfWork) progressesTable.getModel ().getValueAt (progressesTable.convertRowIndexToModel (r), progressesTable.convertColumnIndexToModel (DURATION_COL_INDEX));
-	}
-	
-	private void prepareTreePopupMenu (PopupMenuEvent evt) {
-//					if (evt.getSource ()==this.bundleTree){
-//				final int x = evt.getX ();
-//				final int y = evt.getY ();
-//				treePopupPath = this.bundleTree.getPathForLocation (x, y);
-//				if (treePopupPath!=null){
-//					final Object node = treePopupPath.getLastPathComponent ();
-//					treePopupNode = node;
-//					if (node instanceof ResourceBundleModel){
-//						bundlePopupMenu.show ((Component)evt.getSource (), x, y);
-		
-	}
-	
-	
-	/**********************************************
-	 * FINE SEZIONE DEDICATA AI POPUP
 	 **********************************************/
 	
 	
@@ -3962,23 +3650,7 @@ net.sf.jttslite.gui.MainWindow$TaskJTreeModel.checkForReload(MainWindow.java:255
 		}
 		
 		public void actionPerformed (java.awt.event.ActionEvent e) {
-			/*
-			 * @workaround forza il cambio di selezione, datoche la modifica dell'albero non modifica la selezione, comportandfonullpinter nella tabella, che usa datinon piu' validi
-			 */
-//			final Map<Task, List<Task>> candidatesBackup = new HashMap<Task, List<Task>> (_removalCandidates);
-//			int sel = taskTree.getSelectionModel ().getMinSelectionIndex ();
-//			if (sel>0) {
-//				sel--;
-//			} else {
-//				sel = 0;
-//			}
-//			taskTree.getSelectionModel ().setSelectionInterval (sel,sel);
-//			final TaskTreeModelImpl m = _context.getModel ();
-//			for (final Task parent : candidatesBackup.keySet ()) {
-//				m.removeTasks (parent, candidatesBackup.get (parent));
-//			}
-			
-			
+
 			if (
 				JOptionPane.showConfirmDialog (MainWindow.this, 
 					java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("task.removal.confirm.message"), 
@@ -4072,11 +3744,6 @@ net.sf.jttslite.gui.MainWindow$TaskJTreeModel.checkForReload(MainWindow.java:255
 		
 		private boolean _isEnabled () {
 			return _candidateParent!=null;
-			/*
-			 * condizione disabilitata, per consentire l'inizio di  una nuova azione che termina quella corrente.
-			 *
-			 && _context.getModel ().getAdvancing ().isEmpty ()
-			 */
 		}
 		
 		Task _candidateParent;
@@ -4148,12 +3815,6 @@ net.sf.jttslite.gui.MainWindow$TaskJTreeModel.checkForReload(MainWindow.java:255
 		
 		private boolean _isEnabled () {
 			return _candidateSource!=null;
-			/*
-			 * condizione disabilitata, per consentire l'inizio di  una nuova azione che termina quella corrente.
-				
-				&& _context.getModel ().getAdvancing ().isEmpty ();
-			 * 
-			 */
 		}
 		
 		private void resetEnabled () {
@@ -4424,9 +4085,7 @@ net.sf.jttslite.gui.MainWindow$TaskJTreeModel.checkForReload(MainWindow.java:255
 		
 		public void actionPerformed (java.awt.event.ActionEvent e) {
 			_context.getLogger ().log (Level.INFO,"Creating new action...");
-//			final TaskTreeModelImpl m = _context.getModel ();
 			_context.getWindowManager ().getNewPieceOfWorkDialog ().showForTask (_candidateParent);
-//			m.insertPieceOfWorkInto (new Progress (new Date (), null, (ProgressItem)_candidateParent), _candidateParent, _candidateParent.pieceOfWorkCount ());
 			_context.getLogger ().log (Level.INFO,"New action created");
 		}
 		
@@ -4498,8 +4157,6 @@ net.sf.jttslite.gui.MainWindow$TaskJTreeModel.checkForReload(MainWindow.java:255
 		private final Map<Task, List<PieceOfWork>> _removalCandidates = new HashMap<Task, List<PieceOfWork>>  ();
 		private boolean isEnabled (final Map<Task, List<PieceOfWork>> removalCandidates) {
 			final boolean b = !removalCandidates.isEmpty ();
-//			System.out.println ("isEnabled "+b);
-//			System.out.println ("Enabling progress removalaction: "+b);
 			return b;
 		}
 		
@@ -4523,11 +4180,7 @@ net.sf.jttslite.gui.MainWindow$TaskJTreeModel.checkForReload(MainWindow.java:255
 				 * @workaround in questo momento la selezione Puo' ancora essere su righe ormai rimosse e fuori tabella
 				 */
 				if (r<0 || r>=rowCount) {
-//					System.out.println ("Jumping, as per selected row "+r+" of "+rowCount);
 					continue;
-//				} else {
-//					System.out.println ("OK, as per selected row "+r+" of "+rowCount);
-//					System.out.println ("Selected rows: ["+Arrays.toString (selectedRows)+"]");
 				}
 				final PieceOfWork candidate = (PieceOfWork) progressesTable.getModel ().getValueAt (r, progressesTable.convertColumnIndexToModel (DURATION_COL_INDEX));
 				if (!candidate.isEndOpened ()) {
@@ -4554,7 +4207,6 @@ net.sf.jttslite.gui.MainWindow$TaskJTreeModel.checkForReload(MainWindow.java:255
 			}
 			
 			setEnabled (isEnabled (_removalCandidates));
-//			System.out.println ("setEnabled "+ isEnabled ()+"for action "+hashCode ());
 		}
 		
 		public void valueChanged (ListSelectionEvent e) {
@@ -4767,7 +4419,7 @@ net.sf.jttslite.gui.MainWindow$TaskJTreeModel.checkForReload(MainWindow.java:255
 		}
 		
 		private boolean _isEnabled () {
-			return _candidate!=null /*&& taskTree.isExpanded (toTreePath (new TaskTreePath (_context.getModel ().getWorkSpace (), _candidate)))*/;
+			return _candidate!=null;
 		}
 		
 		Task _candidate;
@@ -4885,42 +4537,6 @@ net.sf.jttslite.gui.MainWindow$TaskJTreeModel.checkForReload(MainWindow.java:255
 			setEnabled ();
 		}
 	}
-	
-	
-	
-	
-//	public class SensibleCutACtion extends TransferAction implements TreeSelectionListener, ListSelectionListener, FocusListener {
-//		 public SensibleCutACtion () {
-//			 super (TransferAction.Type.CUT, tal);
-//			 taskTree.addTreeSelectionListener (this);
-//			progressesTable.getSelectionModel ().addListSelectionListener (this);
-////			progressesTable.getColumnModel ().getSelectionModel ().addListSelectionListener (this);
-//						 
-//		 }
-//
-////		 private boolean isEnabled () {
-////			 if (taskTree.hasFocus ()) {
-////				 
-////			 }
-////			 return 
-////		 }
-//		public void valueChanged (final TreeSelectionEvent e) {
-////			setEnabled ()
-//			throw new UnsupportedOperationException ("Not supported yet.");
-//		}
-//
-//		public void valueChanged (final ListSelectionEvent e) {
-//			throw new UnsupportedOperationException ("Not supported yet.");
-//		}
-//
-//		public void focusGained (FocusEvent e) {
-//			throw new UnsupportedOperationException ("Not supported yet.");
-//		}
-//
-//		public void focusLost (FocusEvent e) {
-//			throw new UnsupportedOperationException ("Not supported yet.");
-//		}
-//	}
 	/**********************************************
 	 * FINE SEZIONE DEDICATA ALLE ACTION
 	 **********************************************/
@@ -5273,7 +4889,6 @@ net.sf.jttslite.gui.MainWindow$TaskJTreeModel.checkForReload(MainWindow.java:255
 			for (int i=0;i<selectedRowsCount;i++){
 				exportedProgresses[i] = (PieceOfWork)((ProgressesJTableModel)progressesTable.getModel ()).getValueAt (progressesTable.convertRowIndexToModel (selectedRows[i]), progressesTable.convertColumnIndexToModel (DURATION_COL_INDEX));
 			}
-//			System.out.println ("Exported progresses: "+selectedRowsCount);
 			return exportedProgresses;
 		}
 		
@@ -5421,8 +5036,6 @@ net.sf.jttslite.gui.MainWindow$TaskJTreeModel.checkForReload(MainWindow.java:255
 			if (null==_boldFont) {
 				_boldFont = _originalFont.deriveFont (Font.BOLD);
 			}
-
-			boolean progressing = false;
 			
 			for (final TaskTreePath p : _progressingPaths) {
 				if (p.contains (t)) {
@@ -5566,9 +5179,7 @@ net.sf.jttslite.gui.MainWindow$TaskJTreeModel.checkForReload(MainWindow.java:255
 					while (true) {
 						semaphore.acquireUninterruptibly ();
 						ProgressItem chartRoot = null;
-//						synchronized (_chartRoot) {
 						chartRoot = _chartRoot;
-//						}
 						if (chartRoot!=null) {
 							if (chartPanel.isVisible () || _context.getApplicationOptions ().isChartGhostEnabled ()) {
 								
@@ -5590,8 +5201,6 @@ net.sf.jttslite.gui.MainWindow$TaskJTreeModel.checkForReload(MainWindow.java:255
 									/*
 									 * Abilita il thread per il ridisegno dello sfondo solo se abilitato
 									 */
-//									final int w =progressesTable.getWidth ();
-//									final int h = progressesTable.getHeight ();
 									final int w = chartPanel.getWidth ();
 									final int h = chartPanel.getHeight ();
 									if (w == 0 || h == 0 ) {
@@ -5613,7 +5222,6 @@ net.sf.jttslite.gui.MainWindow$TaskJTreeModel.checkForReload(MainWindow.java:255
 									g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_SPEED);
 									g.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_SPEED);
 									g.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_DISABLE);
-//							        g.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_NORMALIZE);
 									/*
 									 * Invoca il repaint 
 									 */
@@ -5639,7 +5247,6 @@ net.sf.jttslite.gui.MainWindow$TaskJTreeModel.checkForReload(MainWindow.java:255
 		}
 		
 		public void updateProgressTableBackground (final ProgressItem chartRoot) {
-//			synchronized (_chartRoot) {
 				if (_chartRoot == chartRoot) {
 					return;
 				}
@@ -5647,12 +5254,10 @@ net.sf.jttslite.gui.MainWindow$TaskJTreeModel.checkForReload(MainWindow.java:255
 					return;
 				}
 				_chartRoot = chartRoot;
-//			}
 			repaintProgressTableBackground ();
 		}
 		
 		public void repaintProgressTableBackground () {
-//			System.out.println ("repaintProgressTableBackground ()");
 			semaphore.release ();
 		}
 	}
@@ -5680,28 +5285,9 @@ net.sf.jttslite.gui.MainWindow$TaskJTreeModel.checkForReload(MainWindow.java:255
 	 * Porta in primo piano questa finestra.
 	 */
 	public void bringToFront () {
-		/*
-		 * Ripristina la finestra
-		 */
-//		dispatchEvent (new WindowEvent (this, WindowEvent.WINDOW_DEICONIFIED));
-
 		getToolkit ().getSystemEventQueue ().postEvent(new WindowEvent (this, WindowEvent.WINDOW_DEICONIFIED));
-
-		
-//		setState(Frame.ICONIFIED);
-		setState (java.awt.Frame.NORMAL);		
-		
-		try {
-//			setAlwaysOnTop (true);
-		} catch (final SecurityException se) {
-			se.printStackTrace();
-		}
+		setState (java.awt.Frame.NORMAL);
 		toFront ();
-		try {
-//			setAlwaysOnTop (false);
-		} catch (final SecurityException se) {
-			se.printStackTrace();
-		}
 		requestFocus ();
 	}
 	
@@ -5758,23 +5344,12 @@ net.sf.jttslite.gui.MainWindow$TaskJTreeModel.checkForReload(MainWindow.java:255
 				mw.stopAdvancing ();
 				return true;
 			}
-		}/*,
-		CANCEL {
-			public String toString () {
-				return java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("ConfirmDialog/ApplicationExitWIthActiveAction/Cancel");
-			}
-			
-			public boolean process (final MainWindow mw) {
-				return false;
-			}
-		}*/;
-		
-		
+		};
 		/**
 		 * Processa la scelta, e ritorna <tt>true</tt> se ilprocessodi chiusura dell'applicazione può continuare.
 		 *
 		 */
-		public abstract boolean process  (MainWindow mw);
+		public abstract boolean process(MainWindow mw);
 	}
 }
 

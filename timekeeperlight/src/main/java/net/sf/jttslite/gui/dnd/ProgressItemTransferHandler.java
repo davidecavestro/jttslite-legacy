@@ -8,9 +8,7 @@ package net.sf.jttslite.gui.dnd;
 
 import net.sf.jttslite.ApplicationContext;
 import net.sf.jttslite.core.model.Task;
-import com.ost.timekeeper.model.*;
 import java.awt.datatransfer.*;
-import java.io.*;
 import javax.swing.*;
 
 /**

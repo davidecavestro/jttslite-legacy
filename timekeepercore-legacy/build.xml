@@ -2,8 +2,13 @@
 <!-- You may freely edit this file. See commented blocks below for -->
 <!-- some examples of how to customize the build. -->
 <!-- (If you delete it and reopen the project it will be recreated.) -->
-<project name="timekeepercore" default="default" basedir=".">
-    <description>Builds, tests, and runs the project timekeepercore.</description>
+<!-- By default, only the Clean and Build commands use this build script. -->
+<!-- Commands such as Run, Debug, and Test only use this build script if -->
+<!-- the Compile on Save feature is turned off for the project. -->
+<!-- You can turn off the Compile on Save (or Deploy on Save) setting -->
+<!-- in the project's Project Properties dialog box.-->
+<project name="timekeepercore-legacy" default="default" basedir=".">
+    <description>Builds, tests, and runs the project timekeepercore-legacy.</description>
     <import file="nbproject/build-impl.xml"/>
     <!--
 
@@ -54,7 +59,7 @@
 
     An example of overriding the target for project execution could look like this:
 
-        <target name="run" depends="timekeepercore-impl.jar">
+        <target name="run" depends="timekeepercore-legacy-impl.jar">
             <exec dir="bin" executable="launcher.exe">
                 <arg file="${dist.jar}"/>
             </exec>
@@ -66,52 +71,69 @@
     nbproject/build-impl.xml file. 
 
     -->
-    
-    <target name="-post-compile" depends="enhance-datanucleus" />
 
-	<path id="datanucleus.enhancer.classpath">
-		<fileset dir=".">
-			<include name="lib/datanucleus-enhancer-*.jar"/>
-			<include name="lib/datanucleus-core-*.jar"/>
-			<include name="lib/asm*.jar"/>
-			<include name="lib/jdo*.jar"/>
-		</fileset>
-	</path>
 
-	<target name="enhance-datanucleus">
 
-        <!-- define the task enhancer -->
-        <taskdef name="enhancer" classname="org.datanucleus.enhancer.tools.EnhancerTask">
-            <classpath refid="datanucleus.enhancer.classpath"/>
-        </taskdef>
 
-		<!-- copy JDO mappings -->
+
+    <target name="-post-compile" depends="enhance-jdori">
+	</target>
+
+	<target name="enhance-jdori">
+
+		<property name="timekeepercore.src.dir" value="../timekeepercore/src/main/java"/>
+		<!-- Ricompila SOLO i sorgenti che necessitano dell'enhancement JDO. -->
+		<javac target="1.4" source="1.4" deprecation="true" destdir="${build.classes.dir}" classpath="${javac.classpath}" debug="true">
+			<src>
+				<pathelement location="${src.dir}/com/ost/timekeeper/model"/>
+				<!--
+				<pathelement location="${timekeepercore.src.dir}/net/sf/jttslite/core/util"/>
+				<pathelement location="${timekeepercore.src.dir}/net/sf/jttslite/core/model"/>
+				-->
+			</src>
+		</javac>
+
+		<!-- Prepara le risorse per l'enhancer JDO. -->
 		<copy todir="${build.classes.dir}">
-			<fileset dir="${src.java.dir}">
-				<include name="**/*.jdo"/>
+			<fileset dir="${src.dir}">
+			<include name="**/*.jdo"/>
+			<exclude name="**/*.java"/>
 			</fileset>
 		</copy>
 
-		<!-- enhance -->
-        <enhancer 
-            dir="${build.classes.dir}"
-            verbose="true"
+		<!-- Imposta l'ambiente di esecuzione per l'enhancer JDO. -->
+		<path id="jdo.enhancer.classpath">
+			<pathelement path="lib/jdo.jar"/>
+			<pathelement path="lib/jdori.jar"/>
+		</path>
+
+		<!-- Esegue l'enhancement per il supporto JDO. Passo 1/4. -->
+		<java classname="com.sun.jdori.enhancer.EnhancerMain"
+			fork="true"
 			failonerror="true"
+			maxmemory="128m"
+			dir="${build.classes.dir}"
+			
 			>
+				<classpath>
+					<pathelement path="${javac.classpath}"/>
+					<path refid="jdo.enhancer.classpath"/>
+					<pathelement path="${build.classes.dir}"/>
+					<!--
+					<path location="../timekeepercore/dist/*.jar"/>
+					-->
+					<pathelement path="../timekeepercore/build/classes"/>
+				</classpath>
+			<arg line="-v -f "/>
+			<arg line="-j ."/>
+			<arg line="-s ."/>
+			<arg line="-d ."/>
+			<arg line="com/ost/timekeeper/model/ProgressItem com/ost/timekeeper/model/Period com/ost/timekeeper/model/Progress com/ost/timekeeper/model/Project com/ost/timekeeper/model/ProgressTemplate"/>
+		</java>
 
-            <classpath >
-				<path refid="datanucleus.enhancer.classpath"/>
-				<pathelement path="${build.classes.dir}"/>
-			</classpath>
-
-            <sysproperty key="log4j.configuration" value="file:log4j.properties"/>
-            <sysproperty key="datanucleus.metadata.validate" value="false"/>
-
-            <fileset dir="${build.classes.dir}">
-                <include name="net/sf/**/*.class"/>
-            </fileset>
-        </enhancer>
-
+<!--
+		<delete dir="${timekeepercore.src.dir}/net/sf/jttslite/core/util" includes="**/*" />
+		<delete dir="${timekeepercore.src.dir}/net/sf/jttslite/core/model" includes="**/*" />
+-->
 	</target>
-
 </project>

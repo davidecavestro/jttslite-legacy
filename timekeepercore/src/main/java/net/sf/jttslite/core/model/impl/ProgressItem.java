@@ -381,7 +381,7 @@ public class ProgressItem extends Observable implements Task {
 	/**
 	 * Ritorna gli avanzamenti apparteneneti al sottoalbero avente questo nodo
 	 * come radice.
-	 * Una lista di {@link com.ost.timekeeper.model.PieceOfWork}.
+	 * Una lista di {@link PieceOfWork}.
 	 *
 	 * @return gli avanzamenti apparteneneti al sottoalbero.
 	 */
@@ -394,7 +394,7 @@ public class ProgressItem extends Observable implements Task {
 	}
 	/**
 	 * Ritorna gli elementi del sottoalbero.
-	 * Una lista di {@link com.ost.timekeeper.model.Task}
+	 * Una lista di {@link Task}
 	 * @return gli elementi del sottoalbero avente questo item
 	 * come radice.
 	 */
@@ -419,7 +419,7 @@ public class ProgressItem extends Observable implements Task {
 	 * Imposta la lista dei figli di questo nodo.
 	 * <BR>
 	 * N.B.: questo metodo non modifica i riferimenti dei figli verso ilnuovo padre.
-	 * @see com.ost.timekeeper.model.ProgressItem#insert .
+	 * @see ProgressItem#insert .
 	 *
 	 * @param children la nuova lista dei figli di questo nodo.
 	 */
@@ -449,7 +449,7 @@ public class ProgressItem extends Observable implements Task {
 	 * Imposta il padre di questo nodo.
 	 * <BR>
 	 * N.B.: questo metodo non modifica i riferimenti del nuovo e del vechio padre verso questo oggetto.
-	 * @see com.ost.timekeeper.model.Task#insert .
+	 * @see Task#insert .
 	 *
 	 * @param parent il nuovo padre.
 	 *@throws ClassCastException se il parametro passato non &egrave; di tipo ProgressItem

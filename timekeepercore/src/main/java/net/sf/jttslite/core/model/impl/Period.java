@@ -14,7 +14,7 @@ import java.util.*;
 
 /**
  * Rappresenta un periodo temporale. I metodi che non ammettono periodi temporali 
- * non validi possono sollevare <code>{@link com.ost.timekeeper.model.InvalidPeriodException}</code>.
+ * non validi possono sollevare <code>{@link InvalidPeriodException}</code>.
  *
  * @todo estendere LocalizedPeriodImpl
  * @author  davide

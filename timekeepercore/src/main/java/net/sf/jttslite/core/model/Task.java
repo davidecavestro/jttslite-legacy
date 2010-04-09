@@ -141,7 +141,7 @@ public interface Task {
 	/**
 	 * Ritorna gli avanzamenti apparteneneti al sottoalbero avente questo nodo
 	 * come radice.
-	 * Una lista di {@link com.ost.timekeeper.model.PieceOfWork}.
+	 * Una lista di {@link PieceOfWork}.
 	 *
 	 * @return gli avanzamenti apparteneneti al sottoalbero.
 	 */

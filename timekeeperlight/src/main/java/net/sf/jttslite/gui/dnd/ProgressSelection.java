@@ -7,7 +7,6 @@
 package net.sf.jttslite.gui.dnd;
 
 import net.sf.jttslite.core.model.PieceOfWork;
-import com.ost.timekeeper.model.*;
 import java.awt.datatransfer.*;
 import javax.swing.TransferHandler;
 

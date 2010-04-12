@@ -184,7 +184,7 @@ public class Application {
 			_persistenceNode.init ();
 		} catch (final PersistenceNodeException pne) {
 			
-			
+			_logger.log (Level.SEVERE, "Cannot initialize the persistence system", pne);
 			final String[] message = {
 				"Cannot initialize the persistence subsystem. ",
 				"Please check your write permissions to "+applicationOptions.getJDOStorageDirPath ()+".",

@@ -34,7 +34,7 @@ import javax.jdo.Transaction;
  *
  * @author Davide Cavestro
  */
-public class PersistenceNode {
+public class PersistenceNodeLegacy {
 	
 	/**
 	 * Le impostazioni applicative di interesse per l'accesso allo storage..
@@ -46,7 +46,7 @@ public class PersistenceNode {
 	 */
 	final Logger _logger;
 	
-	public PersistenceNode (final ApplicationOptions ao, final Logger logger) {
+	public PersistenceNodeLegacy (final ApplicationOptions ao, final Logger logger) {
 		_ao = ao;
 		_logger = logger;
 	}
@@ -60,15 +60,13 @@ public class PersistenceNode {
 	/**
 	 * Imposta le properties necessarie all'inizializzazione dello storage.
 	 */
-	private final void setDatastoreProperties () throws IOException{
+	private final void setDatastoreProperties (){
 		if (_props==null){
-			final Properties defaults = new Properties ();
-			defaults.load (getClass ().getResourceAsStream ("/net/sf/jttslite/persistence/datanucleus.properties"));
-			_props = new Properties (defaults);
+			_props = new Properties (null);
 		}
-		_props.put ("javax.jdo.PersistenceManagerFactoryClass", "org.datanucleus.jdo.JDOPersistenceManagerFactory");
+		_props.put ("javax.jdo.PersistenceManagerFactoryClass", "com.sun.jdori.fostore.FOStorePMF");
 		final StringBuilder connectionURL = new StringBuilder ();
-		connectionURL.append ("jdbc:h2:");
+		connectionURL.append ("fostore:");
 		final String storageDirPath = _ao.getJDOStorageDirPath ();
 		if (storageDirPath!=null && storageDirPath.length ()>0){
 			connectionURL.append (storageDirPath);
@@ -81,13 +79,9 @@ public class PersistenceNode {
 		 */
 		new File (_ao.getJDOStorageDirPath ()).mkdirs ();
 		
-		connectionURL.append (_ao.getJDOStorageName ()+";DB_CLOSE_ON_EXIT=TRUE");
+		connectionURL.append (_ao.getJDOStorageName ());
 		_props.put ("javax.jdo.option.ConnectionURL", connectionURL.toString ());
 		_props.put ("javax.jdo.option.ConnectionUserName", _ao.getJDOUserName ());
-		_props.put ("javax.jdo.option.ConnectionPassword", "");
-
-		_props.put ("javax.jdo.option.ConnectionDriverName", "org.h2.Driver");
-		_props.put ("javax.jdo.option.Mapping", "h2");
 	}
 	
 	
@@ -171,7 +165,7 @@ public class PersistenceNode {
 	 * Inizializza la gestione della persistenza dei dati.
 	 * Imposta il campo interno <CODE>_pm</CODE>.
 	 */
-	private void initPersistence () throws IOException{
+	private void initPersistence (){
 		setDatastoreProperties ();
 		final PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory (_props);
 		
@@ -204,7 +198,7 @@ public class PersistenceNode {
 	 * Inizializza il repository dei dati persistenti con le impostazioni correnti.
 	 * Imposta il campo interno <CODE>_pm</CODE>.
 	 */
-	private void createDataStore () throws IOException{
+	private void createDataStore (){
 		if (_pm!=null){
 			closePersistence ();
 		}

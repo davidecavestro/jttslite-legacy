@@ -76,7 +76,7 @@
 
 
 
-    <target name="-post-compile" depends="enhance-jdori">
+    <target name="-post-compile" depends="enhance-datanucleus">
 	</target>
 
 	<target name="enhance-jdori">
@@ -123,6 +123,7 @@
 					<path location="../timekeepercore/dist/*.jar"/>
 					-->
 					<pathelement path="../timekeepercore/build/classes"/>
+					<pathelement location="/home/davide/devel/core/timekeepercore/build/classes"/>
 				</classpath>
 			<arg line="-v -f "/>
 			<arg line="-j ."/>
@@ -136,4 +137,58 @@
 		<delete dir="${timekeepercore.src.dir}/net/sf/jttslite/core/model" includes="**/*" />
 -->
 	</target>
+
+
+
+
+		<path id="datanucleus.enhancer.classpath">
+		<fileset dir=".">
+			<include name="lib/datanucleus-enhancer-*.jar"/>
+			<include name="lib/datanucleus-core-*.jar"/>
+			<include name="lib/asm*.jar"/>
+			<include name="lib/jdo2*.jar"/>
+		</fileset>
+	</path>
+
+	<target name="enhance-datanucleus">
+
+        <!-- define the task enhancer -->
+        <taskdef name="enhancer" classname="org.datanucleus.enhancer.tools.EnhancerTask">
+            <classpath refid="datanucleus.enhancer.classpath"/>
+        </taskdef>
+
+		<!-- copy JDO mappings -->
+		<copy todir="${build.classes.dir}">
+			<fileset dir="${src.dir}">
+				<include name="**/*.jdo"/>
+			</fileset>
+		</copy>
+
+		<!-- enhance -->
+        <enhancer
+            dir="${build.classes.dir}"
+            verbose="true"
+			failonerror="true"
+			>
+
+            <classpath >
+				<path refid="datanucleus.enhancer.classpath"/>
+				<pathelement path="${build.classes.dir}"/>
+				<pathelement path="${build.classes.dir}"/>
+				<!--
+				<path location="../timekeepercore/dist/*.jar"/>
+				-->
+				<pathelement path="../timekeepercore/build/classes"/>
+			</classpath>
+
+            <sysproperty key="log4j.configuration" value="file:log4j.properties"/>
+            <sysproperty key="datanucleus.metadata.validate" value="false"/>
+
+            <fileset dir="${build.classes.dir}">
+                <include name="com/ost/**/*.class"/>
+            </fileset>
+        </enhancer>
+
+	</target>
+
 </project>

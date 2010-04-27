@@ -34,12 +34,9 @@ public class UndoableTaskTreeModel extends TaskTreeModelImpl {
 	
 	/**
 	 * Costruttore.
-	 * @param applicationOptions le opzioni di configurazione.
-	 * @param name il nome.
-	 * @param resources le risorse di localizzazione.
 	 */
-	public UndoableTaskTreeModel (final ApplicationOptions applicationOptions,  final TaskTreeModelExceptionHandler peh, final WorkSpace workSpace) {
-		super (applicationOptions, peh, workSpace);
+	public UndoableTaskTreeModel (final WorkSpace workSpace) {
+		super (workSpace);
 	}
 	
 	public void addUndoableEditListener (UndoableEditListener listener) {

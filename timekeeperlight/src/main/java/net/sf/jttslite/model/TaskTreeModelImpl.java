@@ -30,25 +30,13 @@ public class TaskTreeModelImpl extends AbstractTaskTreeModel {
      * @see #firePropertyChange
      */
     private java.beans.PropertyChangeSupport changeSupport;
-	
 	private WorkSpace _workSpace;
-	
-	private final ApplicationOptions _applicationOptions;
-	private final TaskTreeModelExceptionHandler _peh;
-	
-	private final static String[] voidStringArray = new String[0];
 	
 	/**
 	 * Costruttore.
-	 * @param applicationOptions le opzioni di configurazione.
-	 * @param name il nome.
-	 * @param resources le risorse di localizzazione.
 	 */
-	public TaskTreeModelImpl (final ApplicationOptions applicationOptions, final TaskTreeModelExceptionHandler peh, final WorkSpace workSpace) {
+	public TaskTreeModelImpl (final WorkSpace workSpace) {
 		super (workSpace, workSpace.getRoot ());
-		_applicationOptions = applicationOptions;
-		_peh = peh;
-		
 		setWorkSpace (workSpace);
 	}
 
@@ -64,7 +52,7 @@ public class TaskTreeModelImpl extends AbstractTaskTreeModel {
 		super.setWorkSpace (workSpace);
 		final String oldName = oldWS!=null?oldWS.getName ():null;
 		final String newName = workSpace!=null?workSpace.getName ():null;
-		if (oldName!=newName) {
+		if (oldName != newName) {
 			firePropertyChange ("name", oldName, newName);
 		}
 	}

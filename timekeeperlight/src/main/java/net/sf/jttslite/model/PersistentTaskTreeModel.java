@@ -8,12 +8,10 @@
 package net.sf.jttslite.model;
 
 import net.sf.jttslite.core.model.WorkSpace;
-import net.sf.jttslite.conf.ApplicationOptions;
 import net.sf.jttslite.persistence.PersistenceManager;
 import net.sf.jttslite.persistence.PersistenceNode;
 import net.sf.jttslite.persistence.Transaction;
 import java.util.Collection;
-import java.util.logging.Logger;
 
 /**
  * Estensione al modello con supporto alla persistenza.
@@ -23,20 +21,16 @@ import java.util.logging.Logger;
 public class PersistentTaskTreeModel extends UndoableTaskTreeModel {
 	
 	private final PersistenceNode _persistenceNode;
-	private final Logger _logger;
 	
 	/**
 	 * Costruttore.
 	 * 
-	 * @param persistenceNode 
-	 * @param peh 
+	 * @param persistenceNode
 	 * @param workSpace 
-	 * @param applicationOptions le opzioni di configurazione.
 	 */
-	public PersistentTaskTreeModel (final PersistenceNode persistenceNode, final ApplicationOptions applicationOptions, final Logger logger, final TaskTreeModelExceptionHandler peh, final WorkSpace workSpace) {
-		super (applicationOptions, peh, workSpace);
+	public PersistentTaskTreeModel (final PersistenceNode persistenceNode, final WorkSpace workSpace) {
+		super (workSpace);
 		_persistenceNode = persistenceNode;
-		_logger = logger;
 	}
 	
 	/**

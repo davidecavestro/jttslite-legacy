@@ -27,7 +27,6 @@ import net.sf.jttslite.model.DuplicatedWorkSpaceException;
 import net.sf.jttslite.model.PersistentPieceOfWorkTemplateModel;
 import net.sf.jttslite.model.PersistentTaskTreeModel;
 import net.sf.jttslite.model.PersistentWorkSpaceModel;
-import net.sf.jttslite.model.TaskTreeModelExceptionHandler;
 import net.sf.jttslite.core.model.WorkSpace;
 import net.sf.jttslite.model.WorkSpaceModel;
 import net.sf.jttslite.model.WorkSpaceModelListener;
@@ -133,7 +132,7 @@ public class Application {
 		try {
 		   final File logDirFile = new File(applicationOptions.getLogDirPath ());
 		   if(!logDirFile.exists ()){
-			  logDirFile.mkdir ();
+			  logDirFile.mkdirs ();
 			  _logger.log (Level.INFO, "Logs direcotry created in: " + applicationOptions.getLogDirPath ());
 		   }
 		   final File plainTextLogFile = new File (applicationOptions.getLogDirPath (),CalendarUtils.getTimestamp (Calendar.getInstance ().getTime (), CalendarUtils.FILENAME_TIMESTAMP_FORMAT)+".log");
@@ -147,8 +146,7 @@ public class Application {
 		} catch (IOException ioe){
 		   _logger.log (Level.WARNING, "Connot initializate file log handler", ioe);
 		}
-		
-		final TaskTreeModelExceptionHandler peh = new TaskTreeModelExceptionHandler () {};
+
 		_persistenceNode = new PersistenceNode (applicationOptions, _logger);
 		/*
 		 * salva le informazioni relative al database nelle impostazioni personali
@@ -159,7 +157,7 @@ public class Application {
 		
 		final ProgressItem pi = new ProgressItem (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("New_workspace"));
 		final Project prj = new Project (pi.getName (), pi);
-		final PersistentTaskTreeModel model = new PersistentTaskTreeModel (_persistenceNode, applicationOptions, _logger, peh, prj);
+		final PersistentTaskTreeModel model = new PersistentTaskTreeModel (_persistenceNode, prj);
 		model.addTaskTreeModelListener (new TaskTreeModelListener () {
 			public void treeNodesChanged (TaskTreeModelEvent e) {
 			}
@@ -217,7 +215,6 @@ public class Application {
 			wsUndoManager,
 			new ActionManager (),
 			new HelpManager (new HelpResourcesResolver (p), "help-contents/JTTSlite.hs"),
-			peh,
 			_persistenceNode
 			);
 		

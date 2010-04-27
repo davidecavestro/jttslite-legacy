@@ -10,7 +10,6 @@ import net.sf.jttslite.common.application.ApplicationData;
 import net.sf.jttslite.common.gui.persistence.UIPersister;
 import net.sf.jttslite.common.help.HelpManager;
 import net.sf.jttslite.common.undo.RBUndoManager;
-import net.sf.jttslite.model.TaskTreeModelExceptionHandler;
 import net.sf.jttslite.conf.ApplicationOptions;
 import net.sf.jttslite.conf.UserSettings;
 import net.sf.jttslite.gui.WindowManager;
@@ -47,7 +46,6 @@ public class ApplicationContext {
 	private final RBUndoManager _wsUndoManager;
 	private ActionManager _actionManager;
 	private HelpManager _helpManager;
-	private final TaskTreeModelExceptionHandler _propsExceptionHandler;
     private java.beans.PropertyChangeSupport changeSupport;
 	private final PersistenceNode _persistenceNode;
 
@@ -70,8 +68,7 @@ public class ApplicationContext {
 		final RBUndoManager atUndoManager,
 		final RBUndoManager wsUndoManager,
 		final ActionManager actionManager,
-		final HelpManager helpManager,
-		final TaskTreeModelExceptionHandler propsExceptionHandler, 
+		final HelpManager helpManager, 
 		final PersistenceNode persistenceNode
 		) {
 			
@@ -90,7 +87,6 @@ public class ApplicationContext {
 		_wsUndoManager = wsUndoManager;
 		_actionManager = actionManager;
 		_helpManager = helpManager;
-		_propsExceptionHandler = propsExceptionHandler;
 		_persistenceNode = persistenceNode;
 	}
 	
@@ -143,10 +139,6 @@ public class ApplicationContext {
 	
 	public HelpManager getHelpManager (){
 		return _helpManager;
-	}
-	
-	public TaskTreeModelExceptionHandler getPropertiesExceptionHandler (){
-		return _propsExceptionHandler;
 	}	
 	
 	public ApplicationData getApplicationData (){

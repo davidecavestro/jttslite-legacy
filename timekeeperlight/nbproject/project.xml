@@ -11,7 +11,9 @@
                 <root id="src.help.dir"/>
                 <root id="src.license-contents.dir"/>
             </source-roots>
-            <test-roots/>
+            <test-roots>
+                <root id="test.java.dir"/>
+            </test-roots>
         </data>
         <references xmlns="http://www.netbeans.org/ns/ant-project-references/1">
             <reference>

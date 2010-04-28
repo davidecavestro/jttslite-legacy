@@ -15,9 +15,9 @@ import net.sf.jttslite.report.AbstractDataExtractor;
 import net.sf.jttslite.report.filter.Target;
 import net.sf.jttslite.report.filter.TargetedFilterContainer;
 import net.sf.jttslite.core.model.impl.Progress;
-import net.sf.jttslite.core.util.Duration;
-import net.sf.jttslite.core.util.LocalizedPeriod;
-import net.sf.jttslite.core.util.LocalizedPeriodImpl;
+import net.sf.jttslite.core.util.DurationImpl;
+import net.sf.jttslite.core.util.AbsolutePeriod;
+import net.sf.jttslite.core.util.AbsolutePeriodImpl;
 import java.io.IOException;
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -181,9 +181,9 @@ public final class TaskListExtractor extends AbstractDataExtractor {
 		return sb.toString ();
 	}
 	
-	private String getDurationLabel (Duration duration){
+	private String getDurationLabel (DurationImpl duration){
 		if (duration==null){
-			duration = Duration.ZERODURATION;
+			duration = DurationImpl.ZERODURATION;
 		}
 		final StringBuilder sb = new StringBuilder ();
 
@@ -199,7 +199,7 @@ public final class TaskListExtractor extends AbstractDataExtractor {
 	/**
 	 * Un periodo.
 	 */
-	private final class CumulationPeriod extends LocalizedPeriodImpl implements Comparable {
+	private final class CumulationPeriod extends AbsolutePeriodImpl implements Comparable {
 		private final Map<Task, NodeProgresses> _map;
 		
 		public CumulationPeriod (final Date from, final Date to){
@@ -221,7 +221,7 @@ public final class TaskListExtractor extends AbstractDataExtractor {
 			if (!this.intersects (progress)){
 				return;
 			}
-			final LocalizedPeriod intersection = this.intersection (progress);
+			final AbsolutePeriod intersection = this.intersection (progress);
 			final Task progressItem = progress.getTask ();
 			final double duration = intersection.getDuration ().getTime ();
 			
@@ -265,7 +265,7 @@ public final class TaskListExtractor extends AbstractDataExtractor {
 		private double _duration = 0;
 		private final List<CumulationPeriodNodeProgress> _nodeProgresses = new ArrayList<CumulationPeriodNodeProgress> ();
 		public NodeProgresses (){}
-		public void addProgress (final Progress progress, final LocalizedPeriod periodOfInterest){
+		public void addProgress (final Progress progress, final AbsolutePeriod periodOfInterest){
 			final double duration = periodOfInterest.getDuration ().getTime ();
 			_duration += duration;
 			_nodeProgresses.add (new CumulationPeriodNodeProgress (progress, periodOfInterest));
@@ -285,9 +285,9 @@ public final class TaskListExtractor extends AbstractDataExtractor {
 	 */
 	private final class CumulationPeriodNodeProgress {
 		private final Progress _progress;
-		private final LocalizedPeriod _periodOfInterest;
+		private final AbsolutePeriod _periodOfInterest;
 		
-		public CumulationPeriodNodeProgress (final Progress progress, final LocalizedPeriod periodOfInterest){
+		public CumulationPeriodNodeProgress (final Progress progress, final AbsolutePeriod periodOfInterest){
 			this._progress = progress;
 			this._periodOfInterest = periodOfInterest;
 		}
@@ -296,7 +296,7 @@ public final class TaskListExtractor extends AbstractDataExtractor {
 			return this._progress;
 		}
 		
-		public LocalizedPeriod getPeriodOfInterest (){
+		public AbsolutePeriod getPeriodOfInterest (){
 			return this._periodOfInterest;
 		}
 	}

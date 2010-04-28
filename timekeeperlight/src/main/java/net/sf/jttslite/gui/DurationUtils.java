@@ -5,7 +5,7 @@
 
 package net.sf.jttslite.gui;
 
-import net.sf.jttslite.core.util.Duration;
+import net.sf.jttslite.core.util.DurationImpl;
 
 /**
  * Remaps to {@link com.ost.timekeeper.util.DurationUtils}.
@@ -16,7 +16,7 @@ import net.sf.jttslite.core.util.Duration;
  */
 public class DurationUtils {
 
-	public static String format (final Duration d) {
+	public static String format (final DurationImpl d) {
 		return net.sf.jttslite.core.util.DurationUtils.format (d);
 	}
 	

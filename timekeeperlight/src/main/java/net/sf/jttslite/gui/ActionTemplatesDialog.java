@@ -12,7 +12,7 @@ import net.sf.jttslite.ApplicationContext;
 import net.sf.jttslite.model.PieceOfWorkTemplateModelListener;
 import net.sf.jttslite.model.event.PieceOfWorkTemplateModelEvent;
 import net.sf.jttslite.core.model.impl.ProgressTemplate;
-import net.sf.jttslite.core.util.Duration;
+import net.sf.jttslite.core.util.DurationImpl;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
@@ -105,7 +105,7 @@ public class ActionTemplatesDialog extends javax.swing.JDialog implements Persis
 		 */
 		getTable ().getColumnExt (getTable ().convertColumnIndexToView (DURATION_COL_INDEX)).setComparator (new Comparator () {
 			public int compare (final Object o1, final Object o2) {
-				return Double.compare ((double)((Duration)o1).getTime (), (double)((Duration)o2).getTime ());
+				return Double.compare ((double)((DurationImpl)o1).getTime (), (double)((DurationImpl)o2).getTime ());
 			}
 			public boolean equals (final Object obj) {
 				return super.equals (obj);
@@ -136,7 +136,7 @@ public class ActionTemplatesDialog extends javax.swing.JDialog implements Persis
 				};
 			}
 		});
-		getTable ().setDefaultEditor (Duration.class, new SmartCellEditor (new DurationTableCellEditor ()));
+		getTable ().setDefaultEditor (DurationImpl.class, new SmartCellEditor (new DurationTableCellEditor ()));
 
 		
 		getTable ().setSortOrder (getTable ().convertColumnIndexToView (NAME_COL_INDEX), SortOrder.ASCENDING);
@@ -329,12 +329,12 @@ public class ActionTemplatesDialog extends javax.swing.JDialog implements Persis
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
         jScrollPane1.setPreferredSize(new java.awt.Dimension(453, 203));
-        getTable ().setDefaultRenderer (Duration.class, new DefaultTableCellRenderer () {
+        getTable ().setDefaultRenderer (DurationImpl.class, new DefaultTableCellRenderer () {
 
             public Component getTableCellRendererComponent (final JTable table, final Object value, boolean isSelected, boolean hasFocus, final int row, final int column) {
 
                 final JLabel res = (JLabel)super.getTableCellRendererComponent ( table, value, isSelected, hasFocus, row, column);
-                final Duration duration = (Duration)value;
+                final DurationImpl duration = (DurationImpl)value;
 
                 if (duration ==null || duration.getTime ()==0){
                     res.setText ("");
@@ -481,7 +481,7 @@ private void undoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
 		
 		private final Class[] _columnClasses = new Class[] {
 			String.class,
-			Duration.class,
+			DurationImpl.class,
 			String.class
 		};
 
@@ -528,7 +528,7 @@ private void undoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
 			switch (columnIndex) {
 				case DURATION_COL_INDEX:
 				{
-					_context.getTemplateModel ().updateElement (template, template.getName (), template.getNotes (), (Duration)aValue);
+					_context.getTemplateModel ().updateElement (template, template.getName (), template.getNotes (), (DurationImpl)aValue);
 					break;
 				}
 				case NAME_COL_INDEX:
@@ -576,7 +576,7 @@ private void undoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
 			
 			final ProgressTemplate template = new ProgressTemplate ();
 			template.setName ("");
-			template.setDuration (new Duration (0, 10, 0, 0));
+			template.setDuration (new DurationImpl (0, 10, 0, 0));
 			_context.getTemplateModel ().addElement (template);
 			
 			final int newSelection = getTable ().convertRowIndexToView (_context.getTemplateModel ().indexOf (template));

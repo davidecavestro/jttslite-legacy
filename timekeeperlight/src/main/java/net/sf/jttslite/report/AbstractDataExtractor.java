@@ -9,7 +9,7 @@ package net.sf.jttslite.report;
 import net.sf.jttslite.common.util.CalendarUtils;
 import net.sf.jttslite.report.filter.Target;
 import net.sf.jttslite.report.filter.TargetedFilterContainer;
-import net.sf.jttslite.core.util.Duration;
+import net.sf.jttslite.core.util.DurationImpl;
 import java.text.*;
 
 /**
@@ -94,7 +94,7 @@ public abstract class AbstractDataExtractor implements DataExtractor{
 	 * @param duration la durata da trasformare.
 	 * @return la stringa che rappresenta la durata specificata nel formato adatto all'estrazione dei dati.
 	 */	
-	protected final String getText (final Duration duration){
+	protected final String getText (final DurationImpl duration){
 		final StringBuilder sb = new StringBuilder ();
 
 //		final long days = duration.getDays();

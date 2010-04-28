@@ -40,13 +40,13 @@ public class DurationUtils {
 	public static String formatDuration (final long d) {
 		final StringBuilder sb = new StringBuilder ();
 		
-		final long[] f = Duration.getDurationFields (d);
+		final long[] f = DurationImpl.getDurationFields (d);
 		
-		sb.append (durationNumberFormatter.format (f[Duration.HOURS_SLOT]))
+		sb.append (durationNumberFormatter.format (f[DurationImpl.HOURS_SLOT]))
 		.append (":")
-		.append (durationNumberFormatter.format (f[Duration.MINUTES_SLOT]))
+		.append (durationNumberFormatter.format (f[DurationImpl.MINUTES_SLOT]))
 		.append (":")
-		.append (durationNumberFormatter.format (f[Duration.SECONDS_SLOT]));
+		.append (durationNumberFormatter.format (f[DurationImpl.SECONDS_SLOT]));
 		return sb.toString ();
 	}
 	

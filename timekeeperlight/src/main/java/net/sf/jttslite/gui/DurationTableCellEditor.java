@@ -6,7 +6,7 @@
 package net.sf.jttslite.gui;
 
 import net.sf.jttslite.core.util.DurationUtils;
-import net.sf.jttslite.core.util.Duration;
+import net.sf.jttslite.core.util.DurationImpl;
 import java.awt.Component;
 import java.awt.event.MouseEvent;
 import java.util.EventObject;
@@ -49,7 +49,7 @@ public class DurationTableCellEditor extends DefaultCellEditor implements TableC
 			/*
 			 * ritorna una durata
 			 */
-			return (Duration)getComponent ().getValue ();
+			return (DurationImpl)getComponent ().getValue ();
 		}
 		
 	@Override
@@ -57,8 +57,8 @@ public class DurationTableCellEditor extends DefaultCellEditor implements TableC
 			/*
 			 * riceve un avanzamento
 			 */
-			getComponent ().setValue ((Duration)value);
-			getComponent ().setText (DurationUtils.format ((Duration)value));
+			getComponent ().setValue ((DurationImpl)value);
+			getComponent ().setText (DurationUtils.format ((DurationImpl)value));
 			getComponent ().setCaretPosition (0);
 			return getComponent ();
 		}

@@ -44,9 +44,9 @@ import net.sf.jttslite.tray.SystemTraySupport;
 import net.sf.jttslite.core.model.impl.Progress;
 import net.sf.jttslite.core.model.impl.ProgressItem;
 import net.sf.jttslite.core.model.impl.ProgressTemplate;
-import net.sf.jttslite.core.util.Duration;
-import net.sf.jttslite.core.util.LocalizedPeriod;
-import net.sf.jttslite.core.util.LocalizedPeriodImpl;
+import net.sf.jttslite.core.util.DurationImpl;
+import net.sf.jttslite.core.util.AbsolutePeriod;
+import net.sf.jttslite.core.util.AbsolutePeriodImpl;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Component;
@@ -67,7 +67,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -128,6 +127,7 @@ import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.JTextComponent;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreePath;
+import net.sf.jttslite.core.util.Duration;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.color.ColorUtil;
 import org.jdesktop.swingx.decorator.ColorHighlighter;
@@ -236,12 +236,9 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 		 */
 		progressesTable.setSortOrder (progressesTable.convertColumnIndexToView (START_COL_INDEX), SortOrder.ASCENDING);
 		
-		progressesTable.getColumnExt (progressesTable.convertColumnIndexToView (DURATION_COL_INDEX)).setComparator (new Comparator () {
-			public int compare (Object o1, Object o2) {
-				return Double.compare ((double)((Progress)o1).getDuration ().getTime (), (double)((Progress)o2).getDuration ().getTime ());
-			}
-			public boolean equals (Object obj) {
-				return super.equals (obj);
+		progressesTable.getColumnExt (progressesTable.convertColumnIndexToView (DURATION_COL_INDEX)).setComparator (new Comparator<Progress> () {
+			public int compare (final Progress o1, final Progress o2) {
+				return Double.compare ((double)o1.getDuration ().getTime (), (double)o2.getDuration ().getTime ());
 			}
 		});
 		
@@ -643,7 +640,7 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 		
 		
 		/*
-		 * notifica la variazione di selezione sull'alberoalla tray icon
+		 * notifica la variazione di selezione sull'albero alla tray icon
 		 */
 		taskTree.addTreeSelectionListener (new TreeSelectionListener () {
 			public void valueChanged (TreeSelectionEvent e) {
@@ -669,7 +666,7 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 		
 		progressesTable.setDefaultEditor (Date.class, new SmartCellEditor (new DateCellEditor ()));
 		progressesTable.setDefaultEditor (PieceOfWork.class, new SmartCellEditor (new DurationCellEditor ()));
-		progressesTable.setDefaultEditor (Duration.class, new SmartCellEditor (new DurationCellEditor ()));
+		progressesTable.setDefaultEditor (DurationImpl.class, new SmartCellEditor (new DurationCellEditor ()));
 		progressesTable.setDefaultEditor (String.class, new SmartCellEditor (new DefaultCellEditor (new JTextField ()) {
 			
 			
@@ -1272,7 +1269,7 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
                 }
             });
 
-            progressesTable.setDefaultRenderer (Duration.class,
+            progressesTable.setDefaultRenderer (DurationImpl.class,
                 new DefaultTableCellRenderer () {
                     private Font _originalFont;
                     private Font _boldFont;
@@ -2548,7 +2545,7 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 		}
 		
 		private final Class[] _columnClasses = new Class[] {
-			Duration.class,
+			DurationImpl.class,
 			Date.class,
 			Date.class,
 			String.class
@@ -2568,14 +2565,14 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 				{
 					/*
 					 * @warning
-					 * asimmetria: riceve una Duration, anche se getValue ritorna una PieceOfWork
+					 * asimmetria: riceve una DurationImpl, anche se getValue ritorna una PieceOfWork
 					 * Cio' e' dovuto al fatto che l'editazione non imposta date di inizio e fine, ma solo una durata
 					 */
 					
 					final PieceOfWork pow = getPieceOfWork (rowIndex);
 					
 					
-					_context.getModel ().updatePieceOfWork (pow, pow.getFrom (), new Date (pow.getFrom ().getTime ()+((Duration)aValue).getTime ()), pow.getDescription ());
+					_context.getModel ().updatePieceOfWork (pow, pow.getFrom (), new Date (pow.getFrom ().getTime ()+((DurationImpl)aValue).getTime ()), pow.getDescription ());
 					break;
 				}
 				case START_COL_INDEX:
@@ -2863,6 +2860,7 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 			_model = model;
 		}
 		
+		@Override
 		public boolean isCellEditable (Object node, int column) {
 			//colonna dell'albero editabile'
 			return column==0;
@@ -2890,7 +2888,8 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 			TaskTreeDuration.class
 		};
 		
-		public Class getColumnClass (int col) {
+		@Override
+		public Class<?> getColumnClass (int col) {
 			if (col==0) {
 				return super.getColumnClass (col);
 			}
@@ -2902,6 +2901,8 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 			java.util.ResourceBundle.getBundle ("net.sf.jttslite.gui.res").getString ("Today"), 
 			java.util.ResourceBundle.getBundle ("net.sf.jttslite.gui.res").getString ("Total")
 		};
+		
+		@Override
 		public String getColumnName (int column) {
 			return columnNames[column];
 		}
@@ -3086,7 +3087,7 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 			e.allow (_treeStructureChangedInspector);
 		}
 		
-		final TaskTreeDuration _rubberStampDuration = new TaskTreeDuration ();
+		private final TaskTreeDuration _rubberStampDuration = new TaskTreeDuration ();
 		
 		public Object getValueAt (Object object, int i) {
 			switch (i) {
@@ -3115,13 +3116,12 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 				case GLOBAL_COLUMN_INDEX: {
 					long totalDuration = 0;
 					final Task t = (Task)object;
-					for (final Iterator it = t.getSubtreeProgresses ().iterator ();it.hasNext ();){
-						final Progress p = (Progress)it.next ();
+					for (final PieceOfWork p : t.getSubtreeProgresses ()){
 						totalDuration += p.getDuration ().getTime ();
 					}
 					
 					_rubberStampDuration.setTask (t);
-					_rubberStampDuration.setDuration (new Duration (totalDuration));
+					_rubberStampDuration.getDuration ().setTime (totalDuration);
 					return _rubberStampDuration;
 				}
 				
@@ -3129,6 +3129,7 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 			return null;
 		}
 		
+		@Override
 		public void setValueAt (Object object, Object object0, int i) {
 			switch (i) {
 				//colonna  albero
@@ -3140,9 +3141,9 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 			}
 		}
 		
-		private LocalizedPeriod _today = null;
+		private AbsolutePeriod _today = null;
 		
-		private final LocalizedPeriod getToday (){
+		private final AbsolutePeriod getToday (){
 			if (this._today==null){
 				final Calendar now = new GregorianCalendar ();
 				
@@ -3155,7 +3156,7 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 				
 				now.add (Calendar.DAY_OF_YEAR, 1);
 				final Date periodFinishDate = new Date (now.getTime ().getTime ());
-				this._today = new LocalizedPeriodImpl (periodStartDate, periodFinishDate);
+				this._today = new AbsolutePeriodImpl (periodStartDate, periodFinishDate);
 			}
 			
 			return this._today;
@@ -3185,9 +3186,9 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 		
 		
 		/**
-		 * Un periodo.
+		 * Un periodo di tempo all'interno della giornata odierna.
 		 */
-		private final class TodayPeriod extends LocalizedPeriodImpl implements Comparable {
+		private final class TodayPeriod extends AbsolutePeriodImpl implements Comparable {
 			/*
 			 * durata calcolata in millisecondi
 			 */
@@ -3205,14 +3206,14 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 			}
 			
 			public int compareTo (Object o) {
-				return compareToStart ((LocalizedPeriod)o);
+				return compareToStart ((AbsolutePeriod)o);
 			}
 			
 			/**
 			 * Calcola la quota di lavoro appartenente al giorno odierno per l'avanzamento specificato.
 			 */
 			public void computeProgress ( Progress progress ){
-				LocalizedPeriod toIntersect = null;
+				AbsolutePeriod toIntersect = null;
 				if (!progress.isEndOpened ()){
 					if (!this.intersects (progress)){
 						return;
@@ -3220,10 +3221,10 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 					toIntersect = progress;
 				} else {
 					//avanzamento in corso
-					toIntersect = new LocalizedPeriodImpl (progress.getFrom (), new Date ());
+					toIntersect = new AbsolutePeriodImpl (progress.getFrom (), new Date ());
 				}
 				
-				final LocalizedPeriod intersection = this.intersection (toIntersect);
+				final AbsolutePeriod intersection = this.intersection (toIntersect);
 				if (intersection!=null) {
 					this._millisecs += intersection.getDuration ().getTime ();
 				}
@@ -3233,8 +3234,8 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 			 * Ritorna la durata risultante del lavoro giornaliero
 			 *@returns la durata risultante del lavoro giornaliero
 			 */
-			public Duration getTodayAmount (){
-				return new Duration (this._millisecs);
+			public DurationImpl getTodayAmount (){
+				return new DurationImpl (this._millisecs);
 			}
 		}
 		
@@ -3285,42 +3286,12 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 			forceUpperExpansion (tp);
 		}
 		taskTree.expandPath (tp);
-		for (final Iterator i = t.getChildren ().iterator (); i.hasNext ();) {
-			final Task c = (Task) i.next ();
+		for (final Task c : t.getChildren ()) {
 			deepExpand (ws, c, false);
 		}
 	}
 	
-	
-	
-//	/**
-//	 * Elimina un avanzamento dal modello.
-//	 */
-//	private void deleteProgresses (List<PieceOfWork> p){
-//		if (p.isEmpty ()) {
-//			return;
-//		}
-//		this._context.getModel ().removePiecesOfWork (p.get (0).getTask (), p);
-//	}
-	
-//	/**
-//	 * Elimina un insieme di task dal modello.
-//	 */
-//	private void deleteTasks (List<Task> t){
-//		if (t.isEmpty ()) {
-//			return;
-//		}
-//		if (JOptionPane.showConfirmDialog (
-//			this,
-//			StringUtils.toStringArray (
-//			"Removing a task you remove all sub-tasks and actions. Please confirm if you want to continue."
-//			)
-//			)!=JOptionPane.OK_OPTION){
-//			return;
-//		}
-//		this._context.getModel ().removeTasks (t.get (0).getParent (), t);
-//	}
-	
+
 	public void addActionListener (ActionListener l) {
 		this._actionNotifier.addActionListener (l);
 	}
@@ -3357,6 +3328,7 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 	 * Mostra la finestra, eventualmente completando la fase di inizializzazione.
 	 * @see #postInit
 	 */
+	@Override
 	public void setVisible (boolean visible){
 		if (!postInitialized){
 			postInit ();
@@ -3463,10 +3435,12 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 			}
 		}
 		
+		@Override
 		public Object getCellEditorValue () {
 			return (Date)getComponent ().getValue ();
 		}
 		
+		@Override
 		public Component getTableCellEditorComponent (JTable table, Object value, boolean isSelected, int row, int column) {
 			getComponent ().setValue ((Date)value);
 //			getComponent ().selectAll ();
@@ -3477,7 +3451,7 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 	
 	/**
 	 * Editor per le durate.
-	 * Funziona usando PieceOfWork, e non Duration
+	 * Funziona usando PieceOfWork, e non DurationImpl
 	 */
 	private class DurationCellEditor extends DefaultCellEditor implements TableCellEditor {
 		public DurationCellEditor () {
@@ -3502,13 +3476,15 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 			}
 		}
 		
+		@Override
 		public Object getCellEditorValue () {
 			/*
 			 * ritorna una durata
 			 */
-			return (Duration)getComponent ().getValue ();
+			return (DurationImpl)getComponent ().getValue ();
 		}
 		
+		@Override
 		public Component getTableCellEditorComponent (JTable table, Object value, boolean isSelected, int row, int column) {
 			/*
 			 * riceve un avanzamento
@@ -4965,16 +4941,19 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 	
 	private static enum PasteMode {
 		BEFORE {
+			@Override
 			public String toString () {
 				return java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("GeneralChoice/PasteMode/before");
 			}
 		},
 		AFTER {
+			@Override
 			public String toString () {
 				return java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("GeneralChoice/PasteMode/after");
 			}
 		},
 		AS_LAST_CHILD {
+			@Override
 			public String toString () {
 				return java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("GeneralChoice/PasteMode/as_last_child");
 			}
@@ -5026,6 +5005,7 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 		
 		private final TooltipHTML tooltip = new TooltipHTML ();
 		
+		@Override
 		public Component getTreeCellRendererComponent (JTree tree, Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus) {
 			final JLabel res = (JLabel)super.getTreeCellRendererComponent ( tree, value, selected, expanded, leaf, row, hasFocus);
 			final Task t = (Task)value;
@@ -5108,25 +5088,28 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 			}
 		}
 	}
-	
+
+	/**
+	 * Associa una durata ad un'attività
+	 */
 	private class TaskTreeDuration  {
-		private Duration _d;
+		private DurationImpl _d;
 		private Task _t;
 		
 		public TaskTreeDuration () {
 		}
 		
-		public TaskTreeDuration (final Duration d, final Task t) {
+		public TaskTreeDuration (final DurationImpl d, final Task t) {
 			_d = d;
 			_t = t;
 		}
-		public Duration getDuration () {
+		public DurationImpl getDuration () {
 			return _d;
 		}
 		public Task getTask () {
 			return _t;
 		}
-		public void setDuration (Duration d) {
+		public void setDuration (DurationImpl d) {
 			_d = d;
 		}
 		public void setTask (Task t) {
@@ -5327,6 +5310,7 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 	 */
 	private enum ActiveActionExitChoice {
 		LEAVE {
+			@Override
 			public String toString () {
 				return java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("ConfirmDialog/ApplicationExitWIthActiveAction/Leave");
 			}
@@ -5336,6 +5320,7 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 			}
 		},
 		STOP {
+			@Override
 			public String toString () {
 				return java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("ConfirmDialog/ApplicationExitWIthActiveAction/Stop");
 			}

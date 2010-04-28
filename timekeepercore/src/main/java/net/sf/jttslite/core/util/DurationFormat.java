@@ -36,7 +36,7 @@ public class DurationFormat extends NumberFormat {
 	}
 	
 	public StringBuffer format (long millisecs, StringBuffer toAppendTo, FieldPosition pos) {
-		final Duration duration = new Duration (millisecs);
+		final DurationImpl duration = new DurationImpl (millisecs);
 		toAppendTo.append (this._decimalFormat.format (duration.getHours ()))
 		.append (":")
 		.append (this._decimalFormat.format (duration.getMinutes ()))

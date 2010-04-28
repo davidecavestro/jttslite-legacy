@@ -10,7 +10,7 @@ package com.ost.timekeeper.model;
 import java.util.Observable;
 import net.sf.jttslite.core.model.PieceOfWorkTemplate;
 import net.sf.jttslite.core.model.PieceOfWorkTemplateBackup;
-import net.sf.jttslite.core.util.Duration;
+import net.sf.jttslite.core.util.DurationImpl;
 
 /**
  * A template to ease the creation of recurrent pieces of work
@@ -82,17 +82,17 @@ public class ProgressTemplate extends Observable implements PieceOfWorkTemplate 
 	/**
 	 * Holds value of property duration.
 	 */
-	private transient Duration duration;
+	private transient DurationImpl duration;
 	protected long milliseconds;
 
 	/**
 	 * Getter for property duration.
 	 * @return Value of property duration.
 	 */
-	public Duration getDuration () {
+	public DurationImpl getDuration () {
 		/*
 		 * Since only hthe milliseconds internal field is persisted,
-		 * we should checkif the Duration field is aligned with it.
+		 * we should checkif the DurationImpl field is aligned with it.
 		 */
 		if (milliseconds < 0) {
 			/*
@@ -111,7 +111,7 @@ public class ProgressTemplate extends Observable implements PieceOfWorkTemplate 
 				return duration;
 			}
 		}
-		duration = new Duration (milliseconds);
+		duration = new DurationImpl (milliseconds);
 		
 		return duration;
 	}
@@ -120,7 +120,7 @@ public class ProgressTemplate extends Observable implements PieceOfWorkTemplate 
 	 * Setter for property duration.
 	 * @param duration New value of property duration.
 	 */
-	public void setDuration (final Duration duration) {
+	public void setDuration (final DurationImpl duration) {
 		/*
 		 * caches the data
 		 */
@@ -186,7 +186,7 @@ public class ProgressTemplate extends Observable implements PieceOfWorkTemplate 
 		public PieceOfWorkTemplateBackupImpl (final ProgressTemplate p) {
 			super (p);
 			if (p.duration!=null) {
-				setDuration (new Duration (p.duration.getTime ()));
+				setDuration (new DurationImpl (p.duration.getTime ()));
 			}
 			_source = p;
 		}

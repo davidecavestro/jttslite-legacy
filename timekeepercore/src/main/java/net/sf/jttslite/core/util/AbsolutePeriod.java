@@ -1,5 +1,5 @@
 /*
- * LocalizedPeriod.java
+ * AbsolutePeriod.java
  *
  * Created on 19 marzo 2005, 19.56
  */
@@ -9,12 +9,18 @@ package net.sf.jttslite.core.util;
 import java.util.Date;
 
 /**
- * Un periodo temporale localizzato. 
- * Qui per <I>localizzato</I> si intende <I>individuabile nell'asse temporale</I>.
- *
+ * Un periodo temporale assoluto.
+ * <p>
+ * Qui per <I>assoluto</I> si intende <I>individuabile sull'asse temporale</I>.
+ * </p>
+ * <p>
+ * E' caratterizzato dalle date di inizio e di fine, che determinano quindi una durata.
+ * </p>
+ * 
  * @author  davide
  */
-public interface LocalizedPeriod {
+public interface AbsolutePeriod {
+
 	/**
 	 * La data di inizio di questo periodo.
 	 * @return la data di inizio di questo periodo.
@@ -27,13 +33,13 @@ public interface LocalizedPeriod {
 	Date getTo ();
 	
 	/**
-	 * Verifica che l'intersezione tra questo periodo e quello specificatonon sia vuota.
+	 * Restituisce <code>true</code> se l'intersezione tra questo periodo e quello specificato non è vuota.
 	 *
-	 * @param period il periodo da testare.
+	 * @param period il periodo da confrontare.
 	 * @return <code>true</code> se questo periodo temporale interseca <code>period</code>;
 	 * <code>false</code> altrimenti.
 	 */
-	boolean intersects (final LocalizedPeriod period);
+	boolean intersects (final AbsolutePeriod period);
 	
 	/**
 	 * Ritorna l'intersezione tra questo periodo e quello specificato.
@@ -41,7 +47,7 @@ public interface LocalizedPeriod {
 	 * @param period il periodo da intersecare.
 	 * @return l'intersezione tra questo periodo e quello specificato.
 	 */
-	LocalizedPeriod intersection (final LocalizedPeriod period);
+	AbsolutePeriod intersection (final AbsolutePeriod period);
 	
 	/**
 	 * Verifica se questo periodo � valido.
@@ -64,7 +70,7 @@ public interface LocalizedPeriod {
 	 *
 	 * @return la durata.
 	 */
-	Duration getDuration ();
+	DurationImpl getDuration ();
 	
 	/**
 	 * Ritorna la durata di questo periodo, in millisecondi.

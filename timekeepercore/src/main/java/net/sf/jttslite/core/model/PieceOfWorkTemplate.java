@@ -7,7 +7,7 @@
 
 package net.sf.jttslite.core.model;
 
-import net.sf.jttslite.core.util.Duration;
+import net.sf.jttslite.core.util.DurationImpl;
 
 /**
  * A template to ease the creation of recurrent pieces of work
@@ -45,13 +45,13 @@ public interface PieceOfWorkTemplate {
 	 * Getter for property duration.
 	 * @return Value of property duration.
 	 */
-	Duration getDuration ();
+	DurationImpl getDuration ();
 
 	/**
 	 * Setter for property duration.
 	 * @param duration New value of property duration.
 	 */
-	void setDuration (Duration duration);
+	void setDuration (DurationImpl duration);
 	
 	/**
 	 * Ritorna un clone di questo avanzamento, a solo scopo di backup.

@@ -9,8 +9,8 @@ package com.ost.timekeeper.model;
 import java.util.*;
 import net.sf.jttslite.common.util.CalendarUtils;
 import net.sf.jttslite.common.util.ExceptionUtils;
-import net.sf.jttslite.core.util.Duration;
-import net.sf.jttslite.core.util.LocalizedPeriod;
+import net.sf.jttslite.core.util.DurationImpl;
+import net.sf.jttslite.core.util.AbsolutePeriod;
 
 /**
  * Rappresenta un periodo temporale. I metodi che non ammettono periodi temporali 
@@ -19,7 +19,7 @@ import net.sf.jttslite.core.util.LocalizedPeriod;
  * @todo estendere LocalizedPeriodImpl
  * @author  davide
  */
-public class Period extends Observable implements LocalizedPeriod{
+public class Period extends Observable implements AbsolutePeriod{
 	
 	/** 
 	 * La data di inizio periodo. 
@@ -39,7 +39,7 @@ public class Period extends Observable implements LocalizedPeriod{
 	/**
 	 * La durata effettiva attuale (se <TT>isDurationComputed</TT> value <TT>tre</TT>.
 	 */
-	private transient Duration computedDuration;
+	private transient DurationImpl computedDuration;
 	
 	/** 
 	 * La descrizione di questo periodo. 
@@ -177,8 +177,8 @@ public class Period extends Observable implements LocalizedPeriod{
 	 * @return <code>true</code> se questo periodo temporale interseca <code>period</code>; 
 	 * <code>false</code> altrimenti.
 	 */	
-	public synchronized boolean intersects (final LocalizedPeriod period){
-//		final Period period = (LocalizedPeriod)lPeriod;
+	public synchronized boolean intersects (final AbsolutePeriod period){
+//		final Period period = (AbsolutePeriod)lPeriod;
 //		if (!this.isValid() || !period.isValid()){
 //			throw new InvalidPeriodException ();
 //		}
@@ -193,7 +193,7 @@ public class Period extends Observable implements LocalizedPeriod{
 	 * @return <code>true</code> se questo periodo temporale interseca <code>period</code>; 
 	 * <code>false</code> altrimenti.
 	 */	
-	public synchronized LocalizedPeriod intersection (final LocalizedPeriod period){
+	public synchronized AbsolutePeriod intersection (final AbsolutePeriod period){
 //		if (!this.isValid() || !period.isValid()){
 //			throw new InvalidPeriodException ();
 //		}
@@ -235,12 +235,12 @@ public class Period extends Observable implements LocalizedPeriod{
 	 *
 	 * @return la durata.
 	 */	
-	public synchronized Duration getDuration (){
+	public synchronized DurationImpl getDuration (){
 		if (this.isEndOpened()){
-			return new Duration (safeFromAccessor (), new Date ());
+			return new DurationImpl (safeFromAccessor (), new Date ());
 		} else {
 			if (!isDurationComputed){
-				this.computedDuration = new Duration (safeFromAccessor (), safeToAccessor ());
+				this.computedDuration = new DurationImpl (safeFromAccessor (), safeToAccessor ());
 				isDurationComputed = true;
 			}
 			return this.computedDuration;

@@ -9,11 +9,14 @@ package net.sf.jttslite.report;
 
 import net.sf.jttslite.ApplicationContext;
 import java.io.*;
+import java.sql.Timestamp;
 import java.util.*;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jttslite.report.flavors.CumulateLocalProgressesRowBean;
 
 /**
  * Generatore di report.
@@ -66,6 +69,6 @@ public final class ReportDataGenerator {
 		}
 		_context.getLogger ().log (Level.INFO, java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Report_generation_process_successfully_completed"));
 	}
-	
-	
+
+
 }

@@ -7,9 +7,9 @@ import net.sf.jttslite.report.AbstractDataExtractor;
 import net.sf.jttslite.report.filter.Target;
 import net.sf.jttslite.report.filter.TargetedFilterContainer;
 import net.sf.jttslite.core.model.impl.Progress;
-import net.sf.jttslite.core.util.Duration;
-import net.sf.jttslite.core.util.LocalizedPeriod;
-import net.sf.jttslite.core.util.LocalizedPeriodImpl;
+import net.sf.jttslite.core.util.DurationImpl;
+import net.sf.jttslite.core.util.AbsolutePeriod;
+import net.sf.jttslite.core.util.AbsolutePeriodImpl;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.util.*;
@@ -137,9 +137,9 @@ public final class ActionListExtractor extends AbstractDataExtractor {
 		return sb.toString();
 	}
 
-	private String getDurationLabel(Duration duration) {
+	private String getDurationLabel(DurationImpl duration) {
 		if (duration == null) {
-			duration = Duration.ZERODURATION;
+			duration = DurationImpl.ZERODURATION;
 		}
 		final StringBuilder sb = new StringBuilder();
 

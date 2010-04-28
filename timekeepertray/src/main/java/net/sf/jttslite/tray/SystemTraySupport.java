@@ -9,7 +9,7 @@ package net.sf.jttslite.tray;
 
 import net.sf.jttslite.core.model.PieceOfWork;
 import net.sf.jttslite.core.model.Task;
-import net.sf.jttslite.core.util.Duration;
+import net.sf.jttslite.core.util.DurationImpl;
 import net.sf.jttslite.core.util.DurationUtils;
 import java.awt.AWTException;
 import java.awt.Image;
@@ -153,7 +153,7 @@ public class SystemTraySupport {
 				 */
 				final PieceOfWork pow = getRunningAction ();
 				if (pow!=null) {
-					setTooltip (MessageFormat.format (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("TrayIcon/Tooltip/Working"), pow.getTask ().getName (), DurationUtils.format (new Duration (pow.getFrom (), new Date ()))));
+					setTooltip (MessageFormat.format (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("TrayIcon/Tooltip/Working"), pow.getTask ().getName (), DurationUtils.format (new DurationImpl (pow.getFrom (), new Date ()))));
 				} else {
 					final Task selectedTask = getSelectedTask ();
 					if (selectedTask!=null) {

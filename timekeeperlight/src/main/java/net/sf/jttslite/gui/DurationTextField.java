@@ -8,7 +8,7 @@
 package net.sf.jttslite.gui;
 
 import net.sf.jttslite.core.util.DurationUtils;
-import net.sf.jttslite.core.util.Duration;
+import net.sf.jttslite.core.util.DurationImpl;
 import java.text.FieldPosition;
 import java.text.Format;
 import java.text.ParsePosition;
@@ -44,7 +44,7 @@ public class DurationTextField extends JFormattedTextField {
 	/**
 	 * Costruttore.
 	 */
-	public DurationTextField (final Duration d) {
+	public DurationTextField (final DurationImpl d) {
 		this ();
 		setValue (d);
 	}
@@ -55,7 +55,7 @@ public class DurationTextField extends JFormattedTextField {
 				@Override
 					public StringBuffer format (Object obj, StringBuffer toAppendTo, FieldPosition pos) {
 					final StringBuffer sb = new StringBuffer ();
-					final Duration d = (Duration)obj;
+					final DurationImpl d = (DurationImpl)obj;
 					if (d==null){
 						return sb;
 					}
@@ -110,7 +110,7 @@ public class DurationTextField extends JFormattedTextField {
 						i++;
 						
 						pos.setIndex (newPos);
-						return new Duration (hours, minutes, seconds, 0);
+						return new DurationImpl (hours, minutes, seconds, 0);
 					} catch (final NumberFormatException nfe) {
 						throw new RuntimeException (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Invalid_data:_")+source);
 					}
@@ -206,8 +206,8 @@ public class DurationTextField extends JFormattedTextField {
 	}
 
 	@Override
-	public Duration getValue () {
-		return (Duration)super.getValue ();
+	public DurationImpl getValue () {
+		return (DurationImpl)super.getValue ();
 	}
 	
 }

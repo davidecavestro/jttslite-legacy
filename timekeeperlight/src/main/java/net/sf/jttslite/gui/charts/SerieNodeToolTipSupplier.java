@@ -8,7 +8,7 @@ package net.sf.jttslite.gui.charts;
 
 import net.sf.jttslite.common.charts.awt.SerieNode;
 import net.sf.jttslite.common.charts.swing.tooltip.ToolTipGenerationPolicy;
-import net.sf.jttslite.core.util.Duration;
+import net.sf.jttslite.core.util.DurationImpl;
 import java.text.DecimalFormat;
 
 /**
@@ -104,7 +104,7 @@ public final class SerieNodeToolTipSupplier {
 			.append (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("RingChart/Tooltip/node_local_time")).append (": ")
 			.append ("</TD>")
 			.append ("<TD align=right>")
-			.append ("<TT align=right>").append (formatDuration (new Duration ((long)node.getValue ()))).append ("<TT>")
+			.append ("<TT align=right>").append (formatDuration (new DurationImpl ((long)node.getValue ()))).append ("<TT>")
 			.append ("</TD>")
 			.append ("<TD align=right>").append ("<TT>(").append (localPercentage).append ("%)").append ("</TT>").append ("</TD>")
 			.append ("<TD align=right>").append ("<TT>").append (localPercentageOnParent).append ("%").append ("</TT>").append ("</TD>")
@@ -115,7 +115,7 @@ public final class SerieNodeToolTipSupplier {
 			.append (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("RingChart/Tooltip/node_subtree_time")).append (": ")
 			.append ("</TD>")
 			.append ("<TD align=right>")
-			.append ("<TT>").append (formatDuration (new Duration ((long)node.getChildrenValue ()))).append ("<TT>")
+			.append ("<TT>").append (formatDuration (new DurationImpl ((long)node.getChildrenValue ()))).append ("<TT>")
 			.append ("</TD>")
 			.append ("<TD align=right>").append ("<TT>(").append (childrenPercentage).append ("%)").append ("</TT>").append ("</TD>")
 			.append ("<TD align=right>").append ("<TT>").append (childrenPercentageOnParent).append ("%").append ("</TT>").append ("</TD>")
@@ -130,7 +130,7 @@ public final class SerieNodeToolTipSupplier {
 			.append ("</B>")
 			.append (": ")
 			.append ("</TD>")
-			.append ("<TD align=right>").append ("<B>").append ("<TT>").append (formatDuration (new Duration ((long)node.getTotalValue ()))).append ("</TT>").append ("</B>").append ("</TD>")
+			.append ("<TD align=right>").append ("<B>").append ("<TT>").append (formatDuration (new DurationImpl ((long)node.getTotalValue ()))).append ("</TT>").append ("</B>").append ("</TD>")
 			.append ("<TD>").append ("</TD>")
 			.append ("<TD align=right>").append ("<B><TT>").append (totalPercentageOnParent).append ("%").append ("</TT></B>").append ("</TD>")
 			.append ("</TR>")
@@ -147,7 +147,7 @@ public final class SerieNodeToolTipSupplier {
 		 * @param duration la durata.
 		 * @return la stringa formattata che rappresenta una durata nelformato previsto.
 		 */		
-		private String formatDuration (final Duration duration){
+		private String formatDuration (final DurationImpl duration){
 			final StringBuilder sb = new StringBuilder ();
 			
 //			final long days = duration.getDays();

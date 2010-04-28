@@ -8,7 +8,7 @@ package net.sf.jttslite.model;
 
 import net.sf.jttslite.core.model.PieceOfWorkTemplateBackup;
 import net.sf.jttslite.core.model.impl.ProgressTemplate;
-import net.sf.jttslite.core.util.Duration;
+import net.sf.jttslite.core.util.DurationImpl;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.event.UndoableEditEvent;
@@ -391,10 +391,10 @@ public class UndoablePieceOfWorkTemplateModel extends PieceOfWorkTemplateModelIm
 	}
 
 	@Override
-	public void updateElement (final ProgressTemplate t, final String name, final String notes, final Duration d) {
+	public void updateElement (final ProgressTemplate t, final String name, final String notes, final DurationImpl d) {
 		final String oldName = t.getName ();
 		final String oldNotes = t.getNotes ();
-		final Duration oldDuration = t.getDuration ();
+		final DurationImpl oldDuration = t.getDuration ();
 		super.updateElement (t, name, notes, d);
 
 		fireUndoableEditEvent (new AbstractUndoableEdit () {

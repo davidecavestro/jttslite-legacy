@@ -1,5 +1,5 @@
 /*
- * AbstractLocalizedPeriod.java
+ * AbsolutePeriodImpl.java
  *
  * Created on 20 marzo 2005, 8.48
  */
@@ -11,11 +11,11 @@ import java.util.Date;
 import java.util.Observable;
 
 /**
- * Una implementazione di periodo localizzato.
+ * Implementazione di periodo assoluto.
  *
  * @author  davide
  */
-public class LocalizedPeriodImpl extends Observable implements LocalizedPeriod {
+public class AbsolutePeriodImpl extends Observable implements AbsolutePeriod {
 	
 	/**
 	 * La data di inizio periodo.
@@ -35,12 +35,12 @@ public class LocalizedPeriodImpl extends Observable implements LocalizedPeriod {
 	/**
 	 * La durata effettiva attuale (se <TT>isDurationComputed</TT> value <TT>tre</TT>.
 	 */
-	private transient Duration computedDuration;
+	private transient DurationImpl computedDuration;
 	
 	/**
 	 * Costruttore vuoto.
 	 */
-	public LocalizedPeriodImpl () {
+	public AbsolutePeriodImpl () {
 	}
 	
 	/**
@@ -49,7 +49,7 @@ public class LocalizedPeriodImpl extends Observable implements LocalizedPeriod {
 	 * @param from la data di inizio.
 	 * @param to la data di fine.
 	 */
-	public LocalizedPeriodImpl (final Date from, final Date to) {
+	public AbsolutePeriodImpl (final Date from, final Date to) {
 		this._from = from;
 		this._to = to;
 	}
@@ -60,9 +60,9 @@ public class LocalizedPeriodImpl extends Observable implements LocalizedPeriod {
 	 *
 	 * @param source la sorgente della copia.
 	 */
-	public LocalizedPeriodImpl (final LocalizedPeriod source) {
-		this._from = source.getFrom ();
-		this._to = source.getTo ();
+	public AbsolutePeriodImpl (final AbsolutePeriod source) {
+		_from = source.getFrom ();
+		_to = source.getTo ();
 	}
 	
 	/**
@@ -70,8 +70,9 @@ public class LocalizedPeriodImpl extends Observable implements LocalizedPeriod {
 	 *
 	 * @return la data d'inizio.
 	 */
+	@Override
 	public Date getFrom () {
-		return this._from;
+		return _from;
 	}
 	
 	/**
@@ -80,11 +81,11 @@ public class LocalizedPeriodImpl extends Observable implements LocalizedPeriod {
 	 * @param from la nuova data d'inizio.
 	 */
 	public synchronized void setFrom (Date from) {
-		if (!CalendarUtils.equals (this._from,from)){
-			this._from = from;
-			this.isDurationComputed = false;
-			this.setChanged ();
-			this.notifyObservers ();
+		if (!CalendarUtils.equals (_from,from)){
+			_from = from;
+			isDurationComputed = false;
+			setChanged ();
+			notifyObservers ();
 		}
 	}
 	
@@ -93,8 +94,9 @@ public class LocalizedPeriodImpl extends Observable implements LocalizedPeriod {
 	 *
 	 * @return la data di fine.
 	 */
+	@Override
 	public Date getTo () {
-		return this._to;
+		return _to;
 	}
 	
 	/**
@@ -104,10 +106,10 @@ public class LocalizedPeriodImpl extends Observable implements LocalizedPeriod {
 	 */
 	public synchronized void setTo (Date to) {
 		if (!CalendarUtils.equals (this._to,to)){
-			this._to = to;
+			_to = to;
 			isDurationComputed = false;
-			this.setChanged ();
-			this.notifyObservers ();
+			setChanged ();
+			notifyObservers ();
 		}
 	}
 	
@@ -118,19 +120,17 @@ public class LocalizedPeriodImpl extends Observable implements LocalizedPeriod {
 	 * @return <code>true</code> se questo periodo temporale interseca <code>period</code>;
 	 * <code>false</code> altrimenti.
 	 */
-	public synchronized boolean intersects (final LocalizedPeriod period){
-		//		final Period period = (LocalizedPeriod)lPeriod;
-		//		if (!this.isValid() || !period.isValid()){
-		//			throw new InvalidPeriodException ();
-		//		}
+	@Override
+	public synchronized boolean intersects (final AbsolutePeriod period){
+
 		if (!isValid ()){
 			return false;
 		}
 		if (!period.isValid ()){
 			return false;
 		}
-		return ! (this.getFrom ().after (period.getTo ())
-		|| this.getTo ().before (period.getFrom ()));
+		return ! (getFrom ().after (period.getTo ())
+		|| getTo ().before (period.getFrom ()));
 	}
 	
 	/**
@@ -139,16 +139,14 @@ public class LocalizedPeriodImpl extends Observable implements LocalizedPeriod {
 	 * @param period il periodo da testare.
 	 * @return il periodo di intersezione.
 	 */
-	public synchronized LocalizedPeriod intersection (final LocalizedPeriod period){
-		//		if (!this.isValid() || !period.isValid()){
-		//			throw new InvalidPeriodException ();
-		//		}
-		
-		final long maxFrom = Math.max (this.getFrom ().getTime (), period.getFrom ().getTime ());
-		final long minTo = Math.min (this.getTo ().getTime (), period.getTo ().getTime ());
+	@Override
+	public synchronized AbsolutePeriod intersection (final AbsolutePeriod period){
+
+		final long maxFrom = Math.max (getFrom ().getTime (), period.getFrom ().getTime ());
+		final long minTo = Math.min (getTo ().getTime (), period.getTo ().getTime ());
 		
 		if (maxFrom<=minTo){
-			return new LocalizedPeriodImpl (new Date (maxFrom), new Date (minTo));
+			return new AbsolutePeriodImpl (new Date (maxFrom), new Date (minTo));
 		}
 		return null;
 	}
@@ -159,10 +157,11 @@ public class LocalizedPeriodImpl extends Observable implements LocalizedPeriod {
 	 * @return <code>true</code> se questo � un periodo temporale valido;
 	 * <code>false</code> altrimenti.
 	 */
+	@Override
 	public boolean isValid () {
-		return this._from!=null
-		&& this._to!=null
-		&& !this._from.after (this._to);
+		return _from!=null
+		&& _to!=null
+		&& !_from.after (_to);
 	}
 	
 	/**
@@ -171,9 +170,10 @@ public class LocalizedPeriodImpl extends Observable implements LocalizedPeriod {
 	 * @return <code>true</code> se questo � un periodo temporale non terminato;
 	 * <code>false</code> altrimenti.
 	 */
+	@Override
 	public synchronized boolean isEndOpened () {
-		return this._from!=null
-		&& this._to==null;
+		return _from!=null
+		&& _to==null;
 	}
 	
 	/**
@@ -181,15 +181,16 @@ public class LocalizedPeriodImpl extends Observable implements LocalizedPeriod {
 	 *
 	 * @return la durata.
 	 */
-	public synchronized Duration getDuration (){
-		if (this.isEndOpened ()){
-			return new Duration (this._from, new Date ());
+	@Override
+	public synchronized DurationImpl getDuration (){
+		if (isEndOpened ()){
+			return new DurationImpl (_from, new Date ());
 		} else {
 			if (!isDurationComputed){
-				this.computedDuration = new Duration (this._from, this._to);
+				computedDuration = new DurationImpl (_from, _to);
 				isDurationComputed = true;
 			}
-			return this.computedDuration;
+			return computedDuration;
 		}
 	}
 	
@@ -198,10 +199,11 @@ public class LocalizedPeriodImpl extends Observable implements LocalizedPeriod {
 	 *
 	 * @return una stringa che rappresenta questo periodo.
 	 */
+	@Override
 	public String toString (){
 		final StringBuilder sb = new StringBuilder ();
-		sb.append ("from: ").append (CalendarUtils.toTSString (this._from))
-		.append (" to: ").append (CalendarUtils.toTSString (this._to));
+		sb.append ("from: ").append (CalendarUtils.toTSString (_from))
+		.append (" to: ").append (CalendarUtils.toTSString (_to));
 		return sb.toString ();
 	}
 	
@@ -216,8 +218,8 @@ public class LocalizedPeriodImpl extends Observable implements LocalizedPeriod {
 	 * posteriore all'inizio di questo periodo;
 	 * @see java.util.Date#compareTo
 	 */	
-	public int compareToStart (LocalizedPeriod compare){
-		return this._from.compareTo (compare.getFrom ());
+	public int compareToStart (AbsolutePeriod compare){
+		return _from.compareTo (compare.getFrom ());
 	}
 	
 	/**
@@ -231,8 +233,8 @@ public class LocalizedPeriodImpl extends Observable implements LocalizedPeriod {
 	 * posteriore alla fine di questo periodo;
 	 * @see java.util.Date#compareTo
 	 */	
-	public int compareToFinish (LocalizedPeriod compare){
-		return this._to.compareTo (compare.getTo ());
+	public int compareToFinish (AbsolutePeriod compare){
+		return _to.compareTo (compare.getTo ());
 	}
 	
 	/**
@@ -240,6 +242,7 @@ public class LocalizedPeriodImpl extends Observable implements LocalizedPeriod {
 	 * @param object
 	 * @return
 	 */	
+	@Override
 	public boolean equals (Object object){
 		if (this == object){
 			return true;
@@ -247,30 +250,32 @@ public class LocalizedPeriodImpl extends Observable implements LocalizedPeriod {
 		if (null == object){
 			return false;
 		}
-		if (object instanceof LocalizedPeriod){
-			final LocalizedPeriod test = (LocalizedPeriod)object;
+		if (object instanceof AbsolutePeriod){
+			final AbsolutePeriod test = (AbsolutePeriod)object;
 			if (!test.isValid ()){
 				return false;
 			}
-			if (!this.isValid ()){
+			if (!isValid ()){
 				return false;
 			}
-			return test.getFrom ().equals (this._from) && test.getTo ().equals (this._to);
+			return test.getFrom ().equals (_from) && test.getTo ().equals (_to);
 		}
 		return false;
 	}
 	
+	@Override
 	public int hashCode (){
 		final StringBuilder sb = new StringBuilder ();
-		sb.append (this.getClass ().getName ()).append ("@@@");
-		sb.append (this._from);
+		sb.append (getClass ().getName ()).append ("@@@");
+		sb.append (_from);
 		sb.append ("@@@");
-		sb.append (this._to);
+		sb.append (_to);
 		return sb.toString ().hashCode ();
 	}
 
+	@Override
 	public long getTime () {
-		if (this.isEndOpened ()){
+		if (isEndOpened ()){
 			return toNow ();
 		} else {
 			return getDuration ().getTime ();

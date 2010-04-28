@@ -17,7 +17,7 @@ import net.sf.jttslite.model.PieceOfWorkTemplateModelListener;
 import net.sf.jttslite.core.model.Task;
 import net.sf.jttslite.model.event.PieceOfWorkTemplateModelEvent;
 import net.sf.jttslite.core.model.impl.ProgressTemplate;
-import net.sf.jttslite.core.util.Duration;
+import net.sf.jttslite.core.util.DurationImpl;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
@@ -488,7 +488,7 @@ _context.getWindowManager ().getActionTemplatesDialog ().show ();
 		sync = true;
 		try {
 			if (getFromDate () != null && getToDate () != null) {
-				durationField.setValue (new Duration (getFromDate (), getToDate ()));
+				durationField.setValue (new DurationImpl (getFromDate (), getToDate ()));
 			}
 		} finally {
 			sync = false;
@@ -502,7 +502,7 @@ _context.getWindowManager ().getActionTemplatesDialog ().show ();
 		sync = true;
 		try {
 			if (getFromDate () != null && durationField.getValue () != null) {
-				toField.setValue (new Date (getFromDate ().getTime () + ((Duration) durationField.getValue ()).getTime ()));
+				toField.setValue (new Date (getFromDate ().getTime () + ((DurationImpl) durationField.getValue ()).getTime ()));
 			}
 		} finally {
 			sync = false;
@@ -544,7 +544,7 @@ _context.getWindowManager ().getActionTemplatesDialog ().show ();
 	private void setTemplate () {
 		final ProgressTemplate template = (ProgressTemplate)templateCombo.getSelectedItem ();
 		if (template==null) {
-			durationField.setValue (new Duration (0));
+			durationField.setValue (new DurationImpl (0));
 			descriptionField.setText ("");
 		} else {
 			durationField.setValue (template.getDuration ());

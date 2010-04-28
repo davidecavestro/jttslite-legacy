@@ -13,7 +13,7 @@ import net.sf.jttslite.common.gui.persistence.PersistenceUtils;
 import net.sf.jttslite.common.gui.persistence.PersistentComponent;
 import net.sf.jttslite.ApplicationContext;
 import net.sf.jttslite.core.model.Task;
-import net.sf.jttslite.core.util.Duration;
+import net.sf.jttslite.core.util.DurationImpl;
 import java.awt.event.ActionEvent;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -70,7 +70,7 @@ public class StartPieceOfWorkDialog extends javax.swing.JDialog implements Persi
         descriptionPane = new javax.swing.JScrollPane();
         descriptionField = new javax.swing.JTextArea();
         fromField = new JFormattedTextField (new DateFormatter (new SimpleDateFormat (CustomizableFormat.LONG_DATE.getValue (_context))));
-        durationField = new DurationTextField (new Duration (0));
+        durationField = new DurationTextField (new DurationImpl (0));
         fromRadio = new javax.swing.JRadioButton();
         durationRadio = new javax.swing.JRadioButton();
         jPanel1 = new javax.swing.JPanel();
@@ -304,7 +304,7 @@ public class StartPieceOfWorkDialog extends javax.swing.JDialog implements Persi
 	private void reset (){
 		this.fromField.setValue (new Date ());
 		this.descriptionField.setText ("");
-		durationField.setValue (new Duration (0));
+		durationField.setValue (new DurationImpl (0));
 		check ();
 	}
 	
@@ -329,7 +329,7 @@ public class StartPieceOfWorkDialog extends javax.swing.JDialog implements Persi
 	
 	public Date getFromDate (){
 		if (_useDuration) {
-			return new Date (new Date ().getTime () - ((Duration)durationField.getValue ()).getTime ());
+			return new Date (new Date ().getTime () - ((DurationImpl)durationField.getValue ()).getTime ());
 		} else {
 			return (Date)fromField.getValue ();
 		}

@@ -55,14 +55,17 @@ public class Progress extends Period implements PieceOfWork {
 	 *
 	 * @return il nodo di appartnenenza dell'avanzamento.
 	 */	
+	@Override
 	public Task getTask (){return this.progressItem;}
 	/**
 	 * Imposta il nodo di appartnenenza dell'avanzamento.
 	 *
 	 * @param progressItem il nodo di appartnenenza dell'avanzamento.
 	 */	
+	@Override
 	public void setTask (final Task progressItem){this.progressItem=(ProgressItem)progressItem;}
 	
+	@Override
 	public PieceOfWorkBackup backup () {
 		return new PieceOfWorkBackupImpl (this);
 	}
@@ -78,10 +81,12 @@ public class Progress extends Period implements PieceOfWork {
 			super (p);
 			_source = p;
 		}
+		@Override
 		public PieceOfWork getSource () {
 			return _source;
 		}
 		
+		@Override
 		public void restore () {
 			
 			_source.from = safeFromAccessor ();

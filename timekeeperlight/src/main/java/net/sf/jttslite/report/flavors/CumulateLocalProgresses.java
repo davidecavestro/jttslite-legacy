@@ -15,9 +15,9 @@ import net.sf.jttslite.report.AbstractDataExtractor;
 import net.sf.jttslite.report.filter.Target;
 import net.sf.jttslite.report.filter.TargetedFilterContainer;
 import net.sf.jttslite.core.model.impl.Progress;
-import net.sf.jttslite.core.util.Duration;
-import net.sf.jttslite.core.util.LocalizedPeriod;
-import net.sf.jttslite.core.util.LocalizedPeriodImpl;
+import net.sf.jttslite.core.util.DurationImpl;
+import net.sf.jttslite.core.util.AbsolutePeriod;
+import net.sf.jttslite.core.util.AbsolutePeriodImpl;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.util.*;
@@ -220,7 +220,7 @@ public final class CumulateLocalProgresses extends AbstractDataExtractor {
 					final CumulationPeriodNodeProgress nodeProgress = detailIterator.next ();
 					final Progress progress = nodeProgress.getProgress ();
 
-					final LocalizedPeriod periodOfInterest = nodeProgress.getPeriodOfInterest ();
+					final AbsolutePeriod periodOfInterest = nodeProgress.getPeriodOfInterest ();
 					
 					final CumulateLocalProgressesRowBean row = new CumulateLocalProgressesRowBean ();
 
@@ -289,9 +289,9 @@ public final class CumulateLocalProgresses extends AbstractDataExtractor {
 		return sb.toString ();
 	}
 	
-	private String getDurationLabel (Duration duration){
+	private String getDurationLabel (DurationImpl duration){
 		if (duration==null){
-			duration = Duration.ZERODURATION;
+			duration = DurationImpl.ZERODURATION;
 		}
 		final StringBuilder sb = new StringBuilder ();
 
@@ -320,7 +320,7 @@ public final class CumulateLocalProgresses extends AbstractDataExtractor {
                 final Calendar cal = Calendar.getInstance();
                 cal.setTimeInMillis(current.getTime());
                 cal.add (Calendar.DAY_OF_MONTH, 1);
-//				final Date currentEnd = new Date (current.getTime ()+step*Duration.MILLISECONDS_PER_DAY);
+//				final Date currentEnd = new Date (current.getTime ()+step*DurationImpl.MILLISECONDS_PER_DAY);
 				final Date currentEnd = cal.getTime();
 				_set.add (new CumulationPeriod (current, currentEnd));
 				current = currentEnd;
@@ -349,7 +349,7 @@ public final class CumulateLocalProgresses extends AbstractDataExtractor {
 	/**
 	 * Un periodo.
 	 */
-	private final class CumulationPeriod extends LocalizedPeriodImpl implements Comparable {
+	private final class CumulationPeriod extends AbsolutePeriodImpl implements Comparable {
 		private final Map<Task, NodeProgresses> _map;
 		
 		public CumulationPeriod (final Date from, final Date to){
@@ -371,7 +371,7 @@ public final class CumulateLocalProgresses extends AbstractDataExtractor {
 			if (!this.intersects (progress)){
 				return;
 			}
-			final LocalizedPeriod intersection = this.intersection (progress);
+			final AbsolutePeriod intersection = this.intersection (progress);
 			final Task progressItem = progress.getTask ();
 			final double duration = intersection.getDuration ().getTime ();
 			
@@ -405,7 +405,7 @@ public final class CumulateLocalProgresses extends AbstractDataExtractor {
 		private double _duration = 0;
 		private final List<CumulationPeriodNodeProgress> _nodeProgresses = new ArrayList<CumulationPeriodNodeProgress> ();
 		public NodeProgresses (){}
-		public void addProgress (final Progress progress, final LocalizedPeriod periodOfInterest){
+		public void addProgress (final Progress progress, final AbsolutePeriod periodOfInterest){
 			final double duration = periodOfInterest.getDuration ().getTime ();
 			_duration += duration;
 			_nodeProgresses.add (new CumulationPeriodNodeProgress (progress, periodOfInterest));
@@ -425,9 +425,9 @@ public final class CumulateLocalProgresses extends AbstractDataExtractor {
 	 */
 	private final class CumulationPeriodNodeProgress {
 		private final Progress _progress;
-		private final LocalizedPeriod _periodOfInterest;
+		private final AbsolutePeriod _periodOfInterest;
 		
-		public CumulationPeriodNodeProgress (final Progress progress, final LocalizedPeriod periodOfInterest){
+		public CumulationPeriodNodeProgress (final Progress progress, final AbsolutePeriod periodOfInterest){
 			this._progress = progress;
 			this._periodOfInterest = periodOfInterest;
 		}
@@ -436,7 +436,7 @@ public final class CumulateLocalProgresses extends AbstractDataExtractor {
 			return this._progress;
 		}
 		
-		public LocalizedPeriod getPeriodOfInterest (){
+		public AbsolutePeriod getPeriodOfInterest (){
 			return this._periodOfInterest;
 		}
 	}

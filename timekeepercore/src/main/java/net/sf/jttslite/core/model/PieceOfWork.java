@@ -7,7 +7,7 @@
 
 package net.sf.jttslite.core.model;
 
-import net.sf.jttslite.core.util.LocalizedPeriod;
+import net.sf.jttslite.core.util.AbsolutePeriod;
 import java.util.Date;
 
 /**
@@ -15,7 +15,7 @@ import java.util.Date;
  *
  * @author Davide Cavestro
  */
-public interface PieceOfWork extends LocalizedPeriod {
+public interface PieceOfWork extends AbsolutePeriod {
 	
 	/**
 	 * Ritorna il nodo di appartnenenza del periodo di lavoro.

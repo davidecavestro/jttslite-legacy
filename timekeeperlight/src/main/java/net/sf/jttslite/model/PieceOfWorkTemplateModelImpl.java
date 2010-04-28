@@ -10,7 +10,7 @@ package net.sf.jttslite.model;
 import net.sf.jttslite.persistence.PersistenceManager;
 import net.sf.jttslite.persistence.Transaction;
 import net.sf.jttslite.core.model.impl.ProgressTemplate;
-import net.sf.jttslite.core.util.Duration;
+import net.sf.jttslite.core.util.DurationImpl;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Iterator;
@@ -630,7 +630,7 @@ public class PieceOfWorkTemplateModelImpl extends AbstractPieceOfWorkTemplateMod
 	
 	
 	
-	public void updateElement (final ProgressTemplate t, final String name, final String notes, final Duration d) {
+	public void updateElement (final ProgressTemplate t, final String name, final String notes, final DurationImpl d) {
 		final Transaction tx = getTransaction ();
 		tx.begin ();
 		try {

@@ -6,7 +6,7 @@
 package net.sf.jttslite.tray;
 
 import net.sf.jttslite.core.model.PieceOfWork;
-import net.sf.jttslite.core.util.Duration;
+import net.sf.jttslite.core.util.DurationImpl;
 import net.sf.jttslite.core.util.DurationUtils;
 import java.awt.Image;
 import java.awt.PopupMenu;
@@ -32,7 +32,7 @@ public class CustomTrayIcon extends TrayIcon {
 		public String getToolTip () {
 			final PieceOfWork pow =_systemTraySupport.getRunningAction ();
 			if (pow!=null) {
-				return MessageFormat.format (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("TrayIcon/Tooltip/Working"), pow.getTask ().getName (), DurationUtils.format (new Duration (pow.getFrom (), new Date ())));
+				return MessageFormat.format (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("TrayIcon/Tooltip/Working"), pow.getTask ().getName (), DurationUtils.format (new DurationImpl (pow.getFrom (), new Date ())));
 			} else {
 				return java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("TrayIcon/Tooltip/Pause");
 			}

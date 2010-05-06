@@ -9,6 +9,8 @@ package net.sf.jttslite.core.util;
 import net.sf.jttslite.common.util.CalendarUtils;
 import java.util.Date;
 import java.util.Observable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Implementazione di periodo assoluto.
@@ -41,6 +43,7 @@ public class AbsolutePeriodImpl extends Observable implements AbsolutePeriod {
 	 * Costruttore vuoto.
 	 */
 	public AbsolutePeriodImpl () {
+		Logger.getAnonymousLogger ().warning ("Creating AbsolutePeriodImpl");
 	}
 	
 	/**
@@ -52,6 +55,7 @@ public class AbsolutePeriodImpl extends Observable implements AbsolutePeriod {
 	public AbsolutePeriodImpl (final Date from, final Date to) {
 		this._from = from;
 		this._to = to;
+		Logger.getAnonymousLogger ().warning ("Creating AbsolutePeriodImpl");
 	}
 	
 	/**
@@ -63,6 +67,7 @@ public class AbsolutePeriodImpl extends Observable implements AbsolutePeriod {
 	public AbsolutePeriodImpl (final AbsolutePeriod source) {
 		_from = source.getFrom ();
 		_to = source.getTo ();
+		Logger.getAnonymousLogger ().warning ("Creating AbsolutePeriodImpl");
 	}
 	
 	/**

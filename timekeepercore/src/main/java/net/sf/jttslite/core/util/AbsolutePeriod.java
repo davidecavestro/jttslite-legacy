@@ -9,10 +9,8 @@ package net.sf.jttslite.core.util;
 import java.util.Date;
 
 /**
- * Un periodo temporale assoluto.
- * <p>
- * Qui per <I>assoluto</I> si intende <I>individuabile sull'asse temporale</I>.
- * </p>
+ * Un periodo temporale individuabile sull'asse temporale.
+ * 
  * <p>
  * E' caratterizzato dalle date di inizio e di fine, che determinano quindi una durata.
  * </p>

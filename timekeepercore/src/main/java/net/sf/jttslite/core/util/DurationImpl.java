@@ -7,6 +7,9 @@
 package net.sf.jttslite.core.util;
 
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 /**
  * Durata immutabile.
@@ -71,9 +74,10 @@ public final class DurationImpl implements Duration {
 	 * @param to data di fine del periodo.
 	 */
 	public DurationImpl(Date from, Date to) {
-		this.from=from;
-		this.to=to;
+		this.from = from;
+		this.to = to;
 		computeFields ();
+		Logger.getLogger ("net.sf.jtts").log (Level.WARNING, "Creating DurationImpl");
 	}
 	
 	/**
@@ -85,6 +89,7 @@ public final class DurationImpl implements Duration {
 		totalMilliseconds = milliseconds;
 		computedTotalMilliseconds = true;
 		computeFields ();
+		Logger.getLogger ("net.sf.jtts").log (Level.WARNING, "Creating DurationImpl");
 	}
 	
 	/**
@@ -99,6 +104,7 @@ public final class DurationImpl implements Duration {
 		totalMilliseconds = milliseconds + MILLISECONDS_PER_SECOND*seconds+MILLISECONDS_PER_MINUTE*minutes+MILLISECONDS_PER_HOUR*hours;
 		computedTotalMilliseconds = true;
 		computeFields ();
+		Logger.getLogger ("net.sf.jtts").log (Level.WARNING, "Creating DurationImpl");
 	}
 	
 	private final void computeFields (){

@@ -3193,6 +3193,7 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 			 * durata calcolata in millisecondi
 			 */
 			private long _millisecs = 0;
+			private DurationImpl todayAmount;
 			
 			public TodayPeriod (){
 				super (getToday ());
@@ -3235,7 +3236,12 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 			 *@returns la durata risultante del lavoro giornaliero
 			 */
 			public DurationImpl getTodayAmount (){
-				return new DurationImpl (this._millisecs);
+				if (todayAmount==null) {
+					todayAmount = new DurationImpl (_millisecs);
+				} else {
+					todayAmount.setTime (_millisecs);
+				}
+				return todayAmount;
 			}
 		}
 		

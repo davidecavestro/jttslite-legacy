@@ -7,7 +7,6 @@
 
 package net.sf.jttslite.persistence;
 
-import net.sf.jttslite.conf.ApplicationOptions;
 import net.sf.jttslite.core.model.WorkSpace;
 import net.sf.jttslite.core.model.impl.ProgressTemplate;
 import net.sf.jttslite.core.model.impl.Project;
@@ -28,6 +27,7 @@ import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Transaction;
+import net.sf.jttslite.prefs.PreferencesManager;
 
 /**
  * Gestisce l'inizializzazione e l'accesso allo storage per la persistenza dei dati tramite JDPa
@@ -39,15 +39,15 @@ public class PersistenceNode {
 	/**
 	 * Le impostazioni applicative di interesse per l'accesso allo storage..
 	 */
-	final ApplicationOptions _ao;
+	final PreferencesManager _prefsManager;
 	
 	/**
 	 * Il logger.
 	 */
 	final Logger _logger;
 	
-	public PersistenceNode (final ApplicationOptions ao, final Logger logger) {
-		_ao = ao;
+	public PersistenceNode (final PreferencesManager prefsManager, final Logger logger) {
+		_prefsManager = prefsManager;
 		_logger = logger;
 	}
 	
@@ -69,7 +69,7 @@ public class PersistenceNode {
 		_props.put ("javax.jdo.PersistenceManagerFactoryClass", "org.datanucleus.jdo.JDOPersistenceManagerFactory");
 		final StringBuilder connectionURL = new StringBuilder ();
 		connectionURL.append ("jdbc:h2:");
-		final String storageDirPath = _ao.getJDOStorageDirPath ();
+		final String storageDirPath = _prefsManager.getStoragePreferences ().getJDOStorageDirPath ();
 		if (storageDirPath!=null && storageDirPath.length ()>0){
 			connectionURL.append (storageDirPath);
 			if (!storageDirPath.endsWith ("/")){
@@ -79,11 +79,11 @@ public class PersistenceNode {
 		/* 
 		 * crea il percorsose necessario/possibile
 		 */
-		new File (_ao.getJDOStorageDirPath ()).mkdirs ();
+		new File (_prefsManager.getStoragePreferences ().getJDOStorageDirPath ()).mkdirs ();
 		
-		connectionURL.append (_ao.getJDOStorageName ()+";DB_CLOSE_ON_EXIT=TRUE");
+		connectionURL.append (_prefsManager.getStoragePreferences ().getJDOStorageName ()+";DB_CLOSE_ON_EXIT=TRUE");
 		_props.put ("javax.jdo.option.ConnectionURL", connectionURL.toString ());
-		_props.put ("javax.jdo.option.ConnectionUserName", _ao.getJDOUserName ());
+		_props.put ("javax.jdo.option.ConnectionUserName", _prefsManager.getStoragePreferences ().getJDOUserName ());
 		_props.put ("javax.jdo.option.ConnectionPassword", "");
 
 		_props.put ("javax.jdo.option.ConnectionDriverName", "org.h2.Driver");
@@ -98,7 +98,7 @@ public class PersistenceNode {
 	 */
 	private File getDatastoreLock () {
 		if (_datastoreLock==null) {
-			_datastoreLock = new File (new File (_ao.getJDOStorageDirPath ()), _ao.getJDOStorageName ()+".lock");
+			_datastoreLock = new File (new File (_prefsManager.getStoragePreferences ().getJDOStorageDirPath ()), _prefsManager.getStoragePreferences ().getJDOStorageName ()+".lock");
 		}
 		return _datastoreLock;
 	}

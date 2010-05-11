@@ -12,7 +12,6 @@ import net.sf.jttslite.core.model.TaskBackup;
 import net.sf.jttslite.core.model.WorkSpace;
 import net.sf.jttslite.core.model.PieceOfWork;
 import net.sf.jttslite.core.model.Task;
-import net.sf.jttslite.conf.ApplicationOptions;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;

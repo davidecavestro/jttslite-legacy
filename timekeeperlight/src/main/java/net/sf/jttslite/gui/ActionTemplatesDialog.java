@@ -5,8 +5,6 @@
  */
 package net.sf.jttslite.gui;
 
-import net.sf.jttslite.common.gui.persistence.PersistenceUtils;
-import net.sf.jttslite.common.gui.persistence.PersistentComponent;
 import net.sf.jttslite.core.util.DurationUtils;
 import net.sf.jttslite.ApplicationContext;
 import net.sf.jttslite.model.PieceOfWorkTemplateModelListener;
@@ -20,7 +18,6 @@ import java.awt.event.KeyEvent;
 import java.util.Comparator;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTable;
@@ -29,6 +26,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
+import net.sf.jttslite.prefs.PersistentComponent;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.decorator.FilterPipeline;
 import org.jdesktop.swingx.decorator.SortController;
@@ -49,57 +47,9 @@ public class ActionTemplatesDialog extends javax.swing.JDialog implements Persis
 	 */
 	public ActionTemplatesDialog (final ApplicationContext context, java.awt.Frame parent, boolean modal) {
 		super (parent, modal);
-		
-		_context = context;		
-		
-		initComponents ();
-//
-//		templateTable.getSelectionModel ().addListSelectionListener (new ListSelectionListener () {
-//
-//			public void valueChanged (final ListSelectionEvent e) {
-//				if (e.getValueIsAdjusting ()) {
-//					/* spurios event*/
-//					return;
-//				}
-//				if (templateTable.getSelectedRows ().length > 1) {
-//					/*
-//					 * too much selected rows
-//					 */
-//					resetDetails ();
-//					return;
-//				}
-//				int r = templateTable.getSelectedRow ();
-//				if (r < 0) {
-//					resetDetails ();
-//					return;
-//				}
-//
-//				r = ((JXTable) templateTable).convertRowIndexToModel (r);
-//				if (r < 0 || r >= templateTable.getModel ().getRowCount ()) {
-//					resetDetails ();
-//					return;
-//				}
-//				
-//				setDetails ((ProgressTemplate) _context.getTemplateModel ().getElementAt (getTable ().convertRowIndexToModel (r)));
-//			}
-//
-//		});
-//		
-//		
-//		getTable ().getSelectionModel ().addListSelectionListener (new ListSelectionListener () {
-//
-//			public void valueChanged (ListSelectionEvent e) {
-//				final int r = getTable ().convertRowIndexToModel (getTable ().getSelectedRow ());
-//				if (r>=0) {
-//					setDetails (_context.getTemplateModel ().getElementAt (r));
-//				}
-//			}
-//		});
-		
+		_context = context;
+		initComponents ();		
 		getTable ().setColumnControlVisible (true);
-		
-		
-		
 		/*
 		 * Imposta il comparator che sappia ordinare sulal colonan delle durate.
 		 */
@@ -141,7 +91,7 @@ public class ActionTemplatesDialog extends javax.swing.JDialog implements Persis
 		
 		getTable ().setSortOrder (getTable ().convertColumnIndexToView (NAME_COL_INDEX), SortOrder.ASCENDING);
 		
-		_context.getUIPersister ().register (new TablePersistenceExt (getTable ()) {
+		_context.getPreferenceManager ().getGuiPreferences ().register (new TablePersistenceExt (getTable (), _context) {
 			public String getPersistenceKey () {
 				return "actiontemplates.table";
 			}
@@ -626,12 +576,12 @@ private void undoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
 		return "actionTemplatesDialog";
 	}
 	
-	public void makePersistent (net.sf.jttslite.common.gui.persistence.PersistenceStorage props) {
-		PersistenceUtils.makeBoundsPersistent (props, this.getPersistenceKey (), this);
+	public void makePersistent () {
+		_context.getPreferenceManager ().getGuiPreferences ().makeBoundsPersistent (getPersistenceKey (), this);
 	}
 	
-	public boolean restorePersistent (net.sf.jttslite.common.gui.persistence.PersistenceStorage props) {
-		return PersistenceUtils.restorePersistentBounds (props, this.getPersistenceKey (), this);
+	public boolean restorePersistent () {
+		return _context.getPreferenceManager ().getGuiPreferences ().restorePersistentBounds (getPersistenceKey (), this);
 	}
 	
 }

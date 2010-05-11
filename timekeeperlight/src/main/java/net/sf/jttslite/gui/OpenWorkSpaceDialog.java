@@ -8,8 +8,6 @@ package net.sf.jttslite.gui;
 import net.sf.jttslite.common.gui.GUIUtils;
 import net.sf.jttslite.common.gui.dialog.DialogNotifier;
 import net.sf.jttslite.common.gui.dialog.DialogNotifierImpl;
-import net.sf.jttslite.common.gui.persistence.PersistenceUtils;
-import net.sf.jttslite.common.gui.persistence.PersistentComponent;
 import net.sf.jttslite.ApplicationContext;
 import net.sf.jttslite.core.model.WorkSpace;
 import java.awt.Component;
@@ -29,6 +27,7 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import javax.swing.ListModel;
+import net.sf.jttslite.prefs.PersistentComponent;
 
 /**
  * Dialog di selezione del progetto da aprire.
@@ -296,7 +295,7 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 		reset ();
 		projectsList.setModel (prepareProjects ());
 		projectsList.setSelectedValue (ws, true);
-		super.show ();
+		super.setVisible (true);
 	}
 	
 	@Override
@@ -324,12 +323,12 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 		return "open-project-dialog";
 	}
 	
-	public void makePersistent (net.sf.jttslite.common.gui.persistence.PersistenceStorage props) {
-		PersistenceUtils.makeBoundsPersistent (props, this.getPersistenceKey (), this);
+	public void makePersistent () {
+		_context.getPreferenceManager ().getGuiPreferences ().makeBoundsPersistent (this.getPersistenceKey (), this);
 	}
 	
-	public boolean restorePersistent (net.sf.jttslite.common.gui.persistence.PersistenceStorage props) {
-		return PersistenceUtils.restorePersistentBounds (props, this.getPersistenceKey (), this);
+	public boolean restorePersistent () {
+		return _context.getPreferenceManager ().getGuiPreferences ().restorePersistentBounds (this.getPersistenceKey (), this);
 	}
 	
 
@@ -409,7 +408,7 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 		context.getLogger ().log (Level.WARNING ,java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Opening_workspace..."));
 
 		context.getModel ().setWorkSpace (ws);
-		context.getUserSettings ().setLastProjectName (ws.getName ());
+		context.getPreferenceManager ().getUserPreferences ().setLastProjectName (ws.getName ());
 
 		context.getLogger ().log (Level.WARNING,java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("Workspace_successfully_opened"));
 		return true;

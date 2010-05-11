@@ -320,27 +320,22 @@ public class SystemTraySupport {
 	 * verso ApplicationOptions
 	 */
 	private class TrayIconConfigurationAccessor {
-		
-		private final Method applicationOptionsGetter;
 
-		private final Object applicationOptions;
+	   private Method trayIconEnabledGetter;
+	   private Object userPreferences;
 
-		private final Method trayIconEnabledGetter;
-			
 		public TrayIconConfigurationAccessor () throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, IllegalArgumentException, InvocationTargetException {
-			
-			applicationOptionsGetter = _context.getClass ().getMethod ("getApplicationOptions", voidClassArray);
-
-			applicationOptions = applicationOptionsGetter.invoke (_context, voidObjectArray);
-
-			trayIconEnabledGetter = applicationOptions.getClass ().getMethod ("isTrayIconEnabled", voidClassArray);
+		   Method preferencesManagerGetter = _context.getClass ().getMethod ("getPreferenceManager", voidClassArray);
+		   Object preferencesManager = preferencesManagerGetter.invoke (_context, voidObjectArray);
+		   Method userPreferencesGetter = preferencesManager.getClass ().getMethod ("getUserPreferences", voidClassArray);
+		   userPreferences = userPreferencesGetter.invoke (preferencesManager, voidObjectArray);
+		   trayIconEnabledGetter = userPreferences.getClass ().getMethod ("getTrayIconEnabled", voidClassArray);
 		}
 		
 			
 		public boolean getValue () throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 
-			return ((Boolean)trayIconEnabledGetter.invoke (applicationOptions, voidObjectArray)).booleanValue ();
-			
+			return ((Boolean)trayIconEnabledGetter.invoke (userPreferences, voidObjectArray)).booleanValue ();
 		}
 	}
 	

@@ -7,12 +7,10 @@
 
 package net.sf.jttslite.model;
 
-import net.sf.jttslite.conf.ApplicationOptions;
 import net.sf.jttslite.persistence.PersistenceManager;
 import net.sf.jttslite.persistence.PersistenceNode;
 import net.sf.jttslite.persistence.Transaction;
 import java.util.Collection;
-import java.util.logging.Logger;
 
 /**
  * Fornisce l'implementazione della persistenza.
@@ -23,8 +21,6 @@ public class PersistentPieceOfWorkTemplateModel extends UndoablePieceOfWorkTempl
 	
 	
 	private final PersistenceNode _persistenceNode;
-	private final Logger _logger;
-	
 	
 	/**
 	 * Costruttore.
@@ -33,10 +29,9 @@ public class PersistentPieceOfWorkTemplateModel extends UndoablePieceOfWorkTempl
 	 * @param applicationOptions le opzioni di configurazione.
 	 * @logger the logger
 	 */
-	public PersistentPieceOfWorkTemplateModel (final PersistenceNode persistenceNode, final ApplicationOptions applicationOptions, final Logger logger) {
+	public PersistentPieceOfWorkTemplateModel (final PersistenceNode persistenceNode) {
 		super ();
 		_persistenceNode = persistenceNode;
-		_logger = logger;
 	}
 	
 	/**

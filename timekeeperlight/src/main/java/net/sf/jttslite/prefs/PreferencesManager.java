@@ -1,10 +1,11 @@
 package net.sf.jttslite.prefs;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 import net.sf.jttslite.common.application.ApplicationData;
 import org.ini4j.Ini;
@@ -34,6 +35,7 @@ public class PreferencesManager {
    private GuiPreferences guiPreferences;
    private StoragePreferences storagePreferences;
    private ApplicationData applicationData;
+   private File prefsFile;
 
    public PreferencesManager(ApplicationData applicationData) {
 	  try {
@@ -44,18 +46,18 @@ public class PreferencesManager {
 			prefsDir.mkdirs ();
 			Logger.getLogger (PreferencesManager.class.getName ()).info ("Created configuration directory in: " + getUserApplicationSettingsDirPath ());
 		 }
-		 File prefsFile = new File (getUserApplicationSettingsDirPath (), "JTTS.ini");
+		 prefsFile = new File (getUserApplicationSettingsDirPath (), "JTTS.ini");
 		 //se non esiste lo creo e gli imposto i valori di default
 		 if (!prefsFile.exists ()) {
 			prefsFile.createNewFile ();
 			Logger.getLogger (PreferencesManager.class.getName ()).info ("Created configuration file: " + prefsFile.getName ());
-			IniInitializator initializator = new IniInitializator (this, prefsFile);
+			IniInitializator initializator = new IniInitializator (this);
 			ini = initializator.init ();
-			ini.store ();
 		 }
 		 //altrimenti carico i dati
-		 if (ini != null) {
-			ini = new Ini (prefsFile);
+		 if (ini == null) {
+			FileInputStream fip = new FileInputStream (prefsFile);
+			ini = new Ini (fip);
 		 }
 		 preferences = new IniPreferences (ini);
 	  } catch (IOException ex) {
@@ -65,13 +67,19 @@ public class PreferencesManager {
 
    public void storePrefs() {
 	  try {
+		 FileOutputStream fop = new FileOutputStream (prefsFile);
+		 getGuiPreferences ().makePersistentAll ();
 		 preferences.flush ();
-	  } catch (BackingStoreException ex) {
+		 ini.store (fop);
+	  } catch (Exception ex) {
 		 Logger.getLogger (PreferencesManager.class.getName ()).log (Level.SEVERE, "Error while storing preferences", ex);
 	  }
    }
 
    protected Preferences getMainPreferences() {
+	  if (preferences == null) {
+		 preferences = new IniPreferences (ini);
+	  }
 	  return preferences;
    }
 

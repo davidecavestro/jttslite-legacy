@@ -8,20 +8,14 @@ package net.sf.jttslite;
 
 import net.sf.jttslite.common.application.ApplicationData;
 import net.sf.jttslite.common.gui.HungAwtExit;
-import net.sf.jttslite.common.gui.persistence.PersistenceStorage;
-import net.sf.jttslite.common.gui.persistence.UIPersister;
 import net.sf.jttslite.common.help.HelpManager;
 import net.sf.jttslite.common.help.HelpResourcesResolver;
 import net.sf.jttslite.common.undo.RBUndoManager;
 import net.sf.jttslite.common.util.*;
 import net.sf.jttslite.conf.ApplicationEnvironment;
 import net.sf.jttslite.conf.CommandLineApplicationEnvironment;
-import net.sf.jttslite.conf.UserResources;
-import net.sf.jttslite.conf.UserSettings;
 import net.sf.jttslite.gui.WindowManager;
 import net.sf.jttslite.actions.ActionManager;
-import net.sf.jttslite.conf.ApplicationOptions;
-import net.sf.jttslite.conf.DefaultSettings;
 import net.sf.jttslite.gui.Splash;
 import net.sf.jttslite.model.DuplicatedWorkSpaceException;
 import net.sf.jttslite.model.PersistentPieceOfWorkTemplateModel;
@@ -54,6 +48,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.text.DefaultStyledDocument;
 import net.sf.jttslite.common.log.SwingHandler;
+import net.sf.jttslite.prefs.PreferencesManager;
 
 /**
  * Il gestore centrale dell'intera applicazione.
@@ -90,17 +85,12 @@ public class Application {
 		}
 		
 		final ApplicationData applicationData = new ApplicationData (releaseProps);
-		final UserResources userResources = new UserResources (applicationData);
-		final UserSettings userSettings = new UserSettings (this, userResources);
-		
-		final ApplicationOptions applicationOptions = new ApplicationOptions (userSettings, new ApplicationOptions (new DefaultSettings (args, userResources), null));
-
+		final PreferencesManager prefsManager = new PreferencesManager (applicationData);
             /**
              * Imposto il look and feel scelto da preferenze
              */
             try {
-                if (userSettings.getSystemLookAndFeelEnabled() != null &&
-                        userSettings.getSystemLookAndFeelEnabled().booleanValue()) {
+                if (prefsManager.getUserPreferences ().getSystemLookAndFeelEnabled ()) {
                     UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
                 } else {
                     UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
@@ -130,12 +120,12 @@ public class Application {
 		 */
 		_logger = Logger.getLogger ("net.sf.jtts");
 		try {
-		   final File logDirFile = new File(applicationOptions.getLogDirPath ());
+		   final File logDirFile = new File(prefsManager.getUserPreferences ().getLogDirPath ());
 		   if(!logDirFile.exists ()){
 			  logDirFile.mkdirs ();
-			  _logger.log (Level.INFO, "Logs direcotry created in: " + applicationOptions.getLogDirPath ());
+			  _logger.log (Level.INFO, "Logs direcotry created in: " + prefsManager.getUserPreferences ().getLogDirPath ());
 		   }
-		   final File plainTextLogFile = new File (applicationOptions.getLogDirPath (),CalendarUtils.getTimestamp (Calendar.getInstance ().getTime (), CalendarUtils.FILENAME_TIMESTAMP_FORMAT)+".log");
+		   final File plainTextLogFile = new File (prefsManager.getUserPreferences ().getLogDirPath (),CalendarUtils.getTimestamp (Calendar.getInstance ().getTime (), CalendarUtils.FILENAME_TIMESTAMP_FORMAT)+".log");
 		   if(!plainTextLogFile.exists ()){
 			  plainTextLogFile.createNewFile ();
 			  _logger.log (Level.INFO, "Log file created: " + plainTextLogFile.getName ());
@@ -147,13 +137,7 @@ public class Application {
 		   _logger.log (Level.WARNING, "Connot initializate file log handler", ioe);
 		}
 
-		_persistenceNode = new PersistenceNode (applicationOptions, _logger);
-		/*
-		 * salva le informazioni relative al database nelle impostazioni personali
-		 */
-		userSettings.setJDOStorageDirPath (applicationOptions.getJDOStorageDirPath ());
-		userSettings.setJDOStorageName (applicationOptions.getJDOStorageName ());
-		userSettings.setJDOUserName (applicationOptions.getJDOUserName ());
+		_persistenceNode = new PersistenceNode (prefsManager, _logger);
 		
 		final ProgressItem pi = new ProgressItem (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("New_workspace"));
 		final Project prj = new Project (pi.getName (), pi);
@@ -175,8 +159,8 @@ public class Application {
 			}
 		});
         final WorkSpaceRemovalControllerImpl wsRemovalController = new WorkSpaceRemovalControllerImpl ();
-		final PersistentWorkSpaceModel wsModel = new PersistentWorkSpaceModel (_persistenceNode, applicationOptions, _logger, wsRemovalController);
-		final PersistentPieceOfWorkTemplateModel templateModel = new PersistentPieceOfWorkTemplateModel (_persistenceNode, applicationOptions, _logger);
+		final PersistentWorkSpaceModel wsModel = new PersistentWorkSpaceModel (_persistenceNode);
+		final PersistentPieceOfWorkTemplateModel templateModel = new PersistentPieceOfWorkTemplateModel (_persistenceNode);
 		
 		try {
 			_persistenceNode.init ();
@@ -185,7 +169,7 @@ public class Application {
 			_logger.log (Level.SEVERE, "Cannot initialize the persistence system", pne);
 			final String[] message = {
 				"Cannot initialize the persistence subsystem. ",
-				"Please check your write permissions to "+applicationOptions.getJDOStorageDirPath ()+".",
+				"Please check your write permissions to "+prefsManager.getStoragePreferences ().getJDOStorageDirPath ()+".",
 				"If you have the correct permissions, please wait a couple of minutes, so that the current lock becomes obsolete."
 				};
 			JOptionPane.showMessageDialog (null, message, "", JOptionPane.ERROR_MESSAGE);
@@ -201,11 +185,9 @@ public class Application {
 		
 		_context = new ApplicationContext (
 			_env,
-			applicationOptions,
+			prefsManager,
 			new WindowManager (),
-			new UIPersister (new UserUIStorage (userSettings)),
 			_logger,
-			userSettings,
 			applicationData,
 			model,
 			wsModel,
@@ -220,12 +202,6 @@ public class Application {
 		
 		model.addUndoableEditListener (undoManager);
 		templateModel.addUndoableEditListener (atUndoManager);
-		/*
-		 * Assicura la persistenza delle informazioni di configurazione del DB
-		 */
-		userSettings.setJDOStorageDirPath (applicationOptions.getJDOStorageDirPath ());
-		userSettings.setJDOStorageName (applicationOptions.getJDOStorageName ());
-		userSettings.setJDOUserName (applicationOptions.getJDOUserName ());
         
         wsRemovalController.setContext (_context);
 	}
@@ -287,7 +263,7 @@ public class Application {
 			splash.dispose ();
 		}
 		
-		wm.getMainWindow ().show ();
+		wm.getMainWindow ().setVisible (true);
 		_context.getLogger ().info (java.util.ResourceBundle.getBundle("net.sf.jttslite.gui.res").getString("UI_successfully_started"));
 	}
 	
@@ -305,14 +281,9 @@ public class Application {
 		if (_persistenceNode!=null) {
 			_persistenceNode.flushData ();
 		}
-		
-		if (_context!=null) {
-			_context.getUIPersister ().makePersistentAll ();
-		}
-		
 		/* Salva le preferenze utente */
 		if (_context!=null) {
-			_context.getUserSettings ().storeProperties ();
+			_context.getPreferenceManager ().storePrefs ();
 		}
 	}
 	
@@ -320,7 +291,7 @@ public class Application {
 		
 		
 		
-		final WorkSpace lastWorkSpace = findWorkSpace (_context.getApplicationOptions ().getLastProjectName ());
+		final WorkSpace lastWorkSpace = findWorkSpace (_context.getPreferenceManager ().getUserPreferences ().getLastProjectName ());
 		if (lastWorkSpace!=null) {
 			/*
 			 * ritorna l'ultimo usato
@@ -390,19 +361,6 @@ public class Application {
 		_context.getWindowManager ().disposeAllFrames ();
 		HungAwtExit.forceOtherFramesDispose (_context.getWindowManager ().getMainWindow ());
 	}
-	
-	private final class UserUIStorage implements PersistenceStorage {
-		private final UserSettings _userSettings;
-		public UserUIStorage (final UserSettings userSettings){
-			_userSettings = userSettings;
-		}
-		
-		public java.util.Properties getRegistry () {
-			return _userSettings.getProperties ();
-		}
-		
-	}
-	
 	
 	/**
 	 * Porta la finestra principale dell'applicazione inprimo piano.

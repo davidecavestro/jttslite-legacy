@@ -7,15 +7,14 @@
 
 package net.sf.jttslite.gui;
 
-import net.sf.jttslite.common.gui.persistence.PersistenceStorage;
-import net.sf.jttslite.common.gui.persistence.PersistentComponent;
 import net.sf.jttslite.common.util.StringUtils;
-import net.sf.jttslite.common.util.settings.SettingsSupport;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import net.sf.jttslite.ApplicationContext;
+import net.sf.jttslite.prefs.PersistentComponent;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.decorator.SortOrder;
 import org.jdesktop.swingx.table.TableColumnExt;
@@ -28,18 +27,20 @@ import org.jdesktop.swingx.table.TableColumnExt;
 public abstract class TablePersistenceExt implements PersistentComponent {
 	
 	private final JXTable _table;
+	private final ApplicationContext _context;
 	
 	/**
 	 * Costruttore.
 	 * 
 	 * @param table la tabella da estendere
 	 */
-	public TablePersistenceExt (final JXTable table) {
+	public TablePersistenceExt (final JXTable table, final ApplicationContext context) {
 		_table = table;
+		_context = context;
 	}
 	
 	
-	public void makePersistent (final PersistenceStorage props) {
+	public void makePersistent () {
 		final List<String> s1 = new ArrayList<String> ();
 		final List<String> s2 = new ArrayList<String> ();
 
@@ -55,20 +56,14 @@ public abstract class TablePersistenceExt implements PersistentComponent {
 				s2.add (Integer.toString (toColumnSortIndex (columnIndex, so)));
 			}
 		}
-		SettingsSupport.setStringProperty (props.getRegistry (), getVisibleColumnsPersistenceKey (), StringUtils.toCSV (s1.toArray ()));
-		//_table.getSortedColumn ()
-		
-		SettingsSupport.setStringProperty (props.getRegistry (), getSortedColumnsPersistenceKey (), StringUtils.toCSV (s2.toArray ()));
+		_context.getPreferenceManager ().getGuiPreferences ().getPreferences ().put (getVisibleColumnsPersistenceKey (), StringUtils.toCSV (s1.toArray ()));
+		_context.getPreferenceManager ().getGuiPreferences ().getPreferences ().put(getSortedColumnsPersistenceKey (), StringUtils.toCSV (s2.toArray ()));
 	}
 
 
-	public boolean restorePersistent (final PersistenceStorage props) {
-		final String s1 = SettingsSupport.getStringProperty (props.getRegistry (), getVisibleColumnsPersistenceKey ());
-//		if (s==null) {
-//			return false;
-//		}
-//				final String[] values = s.split (";");
-		final String s2 = SettingsSupport.getStringProperty (props.getRegistry (), getSortedColumnsPersistenceKey ());
+	public boolean restorePersistent () {
+		final String s1 = _context.getPreferenceManager ().getGuiPreferences ().getPreferences ().get (getVisibleColumnsPersistenceKey (), null);
+		final String s2 = _context.getPreferenceManager ().getGuiPreferences ().getPreferences ().get (getSortedColumnsPersistenceKey (), null);
 		
 		final Set<String> values1 = new HashSet<String> ();
 		if (s1!=null) {

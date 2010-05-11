@@ -85,7 +85,7 @@ public class WindowManager implements ActionListener, DialogListener {
 			 */
 			if (this._mainWindow == null) {
 				this._mainWindow = new MainWindow (this._context);
-				this._context.getUIPersister ().register (this._mainWindow);
+				_context.getPreferenceManager ().getGuiPreferences ().register (_mainWindow);
 				this._mainWindow.addActionListener (this);
 			}
 		}
@@ -100,7 +100,7 @@ public class WindowManager implements ActionListener, DialogListener {
 		synchronized (this) {
 			if (_mewPOWDialog == null) {
 				_mewPOWDialog = new NewPieceOfWorkDialog (_context, getMainWindow (), true);
-				_context.getUIPersister ().register (_mewPOWDialog);
+				_context.getPreferenceManager ().getGuiPreferences ().register (_mewPOWDialog);
 				_mewPOWDialog.addDialogListener (this);
 			}
 		}
@@ -115,7 +115,7 @@ public class WindowManager implements ActionListener, DialogListener {
 		synchronized (this) {
 			if (newWorkspaceDialog == null) {
 				newWorkspaceDialog = new NewWorkspaceDialog (_context, getMainWindow (), true);
-				_context.getUIPersister ().register (newWorkspaceDialog);
+				_context.getPreferenceManager ().getGuiPreferences ().register (newWorkspaceDialog);
 				newWorkspaceDialog.addDialogListener (this);
 			}
 		}
@@ -133,7 +133,7 @@ public class WindowManager implements ActionListener, DialogListener {
 	public StartPieceOfWorkDialog getStartPieceOfWorkDialog () {
 		if (_startPOWDialog == null) {
 			_startPOWDialog = new StartPieceOfWorkDialog (_context, getMainWindow (), true);
-			_context.getUIPersister ().register (_startPOWDialog);
+			_context.getPreferenceManager ().getGuiPreferences ().register (_startPOWDialog);
 			_startPOWDialog.addDialogListener (this);
 		}
 		return _startPOWDialog;
@@ -153,7 +153,7 @@ public class WindowManager implements ActionListener, DialogListener {
 	public OpenWorkSpaceDialog getOpenWorkSpaceDialog () {
 		if (_openWSDialog == null) {
 			_openWSDialog = new OpenWorkSpaceDialog (_context, getMainWindow (), true);
-			_context.getUIPersister ().register (_openWSDialog);
+			_context.getPreferenceManager ().getGuiPreferences ().register (_openWSDialog);
 			_openWSDialog.addDialogListener (this);
 		}
 		return _openWSDialog;
@@ -170,7 +170,7 @@ public class WindowManager implements ActionListener, DialogListener {
 	public ReportDialog getReportDialog () {
 		if (_reportDialog == null) {
 			_reportDialog = new ReportDialog (getMainWindow (), false, _context);
-			_context.getUIPersister ().register (_reportDialog);
+			_context.getPreferenceManager ().getGuiPreferences ().register (_reportDialog);
 			_reportDialog.addDialogListener (this);
 		}
 		return _reportDialog;
@@ -187,7 +187,7 @@ public class WindowManager implements ActionListener, DialogListener {
 	public LogConsole getLogConsole () {
 		if (this._logConsole == null) {
 			this._logConsole = new LogConsole (_context);
-			this._context.getUIPersister ().register (this._logConsole);
+			this._context.getPreferenceManager ().getGuiPreferences ().register (this._logConsole);
 		}
 		return this._logConsole;
 	}
@@ -226,7 +226,7 @@ public class WindowManager implements ActionListener, DialogListener {
 	public ActionTemplatesDialog getActionTemplatesDialog () {
 		if (_actionTemplatesDialog == null) {
 			_actionTemplatesDialog = new ActionTemplatesDialog (_context, getMainWindow (), true);
-			_context.getUIPersister ().register (_actionTemplatesDialog);
+			_context.getPreferenceManager ().getGuiPreferences ().register (_actionTemplatesDialog);
 		}
 		return _actionTemplatesDialog;
 	}
@@ -239,7 +239,7 @@ public class WindowManager implements ActionListener, DialogListener {
 	public WorkspacesDialog getWorkspacesDialog () {
 		if (_workspacesDialog == null) {
 			_workspacesDialog = new WorkspacesDialog (_context, getMainWindow (), true);
-			_context.getUIPersister ().register (_workspacesDialog);
+			_context.getPreferenceManager ().getGuiPreferences ().register (_workspacesDialog);
 		}
 		return _workspacesDialog;
 	}

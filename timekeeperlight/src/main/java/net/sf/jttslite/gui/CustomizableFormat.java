@@ -1,7 +1,6 @@
 package net.sf.jttslite.gui;
 
 import net.sf.jttslite.common.util.GenericUtils;
-import net.sf.jttslite.common.util.settings.SettingsSupport;
 import net.sf.jttslite.ApplicationContext;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -52,7 +51,7 @@ public enum CustomizableFormat {
 		return ResourceBundle.getBundle ("net.sf.jttslite.gui.res").getString (getKey ());
 	}
 	public String getCustomValue (final ApplicationContext context) {
-		return SettingsSupport.getStringProperty (context.getUserSettings ().getProperties (), getKey ());
+		return context.getPreferenceManager ().getGuiPreferences ().getPreferences ().get (getKey (), null);
 	}
 	public String getValue (final ApplicationContext context) {
 		final String custom = getCustomValue (context);
@@ -63,7 +62,6 @@ public enum CustomizableFormat {
 	}
 	public void setCustomValue (final ApplicationContext context, final String customValue) {
 		final String oldValue = getCustomValue (context);
-		SettingsSupport.setStringProperty (context.getUserSettings ().getProperties (), getKey (), customValue);
 		if (!GenericUtils.equals (oldValue, customValue)) {
 			pcs.firePropertyChange (new PropertyChangeEvent (this, "customvalue", oldValue, customValue));
 		}

@@ -10,9 +10,6 @@ import net.sf.jttslite.common.gui.dialog.DialogEvent;
 import net.sf.jttslite.common.gui.dialog.DialogListener;
 import net.sf.jttslite.common.gui.dialog.DialogNotifier;
 import net.sf.jttslite.common.gui.dialog.DialogNotifierImpl;
-import net.sf.jttslite.common.gui.persistence.PersistenceStorage;
-import net.sf.jttslite.common.gui.persistence.PersistenceUtils;
-import net.sf.jttslite.common.gui.persistence.PersistentComponent;
 import net.sf.jttslite.common.util.CalendarUtils;
 import net.sf.jttslite.ApplicationContext;
 import net.sf.jttslite.core.model.Task;
@@ -26,7 +23,6 @@ import net.sf.jttslite.report.ReportViewer;
 import net.sf.jttslite.report.filter.NegateFilter;
 import net.sf.jttslite.report.filter.Target;
 import net.sf.jttslite.report.filter.TargetedFilterContainer;
-import net.sf.jttslite.report.filter.flavors.date.AfterDateFilter;
 import net.sf.jttslite.report.filter.flavors.date.BeforeDateFilter;
 import net.sf.jttslite.report.flavors.ActionListExtractor;
 import net.sf.jttslite.report.flavors.CumulateLocalProgresses;
@@ -49,6 +45,7 @@ import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jttslite.prefs.PersistentComponent;
 
 /**
  * Dialog di preparazione del report.
@@ -466,12 +463,12 @@ public class ReportDialog extends javax.swing.JDialog implements PersistentCompo
 		return "report-dialog";
 	}
 	
-	public void makePersistent (PersistenceStorage props) {
-		PersistenceUtils.makeBoundsPersistent (props, getPersistenceKey (), this);
+	public void makePersistent () {
+		_context.getPreferenceManager ().getGuiPreferences ().makeBoundsPersistent (getPersistenceKey (), this);
 	}
 	
-	public boolean restorePersistent (PersistenceStorage props) {
-		return PersistenceUtils.restorePersistentBounds (props, getPersistenceKey (), this);
+	public boolean restorePersistent () {
+		return _context.getPreferenceManager ().getGuiPreferences ().restorePersistentBounds (getPersistenceKey (), this);
 	}
 	
 	public void addDialogListener (DialogListener l) {

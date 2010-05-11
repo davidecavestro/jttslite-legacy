@@ -7,7 +7,6 @@
 
 package net.sf.jttslite.persistence;
 
-import net.sf.jttslite.conf.ApplicationOptions;
 import net.sf.jttslite.core.model.WorkSpace;
 import net.sf.jttslite.core.model.impl.ProgressTemplate;
 import net.sf.jttslite.core.model.impl.Project;
@@ -28,6 +27,7 @@ import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Transaction;
+import net.sf.jttslite.prefs.PreferencesManager;
 
 /**
  * Gestisce l'inizializzazione e l'accesso allo storage per la persistenza dei dati tramite JDPa
@@ -39,15 +39,15 @@ public class PersistenceNodeLegacy {
 	/**
 	 * Le impostazioni applicative di interesse per l'accesso allo storage..
 	 */
-	final ApplicationOptions _ao;
+	final PreferencesManager _prefsManager;
 	
 	/**
 	 * Il logger.
 	 */
 	final Logger _logger;
 	
-	public PersistenceNodeLegacy (final ApplicationOptions ao, final Logger logger) {
-		_ao = ao;
+	public PersistenceNodeLegacy (final PreferencesManager prefsManager, final Logger logger) {
+		_prefsManager = prefsManager;
 		_logger = logger;
 	}
 	
@@ -67,7 +67,7 @@ public class PersistenceNodeLegacy {
 		_props.put ("javax.jdo.PersistenceManagerFactoryClass", "com.sun.jdori.fostore.FOStorePMF");
 		final StringBuilder connectionURL = new StringBuilder ();
 		connectionURL.append ("fostore:");
-		final String storageDirPath = _ao.getJDOStorageDirPath ();
+		final String storageDirPath = _prefsManager.getStoragePreferences ().getJDOStorageDirPath ();
 		if (storageDirPath!=null && storageDirPath.length ()>0){
 			connectionURL.append (storageDirPath);
 			if (!storageDirPath.endsWith ("/")){
@@ -77,11 +77,11 @@ public class PersistenceNodeLegacy {
 		/* 
 		 * crea il percorsose necessario/possibile
 		 */
-		new File (_ao.getJDOStorageDirPath ()).mkdirs ();
+		new File (_prefsManager.getStoragePreferences ().getJDOStorageDirPath ()).mkdirs ();
 		
-		connectionURL.append (_ao.getJDOStorageName ());
+		connectionURL.append (_prefsManager.getStoragePreferences ().getJDOStorageName ());
 		_props.put ("javax.jdo.option.ConnectionURL", connectionURL.toString ());
-		_props.put ("javax.jdo.option.ConnectionUserName", _ao.getJDOUserName ());
+		_props.put ("javax.jdo.option.ConnectionUserName", _prefsManager.getStoragePreferences ().getJDOUserName ());
 	}
 	
 	
@@ -92,7 +92,7 @@ public class PersistenceNodeLegacy {
 	 */
 	private File getDatastoreLock () {
 		if (_datastoreLock==null) {
-			_datastoreLock = new File (new File (_ao.getJDOStorageDirPath ()), _ao.getJDOStorageName ()+".lock");
+			_datastoreLock = new File (new File (_prefsManager.getStoragePreferences ().getJDOStorageDirPath ()), _prefsManager.getStoragePreferences ().getJDOStorageName ()+".lock");
 		}
 		return _datastoreLock;
 	}

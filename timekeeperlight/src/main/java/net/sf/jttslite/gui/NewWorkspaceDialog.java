@@ -8,14 +8,13 @@ package net.sf.jttslite.gui;
 import net.sf.jttslite.common.gui.dialog.DialogEvent;
 import net.sf.jttslite.common.gui.dialog.DialogNotifier;
 import net.sf.jttslite.common.gui.dialog.DialogNotifierImpl;
-import net.sf.jttslite.common.gui.persistence.PersistenceUtils;
-import net.sf.jttslite.common.gui.persistence.PersistentComponent;
 import net.sf.jttslite.ApplicationContext;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
+import net.sf.jttslite.prefs.PersistentComponent;
 
 /**
  * Finestra di dialogo per la creazione di un nuovo workspace.
@@ -192,13 +191,12 @@ public class NewWorkspaceDialog extends javax.swing.JDialog implements Persisten
 		return "newworkspacedialog";
 	}
 
-	public void makePersistent (net.sf.jttslite.common.gui.persistence.PersistenceStorage props) {
-		PersistenceUtils.makeBoundsPersistent (props, getPersistenceKey (), this);
-
+	public void makePersistent () {
+		_context.getPreferenceManager ().getGuiPreferences ().makeBoundsPersistent (getPersistenceKey (), this);
 	}
 
-	public boolean restorePersistent (net.sf.jttslite.common.gui.persistence.PersistenceStorage props) {
-		return PersistenceUtils.restorePersistentBounds (props, getPersistenceKey (), this);
+	public boolean restorePersistent () {
+		return _context.getPreferenceManager ().getGuiPreferences ().restorePersistentBounds (getPersistenceKey (), this);
 	}
 
 	public void addDialogListener (net.sf.jttslite.common.gui.dialog.DialogListener l) {

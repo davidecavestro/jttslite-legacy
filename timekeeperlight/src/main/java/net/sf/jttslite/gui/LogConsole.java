@@ -6,11 +6,9 @@
 
 package net.sf.jttslite.gui;
 
-import net.sf.jttslite.common.gui.persistence.PersistenceStorage;
-import net.sf.jttslite.common.gui.persistence.PersistenceUtils;
-import net.sf.jttslite.common.gui.persistence.PersistentComponent;
 import net.sf.jttslite.ApplicationContext;
 import javax.swing.text.Document;
+import net.sf.jttslite.prefs.PersistentComponent;
 
 /**
  * Console di log.
@@ -86,11 +84,11 @@ public class LogConsole extends javax.swing.JFrame implements PersistentComponen
 		return "logconsole";
 	}
 
-	public void makePersistent (PersistenceStorage props) {
-		PersistenceUtils.makeBoundsPersistent (props, this.getPersistenceKey (), this);
+	public void makePersistent () {
+		_context.getPreferenceManager ().getGuiPreferences ().makeBoundsPersistent (getPersistenceKey (), this);
 	}
 
-	public boolean restorePersistent (PersistenceStorage props) {
-		return PersistenceUtils.restorePersistentBounds (props, this.getPersistenceKey (), this);
+	public boolean restorePersistent () {
+		return _context.getPreferenceManager ().getGuiPreferences ().restorePersistentBounds (getPersistenceKey (), this);
 	}
 }

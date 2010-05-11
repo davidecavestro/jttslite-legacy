@@ -7,7 +7,6 @@
 package net.sf.jttslite;
 
 import net.sf.jttslite.conf.CommandLineApplicationEnvironment;
-import net.sf.jttslite.conf.UserResources;
 import java.awt.HeadlessException;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,6 +19,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.concurrent.Semaphore;
 import javax.swing.JOptionPane;
+import net.sf.jttslite.prefs.PreferencesManager;
 
 /**
  * lancia l'applicazione.
@@ -73,7 +73,7 @@ public class Launcher {
 											 * e' stato richiesto il nome utente
 											 * risponde
 											 */
-											out.println (UserResources.getUserAccount ());
+											out.println (PreferencesManager.getUserAccount ());
 											
 											
 											final String thirdRequest = in.readLine ();
@@ -126,7 +126,7 @@ public class Launcher {
 						 * Risposta corretta dal server
 						 */
 						out.println (REQUEST_USER_NAME);
-						if (UserResources.getUserAccount ().equals (in.readLine ())) {
+						if (PreferencesManager.getUserAccount ().equals (in.readLine ())) {
 							/*
 							 * Medesimo utente...
 							 * E' l'unico caso in cui l'applicazione non parte di propria volonta'

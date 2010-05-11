@@ -7,7 +7,6 @@
 package net.sf.jttslite.model;
 
 import net.sf.jttslite.core.model.WorkSpace;
-import net.sf.jttslite.conf.ApplicationOptions;
 import java.beans.PropertyChangeListener;
 
 /**
@@ -217,7 +216,6 @@ public class TaskTreeModelImpl extends AbstractTaskTreeModel {
 	 */
 	protected void firePropertyChange (String propertyName,
 	Object oldValue, Object newValue) {
-		java.beans.PropertyChangeSupport changeSupport = this.changeSupport;
 		if (changeSupport == null) {
 			return;
 		}
@@ -236,7 +234,6 @@ public class TaskTreeModelImpl extends AbstractTaskTreeModel {
 	 */
 	protected void firePropertyChange (String propertyName,
 	boolean oldValue, boolean newValue) {
-		java.beans.PropertyChangeSupport changeSupport = this.changeSupport;
 		if (changeSupport == null) {
 			return;
 		}
@@ -255,7 +252,6 @@ public class TaskTreeModelImpl extends AbstractTaskTreeModel {
 	 */
 	protected void firePropertyChange (String propertyName,
 	int oldValue, int newValue) {
-		java.beans.PropertyChangeSupport changeSupport = this.changeSupport;
 		if (changeSupport == null) {
 			return;
 		}

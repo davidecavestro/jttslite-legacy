@@ -9,8 +9,6 @@ package net.sf.jttslite.gui;
 import net.sf.jttslite.common.gui.dialog.DialogEvent;
 import net.sf.jttslite.common.gui.dialog.DialogNotifier;
 import net.sf.jttslite.common.gui.dialog.DialogNotifierImpl;
-import net.sf.jttslite.common.gui.persistence.PersistenceUtils;
-import net.sf.jttslite.common.gui.persistence.PersistentComponent;
 import net.sf.jttslite.ApplicationContext;
 import net.sf.jttslite.core.model.Task;
 import net.sf.jttslite.core.util.DurationImpl;
@@ -22,6 +20,7 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import javax.swing.text.DateFormatter;
+import net.sf.jttslite.prefs.PersistentComponent;
 
 /**
  * Dialog di lancio di un nuovo progress.
@@ -298,7 +297,7 @@ public class StartPieceOfWorkDialog extends javax.swing.JDialog implements Persi
 	
 	public void show () {
 		reset ();
-		super.show ();
+		super.setVisible (true);
 	}
 	
 	private void reset (){
@@ -318,13 +317,12 @@ public class StartPieceOfWorkDialog extends javax.swing.JDialog implements Persi
 		return "startprogressdialog";
 	}
 	
-	public void makePersistent (net.sf.jttslite.common.gui.persistence.PersistenceStorage props) {
-		PersistenceUtils.makeBoundsPersistent (props, this.getPersistenceKey (), this);
-		
+	public void makePersistent () {
+		_context.getPreferenceManager ().getGuiPreferences ().makeBoundsPersistent (getPersistenceKey (), this);
 	}
 	
-	public boolean restorePersistent (net.sf.jttslite.common.gui.persistence.PersistenceStorage props) {
-		return PersistenceUtils.restorePersistentBounds (props, this.getPersistenceKey (), this);
+	public boolean restorePersistent () {
+		return _context.getPreferenceManager ().getGuiPreferences ().restorePersistentBounds (getPersistenceKey (), this);
 	}
 	
 	public Date getFromDate (){

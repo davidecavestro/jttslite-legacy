@@ -6,9 +6,7 @@
 
 package net.sf.jttslite.gui;
 
-import net.sf.jttslite.common.gui.GUIUtils;
 import net.sf.jttslite.ApplicationContext;
-import net.sf.jttslite.conf.ApplicationOptions;
 import java.awt.Component;
 import java.awt.Font;
 import java.io.IOException;
@@ -23,6 +21,7 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
 import javax.swing.text.html.HTMLEditorKit;
+import net.sf.jttslite.prefs.PreferencesManager;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.decorator.FilterPipeline;
 import org.jdesktop.swingx.decorator.SortController;
@@ -608,7 +607,7 @@ public class About extends javax.swing.JDialog {
 		
 		public ApplicationOptionsTableModel (){
 			this.env = System.getenv ();
-            this.keys = ApplicationOptions.class.getDeclaredMethods ();
+            this.keys = PreferencesManager.class.getDeclaredMethods ();
 		}
 		
 		public void addTableModelListener (javax.swing.event.TableModelListener l) {}
@@ -649,7 +648,7 @@ public class About extends javax.swing.JDialog {
 				case 1:
 
 					try {
-						return keys[rowIndex].invoke (_context.getApplicationOptions (), _voidObjectArray);
+						return keys[rowIndex].invoke (_context.getPreferenceManager (), _voidObjectArray);
 					} catch (IllegalArgumentException ex) {
 						ex.printStackTrace();
 					} catch (IllegalAccessException ex) {

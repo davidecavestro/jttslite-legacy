@@ -7,11 +7,8 @@
 package net.sf.jttslite;
 
 import net.sf.jttslite.common.application.ApplicationData;
-import net.sf.jttslite.common.gui.persistence.UIPersister;
 import net.sf.jttslite.common.help.HelpManager;
 import net.sf.jttslite.common.undo.RBUndoManager;
-import net.sf.jttslite.conf.ApplicationOptions;
-import net.sf.jttslite.conf.UserSettings;
 import net.sf.jttslite.gui.WindowManager;
 import net.sf.jttslite.actions.ActionManager;
 import net.sf.jttslite.conf.ApplicationEnvironment;
@@ -22,6 +19,7 @@ import net.sf.jttslite.model.WorkSpaceModelImpl;
 import net.sf.jttslite.persistence.PersistenceNode;
 import java.beans.PropertyChangeListener;
 import java.util.logging.Logger;
+import net.sf.jttslite.prefs.PreferencesManager;
 
 /**
  * Contesto applicativo.
@@ -32,10 +30,8 @@ import java.util.logging.Logger;
 public class ApplicationContext {
 	
 	private final WindowManager _windowManager;
-	private final ApplicationOptions _applicationOptions;
-	private final UIPersister _uiPersister;
+	private final PreferencesManager _preferencesManager;
 	private final Logger _logger;
-	private final UserSettings _userSettings;
 	private final ApplicationData _applicationData;
 	private final ApplicationEnvironment _env;
 	private final UndoableTaskTreeModel _ttm;
@@ -55,11 +51,9 @@ public class ApplicationContext {
 	 */
 	public ApplicationContext (
 		final ApplicationEnvironment env,
-		final ApplicationOptions applicationOptions,
+		final PreferencesManager preferencesManager,
 		final WindowManager windowManager,
-		final UIPersister uiPersister,
 		final Logger logger,
-		final UserSettings userSettings,
 		final ApplicationData applicationData,
 		final UndoableTaskTreeModel ttm,
 		final WorkSpaceModelImpl wsm,
@@ -73,12 +67,10 @@ public class ApplicationContext {
 		) {
 			
 		_env = env;
-		_applicationOptions = applicationOptions;
+		_preferencesManager = preferencesManager;
 		_logger = logger;
 		_applicationData = applicationData;
 		_windowManager = windowManager;
-		_userSettings = userSettings;
-		_uiPersister = uiPersister;
 		_ttm = ttm;
 		_wsm = wsm;
 		_templateModel = templateModel;
@@ -94,20 +86,12 @@ public class ApplicationContext {
 		return _env;
 	}
 	
-	public ApplicationOptions getApplicationOptions (){
-		return _applicationOptions;
+	public PreferencesManager getPreferenceManager (){
+		return _preferencesManager;
 	}
 	
 	public WindowManager getWindowManager (){
 		return _windowManager;
-	}
-	
-	public UIPersister getUIPersister (){
-		return _uiPersister;
-	}
-	
-	public UserSettings getUserSettings (){
-		return _userSettings;
 	}
 	
 	public TaskTreeModelImpl getModel (){

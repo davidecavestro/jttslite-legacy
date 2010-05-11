@@ -10,8 +10,6 @@ import net.sf.jttslite.core.util.DurationUtils;
 import net.sf.jttslite.common.gui.dialog.DialogEvent;
 import net.sf.jttslite.common.gui.dialog.DialogNotifier;
 import net.sf.jttslite.common.gui.dialog.DialogNotifierImpl;
-import net.sf.jttslite.common.gui.persistence.PersistenceUtils;
-import net.sf.jttslite.common.gui.persistence.PersistentComponent;
 import net.sf.jttslite.ApplicationContext;
 import net.sf.jttslite.model.PieceOfWorkTemplateModelListener;
 import net.sf.jttslite.core.model.Task;
@@ -33,6 +31,7 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import javax.swing.text.DateFormatter;
+import net.sf.jttslite.prefs.PersistentComponent;
 
 /**
  * Dialog for action creation.
@@ -447,13 +446,12 @@ _context.getWindowManager ().getActionTemplatesDialog ().show ();
 		return "newtaskdialog";
 	}
 
-	public void makePersistent (net.sf.jttslite.common.gui.persistence.PersistenceStorage props) {
-		PersistenceUtils.makeBoundsPersistent (props, this.getPersistenceKey (), this);
-
+	public void makePersistent () {
+		_context.getPreferenceManager ().getGuiPreferences ().makeBoundsPersistent (getPersistenceKey (), this);
 	}
 
-	public boolean restorePersistent (net.sf.jttslite.common.gui.persistence.PersistenceStorage props) {
-		return PersistenceUtils.restorePersistentBounds (props, this.getPersistenceKey (), this);
+	public boolean restorePersistent () {
+		return _context.getPreferenceManager ().getGuiPreferences ().restorePersistentBounds (getPersistenceKey (), this);
 	}
 
 	public Date getFromDate () {

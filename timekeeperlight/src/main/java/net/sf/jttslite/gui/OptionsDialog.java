@@ -335,14 +335,14 @@ public class OptionsDialog extends javax.swing.JDialog {
          * dell'utente
          */
 	private void init () {
-		trayIconCheckBox.getModel ().setSelected (_context.getApplicationOptions ().isTrayIconEnabled ());
-		useHelperApplicationsCheckBox.getModel ().setSelected (_context.getApplicationOptions ().isHelperApplicationIntegrationEnabled ());
-                useSystemLookAndFeelCheckBox.setSelected(_context.getApplicationOptions().isSystemLookAndFeelEnabled());
+		trayIconCheckBox.getModel ().setSelected (_context.getPreferenceManager ().getUserPreferences ().getTrayIconEnabled ());
+		useHelperApplicationsCheckBox.getModel ().setSelected (_context.getPreferenceManager ().getUserPreferences ().getHelperApplicationsEnabled ());
+                useSystemLookAndFeelCheckBox.setSelected(_context.getPreferenceManager ().getUserPreferences ().getSystemLookAndFeelEnabled ());
 	}
 	
 	private void apply () {
-        _context.getUserSettings ().setTrayIconEnabled(trayIconCheckBox.getModel ().isSelected ());
-        _context.getUserSettings ().setHelperApplicationsEnabled(useHelperApplicationsCheckBox.getModel ().isSelected ());
+        _context.getPreferenceManager ().getUserPreferences ().setTrayIconEnabled(trayIconCheckBox.getModel ().isSelected ());
+        _context.getPreferenceManager ().getUserPreferences ().setHelperApplicationsEnabled(useHelperApplicationsCheckBox.getModel ().isSelected ());
 	}
 	
 	private class CustomFormattingTableModel extends AbstractTableModel {
@@ -455,7 +455,7 @@ public class OptionsDialog extends javax.swing.JDialog {
 	private class ShowTrayIconAction extends AbstractAction {
 
 		public void actionPerformed (ActionEvent e) {
-			_context.getUserSettings ().setTrayIconEnabled(trayIconCheckBox.getModel ().isSelected ());
+			_context.getPreferenceManager ().getUserPreferences ().setTrayIconEnabled(trayIconCheckBox.getModel ().isSelected ());
 		}
 		
 	}
@@ -463,7 +463,7 @@ public class OptionsDialog extends javax.swing.JDialog {
 	private class UseHelperApplicationsAction extends AbstractAction {
 
 		public void actionPerformed (ActionEvent e) {
-			_context.getUserSettings ().setHelperApplicationsEnabled(useHelperApplicationsCheckBox.getModel ().isSelected ());
+			_context.getPreferenceManager ().getUserPreferences ().setHelperApplicationsEnabled(useHelperApplicationsCheckBox.getModel ().isSelected ());
 		}
 		
 	}
@@ -474,7 +474,7 @@ public class OptionsDialog extends javax.swing.JDialog {
     private class UseSystemLookAndFeelAction extends AbstractAction {
 
         public void actionPerformed(ActionEvent e) {
-            _context.getUserSettings().setSystemLookAndFeelEnabled(useSystemLookAndFeelCheckBox.isSelected());
+            _context.getPreferenceManager ().getUserPreferences ().setSystemLookAndFeelEnabled(useSystemLookAndFeelCheckBox.isSelected());
         }
     }
 }

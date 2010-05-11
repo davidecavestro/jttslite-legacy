@@ -5,6 +5,7 @@
 
 package net.sf.jttslite.prefs;
 
+import java.awt.Component;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -33,7 +34,7 @@ public class GuiPreferences {
 	 */
 	public GuiPreferences(PreferencesManager manager){
 	   this.manager = manager;
-	   preferences = manager.getMainPreferences ();
+	   preferences = manager.getMainPreferences ().node (SECTION_GUI);
 	}
 
 	/**
@@ -102,7 +103,7 @@ public class GuiPreferences {
 	 * @param key la chiave per la persistenza.
 	 * @param component il componente.
 	 */
-	public final void makeBoundsPersistent (final String key, final JComponent component ){
+	public final void makeBoundsPersistent (final String key, final Component component ){
 		setRectangle (
 			component.getBounds (),
 			key+"-x-pos",
@@ -118,7 +119,7 @@ public class GuiPreferences {
 	 * @param component il componente.
 	 * @return <TT>true</TT> se sono stati recuperati e ripristinati i dati persistenti.
 	 */
-	public final boolean restorePersistentBounds (String key, final JComponent component ){
+	public final boolean restorePersistentBounds (String key, final Component component ){
 		final Rectangle bounds = getRectangle (
 			key+"-x-pos",
 			key+"-y-pos",
@@ -168,5 +169,9 @@ public class GuiPreferences {
 			final int width = preferences.getInt (key+"-col-width"+i++,10);
 			column.setPreferredWidth (width);
 		}
+	}
+
+	public final Preferences getPreferences(){
+	   return preferences;
 	}
 }

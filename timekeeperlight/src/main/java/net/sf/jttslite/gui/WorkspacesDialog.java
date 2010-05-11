@@ -5,8 +5,6 @@
  */
 package net.sf.jttslite.gui;
 
-import net.sf.jttslite.common.gui.persistence.PersistenceUtils;
-import net.sf.jttslite.common.gui.persistence.PersistentComponent;
 import net.sf.jttslite.model.CannotRemoveWorkSpaceException;
 import net.sf.jttslite.core.model.event.TaskTreeModelEvent;
 import net.sf.jttslite.core.model.event.TaskTreeModelListener;
@@ -34,6 +32,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
+import net.sf.jttslite.prefs.PersistentComponent;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.decorator.FilterPipeline;
 import org.jdesktop.swingx.decorator.SortController;
@@ -89,7 +88,7 @@ public class WorkspacesDialog extends javax.swing.JDialog implements PersistentC
 		
 		getTable ().setSortOrder (getTable ().convertColumnIndexToView (NAME_COL_INDEX), SortOrder.ASCENDING);
 		
-		_context.getUIPersister ().register (new TablePersistenceExt (getTable ()) {
+		_context.getPreferenceManager ().getGuiPreferences ().register (new TablePersistenceExt (getTable (),_context) {
 			public String getPersistenceKey () {
 				return "workspaces.table";
 			}
@@ -731,12 +730,12 @@ private void undoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
 		return "workspacesDialog";
 	}
 	
-	public void makePersistent (net.sf.jttslite.common.gui.persistence.PersistenceStorage props) {
-		PersistenceUtils.makeBoundsPersistent (props, this.getPersistenceKey (), this);
+	public void makePersistent () {
+		_context.getPreferenceManager ().getGuiPreferences ().makeBoundsPersistent (getPersistenceKey (), this);
 	}
 	
-	public boolean restorePersistent (net.sf.jttslite.common.gui.persistence.PersistenceStorage props) {
-		return PersistenceUtils.restorePersistentBounds (props, this.getPersistenceKey (), this);
+	public boolean restorePersistent () {
+		return _context.getPreferenceManager ().getGuiPreferences ().restorePersistentBounds (this.getPersistenceKey (), this);
 	}
 	
 	private WorkSpace getSelectedWorkspace () {

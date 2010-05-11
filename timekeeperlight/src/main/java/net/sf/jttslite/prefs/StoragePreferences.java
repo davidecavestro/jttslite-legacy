@@ -28,7 +28,7 @@ public class StoragePreferences {
 
    protected StoragePreferences(PreferencesManager manager){
 	  this.manager = manager;
-	  this.preferences = manager.getMainPreferences ();
+	  this.preferences = manager.getMainPreferences ().node (SECTION_STORAGE);
    }
 
    	public String getJDOUserName () {

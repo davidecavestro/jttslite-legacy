@@ -7,7 +7,6 @@
 
 package net.sf.jttslite.model;
 
-import net.sf.jttslite.conf.ApplicationOptions;
 import net.sf.jttslite.persistence.PersistenceManager;
 import net.sf.jttslite.persistence.PersistenceNode;
 import net.sf.jttslite.persistence.Transaction;
@@ -23,8 +22,6 @@ public class PersistentWorkSpaceModel extends WorkSpaceModelImpl /*UndoableWorkS
 	
 	
 	private final PersistenceNode _persistenceNode;
-	private final Logger _logger;
-	
 	
 	/**
 	 * Costruttore.
@@ -34,10 +31,9 @@ public class PersistentWorkSpaceModel extends WorkSpaceModelImpl /*UndoableWorkS
 	 * @param workSpace
 	 * @param applicationOptions le opzioni di configurazione.
 	 */
-	public PersistentWorkSpaceModel (final PersistenceNode persistenceNode, final ApplicationOptions applicationOptions, final Logger logger, final WorkSpaceRemovalController removalController) {
-		super (/*removalController*/);
+	public PersistentWorkSpaceModel (final PersistenceNode persistenceNode) {
+		super ();
 		_persistenceNode = persistenceNode;
-		_logger = logger;
 	}
 	
 	public void init () {

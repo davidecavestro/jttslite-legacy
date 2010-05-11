@@ -14,7 +14,7 @@ It allows you to track your daily efforts at office. Nothing more, nothing less.
 
 ~ Installing:
 
-You first need a Java(tm) Runtime Environment 1.5.0 or later. JTTS only needs to be unpacked, and it's ready to go. That's all.
+You first need a Java(tm) Runtime Environment 1.6.0 or later. JTTS only needs to be unpacked, and it's ready to go. That's all.
 
 - License:
 
@@ -29,4 +29,5 @@ Downloads:
 http://sourceforge.net/projects/jttslite/
 
 - Credits:
-Thanks to mjames for his Silk Icons (http://www.famfamfam.com/lab/icons/silk/)
+Tango Project for icon set (http://tango.freedesktop.org/)
+Elementary Project for icon set (http://www.elementary-project.com/)

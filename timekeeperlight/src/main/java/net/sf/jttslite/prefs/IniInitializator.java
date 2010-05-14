@@ -1,7 +1,5 @@
 package net.sf.jttslite.prefs;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import org.ini4j.Ini;
 import org.ini4j.InvalidFileFormatException;
@@ -94,21 +92,22 @@ public class IniInitializator {
 	  builder.handleOption ("workspacesDialog-y-pos", "328.0");
 	  builder.handleOption ("workspacesDialog-width", "563.0");
 	  builder.handleOption ("workspacesDialog-height", "275.0");
+	  builder.handleComment ("Table preferences");
+	  builder.handleOption ("actiontemplates.table.visible.columns", "0,1,2");
+	  builder.handleOption ("actiontemplates.table.sorted.columns", "1");
+	  builder.handleOption ("progresses.table.sorted.columns", "2");
+	  builder.handleOption ("progresses.table.visible.columns", "0,1,2");
+	  builder.handleOption ("task.tree.sorted.columns", "1");
+	  builder.handleOption ("task.tree.visible.columns", "0,1,2");
+	  builder.handleOption ("workspaces.table.sorted.columns", "1");
+	  builder.handleOption ("workspaces.table.visible.columns", "0,1");
 	  builder.endSection ();
 	  // impostazioni utente
 	  builder.startSection (UserPreferences.SECTION_OPTIONS);
-	  builder.handleOption ("actiontemplates.table.visible.columns", "0,1,2");
-	  builder.handleOption ("actiontemplates.table.sorted.columns", "1");
 	  builder.handleOption ("chartdepth", "5");
 	  builder.handleOption (UserPreferences.PROPNAME_HELPERAPPSENABLED, "true");
-	  builder.handleOption ("progresses.table.sorted.columns", "2");
-	  builder.handleOption ("progresses.table.visible.columns", "0,1,2");
 	  builder.handleOption (UserPreferences.PROPNAME_LOOKANDFEELENABLED, "false");
-	  builder.handleOption ("task.tree.sorted.column", "1");
-	  builder.handleOption ("task.tree.visible.columns", "0,1,2");
 	  builder.handleOption (UserPreferences.PROPNAME_TRAYICONENABLED, "true");
-	  builder.handleOption ("workspaces.table.sorted.columns", "1");
-	  builder.handleOption ("workspaces.table.visible.columns", "0,1");
 	  builder.handleOption (UserPreferences.PROPNAME_LOGDIRPATH, prefsManager.getUserApplicationDataDirPath () + UserPreferences.DEF_LOG_DIR);
 	  builder.handleOption (UserPreferences.PROPNAME_LASTPROJECTNAME, null);
 	  builder.handleOption (UserPreferences.PROPNAME_CHARTGHOSTENABLED, "false");

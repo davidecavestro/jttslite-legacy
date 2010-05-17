@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="BuildInstaller" default="all" basedir=".">
+   <description>Costruisce l'installer per JTTS</description>
+   <target name="all">
+	  <!-- prepara le informazioni di release. -->
+	  <buildnumber/>
+	  <property file="../src/main/java/net/sf/jttslite/release-skeleton.properties"/>
+
+	  <!-- Allows us to use the IzPack Ant task, standalone-compiler.jar added to Ant lib -->
+	  <taskdef name="izpack" classpath="./lib/standalone-compiler.jar"
+			   classname="com.izforge.izpack.ant.IzPackTask"/>
+
+	  <!-- Run installer build -->
+	  <echo message="Running IzPack to build the installer..."/>
+	  <izpack input="${basedir}/installer.xml"
+			  output="${user.home}/${internal.name}-${major.version.number}.${minor.version.number}${version.suffix}-install.jar"
+			  installerType="standard"
+			  inheritAll="true"
+			  basedir="${basedir}"
+			  compression="deflate"
+			  compressionlevel="9"/>
+	  <!-- Clean working directory -->
+	  <echo message="Cleaning up working directory..."/>
+	  <echo message="Done."/>
+	  <echo message="Installer created. Try java -jar ${user.home}/${internal.name}-${major.version.number}.${minor.version.number}${version.suffix}-install.jar" />
+   </target>
+</project>

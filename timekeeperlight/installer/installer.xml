@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="yes" ?>
+<!-- File di configurazione dell'installer izPack -->
+<installation version="1.0">
+
+   <!-- Informazioni sul pacchetto di installazione -->
+   <info>
+	  <appname>@{external.name}</appname>
+	  <appversion>@{major.version.number}.@{minor.version.number}@{version.suffix}</appversion>
+	  <authors>
+		 <author email="d.cavestro@libero.it" name="Davide Cavestro (project founder)" />
+		 <author email="capitanfuturo@users.sourceforge.net" name="Giuseppe Caliendo aka capitanfuturo" />
+	  </authors>
+	  <url>http://jttslite.sourceforge.net/</url>
+	  <javaversion>1.6</javaversion>
+	  <requiresjdk>no</requiresjdk>
+	  <run-privileged condition="izpack.windowsinstall.vista|izpack.macinstall" />
+	  <summarylogfilepath>$INSTALL_PATH/installinfo/Summary.htm</summarylogfilepath>
+   </info>
+
+   <!-- Imposto il colore dell'heading personalizzato e un'icona per l'installatore -->
+   <guiprefs width="600" height="400" resizable="no">
+	  <modifier key="useHeadingPanel" value="yes" />
+	  <modifier key="useHeadingForSummary" value="yes" />
+	  <modifier key="headingImageOnLeft" value="yes" />
+	  <modifier key="headingLineCount" value="2" />
+	  <modifier key="headingFontSize" value="1.5" />
+	  <modifier key="headingBackgroundColor" value="0xf09f3e" />
+	  <modifier key="headingPanelCounter" value="text" />
+	  <modifier key="headingPanelCounterPos" value="inHeading" />
+   </guiprefs>
+
+   <locale>
+	  <langpack iso3="deu" />
+	  <langpack iso3="eng" />
+	  <langpack iso3="fra" />
+	  <langpack iso3="ita" />
+	  <langpack iso3="jpn" />
+	  <langpack iso3="por" />
+	  <langpack iso3="rus" />
+	  <langpack iso3="spa" />
+   </locale>
+
+   <!-- Need to define ant properties we want to use during install as variables -->
+   <variables>
+	  <variable name="external.name" value="@{external.name}"/>
+	  <variable name="major.version.number" value="@{major.version.number}"/>
+	  <variable name="minor.version.number" value="@{minor.version.number}"/>
+	  <variable name="version.suffix" value="@{version.suffix}"/>
+	  <variable name="basedir" value="@{basedir}" />
+   </variables>
+
+
+   <resources>
+	  <res id="HTMLInfoPanel.info" src="@{basedir}/../deploy/license-contents/license/license.html" />
+	  <res id="Heading.image" src="@{basedir}/../deploy/icons/jtts128x128.png" />
+   </resources>
+
+   <panels>
+	  <panel classname="HelloPanel" />
+	  <panel classname="HTMLInfoPanel" />
+	  <panel classname="TargetPanel" />
+	  <panel classname="SummaryPanel" />
+	  <panel classname="InstallPanel" />
+	  <panel classname="ShortcutPanel"/>
+	  <panel classname="SimpleFinishPanel" />
+   </panels>
+
+   <!-- Pacchetti da installare -->
+   <packs>
+	  <!-- Il core del programma -->
+	  <pack name="Core application" required="yes" installGroups="Required" >
+		 <description>JTTS core application</description>
+	  </pack>
+
+	  <!-- Le librerie necessarie per l'installazione -->
+
+	  <pack name="Libraries" required="yes" installGroups="Required" >
+		 <description>JTTS Lite libraries set</description>
+
+	  </pack>
+
+	  <!-- La documentazione -->
+	  <pack name="Documentation" required="yes" installGroups="Required" >
+		 <description>Documentation</description>
+
+	  </pack>
+	  <!-- Le icone esterne per gli shortcut -->
+	  <pack name="Icons for desktop" required="yes" installGroups="Required" >
+		 <description>Icons for desktop shortcuts</description>
+
+	  </pack>
+   </packs>
+</installation>

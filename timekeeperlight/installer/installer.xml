@@ -18,7 +18,7 @@
    </info>
 
    <!-- Imposto il colore dell'heading personalizzato e un'icona per l'installatore -->
-   <guiprefs width="600" height="400" resizable="no">
+   <guiprefs width="600" height="480" resizable="no">
 	  <modifier key="useHeadingPanel" value="yes" />
 	  <modifier key="useHeadingForSummary" value="yes" />
 	  <modifier key="headingImageOnLeft" value="yes" />
@@ -49,10 +49,11 @@
 	  <variable name="basedir" value="@{basedir}" />
    </variables>
 
-
    <resources>
 	  <res id="HTMLInfoPanel.info" src="@{basedir}/../deploy/license-contents/license/license.html" />
 	  <res id="Heading.image" src="@{basedir}/../deploy/icons/jtts128x128.png" />
+	  <res id="shortcutSpec.xml" src="@{basedir}/shortcutSpec.xml" />
+	  <res id="Unix_shortcutSpec.xml" src="@{basedir}/Unix_shortcutSpec.xml" />
    </resources>
 
    <panels>
@@ -70,24 +71,31 @@
 	  <!-- Il core del programma -->
 	  <pack name="Core application" required="yes" installGroups="Required" >
 		 <description>JTTS core application</description>
+		 <file src="@{basedir}/../dist/timekeeperlight.jar" targetdir="$INSTALL_PATH"/>
+		 <fileset dir="@{basedir}/../deploy/license-contents/license/" targetdir="$INSTALL_PATH/license">
+			<include name="*"/>
+		 </fileset>
+		 <file src="@{basedir}/../deploy/other-info/ReleaseNotes.txt" targetdir="$INSTALL_PATH/other-info"/>
 	  </pack>
-
 	  <!-- Le librerie necessarie per l'installazione -->
-
 	  <pack name="Libraries" required="yes" installGroups="Required" >
 		 <description>JTTS Lite libraries set</description>
-
+		 <file src="@{basedir}/../dist/lib" targetdir="$INSTALL_PATH"/>
 	  </pack>
-
-	  <!-- La documentazione -->
-	  <pack name="Documentation" required="yes" installGroups="Required" >
+	  <!-- La documentazione TODO aggiungere la condizione per lingua-->
+	  <pack name="Documentation" required="yes" installGroups="Required">
 		 <description>Documentation</description>
-
+		 <fileset dir="@{basedir}/../deploy/help/help-contents/default/html/" targetdir="$INSTALL_PATH/help">
+			<include name="*"/>
+			<include name="**" />
+		 </fileset>
 	  </pack>
 	  <!-- Le icone esterne per gli shortcut -->
 	  <pack name="Icons for desktop" required="yes" installGroups="Required" >
 		 <description>Icons for desktop shortcuts</description>
-
+		 <fileset dir="@{basedir}/../deploy/icons/" targetdir="$INSTALL_PATH/icons">
+			<include name="*"/>
+		 </fileset>
 	  </pack>
    </packs>
 </installation>

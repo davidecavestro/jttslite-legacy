@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<shortcuts>
+   <skipIfNotSupported/>
+   <programGroup defaultName="@{external.name}"
+				 location="applications"/>
+   <shortcut
+	  name="@{external.name}"
+	  target="$JAVA_HOME\bin\java"
+	  commandLine="-jar $INSTALL_PATH\timekeeperlight.jar"
+	  workingDirectory="$INSTALL_PATH"
+	  description="@{external.name}"
+	  iconFile="@{basedir}/../deploy/icons/jtts32x32.ico"
+	  iconIndex="0"
+	  initialState="normal"
+	  programGroup="no"
+	  desktop="yes"
+	  applications="yes"
+	  startMenu="yes"
+	  startup="no">
+	  <createForPack name="Required"/>
+   </shortcut>
+</shortcuts>
+

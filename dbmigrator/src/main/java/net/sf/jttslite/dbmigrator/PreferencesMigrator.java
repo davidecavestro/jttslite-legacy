@@ -1,4 +1,4 @@
-package main.java.net.sf.jttslite.dbmigrator;
+package net.sf.jttslite.dbmigrator;
 
 import java.io.File;
 import java.io.FileInputStream;

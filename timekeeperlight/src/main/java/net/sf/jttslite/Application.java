@@ -15,7 +15,6 @@ import net.sf.jttslite.common.util.*;
 import net.sf.jttslite.conf.ApplicationEnvironment;
 import net.sf.jttslite.conf.CommandLineApplicationEnvironment;
 import net.sf.jttslite.gui.WindowManager;
-import net.sf.jttslite.actions.ActionManager;
 import net.sf.jttslite.gui.Splash;
 import net.sf.jttslite.model.DuplicatedWorkSpaceException;
 import net.sf.jttslite.model.PersistentPieceOfWorkTemplateModel;
@@ -195,7 +194,6 @@ public class Application {
 			undoManager,
 			atUndoManager,
 			wsUndoManager,
-			new ActionManager (),
 			new HelpManager (new HelpResourcesResolver (p), "help-contents/JTTSlite.hs"),
 			_persistenceNode
 			);

@@ -10,7 +10,6 @@ import net.sf.jttslite.common.application.ApplicationData;
 import net.sf.jttslite.common.help.HelpManager;
 import net.sf.jttslite.common.undo.RBUndoManager;
 import net.sf.jttslite.gui.WindowManager;
-import net.sf.jttslite.actions.ActionManager;
 import net.sf.jttslite.conf.ApplicationEnvironment;
 import net.sf.jttslite.model.PieceOfWorkTemplateModelImpl;
 import net.sf.jttslite.model.TaskTreeModelImpl;
@@ -40,15 +39,29 @@ public class ApplicationContext {
 	private final RBUndoManager _undoManager;
 	private final RBUndoManager _atUndoManager;
 	private final RBUndoManager _wsUndoManager;
-	private ActionManager _actionManager;
 	private HelpManager _helpManager;
     private java.beans.PropertyChangeSupport changeSupport;
 	private final PersistenceNode _persistenceNode;
 
 	
-	/** 
-	 * Costruttore.
-	 */
+   /**
+    * Construttore del contesto applicativo. Accentra tutti i manager applicativi,
+	* le preferenze di esecuzione e il modello dati
+	*
+    * @param env
+    * @param preferencesManager
+    * @param windowManager
+    * @param logger	 il logger per i messaggi di errore
+    * @param applicationData
+    * @param ttm
+    * @param wsm
+    * @param templateModel
+    * @param undoManager
+    * @param atUndoManager
+    * @param wsUndoManager
+    * @param helpManager
+    * @param persistenceNode
+    */
 	public ApplicationContext (
 		final ApplicationEnvironment env,
 		final PreferencesManager preferencesManager,
@@ -61,11 +74,9 @@ public class ApplicationContext {
 		final RBUndoManager undoManager,
 		final RBUndoManager atUndoManager,
 		final RBUndoManager wsUndoManager,
-		final ActionManager actionManager,
 		final HelpManager helpManager, 
 		final PersistenceNode persistenceNode
 		) {
-			
 		_env = env;
 		_preferencesManager = preferencesManager;
 		_logger = logger;
@@ -77,7 +88,6 @@ public class ApplicationContext {
 		_undoManager = undoManager;
 		_atUndoManager = atUndoManager;
 		_wsUndoManager = wsUndoManager;
-		_actionManager = actionManager;
 		_helpManager = helpManager;
 		_persistenceNode = persistenceNode;
 	}
@@ -115,10 +125,6 @@ public class ApplicationContext {
 	
 	public RBUndoManager getWorkspacesUndoManager (){
 		return _wsUndoManager;
-	}
-
-	public ActionManager getActionManager (){
-		return _actionManager;
 	}
 	
 	public HelpManager getHelpManager (){

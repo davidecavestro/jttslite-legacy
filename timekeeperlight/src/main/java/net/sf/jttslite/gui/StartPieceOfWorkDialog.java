@@ -321,9 +321,10 @@ public class StartPieceOfWorkDialog extends javax.swing.JDialog implements Persi
 		_context.getPreferenceManager ().getGuiPreferences ().makeBoundsPersistent (getPersistenceKey (), this);
 	}
 	
-	public boolean restorePersistent () {
-		return _context.getPreferenceManager ().getGuiPreferences ().restorePersistentBounds (getPersistenceKey (), this);
-	}
+   public boolean restorePersistent () {
+	  return _context.getPreferenceManager ().getGuiPreferences ().
+			  restoreAbsolutePersistentBounds (getPersistenceKey (), this);
+   }
 	
 	public Date getFromDate (){
 		if (_useDuration) {

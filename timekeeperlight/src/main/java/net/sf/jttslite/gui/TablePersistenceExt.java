@@ -58,6 +58,7 @@ public abstract class TablePersistenceExt implements PersistentComponent {
 	  _context.getPreferenceManager ().getGuiPreferences ().getPreferences ().put (getVisibleColumnsPersistenceKey (), StringUtils.toCSV (s1.toArray ()));
 	  _context.getPreferenceManager ().getGuiPreferences ().getPreferences ().put (getSortedColumnsPersistenceKey (), StringUtils.toCSV (s2.toArray ()));
 	  _context.getPreferenceManager ().getGuiPreferences ().makeColumnWidthsPersistent (getWidthColumnsPersistenceKey (), _table);
+          _context.getPreferenceManager().getGuiPreferences().setAbsoluteRectangleDimension(_table.getVisibleRect(), getPersistenceKey());
    }
 
    public boolean restorePersistent() {
@@ -92,6 +93,7 @@ public abstract class TablePersistenceExt implements PersistentComponent {
 	  }
 
 	  _context.getPreferenceManager ().getGuiPreferences ().restorePersistentColumnWidths (getWidthColumnsPersistenceKey (), _table);
+          _context.getPreferenceManager ().getGuiPreferences ().restoreAbsolutePersistentBounds(getPersistenceKey(), _table);
 
 	  return true;
    }

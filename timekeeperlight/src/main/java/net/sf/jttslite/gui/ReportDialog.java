@@ -467,9 +467,10 @@ public class ReportDialog extends javax.swing.JDialog implements PersistentCompo
 		_context.getPreferenceManager ().getGuiPreferences ().makeBoundsPersistent (getPersistenceKey (), this);
 	}
 	
-	public boolean restorePersistent () {
-		return _context.getPreferenceManager ().getGuiPreferences ().restorePersistentBounds (getPersistenceKey (), this);
-	}
+   public boolean restorePersistent () {
+	  return _context.getPreferenceManager ().getGuiPreferences ().
+			  restoreAbsolutePersistentBounds (getPersistenceKey (), this);
+   }
 	
 	public void addDialogListener (DialogListener l) {
 		_dialogNotifier.addDialogListener (l);

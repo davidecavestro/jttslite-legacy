@@ -84,9 +84,9 @@ public class WindowManager implements ActionListener, DialogListener {
 			 * Sccome all'avvio puo' essere chiamata da thread concorrenti va protetta
 			 */
 			if (this._mainWindow == null) {
-				this._mainWindow = new MainWindow (this._context);
-				_context.getPreferenceManager ().getGuiPreferences ().register (_mainWindow);
-				this._mainWindow.addActionListener (this);
+			   this._mainWindow = new MainWindow (this._context);
+                            this._mainWindow.addActionListener (this);
+                            _context.getPreferenceManager ().getGuiPreferences ().register (_mainWindow);
 			}
 		}
 		return this._mainWindow;

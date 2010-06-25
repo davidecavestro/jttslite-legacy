@@ -580,8 +580,9 @@ private void undoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
 		_context.getPreferenceManager ().getGuiPreferences ().makeBoundsPersistent (getPersistenceKey (), this);
 	}
 	
-	public boolean restorePersistent () {
-		return _context.getPreferenceManager ().getGuiPreferences ().restorePersistentBounds (getPersistenceKey (), this);
-	}
+   public boolean restorePersistent () {
+	  return _context.getPreferenceManager ().getGuiPreferences ().
+			  restoreAbsolutePersistentBounds (getPersistenceKey (), this);
+   }
 	
 }

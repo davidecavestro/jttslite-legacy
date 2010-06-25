@@ -195,9 +195,10 @@ public class NewWorkspaceDialog extends javax.swing.JDialog implements Persisten
 		_context.getPreferenceManager ().getGuiPreferences ().makeBoundsPersistent (getPersistenceKey (), this);
 	}
 
-	public boolean restorePersistent () {
-		return _context.getPreferenceManager ().getGuiPreferences ().restorePersistentBounds (getPersistenceKey (), this);
-	}
+   public boolean restorePersistent () {
+	  return _context.getPreferenceManager ().getGuiPreferences ().
+			  restoreAbsolutePersistentBounds (getPersistenceKey (), this);
+   }
 
 	public void addDialogListener (net.sf.jttslite.common.gui.dialog.DialogListener l) {
 		_dialogNotifier.addDialogListener (l);

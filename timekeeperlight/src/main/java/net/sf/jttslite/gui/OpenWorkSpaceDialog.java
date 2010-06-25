@@ -327,9 +327,10 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 		_context.getPreferenceManager ().getGuiPreferences ().makeBoundsPersistent (this.getPersistenceKey (), this);
 	}
 	
-	public boolean restorePersistent () {
-		return _context.getPreferenceManager ().getGuiPreferences ().restorePersistentBounds (this.getPersistenceKey (), this);
-	}
+   public boolean restorePersistent () {
+	  return _context.getPreferenceManager ().getGuiPreferences ().
+			  restoreAbsolutePersistentBounds (this.getPersistenceKey (), this);
+   }
 	
 
 	/**

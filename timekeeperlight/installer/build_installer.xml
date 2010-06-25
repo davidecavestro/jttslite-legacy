@@ -13,7 +13,7 @@
 	  <!-- Run installer build -->
 	  <echo message="Running IzPack to build the installer..."/>
 	  <izpack input="${basedir}/installer.xml"
-			  output="${user.home}/${internal.name}-${major.version.number}.${minor.version.number}${version.suffix}-install.jar"
+			  output="${user.home}/${internal.name}-${major.version.number}.${minor.version.number}${version.suffix}-installer.jar"
 			  installerType="standard"
 			  inheritAll="true"
 			  basedir="${basedir}"
@@ -22,6 +22,6 @@
 	  <!-- Clean working directory -->
 	  <echo message="Cleaning up working directory..."/>
 	  <echo message="Done."/>
-	  <echo message="Installer created. Try java -jar ${user.home}/${internal.name}-${major.version.number}.${minor.version.number}${version.suffix}-install.jar" />
+	  <echo message="Installer created. Try java -jar ${user.home}/${internal.name}-${major.version.number}.${minor.version.number}${version.suffix}-installer.jar" />
    </target>
 </project>

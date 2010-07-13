@@ -9,41 +9,57 @@ package net.sf.jttslite.core.util;
 import net.sf.jttslite.common.util.CalendarUtils;
 import java.util.Date;
 import java.util.Observable;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.NotPersistent;
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.Sequence;
+import javax.jdo.annotations.SequenceStrategy;
 
 /**
  * Implementazione di periodo assoluto.
  *
  * @author  davide
  */
+@PersistenceCapable(table="jtts_action", detachable="true")
+@Sequence(name="seq", datastoreSequence="PERIODSEQ", strategy=SequenceStrategy.CONTIGUOUS )
 public class AbsolutePeriodImpl extends Observable implements AbsolutePeriod {
 	
+	@Persistent(valueStrategy=IdGeneratorStrategy.SEQUENCE, sequence="seq")
+	private long id;
+
 	/**
 	 * La data di inizio periodo.
 	 */
-	private Date _from;
+	protected Date from;
 	
 	/**
 	 * La data di fine periodo.
 	 */
-	private Date _to;
+	protected Date to;
 	
-	/**
-	 * Durata calcolata (valida).
-	 */
-	private transient boolean isDurationComputed = false;
-	
+//	/**
+//	 * Durata calcolata (valida).
+//	 */
+//	private transient boolean isDurationComputed = false;
+
+	@NotPersistent
+	private transient Date now = new Date ();
+
 	/**
 	 * La durata effettiva attuale (se <TT>isDurationComputed</TT> value <TT>tre</TT>.
 	 */
-	private transient DurationImpl computedDuration;
-	
+	@NotPersistent
+	private transient DurationImpl computedDuration = new DurationImpl (0);
+
+	@NotPersistent
+	private transient AbsolutePeriodImpl intersectionSupport;
+
 	/**
 	 * Costruttore vuoto.
 	 */
 	public AbsolutePeriodImpl () {
-		Logger.getAnonymousLogger ().warning ("Creating AbsolutePeriodImpl");
+//		LogManager.getLogManager ().getLogger ("net.sf.jtts").warning ("Creating AbsolutePeriodImpl");
 	}
 	
 	/**
@@ -53,9 +69,9 @@ public class AbsolutePeriodImpl extends Observable implements AbsolutePeriod {
 	 * @param to la data di fine.
 	 */
 	public AbsolutePeriodImpl (final Date from, final Date to) {
-		this._from = from;
-		this._to = to;
-		Logger.getAnonymousLogger ().warning ("Creating AbsolutePeriodImpl");
+		this.from = cloneDate (from);
+		this.to = cloneDate (to);
+//		LogManager.getLogManager ().getLogger ("net.sf.jtts").warning ("Creating AbsolutePeriodImpl");
 	}
 	
 	/**
@@ -65,9 +81,9 @@ public class AbsolutePeriodImpl extends Observable implements AbsolutePeriod {
 	 * @param source la sorgente della copia.
 	 */
 	public AbsolutePeriodImpl (final AbsolutePeriod source) {
-		_from = source.getFrom ();
-		_to = source.getTo ();
-		Logger.getAnonymousLogger ().warning ("Creating AbsolutePeriodImpl");
+		from = cloneDate (source.getFrom ());
+		to = cloneDate (source.getTo ());
+//		LogManager.getLogManager ().getLogger ("net.sf.jtts").warning ("Creating AbsolutePeriodImpl");
 	}
 	
 	/**
@@ -77,7 +93,7 @@ public class AbsolutePeriodImpl extends Observable implements AbsolutePeriod {
 	 */
 	@Override
 	public Date getFrom () {
-		return _from;
+		return cloneDate (from);
 	}
 	
 	/**
@@ -85,10 +101,10 @@ public class AbsolutePeriodImpl extends Observable implements AbsolutePeriod {
 	 *
 	 * @param from la nuova data d'inizio.
 	 */
-	public synchronized void setFrom (Date from) {
-		if (!CalendarUtils.equals (_from,from)){
-			_from = from;
-			isDurationComputed = false;
+	public synchronized void setFrom (final Date from) {
+		if (!CalendarUtils.equals (this.from,from)){
+			this.from = cloneDate (from);
+//			isDurationComputed = false;
 			setChanged ();
 			notifyObservers ();
 		}
@@ -101,7 +117,7 @@ public class AbsolutePeriodImpl extends Observable implements AbsolutePeriod {
 	 */
 	@Override
 	public Date getTo () {
-		return _to;
+		return cloneDate (to);
 	}
 	
 	/**
@@ -109,10 +125,10 @@ public class AbsolutePeriodImpl extends Observable implements AbsolutePeriod {
 	 *
 	 * @param to la nuova data di fine del periodo.
 	 */
-	public synchronized void setTo (Date to) {
-		if (!CalendarUtils.equals (this._to,to)){
-			_to = to;
-			isDurationComputed = false;
+	public synchronized void setTo (final Date to) {
+		if (!CalendarUtils.equals (this.to,to)){
+			this.to = cloneDate (to);
+//			isDurationComputed = false;
 			setChanged ();
 			notifyObservers ();
 		}
@@ -134,8 +150,8 @@ public class AbsolutePeriodImpl extends Observable implements AbsolutePeriod {
 		if (!period.isValid ()){
 			return false;
 		}
-		return ! (getFrom ().after (period.getTo ())
-		|| getTo ().before (period.getFrom ()));
+		return ! (from.after (period.getTo ())
+		|| to.before (period.getFrom ()));
 	}
 	
 	/**
@@ -147,11 +163,21 @@ public class AbsolutePeriodImpl extends Observable implements AbsolutePeriod {
 	@Override
 	public synchronized AbsolutePeriod intersection (final AbsolutePeriod period){
 
-		final long maxFrom = Math.max (getFrom ().getTime (), period.getFrom ().getTime ());
-		final long minTo = Math.min (getTo ().getTime (), period.getTo ().getTime ());
+		final long maxFrom = Math.max (from.getTime (), period.getFrom ().getTime ());
+		final long minTo = Math.min (to.getTime (), period.getTo ().getTime ());
 		
 		if (maxFrom<=minTo){
-			return new AbsolutePeriodImpl (new Date (maxFrom), new Date (minTo));
+			final Date fromDate = new Date (maxFrom);
+			final Date toDate = new Date (minTo);
+			if (intersectionSupport==null) {
+				intersectionSupport = new AbsolutePeriodImpl (fromDate, toDate);
+			} else {
+				intersectionSupport.setFrom (fromDate);
+				intersectionSupport.setTo (toDate);
+			}
+
+			return intersectionSupport;
+//			return new AbsolutePeriodImpl (new Date (maxFrom), new Date (minTo));
 		}
 		return null;
 	}
@@ -164,9 +190,9 @@ public class AbsolutePeriodImpl extends Observable implements AbsolutePeriod {
 	 */
 	@Override
 	public boolean isValid () {
-		return _from!=null
-		&& _to!=null
-		&& !_from.after (_to);
+		return from!=null
+		&& to!=null
+		&& !from.after (to);
 	}
 	
 	/**
@@ -177,8 +203,8 @@ public class AbsolutePeriodImpl extends Observable implements AbsolutePeriod {
 	 */
 	@Override
 	public synchronized boolean isEndOpened () {
-		return _from!=null
-		&& _to==null;
+		return from!=null
+		&& to==null;
 	}
 	
 	/**
@@ -189,14 +215,22 @@ public class AbsolutePeriodImpl extends Observable implements AbsolutePeriod {
 	@Override
 	public synchronized DurationImpl getDuration (){
 		if (isEndOpened ()){
-			return new DurationImpl (_from, new Date ());
+			now.setTime (System.currentTimeMillis ());
+			computedDuration.setDates (from, now);
+//			return new DurationImpl (from, new Date ());
 		} else {
-			if (!isDurationComputed){
-				computedDuration = new DurationImpl (_from, _to);
-				isDurationComputed = true;
-			}
-			return computedDuration;
+			computedDuration.setDates (from, to);
+//			if (!isDurationComputed){
+//				computedDuration = new DurationImpl (from, to);
+//				isDurationComputed = true;
+//			}
+//			return computedDuration;
 		}
+		return computedDuration;
+	}
+
+	protected Date cloneDate (final Date d) {
+		return d!=null?(Date)d.clone():d;
 	}
 	
 	/**
@@ -207,8 +241,8 @@ public class AbsolutePeriodImpl extends Observable implements AbsolutePeriod {
 	@Override
 	public String toString (){
 		final StringBuilder sb = new StringBuilder ();
-		sb.append ("from: ").append (CalendarUtils.toTSString (_from))
-		.append (" to: ").append (CalendarUtils.toTSString (_to));
+		sb.append ("from: ").append (CalendarUtils.toTSString (from))
+		.append (" to: ").append (CalendarUtils.toTSString (to));
 		return sb.toString ();
 	}
 	
@@ -223,8 +257,8 @@ public class AbsolutePeriodImpl extends Observable implements AbsolutePeriod {
 	 * posteriore all'inizio di questo periodo;
 	 * @see java.util.Date#compareTo
 	 */	
-	public int compareToStart (AbsolutePeriod compare){
-		return _from.compareTo (compare.getFrom ());
+	public int compareToStart (final AbsolutePeriod compare){
+		return from.compareTo (compare.getFrom ());
 	}
 	
 	/**
@@ -238,8 +272,13 @@ public class AbsolutePeriodImpl extends Observable implements AbsolutePeriod {
 	 * posteriore alla fine di questo periodo;
 	 * @see java.util.Date#compareTo
 	 */	
-	public int compareToFinish (AbsolutePeriod compare){
-		return _to.compareTo (compare.getTo ());
+	public int compareToFinish (final AbsolutePeriod compare){
+		return to.compareTo (compare.getTo ());
+	}
+
+	@Override
+	public long getId () {
+		return id;
 	}
 	
 	/**
@@ -248,7 +287,7 @@ public class AbsolutePeriodImpl extends Observable implements AbsolutePeriod {
 	 * @return
 	 */	
 	@Override
-	public boolean equals (Object object){
+	public boolean equals (final Object object){
 		if (this == object){
 			return true;
 		}
@@ -263,7 +302,7 @@ public class AbsolutePeriodImpl extends Observable implements AbsolutePeriod {
 			if (!isValid ()){
 				return false;
 			}
-			return test.getFrom ().equals (_from) && test.getTo ().equals (_to);
+			return test.getFrom ().equals (from) && test.getTo ().equals (to);
 		}
 		return false;
 	}
@@ -272,9 +311,9 @@ public class AbsolutePeriodImpl extends Observable implements AbsolutePeriod {
 	public int hashCode (){
 		final StringBuilder sb = new StringBuilder ();
 		sb.append (getClass ().getName ()).append ("@@@");
-		sb.append (_from);
+		sb.append (from);
 		sb.append ("@@@");
-		sb.append (_to);
+		sb.append (to);
 		return sb.toString ().hashCode ();
 	}
 
@@ -288,7 +327,7 @@ public class AbsolutePeriodImpl extends Observable implements AbsolutePeriod {
 	}
 
 	private long toNow () {
-		return System.currentTimeMillis () - _from.getTime ();
+		return System.currentTimeMillis () - from.getTime ();
 	}
 }
 

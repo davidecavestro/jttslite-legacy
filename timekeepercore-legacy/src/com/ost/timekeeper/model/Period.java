@@ -306,4 +306,8 @@ public class Period extends Observable implements AbsolutePeriod{
 	private long toNow () {
 		return System.currentTimeMillis () - safeFromAccessor ().getTime ();
 	}
+
+	public long getId () {
+		throw new UnsupportedOperationException ("Not supported yet.");
+	}
 }

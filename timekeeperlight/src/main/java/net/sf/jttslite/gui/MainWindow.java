@@ -125,6 +125,7 @@ import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.JTextComponent;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreePath;
+import net.sf.jttslite.core.model.impl.Project;
 import net.sf.jttslite.core.util.Duration;
 import net.sf.jttslite.prefs.PersistentComponent;
 import org.jdesktop.swingx.JXTable;
@@ -169,7 +170,9 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 	private int ptbImageHeight;
         
 	/**
-	 * Costruttore.
+	 * Crea una nuova istanza.
+	 *
+	 * @param context il contesto applicativo.
 	 */
 	public MainWindow (final ApplicationContext context){
 		this._actionNotifier = new ActionNotifierImpl ();
@@ -339,6 +342,7 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 			private Font _originalFont;
 			private Font _boldFont;
 			
+			@Override
 			public Component getTableCellRendererComponent (final JTable table, final Object value, boolean isSelected, boolean hasFocus, final int row, final int column) {
 				
 				final JLabel res = (JLabel)super.getTableCellRendererComponent ( table, value, isSelected, hasFocus, row, column);
@@ -385,9 +389,11 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 		 * 1 asc, 2 desc, 3 null
 		 */
 		progressesTable.setFilters (new FilterPipeline () {
+			@Override
 			protected SortController createDefaultSortController () {
 				return new SorterBasedSortController () {
 					
+					@Override
 					public void toggleSortOrder (int column, Comparator comparator) {
 						Sorter currentSorter = getSorter ();
 						if ((currentSorter != null)
@@ -2426,10 +2432,10 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 	 * Il modello della tabella degli avanzamenti.
 	 */
 	private class ProgressesJTableModel extends AbstractTableModel implements TaskTreeModelListener, TreeSelectionListener, TableModelListener, AdvancingTicListener, WorkAdvanceModelListener {
-		private Task _master;
+		private ProgressItem _master;
 		private WorkSpace _workspace;
 		private TaskTreePath _masterPath;
-		private List<PieceOfWork> _progresses;
+		private List<Progress> _progresses;
 		
 		
 		public ProgressesJTableModel (final TaskTreeModelImpl ttm){
@@ -2466,7 +2472,7 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 		}
 		
 		
-		private void reload (WorkSpace workspace, Task newMaster){
+		private void reload (final WorkSpace workspace, final ProgressItem newMaster){
 			_workspace = workspace;
 			_master = newMaster;
 			cache ();
@@ -2478,7 +2484,7 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 				/*
 				 * master non impostato, modello vuoto.
 				 */
-				_progresses = new ArrayList ();
+				_progresses = new ArrayList<Progress> ();
 				_masterPath = null;
 				return;
 			} else {
@@ -2511,14 +2517,14 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 				|| (columnIndex!=DURATION_COL_INDEX && columnIndex!=END_COL_INDEX);
 		}
 		
-		private final Class[] _columnClasses = new Class[] {
+		private final Class<?>[] _columnClasses = new Class<?>[] {
 			DurationImpl.class,
 			Date.class,
 			Date.class,
 			String.class
 		};
 		@Override
-		public Class getColumnClass (int col) {
+		public Class<?> getColumnClass (int col) {
 			return _columnClasses[col];
 		}
 		
@@ -2705,12 +2711,12 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 			}
 		}
 		
-		private void checkForReload (TaskTreeModelEvent e) {
+		private void checkForReload (final TaskTreeModelEvent e) {
 			/*
 			 * l'evento da un workspace diversoviene consideratocome un comando di reinizializzazione su tale workspace
 			 */
 			if (e.getWorkSpace ()!=_workspace) {
-				final WorkSpace ws = e.getWorkSpace ();
+				final Project ws = (Project)e.getWorkSpace ();
 				if (ws!=null) {
 					reload (ws, ws.getRoot ());
 				} else {
@@ -2732,7 +2738,7 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 
 					public void run () {
 						final int r = taskTree.getSelectedRow ();
-						reload (_context.getModel ().getWorkSpace (), (Task)taskTree.getModel ().getValueAt (taskTree.convertRowIndexToModel (r), taskTree.convertColumnIndexToModel (TaskJTreeModel.TREE_COLUMN_INDEX)));
+						reload (_context.getModel ().getWorkSpace (), (ProgressItem)taskTree.getModel ().getValueAt (taskTree.convertRowIndexToModel (r), taskTree.convertColumnIndexToModel (TaskJTreeModel.TREE_COLUMN_INDEX)));
 					}
 				});
 			}
@@ -2777,7 +2783,7 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 		 * aggiorna l'array contenente gli indici delle righe che sono in avanzamento
 		 */
 		private void cacheAdvancingProgress () {
-			final Set advancing = _context.getModel ().getAdvancing ();
+			final Set<PieceOfWork> advancing = _context.getModel ().getAdvancing ();
 			int[] tmp = new int[0];
 			int counter = 0;
 			int i = 0;
@@ -2849,7 +2855,7 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 			return 3;
 		}
 		
-		private final Class[] _columnClasses = new Class[] {
+		private final Class<?>[] _columnClasses = new Class<?>[] {
 			Object.class,
 			TaskTreeDuration.class,
 			TaskTreeDuration.class
@@ -2914,8 +2920,8 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 				/*
 				 *workspace cambiato
 				 */
-				Task oldRoot = (Task)getRoot ();
-				Task newRoot = (Task)ws.getRoot ();
+				final Task oldRoot = (Task)getRoot ();
+				final Task newRoot = ws.getRoot ();
 				this.root = newRoot;
 				if (newRoot == null && oldRoot != null) {
 					fireTreeStructureChanged (this, null);
@@ -3068,10 +3074,10 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 				//colonna durata giornaliera
 				case TODAY_COLUMN_INDEX: /*@todo ottimizzare!*/ {
 					_todayPeriod.reset ();
-					final Task t = (Task) object;
-					final List progresses = t.getSubtreeProgresses ();
-					for (final Iterator it = progresses.iterator ();it.hasNext ();){
-						final Progress p = (Progress)it.next ();
+					final ProgressItem t = (ProgressItem) object;
+					final List<Progress> progresses = t.getSubtreeProgresses ();
+					for (final Iterator<Progress> it = progresses.iterator ();it.hasNext ();){
+						final PieceOfWork p = it.next ();
 						_todayPeriod.computeProgress (p);
 					}
 					_rubberStampDuration.setTask (t);
@@ -3103,6 +3109,7 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 				case TREE_COLUMN_INDEX:
 					final ProgressItem t = (ProgressItem)object0;
 					_model.updateTask (t, (String)object, t.getDescription ());
+					break;
 				default:
 					return;
 			}
@@ -3155,12 +3162,13 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 		/**
 		 * Un periodo di tempo all'interno della giornata odierna.
 		 */
-		private final class TodayPeriod extends AbsolutePeriodImpl implements Comparable {
+		private final class TodayPeriod extends AbsolutePeriodImpl implements Comparable<AbsolutePeriod> {
 			/*
 			 * durata calcolata in millisecondi
 			 */
 			private long _millisecs = 0;
 			private DurationImpl todayAmount;
+			private final AbsolutePeriodImpl intersectionSupport = new AbsolutePeriodImpl ();
 			
 			public TodayPeriod (){
 				super (getToday ());
@@ -3170,31 +3178,35 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 			public void reset (){
 				setFrom (getToday ().getFrom ());
 				setTo (getToday ().getTo ());
-				this._millisecs = 0;
+				_millisecs = 0;
 			}
 			
-			public int compareTo (Object o) {
-				return compareToStart ((AbsolutePeriod)o);
+			public int compareTo (final AbsolutePeriod o) {
+				return compareToStart (o);
 			}
 			
 			/**
 			 * Calcola la quota di lavoro appartenente al giorno odierno per l'avanzamento specificato.
 			 */
-			public void computeProgress ( Progress progress ){
+			public void computeProgress (final PieceOfWork progress ){
 				AbsolutePeriod toIntersect = null;
+
 				if (!progress.isEndOpened ()){
-					if (!this.intersects (progress)){
+					if (!intersects (progress)){
 						return;
 					}
 					toIntersect = progress;
 				} else {
 					//avanzamento in corso
-					toIntersect = new AbsolutePeriodImpl (progress.getFrom (), new Date ());
+					intersectionSupport.setFrom (progress.getFrom ());
+					intersectionSupport.setTo (new Date ());
+
+					toIntersect = intersectionSupport;
 				}
 				
-				final AbsolutePeriod intersection = this.intersection (toIntersect);
+				final AbsolutePeriod intersection = intersection (toIntersect);
 				if (intersection!=null) {
-					this._millisecs += intersection.getDuration ().getTime ();
+					_millisecs += intersection.getDuration ().getTime ();
 				}
 			}
 			
@@ -3298,11 +3310,12 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 	
 	boolean postInitialized = false;
 	/**
-	 * Mostra la finestra, eventualmente completando la fase di inizializzazione.
+	 * Mostra o nasconde la finestra, eventualmente completando la fase di inizializzazione.
+	 * @param visible indica se nmostrare o nascondere questa finestra.
 	 * @see #postInit
 	 */
 	@Override
-	public void setVisible (boolean visible){
+	public void setVisible (final boolean visible){
 		if (!postInitialized){
 			postInit ();
 		}
@@ -3487,20 +3500,20 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 	/**
 	 * Array delle azioni.
 	 */
-	private final Map actions = new HashMap ();
+	private final Map<Object, Action> actions = new HashMap<Object, Action> ();
 	
 	/**
 	 * Crea l'array delle azioni registrate su di un componente testuale.
 	 */
-	private void createActionTable (JTextComponent textComponent) {
-		Action[] actionsArray = textComponent.getActions ();
+	private void createActionTable (final JTextComponent textComponent) {
+		final Action[] actionsArray = textComponent.getActions ();
 		for (int i = 0; i < actionsArray.length; i++) {
-			Action a = actionsArray[i];
+			final Action a = actionsArray[i];
 			actions.put (a.getValue (Action.NAME), a);
 		}
 	}
 	
-	private Action getActionByName (String name) {
+	private Action getActionByName (final String name) {
 		return (Action)(actions.get (name));
 	}
 	
@@ -3615,7 +3628,7 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 		}
 		
 		public void valueChanged (TreeSelectionEvent e) {
-			final Map<Task, List<Task>> removalCandidates = new HashMap ();
+			final Map<Task, List<Task>> removalCandidates = new HashMap<Task, List<Task>> ();
 			for (final int r : taskTree.getSelectedRows ()){
 				final Task candidate = (Task) taskTree.getModel ().getValueAt (taskTree.convertRowIndexToModel (r), taskTree.convertColumnIndexToModel (TaskJTreeModel.TREE_COLUMN_INDEX));
 				final Task parent = candidate.getParent ();
@@ -3637,7 +3650,7 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 						/*
 						 * nessun fratello gia' in lista.
 						 */
-						final List<Task> l = new ArrayList ();
+						final List<Task> l = new ArrayList<Task> ();
 						l.add (candidate);
 						removalCandidates.put (parent, l);
 					}
@@ -4593,7 +4606,7 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 			
 			final PasteMode pasteMode = (PasteMode)optionsArray[selectedOption];
 			
-			Task target;
+			final ProgressItem target;
 			if (pasteMode==PasteMode.AS_LAST_CHILD) {
 				target = releaseTarget;
 			} else if (pasteMode==PasteMode.BEFORE) {
@@ -4680,12 +4693,12 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 		}
 		
 		
-		private void copySubtree (final List<Task> sources, final Task target, final int pos) {
+		private void copySubtree (final List<? extends Task> sources, final ProgressItem target, final int pos) {
 			copySubtree (sources, target, target, target.getChildren (), pos);
 		}
 		
 		
-		private void copySubtree (final List<Task> sources, final Task target, final Task start, final List<Task> startChildren, final int pos) {
+		private void copySubtree (final List<? extends Task> sources, final Task target, final Task start, final List<? extends Task> startChildren, final int pos) {
 			final List<Task> copies = new ArrayList<Task> ();
 			for (final Task t : sources) {
 				final Task copy = new ProgressItem ((ProgressItem)t);
@@ -4705,7 +4718,7 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 				} else {
 					copySubtree (s.getChildren (), c, start, startChildren, -1);
 				}
-				_importProgresses ((PieceOfWork[])s.getPiecesOfWork ().toArray (new PieceOfWork[0]), (ProgressItem)c, false);
+				_importProgresses (s.getPiecesOfWork ().toArray (new PieceOfWork[0]), (ProgressItem)c, false);
 			}
 		}
 		
@@ -4764,15 +4777,17 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 			
 			try {
 				if (hasProgressItemFlavor (t.getTransferDataFlavors ())){
+					@SuppressWarnings("unchecked")
 					final TransferData<Task> td = (TransferData<Task>)t.getTransferData (progressItemFlavor);
-					final Task[] progressItems = (Task[])td.getData ();
+					final Task[] progressItems = td.getData ();
 					importProgressItems (c, progressItems, td.getAction ()!=TransferHandler.COPY);
 				} else if (hasProgressFlavor (t.getTransferDataFlavors ())){
+					@SuppressWarnings("unchecked")
 					final TransferData<PieceOfWork> td = (TransferData<PieceOfWork>)t.getTransferData (progressFlavor);
 					final PieceOfWork[] progresses = td.getData ();
 					importProgresses (c, progresses, td.getAction ()!=TransferHandler.COPY);
 				}
-			} catch (UnsupportedFlavorException ufe) {
+			} catch (final UnsupportedFlavorException ufe) {
 				_context.getLogger ().log (Level.WARNING,"Error transferring UI data.",ufe);
 				return false;
 			} catch (IOException ioe) {
@@ -4932,12 +4947,12 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 	 **********************************************/
 	
 	private static Object[] toObjectArray (final TaskTreePath p){
-		final List l = new ArrayList ();
+		final List<Task> l = new ArrayList<Task> ();
 		populateList (l, p);
 		return l.toArray ();
 	}
 	
-	private static void populateList (final List l, final TaskTreePath p){
+	private static void populateList (final List<Task> l, final TaskTreePath p){
 		final Task t = p.getLastPathComponent ();
 		if (t!=null) {
 			l.add (0, t);

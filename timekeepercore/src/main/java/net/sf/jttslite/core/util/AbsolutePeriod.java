@@ -19,6 +19,8 @@ import java.util.Date;
  */
 public interface AbsolutePeriod {
 
+	long getId ();
+
 	/**
 	 * La data di inizio di questo periodo.
 	 * @return la data di inizio di questo periodo.

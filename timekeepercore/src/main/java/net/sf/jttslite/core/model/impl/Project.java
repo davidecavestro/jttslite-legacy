@@ -6,6 +6,8 @@
 
 package net.sf.jttslite.core.model.impl;
 
+import javax.jdo.annotations.PersistenceAware;
+import javax.jdo.annotations.PersistenceCapable;
 import net.sf.jttslite.core.model.Task;
 import net.sf.jttslite.core.model.WorkSpace;
 import net.sf.jttslite.core.model.WorkSpaceBackup;
@@ -24,6 +26,7 @@ import net.sf.jttslite.core.model.WorkSpaceBackup;
  *
  * @author  davide
  */
+@PersistenceCapable(table="jtts_workspace", detachable="true")
 public class Project implements WorkSpace {
 	
 	/**
@@ -79,8 +82,9 @@ public class Project implements WorkSpace {
 	 *
 	 * @return il nome.
 	 */	
+	@Override
 	public String getName (){
-		return this.name;
+		return name;
 	}
 	
 	/**
@@ -88,7 +92,8 @@ public class Project implements WorkSpace {
 	 *
 	 * @param name il nome da impostare.
 	 */	
-	public void setName (String name){
+	@Override
+	public void setName (final String name){
 		this.name = name;
 	}
 	
@@ -97,8 +102,9 @@ public class Project implements WorkSpace {
 	 *
 	 * @return la radice della gerarchia dei nodi di avanzamento.
 	 */	
-	public Task getRoot (){
-		return this.root;
+	@Override
+	public ProgressItem getRoot (){
+		return root;
 	}
 	
 	/**
@@ -106,6 +112,7 @@ public class Project implements WorkSpace {
 	 *
 	 * @return una stringa che rappresenta questo progetto.
 	 */
+	@Override
 	public String toString (){
 		final StringBuilder sb = new StringBuilder ();
 		sb.append ("name: ").append (this.name)
@@ -118,7 +125,8 @@ public class Project implements WorkSpace {
 	 *
 	 * @param root la radice della gerarchia di nodi.
 	 */
-	public void setRoot(Task root) {
+	@Override
+	public void setRoot(final Task root) {
 		this.root=(ProgressItem)root;
 	}
 	
@@ -127,8 +135,9 @@ public class Project implements WorkSpace {
 	 *
 	 * @return la descrizione.
 	 */
+	@Override
 	public String getDescription() {
-		return this.description;
+		return description;
 	}
 	
 	/** 
@@ -136,7 +145,8 @@ public class Project implements WorkSpace {
 	 *
 	 * @param description la descrizione.
 	 */
-	public void setDescription(String description) {
+	@Override
+	public void setDescription(final String description) {
 		this.description = description;
 	}
 	
@@ -145,8 +155,9 @@ public class Project implements WorkSpace {
 	 *
 	 * @return le note.
 	 */
+	@Override
 	public String getNotes() {
-		return this.notes;
+		return notes;
 	}
 	
 	/** 
@@ -154,10 +165,12 @@ public class Project implements WorkSpace {
 	 *
 	 * @param notes le note.
 	 */
-	public void setNotes(String notes) {
+	@Override
+	public void setNotes(final String notes) {
 		this.notes = notes;
 	}
 
+	@Override
 	public WorkSpaceBackup backup () {
 		return new WorkSpaceBackupImpl (this);
 	}
@@ -167,22 +180,27 @@ public class Project implements WorkSpace {
 	 *<P>
 	 * La classe &egrave; statica per evitare l'accesso involontario alle variabili della classe che la contiene. Deve avere l'accesso solamente per estensione!
 	 */
+	@PersistenceAware
 	private static class WorkSpaceBackupImpl extends Project implements WorkSpaceBackup {
-		private final Project _source;
+		
+		private final Project source;
+
 		public WorkSpaceBackupImpl (final Project p) {
 			super (p);
-			_source = p;
+			source = p;
 		}
+		@Override
 		public WorkSpace getSource () {
-			return _source;
+			return source;
 		}
 
+		@Override
 		public void restore () {
-			_source.description = description;
-			_source.name = name;
-			_source.notes = notes;
+			source.description = description;
+			source.name = name;
+			source.notes = notes;
 
-            _source.root = root;
+            source.root = root;
 		}
 
 	}

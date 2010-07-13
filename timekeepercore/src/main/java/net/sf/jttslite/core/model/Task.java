@@ -72,7 +72,7 @@ public interface Task {
 	 *
 	 * @return la lista di avanzamenti appartnenti a queto nodo.
 	 */
-	List<PieceOfWork> getPiecesOfWork ();
+	List<? extends PieceOfWork> getPiecesOfWork ();
 	
 	/**
 	 * Ritorna il nome di questo nodo.
@@ -145,7 +145,7 @@ public interface Task {
 	 *
 	 * @return gli avanzamenti apparteneneti al sottoalbero.
 	 */
-	List<PieceOfWork> getSubtreeProgresses ();
+	List<? extends PieceOfWork> getSubtreeProgresses ();
 	
 	/**
 	 * Ritorna la lista dei figli di questo task.
@@ -154,7 +154,7 @@ public interface Task {
 	 * 
 	 * @return la lista dei figli di questo task.
 	 */
-	List<Task> getChildren ();
+	List<? extends Task> getChildren ();
 	
 	/**
 	 * Ritorna un clone di questo nodo, a solo scopo di backup.

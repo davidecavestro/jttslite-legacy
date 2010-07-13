@@ -16,7 +16,9 @@ import java.util.Date;
  * @author Davide Cavestro
  */
 public interface PieceOfWork extends AbsolutePeriod {
-	
+
+//	long getId ();
+
 	/**
 	 * Ritorna il nodo di appartnenenza del periodo di lavoro.
 	 *

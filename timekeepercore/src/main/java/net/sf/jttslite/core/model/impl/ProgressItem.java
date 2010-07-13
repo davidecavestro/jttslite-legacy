@@ -6,12 +6,15 @@
 
 package net.sf.jttslite.core.model.impl;
 
-import net.sf.jttslite.common.util.ExceptionUtils;
 import net.sf.jttslite.core.model.PieceOfWork;
-import net.sf.jttslite.core.model.PieceOfWorkBackup;
 import net.sf.jttslite.core.model.Task;
 import net.sf.jttslite.core.model.TaskBackup;
 import java.util.*;
+import javax.jdo.annotations.Element;
+import javax.jdo.annotations.NotPersistent;
+import javax.jdo.annotations.PersistenceAware;
+import javax.jdo.annotations.PersistenceCapable;
+import net.sf.jttslite.core.model.impl.Progress.PieceOfWorkBackupImpl;
 
 /**
  * Generico nodo della gerarchia di avanzamenti (nodo di avanzamento).
@@ -26,6 +29,7 @@ import java.util.*;
  *
  * @author  davide
  */
+@PersistenceCapable(table="jtts_task", detachable="true")
 public class ProgressItem extends Observable implements Task {
 	
 	/**
@@ -56,24 +60,28 @@ public class ProgressItem extends Observable implements Task {
 	/**
 	 * I figli di questo nodo.
 	 */
-	protected List children = new ArrayList ();
+	@Element(types=net.sf.jttslite.core.model.impl.ProgressItem.class, mappedBy="parent", dependent="true")
+	protected final List<ProgressItem> children = new ArrayList<ProgressItem> ();
 	
 	/**
 	 * Gli avanzamenti effettuati su questo nodo.
 	 */
-	protected List progresses = new ArrayList ();
+	@Element(types=net.sf.jttslite.core.model.impl.Progress.class, mappedBy="progressItem", dependent="true")
+	protected final List<Progress> progresses = new ArrayList<Progress> ();
 	
 	/**
 	 * Il progetto di appartenenza.
 	 * @warning non utilizzato, per retrocompatibilit&agrave; con JTTS v1 (BUG)
 	 */
-	Project project;
 	
-	
+	//Project project;
+
+
 	/**
 	 * I listener registrati per questo nodo.
 	 */
-	private final List progressListeners = new ArrayList ();
+	@NotPersistent
+	private final List<ProgressListener> progressListeners = new ArrayList<ProgressListener> ();
 	
 	/**
 	 * Costruttore vuoto.
@@ -82,17 +90,22 @@ public class ProgressItem extends Observable implements Task {
 	}
 	
 	/**
-	 * Costruttore con nome.
+	 * Crea una nuova istanza inizializzandone solo il nome.
 	 *
 	 * @param name il nome.
 	 */
-	public ProgressItem (String name) {
+	public ProgressItem (final String name) {
 		this.name=name;
 	}
 	
 	/**
-	 * Costruttore.
+	 * Crea una nuova istanza inizianizzandola.
 	 *
+	 *
+	 * @param code
+	 * @param name
+	 * @param description
+	 * @param notes
 	 */
 	public ProgressItem (final String code, final String name, final String description, final String notes) {
 		this.code=code;
@@ -107,10 +120,10 @@ public class ProgressItem extends Observable implements Task {
 	 * @param source il nodo sorgente.
 	 */
 	public ProgressItem (final ProgressItem source) {
-		this.code=source.code;
-		this.description = source.description;
-		this.name = source.name;
-		this.notes = source.notes;
+		code=source.code;
+		description = source.description;
+		name = source.name;
+		notes = source.notes;
 	}
 	
 	/**
@@ -118,33 +131,26 @@ public class ProgressItem extends Observable implements Task {
 	 *
 	 * @return il codice.
 	 */
-	public String getCode (){return this.code;}
+	@Override
+	public String getCode (){return code;}
 	
 	/**
 	 * Ritorna il nome di questo nodo.
 	 *
 	 * @return il nome.
 	 */
-	public String getName (){return this.name;}
+	@Override
+	public String getName (){return name;}
 	
 	/**
 	 * Ritorna il padre di questo nodo.
 	 *
 	 * @return il padre
 	 */
-	public Task getParent () {
-		return this.parent;
+	@Override
+	public ProgressItem getParent () {
+		return parent;
 	}
-	
-	/**
-	 * Ritorna il progetto di appartenenza di questo nodo.
-	 *
-	 * @warning non valorizato, per retrocompatibilit&agrave; con JTTS v1 (BUG)
-	 * @return il progetto di appartenenza.
-	 */
-//	public WorkSpace getWorkSpace () {
-//		return this.project;
-//	}
 	
 	/**
 	 * Inserisce un nuovo elemento figlio alla posizione desiderata.
@@ -154,22 +160,23 @@ public class ProgressItem extends Observable implements Task {
 	 * @param child il nuovo figlio.
 	 * @param pos la posizione del figlio. Usare unvalore negativoper accodare.
 	 */
-	public int insert (Task child, int pos){
+	@Override
+	public int insert (final Task child, final int pos){
 		int retValue;
+		final ProgressItem realChild = (ProgressItem)child;
 		if (pos<0) {
-			safeChildrenAccessor().add (child);
-			retValue = safeChildrenAccessor().indexOf (child);
+			children.add (realChild);
+			retValue = children.indexOf (child);
 		} else {
-			safeChildrenAccessor().add (pos, child);
+			children.add (pos, realChild);
 			retValue = pos;
 		}
-		((ProgressItem)child).parent=this;
-		((ProgressItem)child).project = this.project;
+		realChild.parent=this;
 		
-		this.setChanged ();
-		((ProgressItem)child).setChanged ();
-		this.notifyObservers ();
-		((ProgressItem)child).notifyObservers ();
+		setChanged ();
+		realChild.setChanged ();
+		notifyObservers ();
+		realChild.notifyObservers ();
 		
 		return retValue;
 	}
@@ -182,10 +189,10 @@ public class ProgressItem extends Observable implements Task {
 	 * @param child il nuovo figlio.
 	 * @return la posizione di inserimento del nuovo nodo.
 	 */
-	public int insert (Task child){
+	public int insert (final Task child){
 		int position;
-		synchronized (safeChildrenAccessor()) {
-			position = this.safeChildrenAccessor().size ();
+		synchronized (children) {
+			position = children.size ();
 			insert (child, position);
 		}
 		return position;
@@ -198,15 +205,15 @@ public class ProgressItem extends Observable implements Task {
 	 *
 	 * @param pos la posizione del figlio da rimuovere.
 	 */
-	public void remove (int pos) {
-		Task child = (Task)this.safeChildrenAccessor().remove (pos);
-		((ProgressItem)child).parent=null;
-		((ProgressItem)child).project = null;
+	@Override
+	public void remove (final int pos) {
+		final ProgressItem child = children.remove (pos);
+		child.parent=null;
 		
-		this.setChanged ();
-		((ProgressItem)child).setChanged ();
-		this.notifyObservers ();
-		((ProgressItem)child).notifyObservers ();
+		setChanged ();
+		child.setChanged ();
+		notifyObservers ();
+		child.notifyObservers ();
 	}
 	
 	/**
@@ -216,7 +223,7 @@ public class ProgressItem extends Observable implements Task {
 	 *
 	 * @param child il figlio da rimuovere.
 	 */
-	public void remove (Task child) {
+	public void remove (final Task child) {
 		int ix = childIndex (child);
 		this.remove (ix);
 	}
@@ -228,9 +235,10 @@ public class ProgressItem extends Observable implements Task {
 	 * @param child il figlio.
 	 * @return l'indice relativo alla posizione del figlio.
 	 */
-	public int childIndex (Task child){
-		for (int i=0;i<this.safeChildrenAccessor().size ();i++){
-			Task childAt = (Task)this.safeChildrenAccessor().get (i);
+	@Override
+	public int childIndex (final Task child){
+		for (int i=0;i<children.size ();i++){
+			final Task childAt = children.get (i);
 			if (child.equals (childAt)){
 				return i;
 			}
@@ -243,12 +251,15 @@ public class ProgressItem extends Observable implements Task {
 	 *
 	 * Questa azione viene notificata ai listener registrati su
 	 * questo nodo.
+	 *
+	 * @param progress
+	 * @throws ClassCastException se progress non è un'istanza di Progress.
 	 */
 	public synchronized void addProgress (final PieceOfWork progress) {
-		safeProgressesAccessor ().add (progress);
+		progresses.add ((Progress)progress);
 		
-		this.setChanged ();
-		this.notifyObservers ();
+		setChanged ();
+		notifyObservers ();
 	}
 	
 	/**
@@ -257,9 +268,9 @@ public class ProgressItem extends Observable implements Task {
 	 * @param recurse specificare se applicare la visita ricorsivamente sul sottoalbero.
 	 * @param visitor il visitor.
 	 */
-	public void accept (ProgressItemVisitor visitor, boolean recurse){
-		for (Iterator it=this.safeChildrenAccessor().iterator ();it.hasNext ();){
-			((ProgressItem)it.next ()).accept (visitor, recurse);
+	public void accept (final ProgressItemVisitor visitor, final boolean recurse){
+		for (final Iterator<ProgressItem> it=children.iterator ();it.hasNext ();){
+			it.next ().accept (visitor, recurse);
 		}
 		visitor.visit (this);
 	}
@@ -269,7 +280,7 @@ public class ProgressItem extends Observable implements Task {
 	 *
 	 * @param l il nuovo listener.
 	 */
-	public void addProgressListener (ProgressListener l) {
+	public void addProgressListener (final ProgressListener l) {
 		progressListeners.add (l);
 	}
 	
@@ -278,7 +289,7 @@ public class ProgressItem extends Observable implements Task {
 	 *
 	 * @param l il listener da rimuovere.
 	 */
-	public void removeProgressListener (ProgressListener l) {
+	public void removeProgressListener (final ProgressListener l) {
 		progressListeners.remove (l);
 	}
 	
@@ -287,8 +298,9 @@ public class ProgressItem extends Observable implements Task {
 	 *
 	 * @return una stringa che rappresenta questo nodo.
 	 */
+	@Override
 	public String toString (){
-		return this.name;
+		return name;
 	}
 	
 	/**
@@ -297,8 +309,9 @@ public class ProgressItem extends Observable implements Task {
 	 *
 	 * @return la lista dei figli.
 	 */
-	public List getChildren (){
-		return Collections.unmodifiableList (this.safeChildrenAccessor());
+	@Override
+	public List<ProgressItem> getChildren (){
+		return Collections.unmodifiableList (children);
 	}
 	
 	/**
@@ -308,8 +321,9 @@ public class ProgressItem extends Observable implements Task {
 	 * @param pos la posizione del figlio da cercare.
 	 * @return il figlio di questo nodo avente posizione <TT>pos</TT>.
 	 */
-	public Task childAt (int pos){
-		return (Task)this.safeChildrenAccessor().get (pos);
+	@Override
+	public Task childAt (final int pos){
+		return children.get (pos);
 	}
 	
 	/**
@@ -317,8 +331,9 @@ public class ProgressItem extends Observable implements Task {
 	 *
 	 * @return il numero dei figli.
 	 */
+	@Override
 	public int childCount (){
-		return this.safeChildrenAccessor().size ();
+		return children.size ();
 	}
 	
 	/**
@@ -327,57 +342,58 @@ public class ProgressItem extends Observable implements Task {
 	 *
 	 * @return la lista di avanzamenti appartnenti a queto nodo.
 	 */
-	public List getPiecesOfWork (){
-		return Collections.unmodifiableList (safeProgressesAccessor ());
+	@Override
+	public List<Progress> getPiecesOfWork (){
+		return Collections.unmodifiableList (progresses);
 	}
 	
-	private transient List _safeProgressesAccessor;
-	/**
-	 * Protegge l'accesso al campo interno da eventuali eccezioni dovutea corruzione dati. Siccome tali dati sonoconsideratiirrecuperabili
-	 * allora tanto vale proseguire.
-	 */
-	protected List safeProgressesAccessor (){
-		try {
-			return this.progresses;
-		} catch (final Exception e) {
-			/*
-			 * @workaround per mitigare problemi di corruzione dati
-			 */
-			if (_safeProgressesAccessor==null) {
-				_safeProgressesAccessor = new ArrayList ();
-				/*
-				 * mostra messaggio solo la prima volta
-				 */
-				System.out.println ("WARNING: Potential corruption detected. Erasing unavailable object reference.");
-				System.out.println ("Root cause:" + ExceptionUtils.getStackTrace (e));
-			}
-			return _safeProgressesAccessor;
-		}
-	}
-	
-	private transient List _safeChildrenAccessor;
-	/**
-	 * Protegge l'accesso al campo interno da eventuali eccezioni dovutea corruzione dati. Siccome tali dati sonoconsideratiirrecuperabili
-	 * allora tanto vale proseguire.
-	 */
-	protected List safeChildrenAccessor (){
-		try {
-			return this.children;
-		} catch (final Exception e) {
-			/*
-			 * @workaround per mitigare problmi di corruzione dati
-			 */
-			if (_safeChildrenAccessor==null) {
-				_safeChildrenAccessor = new ArrayList ();
-				/*
-				 * mostra messaggio solo la prima volta
-				 */
-				System.out.println ("WARNING: Potential corruption detected. Erasing unavailable object reference.");
-				System.out.println ("Root cause:" + ExceptionUtils.getStackTrace (e));
-			}
-			return _safeChildrenAccessor;
-		}
-	}
+//	private transient List _safeProgressesAccessor;
+//	/**
+//	 * Protegge l'accesso al campo interno da eventuali eccezioni dovutea corruzione dati. Siccome tali dati sonoconsideratiirrecuperabili
+//	 * allora tanto vale proseguire.
+//	 */
+//	protected List safeProgressesAccessor (){
+//		try {
+//			return this.progresses;
+//		} catch (final Exception e) {
+//			/*
+//			 * @workaround per mitigare problemi di corruzione dati
+//			 */
+//			if (_safeProgressesAccessor==null) {
+//				_safeProgressesAccessor = new ArrayList ();
+//				/*
+//				 * mostra messaggio solo la prima volta
+//				 */
+//				System.out.println ("WARNING: Potential corruption detected. Erasing unavailable object reference.");
+//				System.out.println ("Root cause:" + ExceptionUtils.getStackTrace (e));
+//			}
+//			return _safeProgressesAccessor;
+//		}
+//	}
+//
+//	private transient List _safeChildrenAccessor;
+//	/**
+//	 * Protegge l'accesso al campo interno da eventuali eccezioni dovutea corruzione dati. Siccome tali dati sonoconsideratiirrecuperabili
+//	 * allora tanto vale proseguire.
+//	 */
+//	protected List safeChildrenAccessor (){
+//		try {
+//			return this.children;
+//		} catch (final Exception e) {
+//			/*
+//			 * @workaround per mitigare problmi di corruzione dati
+//			 */
+//			if (_safeChildrenAccessor==null) {
+//				_safeChildrenAccessor = new ArrayList ();
+//				/*
+//				 * mostra messaggio solo la prima volta
+//				 */
+//				System.out.println ("WARNING: Potential corruption detected. Erasing unavailable object reference.");
+//				System.out.println ("Root cause:" + ExceptionUtils.getStackTrace (e));
+//			}
+//			return _safeChildrenAccessor;
+//		}
+//	}
 	/**
 	 * Ritorna gli avanzamenti apparteneneti al sottoalbero avente questo nodo
 	 * come radice.
@@ -385,12 +401,13 @@ public class ProgressItem extends Observable implements Task {
 	 *
 	 * @return gli avanzamenti apparteneneti al sottoalbero.
 	 */
-	public List getSubtreeProgresses (){
-		final List subProgresses = new ArrayList (safeProgressesAccessor ());
-		for (final Iterator it = this.safeChildrenAccessor().iterator (); it.hasNext ();){
-			subProgresses.addAll (((ProgressItem)it.next ()).getSubtreeProgresses ());
+	@Override
+	public List<Progress> getSubtreeProgresses (){
+		final List<Progress> subProgresses = new ArrayList<Progress> (progresses);
+		for (final Iterator<ProgressItem> it = children.iterator (); it.hasNext ();){
+			subProgresses.addAll (it.next ().getSubtreeProgresses ());
 		}
-		return subProgresses;
+		return Collections.unmodifiableList (subProgresses);
 	}
 	/**
 	 * Ritorna gli elementi del sottoalbero.
@@ -398,13 +415,12 @@ public class ProgressItem extends Observable implements Task {
 	 * @return gli elementi del sottoalbero avente questo item
 	 * come radice.
 	 */
-	public List getDescendants (){
-		final List children = getChildren ();
-		final List retValue = new ArrayList (children);
-		for (Iterator it = children.iterator (); it.hasNext ();){
-			retValue.addAll (((ProgressItem)it.next ()).getDescendants ());
+	public List<ProgressItem> getDescendants (){
+		final List<ProgressItem> retValue = new ArrayList<ProgressItem> (getChildren ());
+		for (final Iterator<ProgressItem> it = getChildren ().iterator (); it.hasNext ();){
+			retValue.addAll (it.next ().getDescendants ());
 		}
-		return retValue;
+		return Collections.unmodifiableList (retValue);
 	}
 	
 	/**
@@ -418,13 +434,14 @@ public class ProgressItem extends Observable implements Task {
 	/**
 	 * Imposta la lista dei figli di questo nodo.
 	 * <BR>
-	 * N.B.: questo metodo non modifica i riferimenti dei figli verso ilnuovo padre.
+	 * N.B.: questo metodo non modifica i riferimenti dei figli verso il nuovo padre.
 	 * @see ProgressItem#insert .
 	 *
 	 * @param children la nuova lista dei figli di questo nodo.
 	 */
-	public void setChildren (List children) {
-		this.children=new ArrayList (children);
+	public void setChildren (final List<ProgressItem> children) {
+		this.children.clear ();
+		this.children.addAll (children);
 	}
 	
 	/**
@@ -432,7 +449,7 @@ public class ProgressItem extends Observable implements Task {
 	 *
 	 * @param code il nuovo codice.
 	 */
-	public void setCode (String code) {
+	public void setCode (final String code) {
 		this.code=code;
 	}
 	
@@ -441,7 +458,8 @@ public class ProgressItem extends Observable implements Task {
 	 *
 	 * @param name il nuovo nome.
 	 */
-	public void setName (String name) {
+	@Override
+	public void setName (final String name) {
 		this.name=name;
 	}
 	
@@ -454,7 +472,7 @@ public class ProgressItem extends Observable implements Task {
 	 * @param parent il nuovo padre.
 	 *@throws ClassCastException se il parametro passato non &egrave; di tipo ProgressItem
 	 */
-	public void setParent (Task parent) {this.parent=(ProgressItem)parent;}
+	public void setParent (final Task parent) {this.parent=(ProgressItem)parent;}
 	
 	/**
 	 * Imposta gli avanzamenti relativi a questo nodo.
@@ -462,8 +480,9 @@ public class ProgressItem extends Observable implements Task {
 	 *
 	 * @param progresses Gli avanzamenti.
 	 */
-	public synchronized void setProgresses (List progresses) {
-		this.progresses = new ArrayList (progresses);
+	public synchronized void setProgresses (final List<Progress> progresses) {
+		this.progresses.clear ();
+		this.progresses.addAll (progresses);
 	}
 	
 	/**
@@ -471,6 +490,7 @@ public class ProgressItem extends Observable implements Task {
 	 *
 	 * @return la descrizione.
 	 */
+	@Override
 	public String getDescription () {
 		return this.description;
 	}
@@ -480,7 +500,8 @@ public class ProgressItem extends Observable implements Task {
 	 *
 	 * @param description la descrizione.
 	 */
-	public void setDescription (String description) {
+	@Override
+	public void setDescription (final String description) {
 		this.description = description;
 	}
 	
@@ -489,6 +510,7 @@ public class ProgressItem extends Observable implements Task {
 	 *
 	 * @return le note.
 	 */
+	@Override
 	public String getNotes () {
 		return this.notes;
 	}
@@ -498,7 +520,7 @@ public class ProgressItem extends Observable implements Task {
 	 *
 	 * @param notes le nuove note.
 	 */
-	public void setNotes (String notes) {
+	public void setNotes (final String notes) {
 		this.notes = notes;
 	}
 	
@@ -510,24 +532,25 @@ public class ProgressItem extends Observable implements Task {
 	 * nodi di avanzamento del progetto.
 	 */	
 	public boolean isRoot (){
-		return this.parent==null;
+		return parent==null;
 	}
 	
 	/**
 	 * Rimuove il periodo di avanzamento specificato da questo nodo.
 	 * @param progress l'avanzamento da rimuovere.
 	 */
+	@Override
 	public synchronized void removePieceOfWork (final PieceOfWork progress){
-		final int size = safeProgressesAccessor ().size ();
+		final int size = progresses.size ();
 		for (int i=0;i<size;i++){
-			final PieceOfWork candidate = (PieceOfWork)safeProgressesAccessor ().get (i);
+			final PieceOfWork candidate = progresses.get (i);
 			if (candidate==progress){
-				safeProgressesAccessor ().remove (i);
+				progresses.remove (i);
 				break;
 			}
 		}
-		this.setChanged ();
-		this.notifyObservers ();
+		setChanged ();
+		notifyObservers ();
 	}
 	
 	/**
@@ -537,10 +560,10 @@ public class ProgressItem extends Observable implements Task {
 	 */
 	public synchronized int insert (final PieceOfWork progress){
 		progress.setTask (this);
-		final int position = safeProgressesAccessor ().size ();
-		safeProgressesAccessor ().add (progress);
-		this.setChanged ();
-		this.notifyObservers ();
+		final int position = progresses.size ();
+		progresses.add ((Progress)progress);
+		setChanged ();
+		notifyObservers ();
 		return position;
 	}
 	
@@ -550,36 +573,41 @@ public class ProgressItem extends Observable implements Task {
 	 * @param position la posizionedelnuovoavanzamento. Usare unvalore negativoper accodare.
 	 * @param progress l'avanzamento da aggiungere.
 	 */
-	public synchronized int insert (final PieceOfWork progress, int position){
+	@Override
+	public synchronized int insert (final PieceOfWork progress, final int position){
 		progress.setTask (this);
-		int retValue;
+		final int retValue;
 		if (position<0) {
-			progresses.add (progress);
+			progresses.add ((Progress)progress);
 			retValue = progresses.indexOf (progress);
 		} else {
-			progresses.add (position, progress);
+			progresses.add (position, (Progress)progress);
 			retValue = position;
 		}
-		this.setChanged ();
-		this.notifyObservers ();
+		setChanged ();
+		notifyObservers ();
 		
 		return retValue;
 	}
 
-	public int pieceOfWorkIndex (PieceOfWork p) {
+	@Override
+	public int pieceOfWorkIndex (final PieceOfWork p) {
 		return progresses.indexOf (p);
 	}
 
-	public PieceOfWork pieceOfWorkAt (int pos) {
-		return (PieceOfWork)safeProgressesAccessor ().get (pos);
+	@Override
+	public PieceOfWork pieceOfWorkAt (final int pos) {
+		return progresses.get (pos);
 	}
 
+	@Override
 	public int pieceOfWorkCount () {
-		return safeProgressesAccessor ().size ();
+		return progresses.size ();
 	}
 
-	public TaskBackup backup () {
-		return new TaskBackupOmpl (this);
+	@Override
+	public TaskBackupImpl backup () {
+		return new TaskBackupImpl (this);
 	}
 
 	/**
@@ -587,54 +615,59 @@ public class ProgressItem extends Observable implements Task {
 	 *<P>
 	 * La classe &egrave; statica per evitare l'accesso involontarioalle variabili della classe che la contiene. Deve avere l'accesso solamente per estensione!
 	 */
-	private static class TaskBackupOmpl extends ProgressItem implements TaskBackup {
-		private final ProgressItem _source;
-		public TaskBackupOmpl (final ProgressItem pi) {
+	@PersistenceAware
+	public static class TaskBackupImpl extends ProgressItem implements TaskBackup {
+
+		private final ProgressItem source;
+
+		public TaskBackupImpl (final ProgressItem pi) {
 			super (pi);
-			_source = pi;
+			source = pi;
 			
 			/*
 			 * Usa le liste interne di riferimenti per salvare i backup.
 			 */
-			children = new ArrayList ();
-			for (final Iterator it = pi.safeChildrenAccessor().iterator (); it.hasNext ();) {
-				final Task t = (Task)it.next ();
-				safeChildrenAccessor().add (t.backup ());
+//			children = new ArrayList<ProgressItem> ();
+			for (final Iterator<ProgressItem> it = pi.children.iterator (); it.hasNext ();) {
+				final ProgressItem t = it.next ();
+				children.add (t.backup ());
 			}
-			progresses = new ArrayList ();
-			for (final Iterator it = pi.progresses.iterator (); it.hasNext ();) {
-				final PieceOfWork pow = (PieceOfWork)it.next ();
+//			progresses = new ArrayList ();
+			for (final Iterator<Progress> it = pi.progresses.iterator (); it.hasNext ();) {
+				final Progress pow = it.next ();
 				progresses.add (pow.backup ());
 			}
 			
 		}
-		public Task getSource () {
-			return _source;
+		@Override
+		public ProgressItem getSource () {
+			return source;
 		}
 		
-	public void restore () {
-		
-		_source.code = code;
-		_source.description = description;
-		_source.name = name;
-		_source.notes = notes;
+		@Override
+		public void restore () {
 
-		_source.project = project;
-		
-		_source.children = new ArrayList ();
-		for (final Iterator it = safeChildrenAccessor().iterator (); it.hasNext ();) {
-			final TaskBackup tb = (TaskBackup)it.next ();
-			tb.restore ();
-			_source.safeChildrenAccessor().add (tb.getSource ());
+			source.code = code;
+			source.description = description;
+			source.name = name;
+			source.notes = notes;
+
+
+//			_source.children = new ArrayList<ProgressItem> ();
+			source.children.clear ();
+			for (final Iterator<ProgressItem> it = children.iterator (); it.hasNext ();) {
+				final TaskBackupImpl tb = (TaskBackupImpl)it.next ();
+				tb.restore ();
+				source.children.add (tb.getSource ());
+			}
+//			_source.progresses = new ArrayList ();
+			source.progresses.clear ();
+			for (final Iterator<Progress> it = progresses.iterator (); it.hasNext ();) {
+				final PieceOfWorkBackupImpl powb = (PieceOfWorkBackupImpl)it.next ();
+				powb.restore ();
+				source.progresses.add (powb.getSource ());
+			}
 		}
-		_source.progresses = new ArrayList ();
-		for (final Iterator it = progresses.iterator (); it.hasNext ();) {
-			final PieceOfWorkBackup powb = (PieceOfWorkBackup)it.next ();
-			powb.restore ();
-			_source.progresses.add (powb.getSource ());
-		}
-	}
-		
 	}
 
 }

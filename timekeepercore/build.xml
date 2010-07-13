@@ -2,7 +2,7 @@
 <!-- You may freely edit this file. See commented blocks below for -->
 <!-- some examples of how to customize the build. -->
 <!-- (If you delete it and reopen the project it will be recreated.) -->
-<project name="timekeepercore" default="default" basedir=".">
+<project xmlns:j2seproject1="http://www.netbeans.org/ns/j2se-project/1" name="timekeepercore" default="default" basedir="." >
     <description>Builds, tests, and runs the project timekeepercore.</description>
     <import file="nbproject/build-impl.xml"/>
     <!--
@@ -66,9 +66,34 @@
     nbproject/build-impl.xml file. 
 
     -->
-    
-    <target name="-post-compile" depends="enhance-datanucleus" />
 
+	<target name="__-pre-init" >
+		<pathconvert property="javac.classpath">
+            <fileset dir="lib" >
+                <include name="*.jar"/>
+            </fileset>
+			<!--
+			Jars needed to compile, but to exclude from the
+			classpath of the main project (they would result as duplicated)
+			-->
+            <fileset dir="build-lib" >
+                <include name="*.jar"/>
+            </fileset>
+			<path path="../common/dist/common.jar"/>
+        </pathconvert>
+		<echo>Overridden property javac.classpath:${javac.classpath}</echo>
+	</target>
+
+	<target name="-post-jar" >
+		<delete>
+			<fileset dir="dist/lib">
+				<include name="*datanucleus-core*"/>
+			</fileset>
+		</delete>
+	</target>
+
+	<target name="-post-compile" depends="enhance-datanucleus" />
+	<!--
 	<path id="datanucleus.enhancer.classpath">
 		<fileset dir=".">
 			<include name="lib/datanucleus-enhancer-*.jar"/>
@@ -77,23 +102,28 @@
 			<include name="lib/jdo*.jar"/>
 		</fileset>
 	</path>
+	-->
 
 	<target name="enhance-datanucleus">
 
         <!-- define the task enhancer -->
+		<!--
         <taskdef name="enhancer" classname="org.datanucleus.enhancer.tools.EnhancerTask">
             <classpath refid="datanucleus.enhancer.classpath"/>
         </taskdef>
-
+		-->
 		<!-- copy JDO mappings -->
+		<!--
 		<copy todir="${build.classes.dir}">
 			<fileset dir="${src.java.dir}">
 				<include name="**/*.jdo"/>
 			</fileset>
 		</copy>
+		-->
 
 		<!-- enhance -->
-        <enhancer 
+        <!--
+		<enhancer
             dir="${build.classes.dir}"
             verbose="true"
 			failonerror="true"
@@ -111,6 +141,7 @@
                 <include name="net/sf/**/*.class"/>
             </fileset>
         </enhancer>
+		-->
 
 	</target>
 

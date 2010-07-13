@@ -11,9 +11,9 @@ package net.sf.jttslite.common.gui.dialog;
  *
  * @author  davide
  */
-public interface DialogListener extends java.util.EventListener {
+public interface DialogListener<T> extends java.util.EventListener {
     /**
      * Questa notifica informa i listener di modifiche ad una dialog.
      */
-    public void dialogChanged (DialogEvent e);
+    void dialogChanged (DialogEvent<T> e);
 }

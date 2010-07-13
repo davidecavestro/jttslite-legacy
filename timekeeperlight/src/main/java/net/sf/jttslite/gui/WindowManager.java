@@ -21,6 +21,7 @@ import java.io.File;
 import java.util.logging.Level;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import net.sf.jttslite.common.gui.dialog.DialogEvent;
 
 /**
  * Il gestore delle finestre.
@@ -30,21 +31,21 @@ import javax.swing.JOptionPane;
 public class WindowManager implements ActionListener, DialogListener {
 
 	private ApplicationContext _context;
-        private SystemTraySupport _systemTray;
-        private Splash _splash;
-        private MainWindow _mainWindow;
-        private NewPieceOfWorkDialog _mewPOWDialog;
-        private NewWorkspaceDialog newWorkspaceDialog;
-        private StartPieceOfWorkDialog _startPOWDialog;
-        private OpenWorkSpaceDialog _openWSDialog;
-        private OptionsDialog _optionsDialog;
-        private ReportDialog _reportDialog;
-        private TaskEditDialog _taskEditDialog;
-        private WorkspacesDialog _workspacesDialog;
-        private DesktopSupport _desktop;
-        private JFileChooser xmlFileChooser;
-        private LogConsole _logConsole;
-        private About _about;
+	private SystemTraySupport _systemTray;
+	private Splash _splash;
+	private MainWindow _mainWindow;
+	private NewPieceOfWorkDialog _mewPOWDialog;
+	private NewWorkspaceDialog newWorkspaceDialog;
+	private StartPieceOfWorkDialog _startPOWDialog;
+	private OpenWorkSpaceDialog _openWSDialog;
+	private OptionsDialog _optionsDialog;
+	private ReportDialog _reportDialog;
+	private TaskEditDialog _taskEditDialog;
+	private WorkspacesDialog _workspacesDialog;
+	private DesktopSupport _desktop;
+	private JFileChooser xmlFileChooser;
+	private LogConsole _logConsole;
+	private About _about;
         
 	/** 
 	 * Crea una nuova istanza.
@@ -61,21 +62,21 @@ public class WindowManager implements ActionListener, DialogListener {
 	}
 
 	/**
-	 * Ritorna la finestra principale.
+	 * Restituisce la finestra principale.
 	 * @return la finestra principale.
 	 * @param appData i dati dell'applicazione.
 	 * Sono necessari dato che tipicamente lo Splash viene usato prima
 	 * diinizializzare il contesto applicativo.
 	 */
 	public Splash getSplashWindow (ApplicationData appData) {
-		if (this._splash == null) {
-			this._splash = new Splash (appData);
+		if (_splash == null) {
+			_splash = new Splash (appData);
 		}
-		return this._splash;
+		return _splash;
 	}
 	
 	/**
-	 * Ritorna la finestra principale.
+	 * Restituisce la finestra principale.
 	 * @return la finestra principale.
 	 */
 	public MainWindow getMainWindow () {
@@ -89,11 +90,11 @@ public class WindowManager implements ActionListener, DialogListener {
                             _context.getPreferenceManager ().getGuiPreferences ().register (_mainWindow);
 			}
 		}
-		return this._mainWindow;
+		return _mainWindow;
 	}
 
 	/**
-	 * Ritorna la dialog di inserimento nuovo avanzamento.
+	 * Restituisce la dialog di inserimento nuovo avanzamento.
 	 * @return la dialog di inserimento nuovo avanzamento.
 	 */
 	public NewPieceOfWorkDialog getNewPieceOfWorkDialog () {
@@ -127,7 +128,7 @@ public class WindowManager implements ActionListener, DialogListener {
 	}
 	
 	/**
-	 * Ritorna la dialog di partenza nuovo avanzamento.
+	 * Restituisce la dialog di partenza nuovo avanzamento.
 	 * @return la dialog di partenza nuovo avanzamento.
 	 */
 	public StartPieceOfWorkDialog getStartPieceOfWorkDialog () {
@@ -147,7 +148,7 @@ public class WindowManager implements ActionListener, DialogListener {
 	}
 
 	/**
-	 * Ritorna la dialog di selezione progetto.
+	 * Restituisce la dialog di selezione progetto.
 	 * @return la dialog di selezione progetto.
 	 */
 	public OpenWorkSpaceDialog getOpenWorkSpaceDialog () {
@@ -164,7 +165,7 @@ public class WindowManager implements ActionListener, DialogListener {
 	}
 	
 	/**
-	 * Ritorna la dialog di stampa.
+	 * Restituisce la dialog di stampa.
 	 * @return la dialog di stampa.
 	 */
 	public ReportDialog getReportDialog () {
@@ -181,31 +182,31 @@ public class WindowManager implements ActionListener, DialogListener {
 	}
 	
 	/**
-	 * Ritorna la console dilog.
-	 * @return la console dilog.
+	 * Restituisce la console dialog.
+	 * @return la console dialog.
 	 */
 	public LogConsole getLogConsole () {
-		if (this._logConsole == null) {
-			this._logConsole = new LogConsole (_context);
-			this._context.getPreferenceManager ().getGuiPreferences ().register (this._logConsole);
+		if (_logConsole == null) {
+			_logConsole = new LogConsole (_context);
+			_context.getPreferenceManager ().getGuiPreferences ().register (this._logConsole);
 		}
-		return this._logConsole;
+		return _logConsole;
 	}
 
 	/**
-	 * Ritorna la dialog di impostazione delle opzioni.
+	 * Restituisce la dialog di impostazione delle opzioni.
 	 * 
 	 * @return la dialog di impostazione delle opzioni.
 	 */
 	public OptionsDialog getOptionsDialog () {
-		if (this._optionsDialog == null) {
-			this._optionsDialog = new OptionsDialog (getMainWindow (), true, _context);
+		if (_optionsDialog == null) {
+			_optionsDialog = new OptionsDialog (getMainWindow (), true, _context);
 		}
-		return this._optionsDialog;
+		return _optionsDialog;
 	}
 	
 	/**
-	 * Ritorna la dialog di modifica task.
+	 * Restituisce la dialog di modifica task.
 	 * 
 	 * @return la dialog di modifica task.
 	 */
@@ -219,7 +220,7 @@ public class WindowManager implements ActionListener, DialogListener {
 
 	private ActionTemplatesDialog _actionTemplatesDialog;
 	/**
-	 * Ritorna la dialog di gestione modelli di azione.
+	 * Restituisce la dialog di gestione modelli di azione.
 	 * 
 	 * @return la dialog di gestione modelli di azione.
 	 */
@@ -232,7 +233,7 @@ public class WindowManager implements ActionListener, DialogListener {
 	}
 	
 	/**
-	 * Ritorna la dialog di gestione dei progetti.
+	 * Restituisce la dialog di gestione dei progetti.
 	 * 
 	 * @return la dialog di gestione dei progetti.
 	 */
@@ -244,7 +245,7 @@ public class WindowManager implements ActionListener, DialogListener {
 		return _workspacesDialog;
 	}
 
-	public void dialogChanged (net.sf.jttslite.common.gui.dialog.DialogEvent e) {
+	public void dialogChanged (final DialogEvent e) {
 		if (e.getSource () == _mewPOWDialog) {
 			if (e.getType () == JOptionPane.OK_OPTION) {
 				final ProgressItem t = (ProgressItem) _mewPOWDialog.getTask ();
@@ -269,7 +270,7 @@ public class WindowManager implements ActionListener, DialogListener {
 					null,
 					t);
 				p.setDescription (_startPOWDialog.getDescriptionText ());
-				this._context.getModel ().insertPieceOfWorkInto (
+				_context.getModel ().insertPieceOfWorkInto (
 					p,
 					t,
 					-1);

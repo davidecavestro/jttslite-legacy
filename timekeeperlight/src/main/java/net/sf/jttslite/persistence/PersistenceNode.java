@@ -88,6 +88,18 @@ public class PersistenceNode {
 
 		_props.put ("javax.jdo.option.ConnectionDriverName", "org.h2.Driver");
 		_props.put ("javax.jdo.option.Mapping", "h2");
+		_props.put ("datanucleus.Multithreaded", "true");
+		_props.put ("datanucleus.Optimistic", "true");
+		_props.put ("datanucleus.NontransactionalRead", "true");
+
+		//_props.put ("datanucleus.DetachAllOnCommit", "true");
+		//_props.put ("datanucleus.detachAllOnRollback", "true");
+		_props.put ("datanucleus.attachSameDatastore", "true");
+
+		_props.put ("datanucleus.RetainValues", "true");
+		_props.put ("datanucleus.CopyOnAttach", "false");
+
+
 	}
 	
 	

@@ -24,9 +24,11 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.EventListener;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import javax.swing.event.EventListenerList;
 
@@ -80,7 +82,7 @@ public abstract class AbstractTaskTreeModel implements TaskTreeModel, WorkAdvanc
 	
 	
 	
-	private final Set<PieceOfWork> _advancingPOWs;
+	private final Map<Long, PieceOfWork> _advancingPOWs;
 	
 	protected final EventListenerList listenerList = new EventListenerList ();
 	
@@ -89,18 +91,19 @@ public abstract class AbstractTaskTreeModel implements TaskTreeModel, WorkAdvanc
 	
 	/** Costruttore vuoto. */
 	private AbstractTaskTreeModel () {
-		_advancingPOWs = new HashSet ();
+		_advancingPOWs = new HashMap<Long, PieceOfWork> ();
 	}
 	
 	/**
 	 * Costruttore con radice.
+	 * @param workspace
 	 * @param root la radice dell'albero.
 	 */
 	public AbstractTaskTreeModel (final WorkSpace workspace, final Task root) {
 		this ();
 		if (root==null) {
 			throw new NullPointerException ();
-		}
+		  }
 		_workspace = workspace;
 		_root = root;
 	}
@@ -111,7 +114,7 @@ public abstract class AbstractTaskTreeModel implements TaskTreeModel, WorkAdvanc
 	 *
 	 * @param l il listener
 	 */
-	public void addTaskTreeModelListener (TaskTreeModelListener l) {
+	public void addTaskTreeModelListener (final TaskTreeModelListener l) {
 		listenerList.add (TaskTreeModelListener.class, l);
 	}
 	
@@ -120,7 +123,7 @@ public abstract class AbstractTaskTreeModel implements TaskTreeModel, WorkAdvanc
 	 *
 	 * @param l il listener da rimuovere.
 	 */
-	public void removeTaskTreeModelListener (TaskTreeModelListener l) {
+	public void removeTaskTreeModelListener (final TaskTreeModelListener l) {
 		listenerList.remove (TaskTreeModelListener.class, l);
 	}
 	
@@ -141,7 +144,7 @@ public abstract class AbstractTaskTreeModel implements TaskTreeModel, WorkAdvanc
 	 *			dovrebbe individuare un'interfaccia che derivi da
 	 *          <code>java.util.EventListener</code>
 	 */
-	public EventListener[] getListeners (Class listenerType) {
+	public EventListener[] getListeners (final Class<? extends EventListener> listenerType) {
 		return listenerList.getListeners (listenerType);
 	}
 	
@@ -435,10 +438,10 @@ public abstract class AbstractTaskTreeModel implements TaskTreeModel, WorkAdvanc
 		}
 		if (root!=oldRoot) {
 			if (oldRoot!=null) {
-				final Set<PieceOfWork> backup = new HashSet<PieceOfWork> (_advancingPOWs);
+				final Map<Long, PieceOfWork> backup = new HashMap<Long, PieceOfWork> (_advancingPOWs);
 				closeAdvancing ();
 				_advancingPOWs.clear ();
-				fireAdvancingRemoved (this, backup.toArray (_voidPOWArray));
+				fireAdvancingRemoved (this, backup.values ().toArray (_voidPOWArray));
 			}
 			
 			if (root!=null) {
@@ -451,7 +454,7 @@ public abstract class AbstractTaskTreeModel implements TaskTreeModel, WorkAdvanc
 	}
 
 	private void closeAdvancing () {
-		for (final PieceOfWork pow : _advancingPOWs) {
+		for (final PieceOfWork pow : _advancingPOWs.values ()) {
 			if (pow.getTo ()==null) {
 				/*
 				 * chiude eventuali avanzamenti incorso
@@ -581,7 +584,7 @@ public abstract class AbstractTaskTreeModel implements TaskTreeModel, WorkAdvanc
 	}
 	
 	public Set<PieceOfWork> getAdvancing () {
-		return _advancingPOWs;
+		return new HashSet<PieceOfWork> (_advancingPOWs.values ());
 	}
 	
 	public void addWorkAdvanceModelListener (WorkAdvanceModelListener l) {
@@ -601,10 +604,10 @@ public abstract class AbstractTaskTreeModel implements TaskTreeModel, WorkAdvanc
 	 * @return i nuovi avanzamenti inseriti nell'elenco.
 	 */
 	private PieceOfWork[] discoverNewAdvancingProgresses (final List<Task> tasks) {
-		final List<PieceOfWork> discovered = new ArrayList ();
+		final List<PieceOfWork> discovered = new ArrayList<PieceOfWork> ();
 		synchronized (_advancingPOWs) {
 			for (final Task t : tasks) {
-				final List<PieceOfWork> l = t.getSubtreeProgresses ();
+				final List<PieceOfWork> l = (List<PieceOfWork>) t.getSubtreeProgresses ();
 				for (final PieceOfWork pow : l) {
 					if (addToAdvancingIfNeeded (pow)){
 						discovered.add (pow);
@@ -629,8 +632,8 @@ public abstract class AbstractTaskTreeModel implements TaskTreeModel, WorkAdvanc
 	 */
 	private boolean addToAdvancingIfNeeded (final PieceOfWork pow) {
 		synchronized (_advancingPOWs) {
-			if (pow.isEndOpened () && !_advancingPOWs.contains (pow)){
-				_advancingPOWs.add (pow);
+			if (pow.isEndOpened () && !_advancingPOWs.containsKey (pow.getId ())){
+				_advancingPOWs.put (pow.getId (), pow);
 				return true;
 			}
 		}
@@ -663,9 +666,9 @@ public abstract class AbstractTaskTreeModel implements TaskTreeModel, WorkAdvanc
 		final List<PieceOfWork> removed = new ArrayList ();
 		synchronized (_advancingPOWs) {
 			for (final Task t : l) {
-				final List<PieceOfWork> pows = t.getSubtreeProgresses ();
+				final List<PieceOfWork> pows = (List<PieceOfWork>) t.getSubtreeProgresses ();
 				for (final PieceOfWork pow : pows) {
-					if (_advancingPOWs.contains (pow)) {
+					if (_advancingPOWs.containsKey (pow.getId ())) {
 						if (checkForDiscard (pow, false)){
 							removed.add (pow);
 						}
@@ -690,7 +693,7 @@ public abstract class AbstractTaskTreeModel implements TaskTreeModel, WorkAdvanc
 	 */
 	private boolean checkForDiscard (final PieceOfWork pow, final boolean onlyIfClosed) {
 		if (!onlyIfClosed || !pow.isEndOpened ()) {
-			return _advancingPOWs.remove (pow);
+			return _advancingPOWs.remove (pow.getId ())!=null;
 		}
 		return false;
 	}
@@ -1079,7 +1082,7 @@ public abstract class AbstractTaskTreeModel implements TaskTreeModel, WorkAdvanc
 	 * In caso di utilizzo composito (move implica rimozione e successivo reinserimento) pu&ograve; tornare utile non variare lo stato di persistenza degli oggetti.
 	 */
 	private void _insertPiecesOfWorkInto (final List<PieceOfWork> l, final Task t, int index, final boolean alterPersistence) {
-		final List<PieceOfWork> reverse = new ArrayList (l);
+		final List<PieceOfWork> reverse = new ArrayList<PieceOfWork> (l);
 		Collections.reverse (reverse);
 		
 		final int[] newIndexs = insertPiecesOfWorkInto_TX (l, t, index, alterPersistence);

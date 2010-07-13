@@ -67,6 +67,10 @@ public class Progress extends Period implements PieceOfWork {
 		return new PieceOfWorkBackupImpl (this);
 	}
 
+	public long getId () {
+		throw new UnsupportedOperationException ("Not supported yet.");
+	}
+
 	/**
 	 * Implementa il backup. Classe ad esclusivo uso interno, da non rendere persistente.
 	 *<P>

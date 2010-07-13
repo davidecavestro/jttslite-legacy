@@ -9,7 +9,6 @@ package net.sf.jttslite.core.util;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
-import java.util.logging.Logger;
 
 /**
  * Durata immutabile.
@@ -76,8 +75,8 @@ public final class DurationImpl implements Duration {
 	public DurationImpl(Date from, Date to) {
 		this.from = from;
 		this.to = to;
-		computeFields ();
-		Logger.getLogger ("net.sf.jtts").log (Level.WARNING, "Creating DurationImpl");
+		resetFields (true);
+		LogManager.getLogManager ().getLogger ("net.sf.jtts").log (Level.WARNING, "Creating DurationImpl from "+Thread.currentThread ().getName ());
 	}
 	
 	/**
@@ -89,7 +88,7 @@ public final class DurationImpl implements Duration {
 		totalMilliseconds = milliseconds;
 		computedTotalMilliseconds = true;
 		computeFields ();
-		Logger.getLogger ("net.sf.jtts").log (Level.WARNING, "Creating DurationImpl");
+		LogManager.getLogManager ().getLogger ("net.sf.jtts").log (Level.WARNING, "Creating DurationImpl");
 	}
 	
 	/**
@@ -104,10 +103,10 @@ public final class DurationImpl implements Duration {
 		totalMilliseconds = milliseconds + MILLISECONDS_PER_SECOND*seconds+MILLISECONDS_PER_MINUTE*minutes+MILLISECONDS_PER_HOUR*hours;
 		computedTotalMilliseconds = true;
 		computeFields ();
-		Logger.getLogger ("net.sf.jtts").log (Level.WARNING, "Creating DurationImpl");
+		LogManager.getLogManager ().getLogger ("net.sf.jtts").log (Level.WARNING, "Creating DurationImpl");
 	}
 	
-	private final void computeFields (){
+	private void computeFields (){
 		if (!computedTotalMilliseconds){
 			computeTotalMilliseconds ();
 		}
@@ -129,18 +128,18 @@ public final class DurationImpl implements Duration {
 	}
 
 	
-	private final void computeTotalMilliseconds (){
+	private void computeTotalMilliseconds (){
 		totalMilliseconds = to.getTime() - from.getTime();
 		computedTotalMilliseconds = true;
 	}
 
-	private final void computeMilliseconds (){
+	private void computeMilliseconds (){
 		modMilliseconds = totalMilliseconds % MILLISECONDS_PER_SECOND;
 		computedMilliseconds = true;
 	}
 	
 
-	private final void computeSeconds (){
+	private void computeSeconds (){
 		final long m = computeSeconds (totalMilliseconds);
 //		totalSeconds = m[TOTAL_SLOT];
 		modSeconds = m;
@@ -153,7 +152,7 @@ public final class DurationImpl implements Duration {
 	 * 
 	 * @param millis il numero di millisecondi.
 	 */
-	private final static long computeSeconds (final long millis) {
+	private static long computeSeconds (final long millis) {
 		final long total = millis / MILLISECONDS_PER_SECOND;
 		return total % SECONDS_PER_MINUTE;
 //		return new long [] {total, mod};
@@ -174,19 +173,19 @@ public final class DurationImpl implements Duration {
 	 * 
 	 * @param millis il numero di millisecondi.
 	 */
-	private final static long computeMinutes (final long millis) {
+	private static long computeMinutes (final long millis) {
 		final long total = millis / MILLISECONDS_PER_MINUTE;
 		return total % MINUTES_PER_HOUR;
 //		return new long [] {total, mod};
 	}
 	
-	private final void computeHours (){
+	private void computeHours (){
 		totalHours = computeTotalHours (totalMilliseconds);
 		modHours = totalHours % HOURS_PER_DAY;
 		computedHours = true;
 	}
 	
-	private final static long computeTotalHours (final long millis){
+	private static long computeTotalHours (final long millis){
 		return  millis / MILLISECONDS_PER_HOUR;
 	}
 	
@@ -274,8 +273,13 @@ public final class DurationImpl implements Duration {
 	 */
 	public void setTime (final long time) {
 		totalMilliseconds = time;
-		computedTotalMilliseconds = true;
-		resetFields ();
+		resetFields (false);
+	}
+
+	public void setDates (final Date from, final Date to) {
+		this.from = from;
+		this.to = to;
+		resetFields (true);
 	}
 
 	/**
@@ -290,7 +294,9 @@ public final class DurationImpl implements Duration {
 		return new  long[] {computeSeconds (millis), computeMinutes (millis), computeTotalHours (millis)};
 	}
 
-	private void resetFields () {
+	private void resetFields (final boolean resetTotalMilliseconds) {
+		computedTotalMilliseconds = !resetTotalMilliseconds;
+
 		computedMilliseconds= false;
 		computedSeconds = false;
 		computedMinutes = false;

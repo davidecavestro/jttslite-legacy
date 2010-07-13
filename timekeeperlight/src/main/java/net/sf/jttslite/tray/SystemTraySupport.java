@@ -19,11 +19,10 @@ import java.awt.Toolkit;
 import java.awt.TrayIcon;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.text.MessageFormat;
 import java.util.Date;
 import javax.swing.SwingUtilities;
+import net.sf.jttslite.ApplicationContext;
 
 /**
  * Fornisce metodi di utilit&agrave; per la gestione della tray icon.
@@ -37,21 +36,17 @@ public class SystemTraySupport {
 	
 	private PieceOfWork _advancingPOW;
 	private Task _selectedTask;
-	private final Object _context;
-    Object trayIcon;
+	private final ApplicationContext _context;
+    private TrayIcon trayIcon;
 	final Image workImage = Toolkit.getDefaultToolkit ().getImage (getClass ().getResource ("/net/sf/jttslite/gui/images/trayicon_on_work.png"));
 	final Image pauseImage = Toolkit.getDefaultToolkit ().getImage (getClass ().getResource ("/net/sf/jttslite/gui/images/trayicon_on_pause.png"));
-	private final static Object[] voidObjectArray = new Object[0];
-	private final static Class[] voidClassArray = new Class[0];
-	private TrayIconConfigurationAccessor accessor;
-	private boolean accessorInitializationFailed = true;
 	
 	/**
-	 * Costruttore.
+	 * Crea una nuova istanza per il contesto applicativo specificato.
 	 *
-	 * @param context 
+	 * @param context il contesto applicativo
 	 */
-	public SystemTraySupport (final Object context) {
+	public SystemTraySupport (final ApplicationContext context) {
 		_context = context;
 	}
 	
@@ -268,36 +263,14 @@ public class SystemTraySupport {
 	}
 	
 	/**
-	 * Finche' si vuole supportare Java 5, e' necessario proteggere
-         * qualsiasi accesso a TrayIcon con un
 	 * 
 	 */
 	private TrayIcon getTrayIcon (){
 		
-		boolean isTrayIconEnabled = true;
-		
-		try {
-			if (accessor == null) {
-				accessor = new TrayIconConfigurationAccessor ();
-				accessorInitializationFailed = false;
-			}
-			if (!accessorInitializationFailed) {
-				isTrayIconEnabled = accessor.getValue ();
-			}
-		} catch (final IllegalAccessException ex) {
-			ex.printStackTrace (System.err);
-		} catch (final IllegalArgumentException ex) {
-			ex.printStackTrace (System.err);
-		} catch (final InvocationTargetException ex) {
-			ex.printStackTrace (System.err);
-		} catch (final NoSuchMethodException ex) {
-			ex.printStackTrace (System.err);
-		} catch (final SecurityException ex) {
-			ex.printStackTrace (System.err);
-		}
+		final boolean isTrayIconEnabled = _context.getPreferenceManager ().getUserPreferences ().getTrayIconEnabled ();
 		
 		if (isTrayIconEnabled) {
-			return (TrayIcon)trayIcon;
+			return trayIcon;
 		}
 		
 		return null;
@@ -313,30 +286,6 @@ public class SystemTraySupport {
 	public void setSelected (final Task t) {
 		_selectedTask = t;
 		refreshTooltip ();
-	}
-	
-	/*
-	 * @workaround usa la reflection per rimuovere dipendenze di compilazione
-	 * verso ApplicationOptions
-	 */
-	private class TrayIconConfigurationAccessor {
-
-	   private Method trayIconEnabledGetter;
-	   private Object userPreferences;
-
-		public TrayIconConfigurationAccessor () throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, IllegalArgumentException, InvocationTargetException {
-		   Method preferencesManagerGetter = _context.getClass ().getMethod ("getPreferenceManager", voidClassArray);
-		   Object preferencesManager = preferencesManagerGetter.invoke (_context, voidObjectArray);
-		   Method userPreferencesGetter = preferencesManager.getClass ().getMethod ("getUserPreferences", voidClassArray);
-		   userPreferences = userPreferencesGetter.invoke (preferencesManager, voidObjectArray);
-		   trayIconEnabledGetter = userPreferences.getClass ().getMethod ("getTrayIconEnabled", voidClassArray);
-		}
-		
-			
-		public boolean getValue () throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-
-			return ((Boolean)trayIconEnabledGetter.invoke (userPreferences, voidObjectArray)).booleanValue ();
-		}
 	}
 	
 }

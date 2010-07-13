@@ -11,14 +11,36 @@ import net.sf.jttslite.core.model.PieceOfWorkTemplate;
 import net.sf.jttslite.core.model.PieceOfWorkTemplateBackup;
 import net.sf.jttslite.core.util.DurationImpl;
 import java.util.Observable;
+import javax.jdo.annotations.NotPersistent;
+import javax.jdo.annotations.PersistenceAware;
+import javax.jdo.annotations.PersistenceCapable;
 
 /**
  * A template to ease the creation of recurrent pieces of work
  *
  * @author Davide Cavestro
  */
+@PersistenceCapable(table="jtts_tasktemplate", detachable="true")
 public class ProgressTemplate extends Observable implements PieceOfWorkTemplate {
 	
+	/**
+	 * Holds value of property name.
+	 */
+	protected String name;
+
+	/**
+	 * Holds value of property notes.
+	 */
+	protected String notes;
+
+	/**
+	 * Holds value of property duration.
+	 */
+	@NotPersistent
+	private transient DurationImpl duration;
+
+	protected long milliseconds;
+
 	/**
 	 * Costruttore.
 	 */
@@ -32,41 +54,34 @@ public class ProgressTemplate extends Observable implements PieceOfWorkTemplate 
 	 * @param source la sorgente della copia.
 	 */
 	public ProgressTemplate (final ProgressTemplate source) {
-		this.duration = source.duration;
-		this.name = source.name;
-		this.notes = source.notes;
+		duration = source.duration;
+		name = source.name;
+		notes = source.notes;
 	}	
 	
-	/**
-	 * Holds value of property name.
-	 */
-	protected String name;
-
 	/**
 	 * Getter for property name.
 	 * @return Value of property name.
 	 */
+	@Override
 	public String getName () {
-		return this.name;
+		return name;
 	}
 
 	/**
 	 * Setter for property name.
 	 * @param name New value of property name.
 	 */
-	public void setName (String name) {
+	@Override
+	public void setName (final String name) {
 		this.name = name;
 	}
-
-	/**
-	 * Holds value of property notes.
-	 */
-	protected String notes;
 
 	/**
 	 * Getter for property notes.
 	 * @return Value of property notes.
 	 */
+	@Override
 	public String getNotes () {
 		return this.notes;
 	}
@@ -75,20 +90,16 @@ public class ProgressTemplate extends Observable implements PieceOfWorkTemplate 
 	 * Setter for property notes.
 	 * @param notes New value of property notes.
 	 */
-	public void setNotes (String notes) {
+	@Override
+	public void setNotes (final String notes) {
 		this.notes = notes;
 	}
-
-	/**
-	 * Holds value of property duration.
-	 */
-	private transient DurationImpl duration;
-	protected long milliseconds;
 
 	/**
 	 * Getter for property duration.
 	 * @return Value of property duration.
 	 */
+	@Override
 	public DurationImpl getDuration () {
 		/*
 		 * Since only hthe milliseconds internal field is persisted,
@@ -120,18 +131,20 @@ public class ProgressTemplate extends Observable implements PieceOfWorkTemplate 
 	 * Setter for property duration.
 	 * @param duration New value of property duration.
 	 */
+	@Override
 	public void setDuration (final DurationImpl duration) {
 		/*
 		 * caches the data
 		 */
 		this.duration = duration;
 		if (duration !=null) {
-			this.milliseconds = duration.getTime ();
+			milliseconds = duration.getTime ();
 		} else {
-			this.milliseconds = 0;
+			milliseconds = 0;
 		}
 	}
 	
+	@Override
 	public String toString () {
 		final StringBuilder sb = new StringBuilder ();
 		sb.append ("name: ").append (name);
@@ -141,6 +154,7 @@ public class ProgressTemplate extends Observable implements PieceOfWorkTemplate 
 	}
 
 
+	@Override
 	public PieceOfWorkTemplateBackup backup () {
 		return new PieceOfWorkTemplateBackupImpl (this);
 	}
@@ -150,24 +164,30 @@ public class ProgressTemplate extends Observable implements PieceOfWorkTemplate 
 	 *<P>
 	 * La classe &egrave; statica per evitare l'accesso involontario alle variabili della classe che la contiene. Deve avere l'accesso solamente per estensione!
 	 */
+	@PersistenceAware
 	private static class PieceOfWorkTemplateBackupImpl extends ProgressTemplate implements PieceOfWorkTemplateBackup {
-		private final ProgressTemplate _source;
+
+		private final ProgressTemplate source;
+
 		public PieceOfWorkTemplateBackupImpl (final ProgressTemplate p) {
 			super (p);
 			if (p.duration!=null) {
 				setDuration (new DurationImpl (p.duration.getTime ()));
 			}
-			_source = p;
+			source = p;
 		}
+
+		@Override
 		public PieceOfWorkTemplate getSource () {
-			return _source;
+			return source;
 		}
 		
+		@Override
 		public void restore () {
 			
-			_source.milliseconds = milliseconds;
-			_source.name = name;
-			_source.notes = notes;
+			source.milliseconds = milliseconds;
+			source.name = name;
+			source.notes = notes;
 		}
 	
 	}	

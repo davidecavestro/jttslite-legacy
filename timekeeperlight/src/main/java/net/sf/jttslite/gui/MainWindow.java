@@ -201,7 +201,7 @@ public class MainWindow extends javax.swing.JFrame implements PersistentComponen
 		createActionTable (new JTextArea ());
 		
 		initComponents ();
-                restorePersistent();
+        restorePersistent();
 
 		/*
 		 * registrazione modello albero come listener sui modelli  
@@ -2234,7 +2234,7 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 		_context.getPreferenceManager ().getGuiPreferences ().makeBoundsPersistent (this.getPersistenceKey (), this);
 	}
 	
-   public boolean restorePersistent () {
+   public final boolean restorePersistent () {
 	  return _context.getPreferenceManager ().getGuiPreferences ().
 			  restoreAbsolutePersistentBounds (this.getPersistenceKey (), this);
    }
@@ -3117,7 +3117,7 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 		
 		private AbsolutePeriod _today = null;
 		
-		private final AbsolutePeriod getToday (){
+		private AbsolutePeriod getToday (){
 			if (this._today==null){
 				final Calendar now = new GregorianCalendar ();
 				
@@ -3397,7 +3397,7 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 		}
 
 		@Override
-		public JFormattedTextField getComponent () {
+		public final JFormattedTextField getComponent () {
 			return (JFormattedTextField)super.getComponent ();
 		}
 
@@ -3514,7 +3514,7 @@ private void workspacesButtontemplateMenuItemActionPerformed(java.awt.event.Acti
 	}
 	
 	private Action getActionByName (final String name) {
-		return (Action)(actions.get (name));
+		return (actions.get (name));
 	}
 	
 	

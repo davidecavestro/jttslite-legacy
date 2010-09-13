@@ -8,6 +8,7 @@
             <explicit-platform explicit-source-supported="true"/>
             <source-roots>
                 <root id="src.java.dir"/>
+                <root id="src.resources.dir"/>
                 <root id="src.help.dir"/>
                 <root id="src.license-contents.dir"/>
             </source-roots>
